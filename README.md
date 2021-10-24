@@ -3,7 +3,7 @@
 *Thomas Shaer- 1905941*
 
 
-
+![](images/prototype.PNG)
 
 #### Project Idea
 My idea for my project is to build a simple array programming language that is designed for charting data. A chart will exist within the tool, and the user can write code to display certain plots on the chart. The language and chart will both be integrated into a single tool for convenience. Additionally, the user can input array data into the tool via excel files, csv etc., which can be charted with the language. The applications for such a tool would be mainly research and education.
