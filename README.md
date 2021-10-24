@@ -58,6 +58,9 @@ Add features that add to a sense of “polish” for the software. These feature
 *Planned time of completion: between week 18-22*
 
 •	Intellisense/autocomplete for writing code
+
 •	More language features such as if statements or user defined functions
+
 •	Ability to spawn and plot on multiple different charts
+
 •	Ability to save a chart to disk as a PNG or JPEG
