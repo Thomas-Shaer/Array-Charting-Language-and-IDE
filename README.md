@@ -26,15 +26,15 @@ Finish a working prototype with all basic components implemented.
 
 
 *Planned time of completion: between week 10-13*
-1.	Basic version of the language with following features implemented:
-a.	Float/Boolean/null type
-b.	Built In Methods
-c.	Arithmetic/Comparison
-d.	Ability to output data that can be rendered by a chart
-2.	Get basic GUI framework going for interaction with the program
-a.	Basic integration of language into the GUI
-3.	Basic chart working that can display output information from the language.
-4.	Basic input and labelling for user submitted data so that it can be used and referenced in the language.
+1. Basic version of the language with following features implemented:
+	- Float/Boolean/null type
+	- Built In Methods
+	- Arithmetic/Comparison
+	- Ability to output data that can be rendered by a chart
+2. Get basic GUI framework going for interaction with the program
+	- Basic integration of language into the GUI
+3. Basic chart working that can display output information from the language.
+4. Basic input and labelling for user submitted data so that it can be used and referenced in the language.
 
 
 
