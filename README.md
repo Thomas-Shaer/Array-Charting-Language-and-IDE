@@ -2,11 +2,13 @@
 
 *Thomas Shaer- 1905941*
 
-
-
-
 #### Project Idea
 My idea for my project is to build a simple array programming language that is designed for charting data. A chart will exist within the tool, and the user can write code to display certain plots on the chart. The language and chart will both be integrated into a single tool for convenience. Additionally, the user can input array data into the tool via excel files, csv etc., which can be charted with the language. The applications for such a tool would be mainly research and education.
+
+
+![](images/prototype.PNG)
+
+
 
 
 #### Milestones
@@ -24,15 +26,16 @@ Finish a working prototype with all basic components implemented.
 
 
 *Planned time of completion: between week 10-13*
-1.	Basic version of the language with following features implemented:
-a.	Float/Boolean/null type
-b.	Built In Methods
-c.	Arithmetic/Comparison
-d.	Ability to output data that can be rendered by a chart
-2.	Get basic GUI framework going for interaction with the program
-a.	Basic integration of language into the GUI
-3.	Basic chart working that can display output information from the language.
-4.	Basic input and labelling for user submitted data so that it can be used and referenced in the language.
+1. Basic version of the language with following features implemented:
+	- Float/Boolean/null type
+	- Built In Methods
+	- Arithmetic/Comparison
+	- Ability to output data that can be rendered by a chart
+2. Get basic GUI framework going for interaction with the program
+	- Basic integration of language into the GUI
+3. Basic chart working that can display output information from the language.
+4. Basic input and labelling for user submitted data so that it can be used and referenced in the language.
+
 
 
 
@@ -42,11 +45,11 @@ Add extra features that make the software more convenient for the user to use. T
 
 *Planned time of completion: between week 13-18*
 
-•	Interface for saving/loading code to and from the user’s file system
-•	Ability for user to export chart data from the program
-•	Additional built in functions supporting a common basic mathematical operations such as regressions, stochastics etc.
-•	If required, more sophisticated methods of loading in data from CSVs, e.g. tables of data, different file types etc.
-•	Testing the application for system compatibility on different OS’s
+- Interface for saving/loading code to and from the user’s file system
+- Ability for user to export chart data from the program
+- Additional built in functions supporting a common basic mathematical operations such as regressions, stochastics etc.
+- If required, more sophisticated methods of loading in data from CSVs, e.g. tables of data, different file types etc.
+- Testing the application for system compatibility on different OS's
 
 
 **Milestone 3**
@@ -55,7 +58,7 @@ Add features that add to a sense of “polish” for the software. These feature
 
 *Planned time of completion: between week 18-22*
 
-•	Intellisense/autocomplete for writing code
-•	More language features such as if statements or user defined functions
-•	Ability to spawn and plot on multiple different charts
-•	Ability to save a chart to disk as a PNG or JPEG
+- Intellisense/autocomplete for writing code
+- More language features such as if statements or user defined functions
+- Ability to spawn and plot on multiple different charts
+- Ability to save a chart to disk as a PNG or JPEG
