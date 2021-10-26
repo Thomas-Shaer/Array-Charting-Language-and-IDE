@@ -5,12 +5,20 @@ const enum class BinaryOperator {PLUS, MINUS, MUL, DIVIDE};
 
 /*
 Base node class
+
 */
 class Node {
 public:
 
-
+	/*
+	* String representation of AST - must be overloaded
+	*/
 	virtual std::string toString() const = 0;
+
+	/*
+	* Called upon deletion of Node - must be overloaded
+	*/
+	virtual ~Node() {}
 };
 
 /*
@@ -24,6 +32,8 @@ public:
 	virtual std::string toString() const {
 		return std::to_string(number);
 	}
+
+	virtual ~NumberNode() {}
 };
 
 /*
@@ -37,6 +47,9 @@ public:
 	virtual std::string toString() const {
 		return name;
 	}
+	
+	virtual ~IdentifierNode() {}
+
 };
 
 /*
@@ -52,6 +65,12 @@ public:
 	virtual std::string toString() const {
 		return left->toString() + " + " + right->toString();
 	}
+
+	virtual ~BinaryOpNode() {
+		delete left;
+		delete right;
+	}
+
 };
 
 
@@ -66,5 +85,10 @@ public:
 
 	virtual std::string toString() const {
 		return lhs->toString() + " = " + rhs->toString();
+	}
+
+	virtual ~AssignNode() {
+		delete lhs;
+		delete rhs;
 	}
 };

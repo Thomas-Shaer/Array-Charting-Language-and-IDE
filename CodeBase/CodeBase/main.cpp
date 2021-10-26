@@ -8,6 +8,6 @@ int main() {
 
 
 	std::cout << assignNode->toString() << std::endl;
-
+	delete assignNode;
 	return 0;
 }
