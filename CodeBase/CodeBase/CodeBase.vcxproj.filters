@@ -18,9 +18,15 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="symboltable.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="node.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="symboltable.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,7 +1,10 @@
 #pragma once
 #include <iostream>
 #include <string>
+#include "symboltable.h"
+
 const enum class BinaryOperator {PLUS, MINUS, MUL, DIVIDE};
+
 
 /*
 Base node class
@@ -19,6 +22,8 @@ public:
 	* Called upon deletion of Node - must be overloaded
 	*/
 	virtual ~Node() {}
+
+	virtual ExpressionValue evaluate(SymbolTable* symboltable) const = 0;
 };
 
 /*
@@ -26,14 +31,19 @@ Number node class, represents a number node e.g. 2
 */
 class NumberNode : public Node {
 public:
-	const int number;
-	NumberNode(int _number) : number(_number) {}
+	const float number;
+	NumberNode(float _number) : number(_number) {}
 
 	virtual std::string toString() const {
 		return std::to_string(number);
 	}
 
 	virtual ~NumberNode() {}
+
+	virtual ExpressionValue evaluate(SymbolTable* symboltable) const {
+		return (ExpressionValue)number;
+	}
+
 };
 
 /*
@@ -49,6 +59,14 @@ public:
 	}
 	
 	virtual ~IdentifierNode() {}
+
+	virtual ExpressionValue evaluate(SymbolTable* symboltable) const {
+		// need to return item in symbol table
+
+
+		//return (ExpressionValue)number;
+		return symboltable->values[name];
+	}
 
 };
 
@@ -71,6 +89,18 @@ public:
 		delete right;
 	}
 
+	virtual ExpressionValue evaluate(SymbolTable* symboltable) const {
+		ExpressionValue leftV = left->evaluate(symboltable);
+		ExpressionValue rightV = right->evaluate(symboltable);
+		if (leftV.type() == typeid(float) && rightV.type() == typeid(float)) {
+			return boost::get<float>(leftV) + boost::get<float>(rightV);
+		}
+		else {
+			std::cout << "ERROR NOT FLOATS!" << std::endl;
+		}
+		return (float)0;
+	}
+
 };
 
 
@@ -90,5 +120,12 @@ public:
 	virtual ~AssignNode() {
 		delete lhs;
 		delete rhs;
+	}
+
+	virtual ExpressionValue evaluate(SymbolTable* symboltable) const {
+		ExpressionValue value = rhs->evaluate(symboltable);
+		symboltable->values[lhs->name] = value;
+		// need to store value in symbol table at lhs name
+		return value;
 	}
 };
