@@ -34,16 +34,11 @@ public:
 	const float number;
 	NumberNode(float _number) : number(_number) {}
 
-	virtual std::string toString() const {
-		return std::to_string(number);
-	}
+	virtual std::string toString() const;
 
-	virtual ~NumberNode() {}
+	virtual ~NumberNode();
 
-	virtual ExpressionValue evaluate(SymbolTable* symboltable) const {
-		return (ExpressionValue)number;
-	}
-
+	virtual ExpressionValue evaluate(SymbolTable* symboltable) const;
 };
 
 /*
@@ -54,19 +49,10 @@ public:
 	const std::string name;
 	IdentifierNode(std::string _name) : name(_name) {}
 
-	virtual std::string toString() const {
-		return name;
-	}
-	
-	virtual ~IdentifierNode() {}
+	virtual std::string toString() const;
+	virtual ~IdentifierNode();
 
-	virtual ExpressionValue evaluate(SymbolTable* symboltable) const {
-		// need to return item in symbol table
-
-
-		//return (ExpressionValue)number;
-		return symboltable->values[name];
-	}
+	virtual ExpressionValue evaluate(SymbolTable* symboltable) const;
 
 };
 
@@ -80,26 +66,10 @@ public:
 	const BinaryOperator op;
 	BinaryOpNode(Node* _left, BinaryOperator _op, Node* _right) : left(_left), right(_right), op(_op) {}
 
-	virtual std::string toString() const {
-		return left->toString() + " + " + right->toString();
-	}
+	virtual std::string toString() const;
 
-	virtual ~BinaryOpNode() {
-		delete left;
-		delete right;
-	}
-
-	virtual ExpressionValue evaluate(SymbolTable* symboltable) const {
-		ExpressionValue leftV = left->evaluate(symboltable);
-		ExpressionValue rightV = right->evaluate(symboltable);
-		if (leftV.type() == typeid(float) && rightV.type() == typeid(float)) {
-			return boost::get<float>(leftV) + boost::get<float>(rightV);
-		}
-		else {
-			std::cout << "ERROR NOT FLOATS!" << std::endl;
-		}
-		return (float)0;
-	}
+	virtual ~BinaryOpNode();
+	virtual ExpressionValue evaluate(SymbolTable* symboltable) const;
 
 };
 
@@ -113,19 +83,9 @@ public:
 	const Node* rhs;
 	AssignNode(IdentifierNode* _lhs, Node* _rhs) : lhs(_lhs), rhs(_rhs) {}
 
-	virtual std::string toString() const {
-		return lhs->toString() + " = " + rhs->toString();
-	}
+	virtual std::string toString() const;
 
-	virtual ~AssignNode() {
-		delete lhs;
-		delete rhs;
-	}
+	virtual ~AssignNode();
 
-	virtual ExpressionValue evaluate(SymbolTable* symboltable) const {
-		ExpressionValue value = rhs->evaluate(symboltable);
-		symboltable->values[lhs->name] = value;
-		// need to store value in symbol table at lhs name
-		return value;
-	}
+	virtual ExpressionValue evaluate(SymbolTable* symboltable) const;
 };
