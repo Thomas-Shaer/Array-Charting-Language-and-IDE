@@ -24,6 +24,12 @@
     <ClCompile Include="node.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="bison.tab.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="flex.flex.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="node.h">
@@ -32,5 +38,18 @@
     <ClInclude Include="symboltable.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="bison.tab.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Flex Include="flex.l">
+      <Filter>Source Files</Filter>
+    </Flex>
+  </ItemGroup>
+  <ItemGroup>
+    <Bison Include="bison.y">
+      <Filter>Source Files</Filter>
+    </Bison>
   </ItemGroup>
 </Project>
