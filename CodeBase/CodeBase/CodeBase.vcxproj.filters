@@ -41,6 +41,9 @@
     <ClInclude Include="bison.tab.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="flex.flex.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Flex Include="flex.l">

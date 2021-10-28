@@ -148,11 +148,17 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bison.tab.h" />
+    <ClInclude Include="flex.flex.h" />
     <ClInclude Include="node.h" />
     <ClInclude Include="symboltable.h" />
   </ItemGroup>
   <ItemGroup>
-    <Flex Include="flex.l" />
+    <Flex Include="flex.l">
+      <HeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).flex.h</HeaderFile>
+      <HeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).flex.h</HeaderFile>
+      <HeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(Filename).flex.h</HeaderFile>
+      <HeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(Filename).flex.h</HeaderFile>
+    </Flex>
   </ItemGroup>
   <ItemGroup>
     <Bison Include="bison.y" />

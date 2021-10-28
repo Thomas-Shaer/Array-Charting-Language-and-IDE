@@ -1,72 +1,87 @@
+%require "3.2"
+%define parse.error verbose 
+%param { yyscan_t scanner }
+%parse-param { BlockNode** inputnode}
+%language "c++"
+%define api.value.type variant
+%define parse.trace
+
 %{
 
-#include <stdio.h>
-#include <stdlib.h>
+    #include <string>
+    class NumberNode;
+    class Expression;
+    class Statement;
+    class Node;
+    class BinaryOpNode;
+    class BlockNode;
+    class AssignNode;
+    class IdentifierNode;
+	#include "node.h"
 
-extern int yylex();
-extern int yyparse();
-extern FILE* yyin;
-
-void yyerror(const char* s);
 %}
 
-%union {
-	int ival;
-	float fval;
+%code requires {
+  typedef void* yyscan_t;
 }
 
-%token<ival> T_INT
-%token<fval> T_FLOAT
-%token T_PLUS T_MINUS T_MULTIPLY T_DIVIDE T_LEFT T_RIGHT
-%token T_NEWLINE T_QUIT
-%left T_PLUS T_MINUS
-%left T_MULTIPLY T_DIVIDE
+%code provides {
+      #define YY_DECL \
+        int yylex(yy::parser::semantic_type* value, yyscan_t yyscanner)
+	YY_DECL;
+ 
+}
 
-%type<ival> expression
-%type<fval> mixed_expression
 
-%start calculation
+%token <std::string> TINTEGER TIDENTIFIER
+%token <int> TPLUS "+" TMINUS "-" TMUL "*" TDIV "/" TASSIGN "="
+
+
+
+%type <int> binop
+%type <Expression*> expr
+%type <BlockNode*> stmts
+%type <Statement*> stmt
+%type <NumberNode*> numeric
+%type <BlockNode*> block;
+%type <AssignNode*> assign;
+%type <IdentifierNode*> identifier;
+
 
 %%
 
-calculation:
-	   | calculation line
-;
+program : stmts { 
+				   *inputnode = $1;
+				}
+        ;
 
-line: T_NEWLINE
-    | mixed_expression T_NEWLINE { printf("\tResult: %f\n", $1);}
-    | expression T_NEWLINE { printf("\tResult: %i\n", $1); }
-    | T_QUIT T_NEWLINE { printf("bye!\n"); exit(0); }
-;
+stmts : stmt { $$ = new BlockNode(); $$->statementNodes.push_back($1); }
+      | stmts stmt { $1->statementNodes.push_back($2); $$ = $1; }
+	  | /*blank*/ { $$ = new BlockNode(); }
+      ;
 
-mixed_expression: T_FLOAT                 		 { $$ = $1; }
-	  | mixed_expression T_PLUS mixed_expression	 { $$ = $1 + $3; }
-	  | mixed_expression T_MINUS mixed_expression	 { $$ = $1 - $3; }
-	  | mixed_expression T_MULTIPLY mixed_expression { $$ = $1 * $3; }
-	  | mixed_expression T_DIVIDE mixed_expression	 { $$ = $1 / $3; }
-	  | T_LEFT mixed_expression T_RIGHT		 { $$ = $2; }
-	  | expression T_PLUS mixed_expression	 	 { $$ = $1 + $3; }
-	  | expression T_MINUS mixed_expression	 	 { $$ = $1 - $3; }
-	  | expression T_MULTIPLY mixed_expression 	 { $$ = $1 * $3; }
-	  | expression T_DIVIDE mixed_expression	 { $$ = $1 / $3; }
-	  | mixed_expression T_PLUS expression	 	 { $$ = $1 + $3; }
-	  | mixed_expression T_MINUS expression	 	 { $$ = $1 - $3; }
-	  | mixed_expression T_MULTIPLY expression 	 { $$ = $1 * $3; }
-	  | mixed_expression T_DIVIDE expression	 { $$ = $1 / $3; }
-	  | expression T_DIVIDE expression		 { $$ = $1 / (float)$3; }
-;
+stmt : assign {$$ = $1;}
+     ;
 
-expression: T_INT				{ $$ = $1; }
-	  | expression T_PLUS expression	{ $$ = $1 + $3; }
-	  | expression T_MINUS expression	{ $$ = $1 - $3; }
-	  | expression T_MULTIPLY expression	{ $$ = $1 * $3; }
-	  | T_LEFT expression T_RIGHT		{ $$ = $2; }
-;
+identifier : TIDENTIFIER {$$ = new IdentifierNode($1);}
+           ;
+
+
+assign : TIDENTIFIER TASSIGN expr {$$ = new AssignNode($1, $3);}
+       ;
+
+expr : numeric { $$ = $1; }
+     | identifier {$$ = $1; }
+     | expr binop expr {$$ =  new BinaryOpNode($1, BinaryOperator::PLUS, $3); }
+     ;
+
+binop : TMUL | TDIV | TPLUS | TMINUS
+      ;
+
+numeric : TINTEGER { $$ = new NumberNode(atoi($1.c_str())); }
+        ;
 
 %%
-
-
-void yyerror(const char* s) {
-	fprintf(stderr, "Parse error: %s\n", s);
-	exit(1);
+void yy::parser::error( const std::string& msg) {
+    std::cout << msg << std::endl;
 }

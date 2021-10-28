@@ -2,6 +2,30 @@
 #include "node.h"
 
 
+std::string BlockNode::toString() const {
+	std::string block;
+
+	for (Statement* statement : statementNodes) {
+		block += statement->toString() + "\n";
+	}
+
+
+	return block;
+}
+
+BlockNode::~BlockNode() {
+	for (Statement* statement : statementNodes) {
+		delete statement;
+	}
+}
+
+void BlockNode::evaluate(SymbolTable* symboltable) const {
+	for (Statement* statement : statementNodes) {
+		statement->evaluate(symboltable);
+	}
+}
+
+
 
 std::string NumberNode::toString() const {
 	return std::to_string(number);
@@ -55,17 +79,15 @@ ExpressionValue BinaryOpNode::evaluate(SymbolTable* symboltable) const {
 
 
 std::string AssignNode::toString() const {
-	return lhs->toString() + " = " + rhs->toString();
+	return name + " = " + rhs->toString();
 }
 
 AssignNode::~AssignNode() {
-	delete lhs;
 	delete rhs;
 }
 
-ExpressionValue AssignNode::evaluate(SymbolTable* symboltable) const {
+void AssignNode::evaluate(SymbolTable* symboltable) const {
 	ExpressionValue value = rhs->evaluate(symboltable);
-	symboltable->values[lhs->name] = value;
+	symboltable->values[name] = value;
 	// need to store value in symbol table at lhs name
-	return value;
 }
