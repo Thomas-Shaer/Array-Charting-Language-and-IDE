@@ -19,6 +19,9 @@
     <Filter Include="Source Files\Symbol">
       <UniqueIdentifier>{9490d4ca-8444-40d9-b7af-3eb8f0a47412}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Exceptions">
+      <UniqueIdentifier>{ef9496c8-807c-4b0f-b527-2a71f3e1ed4b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -45,6 +48,9 @@
     <ClCompile Include="varsymbol.cpp">
       <Filter>Source Files\Symbol</Filter>
     </ClCompile>
+    <ClCompile Include="languageexception.cpp">
+      <Filter>Source Files\Exceptions</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="node.h">
@@ -61,6 +67,9 @@
     </ClInclude>
     <ClInclude Include="varsymbol.h">
       <Filter>Source Files\Symbol</Filter>
+    </ClInclude>
+    <ClInclude Include="languageexception.h">
+      <Filter>Source Files\Exceptions</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

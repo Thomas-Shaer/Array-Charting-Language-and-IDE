@@ -1,7 +1,6 @@
 #include "node.h"
 #include "symboltable.h"
 
-
 void BlockNode::interpret(SymbolTable* symboltable) const {
 	for (Statement* statement : statementNodes) {
 		statement->semanticAnalysis(symboltable);

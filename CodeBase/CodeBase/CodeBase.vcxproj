@@ -143,6 +143,7 @@
     <ClCompile Include="bison.tab.cpp" />
     <ClCompile Include="flex.flex.cpp" />
     <ClCompile Include="interpreter.cpp" />
+    <ClCompile Include="languageexception.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="node.cpp" />
     <ClCompile Include="semanticanalysis.cpp" />
@@ -152,6 +153,7 @@
   <ItemGroup>
     <ClInclude Include="bison.tab.h" />
     <ClInclude Include="flex.flex.h" />
+    <ClInclude Include="languageexception.h" />
     <ClInclude Include="node.h" />
     <ClInclude Include="symboltable.h" />
     <ClInclude Include="varsymbol.h" />

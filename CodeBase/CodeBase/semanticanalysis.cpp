@@ -1,5 +1,6 @@
 #include "node.h"
 #include "symboltable.h"
+#include "languageexception.h"
 
 
 void BlockNode::semanticAnalysis(SymbolTable* symboltable) const {
@@ -18,11 +19,7 @@ DataType IdentifierNode::semanticAnalysis(SymbolTable* symboltable) const {
 	if (symboltable->isDeclared(name)) {
 		return symboltable->getVariable(name)->type;
 	}
-	else {
-		std::cout << "ERROR NO VARIABLE EXISTS!" << std::endl;
-	}
-
-	return DataType::Float;
+	throw LanguageException("No variable called " + name);
 }
 
 DataType BinaryOpNode::semanticAnalysis(SymbolTable* symboltable) const {
@@ -31,10 +28,7 @@ DataType BinaryOpNode::semanticAnalysis(SymbolTable* symboltable) const {
 	if (leftV == DataType::Float && rightV == DataType::Float) {
 		return DataType::Float;
 	}
-	else {
-		std::cout << "ERROR NOT FLOATS!" << std::endl;
-	}
-	return DataType::Float;
+	throw LanguageException("Cannot add together with these variables");
 }
 
 
@@ -45,7 +39,7 @@ void AssignNode::semanticAnalysis(SymbolTable* symboltable) const {
 	// variable already declared therefore right side type should be same as left side type
 	if (symboltable->isDeclared(name)) {
 		if (symboltable->getVariable(name)->type != rhsType) {
-			std::cout << "ERROR TYPES DO NOT MATCH" << std::endl;
+			throw LanguageException("RHS type does not match LHS");
 		}
 	}
 	// variable not declared register new variable
