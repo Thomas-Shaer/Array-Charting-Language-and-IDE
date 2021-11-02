@@ -2,10 +2,10 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include "symboltable.h"
+#include "varsymbol.h"
 
 const enum class BinaryOperator {PLUS, MINUS, MUL, DIVIDE};
-
+class SymbolTable;
 
 /*
 Base node class
@@ -31,7 +31,8 @@ public:
 */
 class Expression : public Node {
 public:
-	virtual ExpressionValue semanticAnalysis(SymbolTable* symboltable) const = 0;
+	virtual DataType semanticAnalysis(SymbolTable* symboltable) const = 0;
+	virtual ExpressionValue interpret(SymbolTable* symboltable) const = 0;
 };
 
 /*
@@ -40,6 +41,7 @@ public:
 class Statement : public Node {
 public:
 	virtual void semanticAnalysis(SymbolTable* symboltable) const = 0;
+	virtual void interpret(SymbolTable* symboltable) const = 0;
 };
 
 /*
@@ -55,6 +57,7 @@ public:
 	virtual ~BlockNode();
 
 	virtual void semanticAnalysis(SymbolTable* symboltable) const;
+	virtual void interpret(SymbolTable* symboltable) const;
 };
 
 
@@ -70,7 +73,8 @@ public:
 
 	virtual ~NumberNode();
 
-	virtual ExpressionValue semanticAnalysis(SymbolTable* symboltable) const;
+	virtual DataType semanticAnalysis(SymbolTable* symboltable) const;
+	virtual ExpressionValue interpret(SymbolTable* symboltable) const;
 };
 
 /*
@@ -84,7 +88,8 @@ public:
 	virtual std::string toString() const;
 	virtual ~IdentifierNode();
 
-	virtual ExpressionValue semanticAnalysis(SymbolTable* symboltable) const;
+	virtual DataType semanticAnalysis(SymbolTable* symboltable) const;
+	virtual ExpressionValue interpret(SymbolTable* symboltable) const;
 
 };
 
@@ -101,7 +106,8 @@ public:
 	virtual std::string toString() const;
 
 	virtual ~BinaryOpNode();
-	virtual ExpressionValue semanticAnalysis(SymbolTable* symboltable) const;
+	virtual DataType semanticAnalysis(SymbolTable* symboltable) const;
+	virtual ExpressionValue interpret(SymbolTable* symboltable) const;
 
 };
 
@@ -120,4 +126,5 @@ public:
 	virtual ~AssignNode();
 
 	virtual void semanticAnalysis(SymbolTable* symboltable) const;
+	virtual void interpret(SymbolTable* symboltable) const;
 };

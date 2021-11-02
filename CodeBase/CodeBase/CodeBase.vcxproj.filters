@@ -16,12 +16,12 @@
     <Filter Include="Source Files\Visitor">
       <UniqueIdentifier>{e83bdeea-3fe9-4f9e-ae22-1e6fdfff4e5c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Symbol">
+      <UniqueIdentifier>{9490d4ca-8444-40d9-b7af-3eb8f0a47412}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="symboltable.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="node.cpp">
@@ -36,12 +36,18 @@
     <ClCompile Include="semanticanalysis.cpp">
       <Filter>Source Files\Visitor</Filter>
     </ClCompile>
+    <ClCompile Include="interpreter.cpp">
+      <Filter>Source Files\Visitor</Filter>
+    </ClCompile>
+    <ClCompile Include="symboltable.cpp">
+      <Filter>Source Files\Symbol</Filter>
+    </ClCompile>
+    <ClCompile Include="varsymbol.cpp">
+      <Filter>Source Files\Symbol</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="node.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="symboltable.h">
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="bison.tab.h">
@@ -49,6 +55,12 @@
     </ClInclude>
     <ClInclude Include="flex.flex.h">
       <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="symboltable.h">
+      <Filter>Source Files\Symbol</Filter>
+    </ClInclude>
+    <ClInclude Include="varsymbol.h">
+      <Filter>Source Files\Symbol</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

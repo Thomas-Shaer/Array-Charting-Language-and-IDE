@@ -7,7 +7,7 @@
 
 #include "bison.tab.h"
 #include "flex.flex.h"
-
+#include "symboltable.h"
 
 int main() {
 
@@ -33,9 +33,11 @@ int main() {
 	yylex_destroy(scanner);
 
 	std::cout << input->toString() << std::endl;
+
 	SymbolTable* symboltable = new SymbolTable();
 	
 	input->semanticAnalysis(symboltable);
+	input->interpret(symboltable);
 	std::cout << symboltable->toString() << std::endl;
 
 

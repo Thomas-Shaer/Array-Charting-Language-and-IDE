@@ -142,16 +142,19 @@
   <ItemGroup>
     <ClCompile Include="bison.tab.cpp" />
     <ClCompile Include="flex.flex.cpp" />
+    <ClCompile Include="interpreter.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="node.cpp" />
     <ClCompile Include="semanticanalysis.cpp" />
     <ClCompile Include="symboltable.cpp" />
+    <ClCompile Include="varsymbol.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bison.tab.h" />
     <ClInclude Include="flex.flex.h" />
     <ClInclude Include="node.h" />
     <ClInclude Include="symboltable.h" />
+    <ClInclude Include="varsymbol.h" />
   </ItemGroup>
   <ItemGroup>
     <Flex Include="flex.l">
