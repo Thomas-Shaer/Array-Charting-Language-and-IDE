@@ -19,12 +19,6 @@ BlockNode::~BlockNode() {
 	}
 }
 
-void BlockNode::evaluate(SymbolTable* symboltable) const {
-	for (Statement* statement : statementNodes) {
-		statement->evaluate(symboltable);
-	}
-}
-
 
 
 std::string NumberNode::toString() const {
@@ -33,9 +27,6 @@ std::string NumberNode::toString() const {
 
 NumberNode::~NumberNode() {}
 
-ExpressionValue NumberNode::evaluate(SymbolTable* symboltable) const {
-	return (ExpressionValue)number;
-}
 
 
 
@@ -45,13 +36,7 @@ std::string IdentifierNode::toString() const {
 
 IdentifierNode::~IdentifierNode() {}
 
-ExpressionValue IdentifierNode::evaluate(SymbolTable* symboltable) const {
-	// need to return item in symbol table
 
-
-	//return (ExpressionValue)number;
-	return symboltable->values[name];
-}
 
 
 
@@ -64,17 +49,6 @@ BinaryOpNode::~BinaryOpNode() {
 	delete right;
 }
 
-ExpressionValue BinaryOpNode::evaluate(SymbolTable* symboltable) const {
-	ExpressionValue leftV = left->evaluate(symboltable);
-	ExpressionValue rightV = right->evaluate(symboltable);
-	if (leftV.type() == typeid(float) && rightV.type() == typeid(float)) {
-		return boost::get<float>(leftV) + boost::get<float>(rightV);
-	}
-	else {
-		std::cout << "ERROR NOT FLOATS!" << std::endl;
-	}
-	return (float)0;
-}
 
 
 
@@ -84,10 +58,4 @@ std::string AssignNode::toString() const {
 
 AssignNode::~AssignNode() {
 	delete rhs;
-}
-
-void AssignNode::evaluate(SymbolTable* symboltable) const {
-	ExpressionValue value = rhs->evaluate(symboltable);
-	symboltable->values[name] = value;
-	// need to store value in symbol table at lhs name
 }

@@ -35,7 +35,7 @@ int main() {
 	std::cout << input->toString() << std::endl;
 	SymbolTable* symboltable = new SymbolTable();
 	
-	input->evaluate(symboltable);
+	input->semanticAnalysis(symboltable);
 	std::cout << symboltable->toString() << std::endl;
 
 

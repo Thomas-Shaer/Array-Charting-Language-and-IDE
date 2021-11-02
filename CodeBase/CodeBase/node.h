@@ -31,7 +31,7 @@ public:
 */
 class Expression : public Node {
 public:
-	virtual ExpressionValue evaluate(SymbolTable* symboltable) const = 0;
+	virtual ExpressionValue semanticAnalysis(SymbolTable* symboltable) const = 0;
 };
 
 /*
@@ -39,7 +39,7 @@ public:
 */
 class Statement : public Node {
 public:
-	virtual void evaluate(SymbolTable* symboltable) const = 0;
+	virtual void semanticAnalysis(SymbolTable* symboltable) const = 0;
 };
 
 /*
@@ -54,7 +54,7 @@ public:
 
 	virtual ~BlockNode();
 
-	virtual void evaluate(SymbolTable* symboltable) const;
+	virtual void semanticAnalysis(SymbolTable* symboltable) const;
 };
 
 
@@ -70,7 +70,7 @@ public:
 
 	virtual ~NumberNode();
 
-	virtual ExpressionValue evaluate(SymbolTable* symboltable) const;
+	virtual ExpressionValue semanticAnalysis(SymbolTable* symboltable) const;
 };
 
 /*
@@ -84,7 +84,7 @@ public:
 	virtual std::string toString() const;
 	virtual ~IdentifierNode();
 
-	virtual ExpressionValue evaluate(SymbolTable* symboltable) const;
+	virtual ExpressionValue semanticAnalysis(SymbolTable* symboltable) const;
 
 };
 
@@ -101,7 +101,7 @@ public:
 	virtual std::string toString() const;
 
 	virtual ~BinaryOpNode();
-	virtual ExpressionValue evaluate(SymbolTable* symboltable) const;
+	virtual ExpressionValue semanticAnalysis(SymbolTable* symboltable) const;
 
 };
 
@@ -119,5 +119,5 @@ public:
 
 	virtual ~AssignNode();
 
-	virtual void evaluate(SymbolTable* symboltable) const;
+	virtual void semanticAnalysis(SymbolTable* symboltable) const;
 };

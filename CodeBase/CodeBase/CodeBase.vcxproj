@@ -144,6 +144,7 @@
     <ClCompile Include="flex.flex.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="node.cpp" />
+    <ClCompile Include="semanticanalysis.cpp" />
     <ClCompile Include="symboltable.cpp" />
   </ItemGroup>
   <ItemGroup>
