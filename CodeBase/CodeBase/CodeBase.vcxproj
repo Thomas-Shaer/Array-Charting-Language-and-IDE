@@ -152,7 +152,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bison.tab.h" />
+    <ClInclude Include="boolean.h" />
     <ClInclude Include="flex.flex.h" />
+    <ClInclude Include="float.h" />
     <ClInclude Include="languageexception.h" />
     <ClInclude Include="node.h" />
     <ClInclude Include="symboltable.h" />

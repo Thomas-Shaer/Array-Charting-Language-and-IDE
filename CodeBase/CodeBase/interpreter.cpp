@@ -3,12 +3,12 @@
 
 void BlockNode::interpret(SymbolTable* symboltable) const {
 	for (Statement* statement : statementNodes) {
-		statement->semanticAnalysis(symboltable);
+		statement->interpret(symboltable);
 	}
 }
 
 ExpressionValue NumberNode::interpret(SymbolTable* symboltable) const {
-	return (ExpressionValue)number;
+	return (ExpressionValue)Float(number);
 }
 
 
@@ -19,7 +19,7 @@ ExpressionValue IdentifierNode::interpret(SymbolTable* symboltable) const {
 ExpressionValue BinaryOpNode::interpret(SymbolTable* symboltable) const {
 	ExpressionValue leftV = left->interpret(symboltable);
 	ExpressionValue rightV = right->interpret(symboltable);
-	return boost::get<float>(leftV) + boost::get<float>(rightV);
+	return Float(boost::get<Float>(leftV).value + boost::get<Float>(rightV).value);
 }
 
 

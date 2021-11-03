@@ -1,6 +1,18 @@
 #include "symboltable.h"
 #include "varsymbol.h"
 
+
+SymbolTable::SymbolTable() {
+
+	std::shared_ptr<VarSymbol> trueLiteral = std::make_shared<VarSymbol>("true", DataType::Boolean);
+	trueLiteral->setValue(Boolean(true));
+	declareVariable(trueLiteral);
+
+	std::shared_ptr<VarSymbol> falseLiteral = std::make_shared<VarSymbol>("false", DataType::Boolean);
+	falseLiteral->setValue(Boolean(false));
+	declareVariable(falseLiteral);
+}
+
 std::string SymbolTable::toString() {
 	std::string output = "SYMBOL TABLE\n";
 

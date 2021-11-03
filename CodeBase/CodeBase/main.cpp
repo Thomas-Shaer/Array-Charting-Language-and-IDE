@@ -11,6 +11,9 @@
 #include "languageexception.h"
 
 void execute(const std::string& code) {
+
+
+
 	BlockNode* input = nullptr;
 	SymbolTable* symboltable = nullptr;
 	try {
@@ -50,9 +53,15 @@ void execute(const std::string& code) {
 	if (symboltable) {
 		delete symboltable;
 	}
+	std::cout << "_______________________________" << std::endl;
 }
 
 int main() {
 	execute("x = 2 + 5 \
              y = 123 + 21 + 51 + 312 + x + q");
+
+
+	execute("z = true + false");
+
+	execute("false = 12 + 12");
 }

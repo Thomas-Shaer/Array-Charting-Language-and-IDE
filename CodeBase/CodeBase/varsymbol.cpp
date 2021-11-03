@@ -1,5 +1,5 @@
 #include "varsymbol.h"
-
+#include <iostream>
 
 std::string VarSymbol::toString() {
 	std::string output = "<";
@@ -7,11 +7,12 @@ std::string VarSymbol::toString() {
 	output += ", ";
 	output += type == DataType::Boolean ? "boolean" : "float";
 	output += ", ";
+
 	if (type == DataType::Float) {
-		output += std::to_string(boost::get<float>(value)) + ">";
+		output += std::to_string(boost::get<Float>(value).value) + ">";
 	}
 	else {
-		output += (boost::get<bool>(value) == true ? "true" : "false");
+		output += std::to_string((boost::get<Boolean>(value).value)/* ? "true" : "false"*/);
 		output += ">";
 	}
 
@@ -26,6 +27,5 @@ ExpressionValue VarSymbol::getValue() {
 
 void VarSymbol::setValue(ExpressionValue _value) {
 	// ERORR CHECK HERE MAKE SURE SAME TYPE
-
-	value = _value;
+	value.swap(_value);
 }

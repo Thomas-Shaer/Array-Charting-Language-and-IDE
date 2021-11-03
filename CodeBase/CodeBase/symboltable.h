@@ -11,7 +11,7 @@ class VarSymbol;
 class SymbolTable {
 public:
 
-
+	SymbolTable();
 
 	//returns true if variable is declared
 	bool isDeclared(const std::string& name);
