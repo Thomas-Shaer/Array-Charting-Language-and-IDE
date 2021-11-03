@@ -26,7 +26,8 @@ void execute(const std::string& code) {
 		yy::parser parseengine(scanner, &input);
 		int parseResult = parseengine.parse();
 		if (parseResult != 0) {
-			std::cout << "error" << std::endl;
+			//std::cout << "error" << std::endl;
+			throw LanguageException("Parsing Error");
 		}
 
 		yylex_destroy(scanner);
@@ -63,5 +64,5 @@ int main() {
 
 	execute("z = true + false");
 
-	execute("false = 12 + 12");
+	execute("false = 1.1231312");
 }

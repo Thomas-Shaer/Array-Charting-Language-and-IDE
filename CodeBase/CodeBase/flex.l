@@ -31,7 +31,8 @@
 [\n]                    { }
 [\t]                    { }
 [a-zA-Z_][a-zA-Z0-9_]*  value->emplace<std::string>(yytext); return yy::parser::token::TIDENTIFIER;
-[0-9]+                  value->emplace<std::string>(yytext); return yy::parser::token::TINTEGER;
+[0-9]+                  value->emplace<std::string>(yytext); return yy::parser::token::TNUMBER;
+[0-9]+\.[0-9]*          value->emplace<std::string>(yytext); return yy::parser::token::TNUMBER;
 "+"                     value->emplace<int>(yy::parser::token::TPLUS); return yy::parser::token::TPLUS;
 "-"                     value->emplace<int>(yy::parser::token::TMINUS); return yy::parser::token::TMINUS;
 "*"                     value->emplace<int>(yy::parser::token::TMUL); return yy::parser::token::TMUL;

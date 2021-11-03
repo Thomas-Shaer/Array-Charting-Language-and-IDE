@@ -33,7 +33,7 @@
 }
 
 
-%token <std::string> TINTEGER TIDENTIFIER
+%token <std::string> TNUMBER TIDENTIFIER
 %token <int> TPLUS "+" TMINUS "-" TMUL "*" TDIV "/" TASSIGN "="
 
 
@@ -78,7 +78,7 @@ expr : numeric { $$ = $1; }
 binop : TMUL | TDIV | TPLUS | TMINUS
       ;
 
-numeric : TINTEGER { $$ = new NumberNode(atoi($1.c_str())); }
+numeric : TNUMBER { $$ = new NumberNode(atoi($1.c_str())); }
         ;
 
 %%

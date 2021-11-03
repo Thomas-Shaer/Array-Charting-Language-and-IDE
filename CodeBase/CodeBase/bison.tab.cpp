@@ -195,7 +195,7 @@ namespace yy {
         value.copy< int > (YY_MOVE (that.value));
         break;
 
-      case symbol_kind::S_TINTEGER: // TINTEGER
+      case symbol_kind::S_TNUMBER: // TNUMBER
       case symbol_kind::S_TIDENTIFIER: // TIDENTIFIER
         value.copy< std::string > (YY_MOVE (that.value));
         break;
@@ -262,7 +262,7 @@ namespace yy {
         value.move< int > (YY_MOVE (s.value));
         break;
 
-      case symbol_kind::S_TINTEGER: // TINTEGER
+      case symbol_kind::S_TNUMBER: // TNUMBER
       case symbol_kind::S_TIDENTIFIER: // TIDENTIFIER
         value.move< std::string > (YY_MOVE (s.value));
         break;
@@ -396,7 +396,7 @@ namespace yy {
         value.YY_MOVE_OR_COPY< int > (YY_MOVE (that.value));
         break;
 
-      case symbol_kind::S_TINTEGER: // TINTEGER
+      case symbol_kind::S_TNUMBER: // TNUMBER
       case symbol_kind::S_TIDENTIFIER: // TIDENTIFIER
         value.YY_MOVE_OR_COPY< std::string > (YY_MOVE (that.value));
         break;
@@ -449,7 +449,7 @@ namespace yy {
         value.move< int > (YY_MOVE (that.value));
         break;
 
-      case symbol_kind::S_TINTEGER: // TINTEGER
+      case symbol_kind::S_TNUMBER: // TNUMBER
       case symbol_kind::S_TIDENTIFIER: // TIDENTIFIER
         value.move< std::string > (YY_MOVE (that.value));
         break;
@@ -502,7 +502,7 @@ namespace yy {
         value.copy< int > (that.value);
         break;
 
-      case symbol_kind::S_TINTEGER: // TINTEGER
+      case symbol_kind::S_TNUMBER: // TNUMBER
       case symbol_kind::S_TIDENTIFIER: // TIDENTIFIER
         value.copy< std::string > (that.value);
         break;
@@ -553,7 +553,7 @@ namespace yy {
         value.move< int > (that.value);
         break;
 
-      case symbol_kind::S_TINTEGER: // TINTEGER
+      case symbol_kind::S_TNUMBER: // TNUMBER
       case symbol_kind::S_TIDENTIFIER: // TIDENTIFIER
         value.move< std::string > (that.value);
         break;
@@ -844,7 +844,7 @@ namespace yy {
         yylhs.value.emplace< int > ();
         break;
 
-      case symbol_kind::S_TINTEGER: // TINTEGER
+      case symbol_kind::S_TNUMBER: // TNUMBER
       case symbol_kind::S_TIDENTIFIER: // TIDENTIFIER
         yylhs.value.emplace< std::string > ();
         break;
@@ -949,9 +949,9 @@ namespace yy {
 #line 950 "bison.tab.cpp"
     break;
 
-  case 16: // numeric: TINTEGER
+  case 16: // numeric: TNUMBER
 #line 81 "bison.y"
-                   { yylhs.value.as < NumberNode* > () = new NumberNode(atoi(yystack_[0].value.as < std::string > ().c_str())); }
+                  { yylhs.value.as < NumberNode* > () = new NumberNode(atoi(yystack_[0].value.as < std::string > ().c_str())); }
 #line 956 "bison.tab.cpp"
     break;
 
@@ -1373,7 +1373,7 @@ namespace yy {
   const char*
   const parser::yytname_[] =
   {
-  "\"end of file\"", "error", "\"invalid token\"", "TINTEGER",
+  "\"end of file\"", "error", "\"invalid token\"", "TNUMBER",
   "TIDENTIFIER", "\"+\"", "\"-\"", "\"*\"", "\"/\"", "\"=\"", "$accept",
   "program", "stmts", "stmt", "identifier", "assign", "expr", "binop",
   "numeric", YY_NULLPTR

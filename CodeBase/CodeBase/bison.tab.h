@@ -395,7 +395,7 @@ namespace yy {
       // binop
       char dummy7[sizeof (int)];
 
-      // TINTEGER
+      // TNUMBER
       // TIDENTIFIER
       char dummy8[sizeof (std::string)];
     };
@@ -440,7 +440,7 @@ namespace yy {
     YYEOF = 0,                     // "end of file"
     YYerror = 256,                 // error
     YYUNDEF = 257,                 // "invalid token"
-    TINTEGER = 258,                // TINTEGER
+    TNUMBER = 258,                 // TNUMBER
     TIDENTIFIER = 259,             // TIDENTIFIER
     TPLUS = 260,                   // "+"
     TMINUS = 261,                  // "-"
@@ -468,7 +468,7 @@ namespace yy {
         S_YYEOF = 0,                             // "end of file"
         S_YYerror = 1,                           // error
         S_YYUNDEF = 2,                           // "invalid token"
-        S_TINTEGER = 3,                          // TINTEGER
+        S_TNUMBER = 3,                           // TNUMBER
         S_TIDENTIFIER = 4,                       // TIDENTIFIER
         S_TPLUS = 5,                             // "+"
         S_TMINUS = 6,                            // "-"
@@ -551,7 +551,7 @@ namespace yy {
         value.move< int > (std::move (that.value));
         break;
 
-      case symbol_kind::S_TINTEGER: // TINTEGER
+      case symbol_kind::S_TNUMBER: // TNUMBER
       case symbol_kind::S_TIDENTIFIER: // TIDENTIFIER
         value.move< std::string > (std::move (that.value));
         break;
@@ -728,7 +728,7 @@ switch (yykind)
         value.template destroy< int > ();
         break;
 
-      case symbol_kind::S_TINTEGER: // TINTEGER
+      case symbol_kind::S_TNUMBER: // TNUMBER
       case symbol_kind::S_TIDENTIFIER: // TIDENTIFIER
         value.template destroy< std::string > ();
         break;
@@ -935,16 +935,16 @@ switch (yykind)
 #if 201103L <= YY_CPLUSPLUS
       static
       symbol_type
-      make_TINTEGER (std::string v)
+      make_TNUMBER (std::string v)
       {
-        return symbol_type (token::TINTEGER, std::move (v));
+        return symbol_type (token::TNUMBER, std::move (v));
       }
 #else
       static
       symbol_type
-      make_TINTEGER (const std::string& v)
+      make_TNUMBER (const std::string& v)
       {
-        return symbol_type (token::TINTEGER, v);
+        return symbol_type (token::TNUMBER, v);
       }
 #endif
 #if 201103L <= YY_CPLUSPLUS
