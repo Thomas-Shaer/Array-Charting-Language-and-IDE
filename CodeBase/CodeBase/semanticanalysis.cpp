@@ -1,7 +1,7 @@
 #include "node.h"
 #include "symboltable.h"
 #include "languageexception.h"
-
+#include "operator.h"
 
 void BlockNode::semanticAnalysis(SymbolTable* symboltable) const {
 	for (Statement* statement : statementNodes) {
@@ -30,10 +30,9 @@ DataType IdentifierNode::semanticAnalysis(SymbolTable* symboltable) const {
 DataType BinaryOpNode::semanticAnalysis(SymbolTable* symboltable) const {
 	DataType leftV = left->semanticAnalysis(symboltable);
 	DataType rightV = right->semanticAnalysis(symboltable);
-	if (leftV == DataType::Float && rightV == DataType::Float) {
-		return DataType::Float;
-	}
-	throw LanguageException("Cannot add together with these variables");
+
+
+	return op->semanticAnaylsis(leftV, rightV);
 }
 
 

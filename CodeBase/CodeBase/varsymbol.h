@@ -1,10 +1,6 @@
 #pragma once
-#include "boolean.h"
-#include "float.h"
-#include <boost/variant.hpp>
+#include "global.h"
 
-typedef boost::variant<Float, Boolean> ExpressionValue;
-enum class DataType { Boolean, Float };
 
 /*
 * Stores all the necessary information for a variable, including it's type and value

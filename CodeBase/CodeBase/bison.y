@@ -5,6 +5,7 @@
 %language "c++"
 %define api.value.type variant
 %define parse.trace
+%token-table
 
 %{
 
@@ -30,12 +31,14 @@
       #define YY_DECL \
         int yylex(yy::parser::semantic_type* value, yyscan_t yyscanner)
 	YY_DECL;
+    std::string token_name(int t);
  
 }
 
 
 %token <std::string> TNUMBER TIDENTIFIER
 %token <int> TPLUS "+" TMINUS "-" TMUL "*" TDIV "/" TASSIGN "=" 
+%token <int> TLESS "<" TLESSEQUAL "<=" TGREATER ">" TGREATEREQUAL ">=" TAND "&&" TOR "||" 
 %token <int> TTRUE "TRUE" TFALSE "FALSE"
 
 
@@ -76,10 +79,10 @@ assign : TIDENTIFIER TASSIGN expr {$$ = new AssignNode($1, $3);}
 expr : numeric { $$ = $1; }
      | boolean {$$=$1;}
      | identifier {$$ = $1; }
-     | expr binop expr {$$ =  new BinaryOpNode($1, BinaryOperator::PLUS, $3); }
+     | expr binop expr {$$ =  new BinaryOpNode($1, (int)$2, $3); }
      ;
 
-binop : TMUL | TDIV | TPLUS | TMINUS
+binop : TMUL | TDIV | TPLUS | TMINUS | TLESS | TLESSEQUAL | TGREATER | TGREATEREQUAL | TAND | TOR
       ;
 
 numeric : TNUMBER { $$ = new NumberNode(atoi($1.c_str())); }
@@ -93,3 +96,10 @@ boolean : TFALSE { $$ = new BooleanNode(false); }
 void yy::parser::error( const std::string& msg) {
     std::cout << msg << std::endl;
 }
+
+
+
+std::string token_name(int t) {
+    return yy::parser::symbol_name(yy::parser::by_kind((yy::parser::token_type)t).type_get());
+}
+

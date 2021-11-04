@@ -1,5 +1,6 @@
 #include "node.h"
 #include "symboltable.h"
+#include "operator.h"
 
 void BlockNode::interpret(SymbolTable* symboltable) const {
 	for (Statement* statement : statementNodes) {
@@ -23,7 +24,7 @@ ExpressionValue IdentifierNode::interpret(SymbolTable* symboltable) const {
 ExpressionValue BinaryOpNode::interpret(SymbolTable* symboltable) const {
 	ExpressionValue leftV = left->interpret(symboltable);
 	ExpressionValue rightV = right->interpret(symboltable);
-	return Float(boost::get<Float>(leftV).value + boost::get<Float>(rightV).value);
+	return op->interpret(leftV, rightV);
 }
 
 

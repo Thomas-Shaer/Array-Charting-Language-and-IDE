@@ -28,12 +28,12 @@
     <Filter Include="Source Files\Values\Boolean">
       <UniqueIdentifier>{369b0f7f-b900-4615-b30f-0093f1256e0c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Nodes">
+      <UniqueIdentifier>{2b69a40a-d821-47be-8911-e579c1ff4801}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="node.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="bison.tab.cpp">
@@ -57,11 +57,14 @@
     <ClCompile Include="languageexception.cpp">
       <Filter>Source Files\Exceptions</Filter>
     </ClCompile>
+    <ClCompile Include="node.cpp">
+      <Filter>Source Files\Nodes</Filter>
+    </ClCompile>
+    <ClCompile Include="operator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="node.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="bison.tab.h">
       <Filter>Source Files</Filter>
     </ClInclude>
@@ -82,6 +85,15 @@
     </ClInclude>
     <ClInclude Include="float.h">
       <Filter>Source Files\Values\Boolean</Filter>
+    </ClInclude>
+    <ClInclude Include="node.h">
+      <Filter>Source Files\Nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="operator.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="global.h">
+      <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

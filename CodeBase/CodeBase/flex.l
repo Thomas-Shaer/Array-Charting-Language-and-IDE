@@ -22,6 +22,11 @@
 #include <string>
 #include "node.h"
 
+/*
+
+"=="                    value->emplace<int>(yy::parser::token::TCEQUAL); return yy::parser::token::TCEQUAL;
+"!="                    value->emplace<int>(yy::parser::token::TCNE); return yy::parser::token::TCNE;
+*/
 
 %}
 
@@ -40,6 +45,15 @@
 "-"                     value->emplace<int>(yy::parser::token::TMINUS); return yy::parser::token::TMINUS;
 "*"                     value->emplace<int>(yy::parser::token::TMUL); return yy::parser::token::TMUL;
 "/"                     value->emplace<int>(yy::parser::token::TDIV); return yy::parser::token::TDIV;
+"<"                     value->emplace<int>(yy::parser::token::TLESS); return yy::parser::token::TLESS;
+"<="                    value->emplace<int>(yy::parser::token::TLESSEQUAL); return yy::parser::token::TLESSEQUAL;
+">"                     value->emplace<int>(yy::parser::token::TGREATER); return yy::parser::token::TGREATER;
+">="                    value->emplace<int>(yy::parser::token::TGREATEREQUAL); return yy::parser::token::TGREATEREQUAL;
+"&&"                    value->emplace<int>(yy::parser::token::TAND); return yy::parser::token::TAND;
+"||"                    value->emplace<int>(yy::parser::token::TOR); return yy::parser::token::TOR;
+
+
+
 "="                     value->emplace<int>(yy::parser::token::TASSIGN); return yy::parser::token::TASSIGN;
 .                       return yytext[0];
 %%

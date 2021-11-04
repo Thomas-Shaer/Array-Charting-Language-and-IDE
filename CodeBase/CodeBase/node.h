@@ -6,6 +6,7 @@
 
 const enum class BinaryOperator {PLUS, MINUS, MUL, DIVIDE};
 class SymbolTable;
+class Operator;
 
 /*
 Base node class
@@ -117,8 +118,8 @@ class BinaryOpNode : public Expression {
 public:
 	const Expression* left;
 	const Expression* right;
-	const BinaryOperator op;
-	BinaryOpNode(Expression* _left, BinaryOperator _op, Expression* _right) : left(_left), right(_right), op(_op) {}
+	const Operator* op;
+	BinaryOpNode(Expression* _left, int _op, Expression* _right);
 
 	virtual std::string toString() const;
 

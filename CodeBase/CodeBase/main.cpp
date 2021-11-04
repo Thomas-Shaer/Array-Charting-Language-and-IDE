@@ -62,7 +62,20 @@ int main() {
              y = 123 + 21 + 51 + 312 + x + q");
 
 
-	execute("z = true + false");
+	execute("z = true - false");
 
-	execute("false = 1.1231312");
+	execute("false = 1.1231312 * 413 + 12");
+
+
+	execute("a = 2 + 5 \
+            b = 2 - 5 \
+            c = 2 / 5 \
+            d = 2 * 5 \
+            e = 2 > 5 \
+            f = 5 >= 5 \
+            g = 5 < 2 \
+            h = 1 <= 2 \
+            i = false && false \
+            j = false || true");
+
 }

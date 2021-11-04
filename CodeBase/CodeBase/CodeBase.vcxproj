@@ -146,6 +146,7 @@
     <ClCompile Include="languageexception.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="node.cpp" />
+    <ClCompile Include="operator.cpp" />
     <ClCompile Include="semanticanalysis.cpp" />
     <ClCompile Include="symboltable.cpp" />
     <ClCompile Include="varsymbol.cpp" />
@@ -157,7 +158,9 @@
     <ClInclude Include="float.h" />
     <ClInclude Include="languageexception.h" />
     <ClInclude Include="node.h" />
+    <ClInclude Include="operator.h" />
     <ClInclude Include="symboltable.h" />
+    <ClInclude Include="global.h" />
     <ClInclude Include="varsymbol.h" />
   </ItemGroup>
   <ItemGroup>

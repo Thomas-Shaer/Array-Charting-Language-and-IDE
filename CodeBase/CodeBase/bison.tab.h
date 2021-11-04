@@ -45,7 +45,7 @@
 #ifndef YY_YY_BISON_TAB_H_INCLUDED
 # define YY_YY_BISON_TAB_H_INCLUDED
 // "%code requires" blocks.
-#line 25 "bison.y"
+#line 26 "bison.y"
 
   typedef void* yyscan_t;
 
@@ -395,6 +395,12 @@ namespace yy {
       // "*"
       // "/"
       // "="
+      // "<"
+      // "<="
+      // ">"
+      // ">="
+      // "&&"
+      // "||"
       // "TRUE"
       // "FALSE"
       // binop
@@ -452,8 +458,14 @@ namespace yy {
     TMUL = 262,                    // "*"
     TDIV = 263,                    // "/"
     TASSIGN = 264,                 // "="
-    TTRUE = 265,                   // "TRUE"
-    TFALSE = 266                   // "FALSE"
+    TLESS = 265,                   // "<"
+    TLESSEQUAL = 266,              // "<="
+    TGREATER = 267,                // ">"
+    TGREATEREQUAL = 268,           // ">="
+    TAND = 269,                    // "&&"
+    TOR = 270,                     // "||"
+    TTRUE = 271,                   // "TRUE"
+    TFALSE = 272                   // "FALSE"
       };
       /// Backward compatibility alias (Bison 3.6).
       typedef token_kind_type yytokentype;
@@ -470,7 +482,7 @@ namespace yy {
     {
       enum symbol_kind_type
       {
-        YYNTOKENS = 12, ///< Number of tokens.
+        YYNTOKENS = 18, ///< Number of tokens.
         S_YYEMPTY = -2,
         S_YYEOF = 0,                             // "end of file"
         S_YYerror = 1,                           // error
@@ -482,18 +494,24 @@ namespace yy {
         S_TMUL = 7,                              // "*"
         S_TDIV = 8,                              // "/"
         S_TASSIGN = 9,                           // "="
-        S_TTRUE = 10,                            // "TRUE"
-        S_TFALSE = 11,                           // "FALSE"
-        S_YYACCEPT = 12,                         // $accept
-        S_program = 13,                          // program
-        S_stmts = 14,                            // stmts
-        S_stmt = 15,                             // stmt
-        S_identifier = 16,                       // identifier
-        S_assign = 17,                           // assign
-        S_expr = 18,                             // expr
-        S_binop = 19,                            // binop
-        S_numeric = 20,                          // numeric
-        S_boolean = 21                           // boolean
+        S_TLESS = 10,                            // "<"
+        S_TLESSEQUAL = 11,                       // "<="
+        S_TGREATER = 12,                         // ">"
+        S_TGREATEREQUAL = 13,                    // ">="
+        S_TAND = 14,                             // "&&"
+        S_TOR = 15,                              // "||"
+        S_TTRUE = 16,                            // "TRUE"
+        S_TFALSE = 17,                           // "FALSE"
+        S_YYACCEPT = 18,                         // $accept
+        S_program = 19,                          // program
+        S_stmts = 20,                            // stmts
+        S_stmt = 21,                             // stmt
+        S_identifier = 22,                       // identifier
+        S_assign = 23,                           // assign
+        S_expr = 24,                             // expr
+        S_binop = 25,                            // binop
+        S_numeric = 26,                          // numeric
+        S_boolean = 27                           // boolean
       };
     };
 
@@ -561,6 +579,12 @@ namespace yy {
       case symbol_kind::S_TMUL: // "*"
       case symbol_kind::S_TDIV: // "/"
       case symbol_kind::S_TASSIGN: // "="
+      case symbol_kind::S_TLESS: // "<"
+      case symbol_kind::S_TLESSEQUAL: // "<="
+      case symbol_kind::S_TGREATER: // ">"
+      case symbol_kind::S_TGREATEREQUAL: // ">="
+      case symbol_kind::S_TAND: // "&&"
+      case symbol_kind::S_TOR: // "||"
       case symbol_kind::S_TTRUE: // "TRUE"
       case symbol_kind::S_TFALSE: // "FALSE"
       case symbol_kind::S_binop: // binop
@@ -756,6 +780,12 @@ switch (yykind)
       case symbol_kind::S_TMUL: // "*"
       case symbol_kind::S_TDIV: // "/"
       case symbol_kind::S_TASSIGN: // "="
+      case symbol_kind::S_TLESS: // "<"
+      case symbol_kind::S_TLESSEQUAL: // "<="
+      case symbol_kind::S_TGREATER: // ">"
+      case symbol_kind::S_TGREATEREQUAL: // ">="
+      case symbol_kind::S_TAND: // "&&"
+      case symbol_kind::S_TOR: // "||"
       case symbol_kind::S_TTRUE: // "TRUE"
       case symbol_kind::S_TFALSE: // "FALSE"
       case symbol_kind::S_binop: // binop
@@ -1069,6 +1099,96 @@ switch (yykind)
       make_TASSIGN (const int& v)
       {
         return symbol_type (token::TASSIGN, v);
+      }
+#endif
+#if 201103L <= YY_CPLUSPLUS
+      static
+      symbol_type
+      make_TLESS (int v)
+      {
+        return symbol_type (token::TLESS, std::move (v));
+      }
+#else
+      static
+      symbol_type
+      make_TLESS (const int& v)
+      {
+        return symbol_type (token::TLESS, v);
+      }
+#endif
+#if 201103L <= YY_CPLUSPLUS
+      static
+      symbol_type
+      make_TLESSEQUAL (int v)
+      {
+        return symbol_type (token::TLESSEQUAL, std::move (v));
+      }
+#else
+      static
+      symbol_type
+      make_TLESSEQUAL (const int& v)
+      {
+        return symbol_type (token::TLESSEQUAL, v);
+      }
+#endif
+#if 201103L <= YY_CPLUSPLUS
+      static
+      symbol_type
+      make_TGREATER (int v)
+      {
+        return symbol_type (token::TGREATER, std::move (v));
+      }
+#else
+      static
+      symbol_type
+      make_TGREATER (const int& v)
+      {
+        return symbol_type (token::TGREATER, v);
+      }
+#endif
+#if 201103L <= YY_CPLUSPLUS
+      static
+      symbol_type
+      make_TGREATEREQUAL (int v)
+      {
+        return symbol_type (token::TGREATEREQUAL, std::move (v));
+      }
+#else
+      static
+      symbol_type
+      make_TGREATEREQUAL (const int& v)
+      {
+        return symbol_type (token::TGREATEREQUAL, v);
+      }
+#endif
+#if 201103L <= YY_CPLUSPLUS
+      static
+      symbol_type
+      make_TAND (int v)
+      {
+        return symbol_type (token::TAND, std::move (v));
+      }
+#else
+      static
+      symbol_type
+      make_TAND (const int& v)
+      {
+        return symbol_type (token::TAND, v);
+      }
+#endif
+#if 201103L <= YY_CPLUSPLUS
+      static
+      symbol_type
+      make_TOR (int v)
+      {
+        return symbol_type (token::TOR, std::move (v));
+      }
+#else
+      static
+      symbol_type
+      make_TOR (const int& v)
+      {
+        return symbol_type (token::TOR, v);
       }
 #endif
 #if 201103L <= YY_CPLUSPLUS
@@ -1429,7 +1549,7 @@ switch (yykind)
     /// Constants.
     enum
     {
-      yylast_ = 12,     ///< Last index in yytable_.
+      yylast_ = 25,     ///< Last index in yytable_.
       yynnts_ = 10,  ///< Number of nonterminal symbols.
       yyfinal_ = 7 ///< Termination state number.
     };
@@ -1443,18 +1563,19 @@ switch (yykind)
 
 
 } // yy
-#line 1447 "bison.tab.h"
+#line 1567 "bison.tab.h"
 
 
 // "%code provides" blocks.
-#line 29 "bison.y"
+#line 30 "bison.y"
 
       #define YY_DECL \
         int yylex(yy::parser::semantic_type* value, yyscan_t yyscanner)
 	YY_DECL;
+    std::string token_name(int t);
  
 
-#line 1458 "bison.tab.h"
+#line 1579 "bison.tab.h"
 
 
 #endif // !YY_YY_BISON_TAB_H_INCLUDED
