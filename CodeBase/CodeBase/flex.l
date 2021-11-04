@@ -7,6 +7,7 @@
 %{
     class Expression;
     class Statement;
+    class BooleanNode;
 
     class BlockNode;
     class NumberNode;
@@ -30,6 +31,8 @@
 " "                     { }
 [\n]                    { }
 [\t]                    { }
+"true"                  value->emplace<int>(yy::parser::token::TTRUE); return yy::parser::token::TTRUE;
+"false"                 value->emplace<int>(yy::parser::token::TFALSE); return yy::parser::token::TFALSE;
 [a-zA-Z_][a-zA-Z0-9_]*  value->emplace<std::string>(yytext); return yy::parser::token::TIDENTIFIER;
 [0-9]+                  value->emplace<std::string>(yytext); return yy::parser::token::TNUMBER;
 [0-9]+\.[0-9]*          value->emplace<std::string>(yytext); return yy::parser::token::TNUMBER;

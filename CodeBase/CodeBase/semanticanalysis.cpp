@@ -13,6 +13,11 @@ DataType NumberNode::semanticAnalysis(SymbolTable* symboltable) const {
 	return DataType::Float;
 }
 
+DataType BooleanNode::semanticAnalysis(SymbolTable* symboltable) const {
+	return DataType::Boolean;
+}
+
+
 
 DataType IdentifierNode::semanticAnalysis(SymbolTable* symboltable) const {
 	// need to return item in symbol table

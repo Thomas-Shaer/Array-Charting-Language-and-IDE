@@ -11,6 +11,10 @@ ExpressionValue NumberNode::interpret(SymbolTable* symboltable) const {
 	return (ExpressionValue)Float(number);
 }
 
+ExpressionValue BooleanNode::interpret(SymbolTable* symboltable) const {
+	return (ExpressionValue)Boolean(value);
+}
+
 
 ExpressionValue IdentifierNode::interpret(SymbolTable* symboltable) const {
 	return symboltable->getVariable(name)->getValue();

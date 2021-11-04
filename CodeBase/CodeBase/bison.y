@@ -10,6 +10,7 @@
 
     #include <string>
     class NumberNode;
+    class BooleanNode;
     class Expression;
     class Statement;
     class Node;
@@ -34,7 +35,8 @@
 
 
 %token <std::string> TNUMBER TIDENTIFIER
-%token <int> TPLUS "+" TMINUS "-" TMUL "*" TDIV "/" TASSIGN "="
+%token <int> TPLUS "+" TMINUS "-" TMUL "*" TDIV "/" TASSIGN "=" 
+%token <int> TTRUE "TRUE" TFALSE "FALSE"
 
 
 
@@ -43,6 +45,7 @@
 %type <BlockNode*> stmts
 %type <Statement*> stmt
 %type <NumberNode*> numeric
+%type <BooleanNode*> boolean
 %type <BlockNode*> block;
 %type <AssignNode*> assign;
 %type <IdentifierNode*> identifier;
@@ -71,6 +74,7 @@ assign : TIDENTIFIER TASSIGN expr {$$ = new AssignNode($1, $3);}
        ;
 
 expr : numeric { $$ = $1; }
+     | boolean {$$=$1;}
      | identifier {$$ = $1; }
      | expr binop expr {$$ =  new BinaryOpNode($1, BinaryOperator::PLUS, $3); }
      ;
@@ -79,6 +83,10 @@ binop : TMUL | TDIV | TPLUS | TMINUS
       ;
 
 numeric : TNUMBER { $$ = new NumberNode(atoi($1.c_str())); }
+        ;
+
+boolean : TFALSE { $$ = new BooleanNode(false); }
+        | TTRUE { $$ = new BooleanNode(true); }
         ;
 
 %%

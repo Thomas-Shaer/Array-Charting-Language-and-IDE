@@ -25,9 +25,15 @@ std::string NumberNode::toString() const {
 	return std::to_string(number);
 }
 
+
 NumberNode::~NumberNode() {}
 
 
+std::string BooleanNode::toString() const {
+	return value ? "true" : "false";
+}
+
+BooleanNode::~BooleanNode() {}
 
 
 std::string IdentifierNode::toString() const {

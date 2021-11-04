@@ -77,6 +77,23 @@ public:
 	virtual ExpressionValue interpret(SymbolTable* symboltable) const;
 };
 
+
+/*
+Number node class, represents a number node e.g. 2
+*/
+class BooleanNode : public Expression {
+public:
+	const bool value;
+	BooleanNode(bool _value) : value(_value) {}
+
+	virtual std::string toString() const;
+
+	virtual ~BooleanNode();
+
+	virtual DataType semanticAnalysis(SymbolTable* symboltable) const;
+	virtual ExpressionValue interpret(SymbolTable* symboltable) const;
+};
+
 /*
 Identifier node class, represents identifier e.g. foo
 */

@@ -45,7 +45,7 @@
 #ifndef YY_YY_BISON_TAB_H_INCLUDED
 # define YY_YY_BISON_TAB_H_INCLUDED
 // "%code requires" blocks.
-#line 24 "bison.y"
+#line 25 "bison.y"
 
   typedef void* yyscan_t;
 
@@ -375,29 +375,34 @@ namespace yy {
       // stmts
       char dummy2[sizeof (BlockNode*)];
 
+      // boolean
+      char dummy3[sizeof (BooleanNode*)];
+
       // expr
-      char dummy3[sizeof (Expression*)];
+      char dummy4[sizeof (Expression*)];
 
       // identifier
-      char dummy4[sizeof (IdentifierNode*)];
+      char dummy5[sizeof (IdentifierNode*)];
 
       // numeric
-      char dummy5[sizeof (NumberNode*)];
+      char dummy6[sizeof (NumberNode*)];
 
       // stmt
-      char dummy6[sizeof (Statement*)];
+      char dummy7[sizeof (Statement*)];
 
       // "+"
       // "-"
       // "*"
       // "/"
       // "="
+      // "TRUE"
+      // "FALSE"
       // binop
-      char dummy7[sizeof (int)];
+      char dummy8[sizeof (int)];
 
       // TNUMBER
       // TIDENTIFIER
-      char dummy8[sizeof (std::string)];
+      char dummy9[sizeof (std::string)];
     };
 
     /// The size of the largest semantic type.
@@ -446,7 +451,9 @@ namespace yy {
     TMINUS = 261,                  // "-"
     TMUL = 262,                    // "*"
     TDIV = 263,                    // "/"
-    TASSIGN = 264                  // "="
+    TASSIGN = 264,                 // "="
+    TTRUE = 265,                   // "TRUE"
+    TFALSE = 266                   // "FALSE"
       };
       /// Backward compatibility alias (Bison 3.6).
       typedef token_kind_type yytokentype;
@@ -463,7 +470,7 @@ namespace yy {
     {
       enum symbol_kind_type
       {
-        YYNTOKENS = 10, ///< Number of tokens.
+        YYNTOKENS = 12, ///< Number of tokens.
         S_YYEMPTY = -2,
         S_YYEOF = 0,                             // "end of file"
         S_YYerror = 1,                           // error
@@ -475,15 +482,18 @@ namespace yy {
         S_TMUL = 7,                              // "*"
         S_TDIV = 8,                              // "/"
         S_TASSIGN = 9,                           // "="
-        S_YYACCEPT = 10,                         // $accept
-        S_program = 11,                          // program
-        S_stmts = 12,                            // stmts
-        S_stmt = 13,                             // stmt
-        S_identifier = 14,                       // identifier
-        S_assign = 15,                           // assign
-        S_expr = 16,                             // expr
-        S_binop = 17,                            // binop
-        S_numeric = 18                           // numeric
+        S_TTRUE = 10,                            // "TRUE"
+        S_TFALSE = 11,                           // "FALSE"
+        S_YYACCEPT = 12,                         // $accept
+        S_program = 13,                          // program
+        S_stmts = 14,                            // stmts
+        S_stmt = 15,                             // stmt
+        S_identifier = 16,                       // identifier
+        S_assign = 17,                           // assign
+        S_expr = 18,                             // expr
+        S_binop = 19,                            // binop
+        S_numeric = 20,                          // numeric
+        S_boolean = 21                           // boolean
       };
     };
 
@@ -526,6 +536,10 @@ namespace yy {
         value.move< BlockNode* > (std::move (that.value));
         break;
 
+      case symbol_kind::S_boolean: // boolean
+        value.move< BooleanNode* > (std::move (that.value));
+        break;
+
       case symbol_kind::S_expr: // expr
         value.move< Expression* > (std::move (that.value));
         break;
@@ -547,6 +561,8 @@ namespace yy {
       case symbol_kind::S_TMUL: // "*"
       case symbol_kind::S_TDIV: // "/"
       case symbol_kind::S_TASSIGN: // "="
+      case symbol_kind::S_TTRUE: // "TRUE"
+      case symbol_kind::S_TFALSE: // "FALSE"
       case symbol_kind::S_binop: // binop
         value.move< int > (std::move (that.value));
         break;
@@ -596,6 +612,18 @@ namespace yy {
       {}
 #else
       basic_symbol (typename Base::kind_type t, const BlockNode*& v)
+        : Base (t)
+        , value (v)
+      {}
+#endif
+
+#if 201103L <= YY_CPLUSPLUS
+      basic_symbol (typename Base::kind_type t, BooleanNode*&& v)
+        : Base (t)
+        , value (std::move (v))
+      {}
+#else
+      basic_symbol (typename Base::kind_type t, const BooleanNode*& v)
         : Base (t)
         , value (v)
       {}
@@ -703,6 +731,10 @@ switch (yykind)
         value.template destroy< BlockNode* > ();
         break;
 
+      case symbol_kind::S_boolean: // boolean
+        value.template destroy< BooleanNode* > ();
+        break;
+
       case symbol_kind::S_expr: // expr
         value.template destroy< Expression* > ();
         break;
@@ -724,6 +756,8 @@ switch (yykind)
       case symbol_kind::S_TMUL: // "*"
       case symbol_kind::S_TDIV: // "/"
       case symbol_kind::S_TASSIGN: // "="
+      case symbol_kind::S_TTRUE: // "TRUE"
+      case symbol_kind::S_TFALSE: // "FALSE"
       case symbol_kind::S_binop: // binop
         value.template destroy< int > ();
         break;
@@ -1035,6 +1069,36 @@ switch (yykind)
       make_TASSIGN (const int& v)
       {
         return symbol_type (token::TASSIGN, v);
+      }
+#endif
+#if 201103L <= YY_CPLUSPLUS
+      static
+      symbol_type
+      make_TTRUE (int v)
+      {
+        return symbol_type (token::TTRUE, std::move (v));
+      }
+#else
+      static
+      symbol_type
+      make_TTRUE (const int& v)
+      {
+        return symbol_type (token::TTRUE, v);
+      }
+#endif
+#if 201103L <= YY_CPLUSPLUS
+      static
+      symbol_type
+      make_TFALSE (int v)
+      {
+        return symbol_type (token::TFALSE, std::move (v));
+      }
+#else
+      static
+      symbol_type
+      make_TFALSE (const int& v)
+      {
+        return symbol_type (token::TFALSE, v);
       }
 #endif
 
@@ -1365,8 +1429,8 @@ switch (yykind)
     /// Constants.
     enum
     {
-      yylast_ = 10,     ///< Last index in yytable_.
-      yynnts_ = 9,  ///< Number of nonterminal symbols.
+      yylast_ = 12,     ///< Last index in yytable_.
+      yynnts_ = 10,  ///< Number of nonterminal symbols.
       yyfinal_ = 7 ///< Termination state number.
     };
 
@@ -1379,18 +1443,18 @@ switch (yykind)
 
 
 } // yy
-#line 1383 "bison.tab.h"
+#line 1447 "bison.tab.h"
 
 
 // "%code provides" blocks.
-#line 28 "bison.y"
+#line 29 "bison.y"
 
       #define YY_DECL \
         int yylex(yy::parser::semantic_type* value, yyscan_t yyscanner)
 	YY_DECL;
  
 
-#line 1394 "bison.tab.h"
+#line 1458 "bison.tab.h"
 
 
 #endif // !YY_YY_BISON_TAB_H_INCLUDED
