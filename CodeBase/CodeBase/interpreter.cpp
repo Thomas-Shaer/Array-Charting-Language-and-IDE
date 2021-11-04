@@ -1,6 +1,7 @@
 #include "node.h"
 #include "symboltable.h"
-#include "operator.h"
+#include "binaryoperator.h"
+#include "unaryoperator.h"
 
 void BlockNode::interpret(SymbolTable* symboltable) const {
 	for (Statement* statement : statementNodes) {
@@ -25,6 +26,12 @@ ExpressionValue BinaryOpNode::interpret(SymbolTable* symboltable) const {
 	ExpressionValue leftV = left->interpret(symboltable);
 	ExpressionValue rightV = right->interpret(symboltable);
 	return op->interpret(leftV, rightV);
+}
+
+
+ExpressionValue UnaryOpNode::interpret(SymbolTable* symboltable) const {
+	ExpressionValue leftV = expression->interpret(symboltable);
+	return op->interpret(leftV);
 }
 
 

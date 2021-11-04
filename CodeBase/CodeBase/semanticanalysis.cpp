@@ -1,7 +1,8 @@
 #include "node.h"
 #include "symboltable.h"
 #include "languageexception.h"
-#include "operator.h"
+#include "binaryoperator.h"
+#include "unaryoperator.h"
 
 void BlockNode::semanticAnalysis(SymbolTable* symboltable) const {
 	for (Statement* statement : statementNodes) {
@@ -35,6 +36,12 @@ DataType BinaryOpNode::semanticAnalysis(SymbolTable* symboltable) const {
 	return op->semanticAnaylsis(leftV, rightV);
 }
 
+
+DataType UnaryOpNode::semanticAnalysis(SymbolTable* symboltable) const {
+	DataType leftV = expression->semanticAnalysis(symboltable);
+
+	return op->semanticAnaylsis(leftV);
+}
 
 
 void AssignNode::semanticAnalysis(SymbolTable* symboltable) const {

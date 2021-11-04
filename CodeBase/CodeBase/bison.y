@@ -16,6 +16,7 @@
     class Statement;
     class Node;
     class BinaryOpNode;
+    class UnaryOpNode;
     class BlockNode;
     class AssignNode;
     class IdentifierNode;
@@ -38,12 +39,12 @@
 
 %token <std::string> TNUMBER TIDENTIFIER
 %token <int> TPLUS "+" TMINUS "-" TMUL "*" TDIV "/" TASSIGN "=" 
-%token <int> TLESS "<" TLESSEQUAL "<=" TGREATER ">" TGREATEREQUAL ">=" TAND "&&" TOR "||" 
+%token <int> TLESS "<" TLESSEQUAL "<=" TGREATER ">" TGREATEREQUAL ">=" TAND "&&" TOR "||" TNOT "!"
 %token <int> TTRUE "TRUE" TFALSE "FALSE"
 
 
 
-%type <int> binop
+%type <int> binop unop
 %type <Expression*> expr
 %type <BlockNode*> stmts
 %type <Statement*> stmt
@@ -80,9 +81,13 @@ expr : numeric { $$ = $1; }
      | boolean {$$=$1;}
      | identifier {$$ = $1; }
      | expr binop expr {$$ =  new BinaryOpNode($1, (int)$2, $3); }
+     | unop expr {$$ =  new UnaryOpNode((int)$1, $2); }
      ;
 
 binop : TMUL | TDIV | TPLUS | TMINUS | TLESS | TLESSEQUAL | TGREATER | TGREATEREQUAL | TAND | TOR
+      ;
+
+unop : TPLUS | TMINUS | TNOT
       ;
 
 numeric : TNUMBER { $$ = new NumberNode(atoi($1.c_str())); }

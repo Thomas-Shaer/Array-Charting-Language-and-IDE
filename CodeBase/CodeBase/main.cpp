@@ -76,6 +76,11 @@ int main() {
             g = 5 < 2 \
             h = 1 <= 2 \
             i = false && false \
-            j = false || true");
+            i = false || false \
+            k = 2 + 412 - 2 > 31");
+
+
+	execute("a = ! ! !false \
+            b = + - - - - 2");
 
 }

@@ -31,6 +31,9 @@
     <Filter Include="Source Files\Nodes">
       <UniqueIdentifier>{2b69a40a-d821-47be-8911-e579c1ff4801}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Operator">
+      <UniqueIdentifier>{22e9dc6e-c90d-406c-8da5-cf7df853ddc0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -61,7 +64,13 @@
       <Filter>Source Files\Nodes</Filter>
     </ClCompile>
     <ClCompile Include="operator.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Operator</Filter>
+    </ClCompile>
+    <ClCompile Include="binaryoperator.cpp">
+      <Filter>Source Files\Operator</Filter>
+    </ClCompile>
+    <ClCompile Include="unaryoperator.cpp">
+      <Filter>Source Files\Operator</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -89,11 +98,17 @@
     <ClInclude Include="node.h">
       <Filter>Source Files\Nodes</Filter>
     </ClInclude>
-    <ClInclude Include="operator.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="global.h">
       <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="operator.h">
+      <Filter>Source Files\Operator</Filter>
+    </ClInclude>
+    <ClInclude Include="binaryoperator.h">
+      <Filter>Source Files\Operator</Filter>
+    </ClInclude>
+    <ClInclude Include="unaryoperator.h">
+      <Filter>Source Files\Operator</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

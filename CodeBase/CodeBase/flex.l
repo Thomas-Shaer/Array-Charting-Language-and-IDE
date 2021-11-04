@@ -8,6 +8,7 @@
     class Expression;
     class Statement;
     class BooleanNode;
+    class UnaryOpNode;
 
     class BlockNode;
     class NumberNode;
@@ -51,6 +52,7 @@
 ">="                    value->emplace<int>(yy::parser::token::TGREATEREQUAL); return yy::parser::token::TGREATEREQUAL;
 "&&"                    value->emplace<int>(yy::parser::token::TAND); return yy::parser::token::TAND;
 "||"                    value->emplace<int>(yy::parser::token::TOR); return yy::parser::token::TOR;
+"!"                    value->emplace<int>(yy::parser::token::TNOT); return yy::parser::token::TNOT;
 
 
 

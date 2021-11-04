@@ -4,9 +4,9 @@
 #include <vector>
 #include "varsymbol.h"
 
-const enum class BinaryOperator {PLUS, MINUS, MUL, DIVIDE};
 class SymbolTable;
-class Operator;
+class BinaryOperator;
+class UnaryOperator;
 
 /*
 Base node class
@@ -118,12 +118,29 @@ class BinaryOpNode : public Expression {
 public:
 	const Expression* left;
 	const Expression* right;
-	const Operator* op;
+	const BinaryOperator* op;
 	BinaryOpNode(Expression* _left, int _op, Expression* _right);
 
 	virtual std::string toString() const;
 
 	virtual ~BinaryOpNode();
+	virtual DataType semanticAnalysis(SymbolTable* symboltable) const;
+	virtual ExpressionValue interpret(SymbolTable* symboltable) const;
+
+};
+
+/*
+Unary operator node, used for unary operations e.g. -3
+*/
+class UnaryOpNode : public Expression {
+public:
+	const Expression* expression;
+	const UnaryOperator* op;
+	UnaryOpNode(int _op, Expression* _expression);
+
+	virtual std::string toString() const;
+
+	virtual ~UnaryOpNode();
 	virtual DataType semanticAnalysis(SymbolTable* symboltable) const;
 	virtual ExpressionValue interpret(SymbolTable* symboltable) const;
 
