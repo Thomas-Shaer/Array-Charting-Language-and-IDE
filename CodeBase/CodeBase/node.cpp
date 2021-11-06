@@ -111,3 +111,20 @@ std::string AssignNode::toString() const {
 AssignNode::~AssignNode() {
 	delete rhs;
 }
+
+
+
+std::string MethodCallNode::toString() const {
+	std::string output = name + "(";
+	for (const Expression* argument : arguments) {
+		output += argument->toString() + ", ";
+	}
+	output += ")";
+	return output;
+}
+
+MethodCallNode::~MethodCallNode() {
+	for (const Expression* argument : arguments) {
+		delete argument;
+	}
+}

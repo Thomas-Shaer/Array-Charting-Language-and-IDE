@@ -10,6 +10,7 @@
 %{
 
     #include <string>
+    #include <vector>
     class NumberNode;
     class BooleanNode;
     class Expression;
@@ -20,6 +21,7 @@
     class BlockNode;
     class AssignNode;
     class IdentifierNode;
+    class MethodCallNode;
 	#include "node.h"
 
 %}
@@ -40,6 +42,7 @@
 %token <std::string> TNUMBER TIDENTIFIER
 %token <int> TPLUS "+" TMINUS "-" TMUL "*" TDIV "/" TASSIGN "=" 
 %token <int> TLESS "<" TLESSEQUAL "<=" TGREATER ">" TGREATEREQUAL ">=" TAND "&&" TOR "||" TNOT "!"
+%token <int> TOPENBRACKET "(" TCLOSEBRACKET ")" TCOMMA ","
 %token <int> TTRUE "TRUE" TFALSE "FALSE"
 
 
@@ -53,6 +56,8 @@
 %type <BlockNode*> block;
 %type <AssignNode*> assign;
 %type <IdentifierNode*> identifier;
+%type <MethodCallNode*> method;
+%type <std::vector<Expression*>> call_params
 
 
 %%
@@ -79,6 +84,7 @@ assign : TIDENTIFIER TASSIGN expr {$$ = new AssignNode($1, $3);}
 
 expr : numeric { $$ = $1; }
      | boolean {$$=$1;}
+     | method {$$=$1;}
      | identifier {$$ = $1; }
      | expr binop expr {$$ =  new BinaryOpNode($1, (int)$2, $3); }
      | unop expr {$$ =  new UnaryOpNode((int)$1, $2); }
@@ -96,6 +102,14 @@ numeric : TNUMBER { $$ = new NumberNode(atoi($1.c_str())); }
 boolean : TFALSE { $$ = new BooleanNode(false); }
         | TTRUE { $$ = new BooleanNode(true); }
         ;
+
+method : TIDENTIFIER TOPENBRACKET call_params TCLOSEBRACKET {$$ = new MethodCallNode($1, $3);}
+       ;
+
+call_params : /*blank*/  { $$ = std::vector<Expression*>(); }
+          | expr { $$ = std::vector<Expression*>(); $$.push_back($1); }
+          | call_params TCOMMA expr { $1.push_back($3); $$ = $1; }
+          ;
 
 %%
 void yy::parser::error( const std::string& msg) {

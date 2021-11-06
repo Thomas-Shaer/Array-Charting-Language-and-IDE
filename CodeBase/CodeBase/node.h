@@ -163,3 +163,21 @@ public:
 	virtual void semanticAnalysis(SymbolTable* symboltable) const;
 	virtual void interpret(SymbolTable* symboltable) const;
 };
+
+
+/*
+Method call node, e.g. average(2, 3)
+*/
+class MethodCallNode : public Expression {
+public:
+	const std::string name;
+	const std::vector<Expression*> arguments;
+	MethodCallNode(std::string _name, std::vector<Expression*> _arguments) : name(_name), arguments(_arguments) {}
+
+	virtual std::string toString() const;
+
+	virtual ~MethodCallNode();
+
+	virtual DataType semanticAnalysis(SymbolTable* symboltable) const;
+	virtual ExpressionValue interpret(SymbolTable* symboltable) const;
+};

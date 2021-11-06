@@ -16,6 +16,8 @@
     class BinaryOpNode;
     class AssignNode;
     class IdentifierNode;
+    class MethodCallNode;
+
 
 #include "bison.tab.h"
 
@@ -52,7 +54,10 @@
 ">="                    value->emplace<int>(yy::parser::token::TGREATEREQUAL); return yy::parser::token::TGREATEREQUAL;
 "&&"                    value->emplace<int>(yy::parser::token::TAND); return yy::parser::token::TAND;
 "||"                    value->emplace<int>(yy::parser::token::TOR); return yy::parser::token::TOR;
-"!"                    value->emplace<int>(yy::parser::token::TNOT); return yy::parser::token::TNOT;
+"!"                     value->emplace<int>(yy::parser::token::TNOT); return yy::parser::token::TNOT;
+"("                     value->emplace<int>(yy::parser::token::TOPENBRACKET); return yy::parser::token::TOPENBRACKET;
+")"                     value->emplace<int>(yy::parser::token::TCLOSEBRACKET); return yy::parser::token::TCLOSEBRACKET;
+","                     value->emplace<int>(yy::parser::token::TCOMMA); return yy::parser::token::TCOMMA;
 
 
 

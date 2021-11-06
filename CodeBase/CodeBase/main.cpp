@@ -58,29 +58,36 @@ void execute(const std::string& code) {
 }
 
 int main() {
-	execute("x = 2 + 5 \
-             y = 123 + 21 + 51 + 312 + x + q");
+	//execute("x = 2 + 5 \
+ //            y = 123 + 21 + 51 + 312 + x + q");
 
 
-	execute("z = true - false");
+	//execute("z = true - false");
 
-	execute("false = 1.1231312 * 413 + 12");
-
-
-	execute("a = 2 + 5 \
-            b = 2 - 5 \
-            c = 2 / 5 \
-            d = 2 * 5 \
-            e = 2 > 5 \
-            f = 5 >= 5 \
-            g = 5 < 2 \
-            h = 1 <= 2 \
-            i = false && false \
-            i = false || false \
-            k = 2 + 412 - 2 > 31");
+	//execute("false = 1.1231312 * 413 + 12");
 
 
-	execute("a = ! ! !false \
-            b = + - - - - 2");
+	//execute("a = 2 + 5 \
+ //           b = 2 - 5 \
+ //           c = 2 / 5 \
+ //           d = 2 * 5 \
+ //           e = 2 > 5 \
+ //           f = 5 >= 5 \
+ //           g = 5 < 2 \
+ //           h = 1 <= 2 \
+ //           i = false && false \
+ //           i = false || false \
+ //           k = 2 + 412 - 2 > 31");
+
+
+	//execute("a = ! ! !false \
+ //           b = + - - - - 2");
+
+
+	execute("q = average(13, 12)");
+	execute("q = average(13, 12, 13)");
+	execute("q = average(13)");
+	execute("q = average()");
+	execute("q = average(true, 12)");
 
 }

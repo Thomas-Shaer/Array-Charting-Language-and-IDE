@@ -3,6 +3,7 @@
 #include "languageexception.h"
 #include "binaryoperator.h"
 #include "unaryoperator.h"
+#include "methodsymbol.h"
 
 void BlockNode::semanticAnalysis(SymbolTable* symboltable) const {
 	for (Statement* statement : statementNodes) {
@@ -22,7 +23,7 @@ DataType BooleanNode::semanticAnalysis(SymbolTable* symboltable) const {
 
 DataType IdentifierNode::semanticAnalysis(SymbolTable* symboltable) const {
 	// need to return item in symbol table
-	if (symboltable->isDeclared(name)) {
+	if (symboltable->isVariableDeclared(name)) {
 		return symboltable->getVariable(name)->type;
 	}
 	throw LanguageException("No variable called " + name);
@@ -48,7 +49,7 @@ void AssignNode::semanticAnalysis(SymbolTable* symboltable) const {
 	DataType rhsType = rhs->semanticAnalysis(symboltable);
 
 	// variable already declared therefore right side type should be same as left side type
-	if (symboltable->isDeclared(name)) {
+	if (symboltable->isVariableDeclared(name)) {
 		if (symboltable->getVariable(name)->type != rhsType) {
 			throw LanguageException("RHS type does not match LHS");
 		}
@@ -58,4 +59,19 @@ void AssignNode::semanticAnalysis(SymbolTable* symboltable) const {
 		symboltable->declareVariable(std::make_shared<VarSymbol>(name, rhsType));
 	}
 	// need to store value in symbol table at lhs name
+}
+
+DataType MethodCallNode::semanticAnalysis(SymbolTable* symboltable) const {
+
+	// check to see if method exists first
+	if (!symboltable->isMethodDeclared(name)) {
+		throw LanguageException("No method called " + name);
+	}
+
+	std::vector<DataType> argTypes;
+	for (Expression* expr : arguments) {
+		argTypes.push_back(expr->semanticAnalysis(symboltable));
+	}
+
+	return symboltable->getMethod(name)->semanticAnaylsis(argTypes);
 }

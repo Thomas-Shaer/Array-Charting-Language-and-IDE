@@ -34,6 +34,9 @@
     <Filter Include="Source Files\Operator">
       <UniqueIdentifier>{22e9dc6e-c90d-406c-8da5-cf7df853ddc0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Methods">
+      <UniqueIdentifier>{de751098-ba67-48fd-8b67-c3fc5bcae79e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -72,6 +75,12 @@
     <ClCompile Include="unaryoperator.cpp">
       <Filter>Source Files\Operator</Filter>
     </ClCompile>
+    <ClCompile Include="methodimplementations.cpp">
+      <Filter>Source Files\Methods</Filter>
+    </ClCompile>
+    <ClCompile Include="methodsymbol.cpp">
+      <Filter>Source Files\Symbol</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bison.tab.h">
@@ -109,6 +118,12 @@
     </ClInclude>
     <ClInclude Include="unaryoperator.h">
       <Filter>Source Files\Operator</Filter>
+    </ClInclude>
+    <ClInclude Include="methodimplementations.h">
+      <Filter>Source Files\Methods</Filter>
+    </ClInclude>
+    <ClInclude Include="methodsymbol.h">
+      <Filter>Source Files\Symbol</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

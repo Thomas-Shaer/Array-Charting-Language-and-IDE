@@ -140,6 +140,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="methodsymbol.cpp" />
+    <ClCompile Include="methodimplementations.cpp" />
     <ClCompile Include="operator.cpp" />
     <ClCompile Include="bison.tab.cpp" />
     <ClCompile Include="flex.flex.cpp" />
@@ -154,6 +156,8 @@
     <ClCompile Include="varsymbol.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="methodsymbol.h" />
+    <ClInclude Include="methodimplementations.h" />
     <ClInclude Include="operator.h" />
     <ClInclude Include="bison.tab.h" />
     <ClInclude Include="boolean.h" />

@@ -45,7 +45,7 @@
 #ifndef YY_YY_BISON_TAB_H_INCLUDED
 # define YY_YY_BISON_TAB_H_INCLUDED
 // "%code requires" blocks.
-#line 27 "bison.y"
+#line 29 "bison.y"
 
   typedef void* yyscan_t;
 
@@ -384,11 +384,14 @@ namespace yy {
       // identifier
       char dummy5[sizeof (IdentifierNode*)];
 
+      // method
+      char dummy6[sizeof (MethodCallNode*)];
+
       // numeric
-      char dummy6[sizeof (NumberNode*)];
+      char dummy7[sizeof (NumberNode*)];
 
       // stmt
-      char dummy7[sizeof (Statement*)];
+      char dummy8[sizeof (Statement*)];
 
       // "+"
       // "-"
@@ -402,15 +405,21 @@ namespace yy {
       // "&&"
       // "||"
       // "!"
+      // "("
+      // ")"
+      // ","
       // "TRUE"
       // "FALSE"
       // binop
       // unop
-      char dummy8[sizeof (int)];
+      char dummy9[sizeof (int)];
 
       // TNUMBER
       // TIDENTIFIER
-      char dummy9[sizeof (std::string)];
+      char dummy10[sizeof (std::string)];
+
+      // call_params
+      char dummy11[sizeof (std::vector<Expression*>)];
     };
 
     /// The size of the largest semantic type.
@@ -467,8 +476,11 @@ namespace yy {
     TAND = 269,                    // "&&"
     TOR = 270,                     // "||"
     TNOT = 271,                    // "!"
-    TTRUE = 272,                   // "TRUE"
-    TFALSE = 273                   // "FALSE"
+    TOPENBRACKET = 272,            // "("
+    TCLOSEBRACKET = 273,           // ")"
+    TCOMMA = 274,                  // ","
+    TTRUE = 275,                   // "TRUE"
+    TFALSE = 276                   // "FALSE"
       };
       /// Backward compatibility alias (Bison 3.6).
       typedef token_kind_type yytokentype;
@@ -485,7 +497,7 @@ namespace yy {
     {
       enum symbol_kind_type
       {
-        YYNTOKENS = 19, ///< Number of tokens.
+        YYNTOKENS = 22, ///< Number of tokens.
         S_YYEMPTY = -2,
         S_YYEOF = 0,                             // "end of file"
         S_YYerror = 1,                           // error
@@ -504,19 +516,24 @@ namespace yy {
         S_TAND = 14,                             // "&&"
         S_TOR = 15,                              // "||"
         S_TNOT = 16,                             // "!"
-        S_TTRUE = 17,                            // "TRUE"
-        S_TFALSE = 18,                           // "FALSE"
-        S_YYACCEPT = 19,                         // $accept
-        S_program = 20,                          // program
-        S_stmts = 21,                            // stmts
-        S_stmt = 22,                             // stmt
-        S_identifier = 23,                       // identifier
-        S_assign = 24,                           // assign
-        S_expr = 25,                             // expr
-        S_binop = 26,                            // binop
-        S_unop = 27,                             // unop
-        S_numeric = 28,                          // numeric
-        S_boolean = 29                           // boolean
+        S_TOPENBRACKET = 17,                     // "("
+        S_TCLOSEBRACKET = 18,                    // ")"
+        S_TCOMMA = 19,                           // ","
+        S_TTRUE = 20,                            // "TRUE"
+        S_TFALSE = 21,                           // "FALSE"
+        S_YYACCEPT = 22,                         // $accept
+        S_program = 23,                          // program
+        S_stmts = 24,                            // stmts
+        S_stmt = 25,                             // stmt
+        S_identifier = 26,                       // identifier
+        S_assign = 27,                           // assign
+        S_expr = 28,                             // expr
+        S_binop = 29,                            // binop
+        S_unop = 30,                             // unop
+        S_numeric = 31,                          // numeric
+        S_boolean = 32,                          // boolean
+        S_method = 33,                           // method
+        S_call_params = 34                       // call_params
       };
     };
 
@@ -571,6 +588,10 @@ namespace yy {
         value.move< IdentifierNode* > (std::move (that.value));
         break;
 
+      case symbol_kind::S_method: // method
+        value.move< MethodCallNode* > (std::move (that.value));
+        break;
+
       case symbol_kind::S_numeric: // numeric
         value.move< NumberNode* > (std::move (that.value));
         break;
@@ -591,6 +612,9 @@ namespace yy {
       case symbol_kind::S_TAND: // "&&"
       case symbol_kind::S_TOR: // "||"
       case symbol_kind::S_TNOT: // "!"
+      case symbol_kind::S_TOPENBRACKET: // "("
+      case symbol_kind::S_TCLOSEBRACKET: // ")"
+      case symbol_kind::S_TCOMMA: // ","
       case symbol_kind::S_TTRUE: // "TRUE"
       case symbol_kind::S_TFALSE: // "FALSE"
       case symbol_kind::S_binop: // binop
@@ -601,6 +625,10 @@ namespace yy {
       case symbol_kind::S_TNUMBER: // TNUMBER
       case symbol_kind::S_TIDENTIFIER: // TIDENTIFIER
         value.move< std::string > (std::move (that.value));
+        break;
+
+      case symbol_kind::S_call_params: // call_params
+        value.move< std::vector<Expression*> > (std::move (that.value));
         break;
 
       default:
@@ -685,6 +713,18 @@ namespace yy {
 #endif
 
 #if 201103L <= YY_CPLUSPLUS
+      basic_symbol (typename Base::kind_type t, MethodCallNode*&& v)
+        : Base (t)
+        , value (std::move (v))
+      {}
+#else
+      basic_symbol (typename Base::kind_type t, const MethodCallNode*& v)
+        : Base (t)
+        , value (v)
+      {}
+#endif
+
+#if 201103L <= YY_CPLUSPLUS
       basic_symbol (typename Base::kind_type t, NumberNode*&& v)
         : Base (t)
         , value (std::move (v))
@@ -732,6 +772,18 @@ namespace yy {
       {}
 #endif
 
+#if 201103L <= YY_CPLUSPLUS
+      basic_symbol (typename Base::kind_type t, std::vector<Expression*>&& v)
+        : Base (t)
+        , value (std::move (v))
+      {}
+#else
+      basic_symbol (typename Base::kind_type t, const std::vector<Expression*>& v)
+        : Base (t)
+        , value (v)
+      {}
+#endif
+
       /// Destroy the symbol.
       ~basic_symbol ()
       {
@@ -774,6 +826,10 @@ switch (yykind)
         value.template destroy< IdentifierNode* > ();
         break;
 
+      case symbol_kind::S_method: // method
+        value.template destroy< MethodCallNode* > ();
+        break;
+
       case symbol_kind::S_numeric: // numeric
         value.template destroy< NumberNode* > ();
         break;
@@ -794,6 +850,9 @@ switch (yykind)
       case symbol_kind::S_TAND: // "&&"
       case symbol_kind::S_TOR: // "||"
       case symbol_kind::S_TNOT: // "!"
+      case symbol_kind::S_TOPENBRACKET: // "("
+      case symbol_kind::S_TCLOSEBRACKET: // ")"
+      case symbol_kind::S_TCOMMA: // ","
       case symbol_kind::S_TTRUE: // "TRUE"
       case symbol_kind::S_TFALSE: // "FALSE"
       case symbol_kind::S_binop: // binop
@@ -804,6 +863,10 @@ switch (yykind)
       case symbol_kind::S_TNUMBER: // TNUMBER
       case symbol_kind::S_TIDENTIFIER: // TIDENTIFIER
         value.template destroy< std::string > ();
+        break;
+
+      case symbol_kind::S_call_params: // call_params
+        value.template destroy< std::vector<Expression*> > ();
         break;
 
       default:
@@ -1218,6 +1281,51 @@ switch (yykind)
 #if 201103L <= YY_CPLUSPLUS
       static
       symbol_type
+      make_TOPENBRACKET (int v)
+      {
+        return symbol_type (token::TOPENBRACKET, std::move (v));
+      }
+#else
+      static
+      symbol_type
+      make_TOPENBRACKET (const int& v)
+      {
+        return symbol_type (token::TOPENBRACKET, v);
+      }
+#endif
+#if 201103L <= YY_CPLUSPLUS
+      static
+      symbol_type
+      make_TCLOSEBRACKET (int v)
+      {
+        return symbol_type (token::TCLOSEBRACKET, std::move (v));
+      }
+#else
+      static
+      symbol_type
+      make_TCLOSEBRACKET (const int& v)
+      {
+        return symbol_type (token::TCLOSEBRACKET, v);
+      }
+#endif
+#if 201103L <= YY_CPLUSPLUS
+      static
+      symbol_type
+      make_TCOMMA (int v)
+      {
+        return symbol_type (token::TCOMMA, std::move (v));
+      }
+#else
+      static
+      symbol_type
+      make_TCOMMA (const int& v)
+      {
+        return symbol_type (token::TCOMMA, v);
+      }
+#endif
+#if 201103L <= YY_CPLUSPLUS
+      static
+      symbol_type
       make_TTRUE (int v)
       {
         return symbol_type (token::TTRUE, std::move (v));
@@ -1573,8 +1681,8 @@ switch (yykind)
     /// Constants.
     enum
     {
-      yylast_ = 28,     ///< Last index in yytable_.
-      yynnts_ = 11,  ///< Number of nonterminal symbols.
+      yylast_ = 34,     ///< Last index in yytable_.
+      yynnts_ = 13,  ///< Number of nonterminal symbols.
       yyfinal_ = 7 ///< Termination state number.
     };
 
@@ -1587,11 +1695,11 @@ switch (yykind)
 
 
 } // yy
-#line 1591 "bison.tab.h"
+#line 1699 "bison.tab.h"
 
 
 // "%code provides" blocks.
-#line 31 "bison.y"
+#line 33 "bison.y"
 
       #define YY_DECL \
         int yylex(yy::parser::semantic_type* value, yyscan_t yyscanner)
@@ -1599,7 +1707,7 @@ switch (yykind)
     std::string token_name(int t);
  
 
-#line 1603 "bison.tab.h"
+#line 1711 "bison.tab.h"
 
 
 #endif // !YY_YY_BISON_TAB_H_INCLUDED

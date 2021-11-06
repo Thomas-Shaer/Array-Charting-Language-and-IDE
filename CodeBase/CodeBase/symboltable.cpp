@@ -1,37 +1,48 @@
 #include "symboltable.h"
 #include "varsymbol.h"
+#include "methodsymbol.h"
+#include "methodimplementations.h"
 
 
-SymbolTable::SymbolTable() {
+std::map<std::string, MethodSymbol*> SymbolTable::methodTable{
+	{"average", new MethodAverage()}
+};
 
-	//std::shared_ptr<VarSymbol> trueLiteral = std::make_shared<VarSymbol>("true", DataType::Boolean);
-	//trueLiteral->setValue(Boolean(true));
-	//declareVariable(trueLiteral);
-
-	//std::shared_ptr<VarSymbol> falseLiteral = std::make_shared<VarSymbol>("false", DataType::Boolean);
-	//falseLiteral->setValue(Boolean(false));
-	//declareVariable(falseLiteral);
-}
+SymbolTable::SymbolTable() {}
 
 std::string SymbolTable::toString() {
-	std::string output = "SYMBOL TABLE\n";
+	std::string output = "SYMBOL TABLE\nVariables:\n";
 
-	for (const auto& value : values) {
+	for (const auto& value : variableTable) {
 		output += value.second->toString() + "\n";
 	}
+
+	output += "Methods:\n";
+
+	for (const auto& value : methodTable) {
+		output += value.second->toString() + "\n";
+	}
+
 	return output;
 }
 
-//returns true if variable is declared
-bool SymbolTable::isDeclared(const std::string& name) {
-	return values.find(name) != values.end();
+bool SymbolTable::isVariableDeclared(const std::string& name) {
+	return variableTable.find(name) != variableTable.end();
+}
+
+bool SymbolTable::isMethodDeclared(const std::string& name) {
+	return methodTable.find(name) != methodTable.end();
 }
 
 std::shared_ptr<VarSymbol> SymbolTable::getVariable(const std::string& name) {
-	return values[name];
+	return variableTable[name];
 }
 
 
+MethodSymbol* SymbolTable::getMethod(const std::string& name) {
+	return methodTable[name];
+}
+
 void SymbolTable::declareVariable(std::shared_ptr<VarSymbol> varsymbol) {
-	values[varsymbol->name] = varsymbol;
+	variableTable[varsymbol->name] = varsymbol;
 }
