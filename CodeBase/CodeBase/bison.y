@@ -17,7 +17,6 @@
     class Statement;
     class Node;
     class BinaryOpNode;
-    class UnaryOpNode;
     class BlockNode;
     class AssignNode;
     class IdentifierNode;
@@ -86,8 +85,8 @@ expr : numeric { $$ = $1; }
      | boolean {$$=$1;}
      | method {$$=$1;}
      | identifier {$$ = $1; }
-     | expr binop expr {$$ =  new BinaryOpNode($1, (int)$2, $3); }
-     | unop expr {$$ =  new UnaryOpNode((int)$1, $2); }
+     | expr binop expr {$$ =  new MethodCallNode("binary_operator" + token_name($2), {$1, $3}); }
+     | unop expr {$$ =  new MethodCallNode("unary_operator" + token_name($1), {$2}); }
      ;
 
 binop : TMUL | TDIV | TPLUS | TMINUS | TLESS | TLESSEQUAL | TGREATER | TGREATEREQUAL | TAND | TOR

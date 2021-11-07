@@ -142,33 +142,27 @@
   <ItemGroup>
     <ClCompile Include="methodsymbol.cpp" />
     <ClCompile Include="methodimplementations.cpp" />
-    <ClCompile Include="operator.cpp" />
     <ClCompile Include="bison.tab.cpp" />
     <ClCompile Include="flex.flex.cpp" />
     <ClCompile Include="interpreter.cpp" />
     <ClCompile Include="languageexception.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="node.cpp" />
-    <ClCompile Include="binaryoperator.cpp" />
     <ClCompile Include="semanticanalysis.cpp" />
     <ClCompile Include="symboltable.cpp" />
-    <ClCompile Include="unaryoperator.cpp" />
     <ClCompile Include="varsymbol.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="methodsymbol.h" />
     <ClInclude Include="methodimplementations.h" />
-    <ClInclude Include="operator.h" />
     <ClInclude Include="bison.tab.h" />
     <ClInclude Include="boolean.h" />
     <ClInclude Include="flex.flex.h" />
     <ClInclude Include="float.h" />
     <ClInclude Include="languageexception.h" />
     <ClInclude Include="node.h" />
-    <ClInclude Include="binaryoperator.h" />
     <ClInclude Include="symboltable.h" />
     <ClInclude Include="global.h" />
-    <ClInclude Include="unaryoperator.h" />
     <ClInclude Include="varsymbol.h" />
   </ItemGroup>
   <ItemGroup>

@@ -45,7 +45,7 @@
 #ifndef YY_YY_BISON_TAB_H_INCLUDED
 # define YY_YY_BISON_TAB_H_INCLUDED
 // "%code requires" blocks.
-#line 29 "bison.y"
+#line 28 "bison.y"
 
   typedef void* yyscan_t;
 
@@ -1699,7 +1699,7 @@ switch (yykind)
 
 
 // "%code provides" blocks.
-#line 33 "bison.y"
+#line 32 "bison.y"
 
       #define YY_DECL \
         int yylex(yy::parser::semantic_type* value, yyscan_t yyscanner)

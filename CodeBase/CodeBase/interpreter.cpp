@@ -1,7 +1,5 @@
 #include "node.h"
 #include "symboltable.h"
-#include "binaryoperator.h"
-#include "unaryoperator.h"
 #include "methodsymbol.h"
 
 
@@ -23,19 +21,6 @@ ExpressionValue BooleanNode::interpret(SymbolTable* symboltable) const {
 ExpressionValue IdentifierNode::interpret(SymbolTable* symboltable) const {
 	return symboltable->getVariable(name)->getValue();
 }
-
-ExpressionValue BinaryOpNode::interpret(SymbolTable* symboltable) const {
-	ExpressionValue leftV = left->interpret(symboltable);
-	ExpressionValue rightV = right->interpret(symboltable);
-	return op->interpret(leftV, rightV);
-}
-
-
-ExpressionValue UnaryOpNode::interpret(SymbolTable* symboltable) const {
-	ExpressionValue leftV = expression->interpret(symboltable);
-	return op->interpret(leftV);
-}
-
 
 
 void AssignNode::interpret(SymbolTable* symboltable) const {

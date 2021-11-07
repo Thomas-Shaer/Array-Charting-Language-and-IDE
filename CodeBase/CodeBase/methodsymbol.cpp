@@ -6,7 +6,7 @@ DataType MethodSymbol::semanticAnaylsis(std::vector<DataType> _argumentTypes) co
 
 	// if recieved wrong amount of parameters throw error
 	if (argumentTypes.size() != _argumentTypes.size()) {
-		throw LanguageException("Method " + name + " takes " + std::to_string(argumentTypes.size()) + "parameters not " + std::to_string(_argumentTypes.size()) + "parameters");
+		throw LanguageException("Method " + name + " takes " + std::to_string(argumentTypes.size()) + " parameters not " + std::to_string(_argumentTypes.size()) + " parameters");
 	}	
 
 	// the input types must be what was expected
@@ -14,7 +14,7 @@ DataType MethodSymbol::semanticAnaylsis(std::vector<DataType> _argumentTypes) co
 		DataType expected = argumentTypes[i];
 		DataType received = _argumentTypes[i];
 		if (expected != received) {
-			throw LanguageException("Method expected parameter no. " + std::to_string(i) + " to be " + std::to_string((int)expected) + " but recieved " + std::to_string((int)received));
+			throw LanguageException("Method " + name + " expected parameter no. " + std::to_string(i) + " to be " + std::to_string((int)expected) + " but recieved " + std::to_string((int)received));
 		}
 	}
 	return returnType;

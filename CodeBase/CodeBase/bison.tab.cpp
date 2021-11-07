@@ -48,7 +48,6 @@
     class Statement;
     class Node;
     class BinaryOpNode;
-    class UnaryOpNode;
     class BlockNode;
     class AssignNode;
     class IdentifierNode;
@@ -56,7 +55,7 @@
 	#include "node.h"
 
 
-#line 60 "bison.tab.cpp"
+#line 59 "bison.tab.cpp"
 
 
 #include "bison.tab.h"
@@ -134,7 +133,7 @@
 #define YYRECOVERING()  (!!yyerrstatus_)
 
 namespace yy {
-#line 138 "bison.tab.cpp"
+#line 137 "bison.tab.cpp"
 
   /// Build a parser object.
   parser::parser (yyscan_t scanner_yyarg, BlockNode** inputnode_yyarg)
@@ -1043,207 +1042,207 @@ namespace yy {
           switch (yyn)
             {
   case 2: // program: stmts
-#line 65 "bison.y"
+#line 64 "bison.y"
                 { 
 				   *inputnode = yystack_[0].value.as < BlockNode* > ();
 				}
-#line 1051 "bison.tab.cpp"
+#line 1050 "bison.tab.cpp"
     break;
 
   case 3: // stmts: stmt
-#line 70 "bison.y"
+#line 69 "bison.y"
              { yylhs.value.as < BlockNode* > () = new BlockNode(); yylhs.value.as < BlockNode* > ()->statementNodes.push_back(yystack_[0].value.as < Statement* > ()); }
-#line 1057 "bison.tab.cpp"
+#line 1056 "bison.tab.cpp"
     break;
 
   case 4: // stmts: stmts stmt
-#line 71 "bison.y"
+#line 70 "bison.y"
                    { yystack_[1].value.as < BlockNode* > ()->statementNodes.push_back(yystack_[0].value.as < Statement* > ()); yylhs.value.as < BlockNode* > () = yystack_[1].value.as < BlockNode* > (); }
-#line 1063 "bison.tab.cpp"
+#line 1062 "bison.tab.cpp"
     break;
 
   case 5: // stmts: %empty
-#line 72 "bison.y"
+#line 71 "bison.y"
                       { yylhs.value.as < BlockNode* > () = new BlockNode(); }
-#line 1069 "bison.tab.cpp"
+#line 1068 "bison.tab.cpp"
     break;
 
   case 6: // stmt: assign
-#line 75 "bison.y"
+#line 74 "bison.y"
               {yylhs.value.as < Statement* > () = yystack_[0].value.as < AssignNode* > ();}
-#line 1075 "bison.tab.cpp"
+#line 1074 "bison.tab.cpp"
     break;
 
   case 7: // identifier: TIDENTIFIER
-#line 78 "bison.y"
+#line 77 "bison.y"
                          {yylhs.value.as < IdentifierNode* > () = new IdentifierNode(yystack_[0].value.as < std::string > ());}
-#line 1081 "bison.tab.cpp"
+#line 1080 "bison.tab.cpp"
     break;
 
   case 8: // assign: TIDENTIFIER "=" expr
-#line 82 "bison.y"
+#line 81 "bison.y"
                                   {yylhs.value.as < AssignNode* > () = new AssignNode(yystack_[2].value.as < std::string > (), yystack_[0].value.as < Expression* > ());}
-#line 1087 "bison.tab.cpp"
+#line 1086 "bison.tab.cpp"
     break;
 
   case 9: // expr: numeric
-#line 85 "bison.y"
+#line 84 "bison.y"
                { yylhs.value.as < Expression* > () = yystack_[0].value.as < NumberNode* > (); }
-#line 1093 "bison.tab.cpp"
+#line 1092 "bison.tab.cpp"
     break;
 
   case 10: // expr: boolean
-#line 86 "bison.y"
+#line 85 "bison.y"
                {yylhs.value.as < Expression* > ()=yystack_[0].value.as < BooleanNode* > ();}
-#line 1099 "bison.tab.cpp"
+#line 1098 "bison.tab.cpp"
     break;
 
   case 11: // expr: method
-#line 87 "bison.y"
+#line 86 "bison.y"
               {yylhs.value.as < Expression* > ()=yystack_[0].value.as < MethodCallNode* > ();}
-#line 1105 "bison.tab.cpp"
+#line 1104 "bison.tab.cpp"
     break;
 
   case 12: // expr: identifier
-#line 88 "bison.y"
+#line 87 "bison.y"
                   {yylhs.value.as < Expression* > () = yystack_[0].value.as < IdentifierNode* > (); }
-#line 1111 "bison.tab.cpp"
+#line 1110 "bison.tab.cpp"
     break;
 
   case 13: // expr: expr binop expr
-#line 89 "bison.y"
-                       {yylhs.value.as < Expression* > () =  new BinaryOpNode(yystack_[2].value.as < Expression* > (), (int)yystack_[1].value.as < int > (), yystack_[0].value.as < Expression* > ()); }
-#line 1117 "bison.tab.cpp"
+#line 88 "bison.y"
+                       {yylhs.value.as < Expression* > () =  new MethodCallNode("binary_operator" + token_name(yystack_[1].value.as < int > ()), {yystack_[2].value.as < Expression* > (), yystack_[0].value.as < Expression* > ()}); }
+#line 1116 "bison.tab.cpp"
     break;
 
   case 14: // expr: unop expr
-#line 90 "bison.y"
-                 {yylhs.value.as < Expression* > () =  new UnaryOpNode((int)yystack_[1].value.as < int > (), yystack_[0].value.as < Expression* > ()); }
-#line 1123 "bison.tab.cpp"
+#line 89 "bison.y"
+                 {yylhs.value.as < Expression* > () =  new MethodCallNode("unary_operator" + token_name(yystack_[1].value.as < int > ()), {yystack_[0].value.as < Expression* > ()}); }
+#line 1122 "bison.tab.cpp"
     break;
 
   case 15: // binop: "*"
-#line 93 "bison.y"
+#line 92 "bison.y"
         { yylhs.value.as < int > () = yystack_[0].value.as < int > (); }
-#line 1129 "bison.tab.cpp"
+#line 1128 "bison.tab.cpp"
     break;
 
   case 16: // binop: "/"
-#line 93 "bison.y"
+#line 92 "bison.y"
                { yylhs.value.as < int > () = yystack_[0].value.as < int > (); }
-#line 1135 "bison.tab.cpp"
+#line 1134 "bison.tab.cpp"
     break;
 
   case 17: // binop: "+"
-#line 93 "bison.y"
+#line 92 "bison.y"
                       { yylhs.value.as < int > () = yystack_[0].value.as < int > (); }
-#line 1141 "bison.tab.cpp"
+#line 1140 "bison.tab.cpp"
     break;
 
   case 18: // binop: "-"
-#line 93 "bison.y"
+#line 92 "bison.y"
                               { yylhs.value.as < int > () = yystack_[0].value.as < int > (); }
-#line 1147 "bison.tab.cpp"
+#line 1146 "bison.tab.cpp"
     break;
 
   case 19: // binop: "<"
-#line 93 "bison.y"
+#line 92 "bison.y"
                                        { yylhs.value.as < int > () = yystack_[0].value.as < int > (); }
-#line 1153 "bison.tab.cpp"
+#line 1152 "bison.tab.cpp"
     break;
 
   case 20: // binop: "<="
-#line 93 "bison.y"
+#line 92 "bison.y"
                                                { yylhs.value.as < int > () = yystack_[0].value.as < int > (); }
-#line 1159 "bison.tab.cpp"
+#line 1158 "bison.tab.cpp"
     break;
 
   case 21: // binop: ">"
-#line 93 "bison.y"
+#line 92 "bison.y"
                                                             { yylhs.value.as < int > () = yystack_[0].value.as < int > (); }
-#line 1165 "bison.tab.cpp"
+#line 1164 "bison.tab.cpp"
     break;
 
   case 22: // binop: ">="
-#line 93 "bison.y"
+#line 92 "bison.y"
                                                                        { yylhs.value.as < int > () = yystack_[0].value.as < int > (); }
-#line 1171 "bison.tab.cpp"
+#line 1170 "bison.tab.cpp"
     break;
 
   case 23: // binop: "&&"
-#line 93 "bison.y"
+#line 92 "bison.y"
                                                                                        { yylhs.value.as < int > () = yystack_[0].value.as < int > (); }
-#line 1177 "bison.tab.cpp"
+#line 1176 "bison.tab.cpp"
     break;
 
   case 24: // binop: "||"
-#line 93 "bison.y"
+#line 92 "bison.y"
                                                                                               { yylhs.value.as < int > () = yystack_[0].value.as < int > (); }
-#line 1183 "bison.tab.cpp"
+#line 1182 "bison.tab.cpp"
     break;
 
   case 25: // unop: "+"
-#line 96 "bison.y"
+#line 95 "bison.y"
        { yylhs.value.as < int > () = yystack_[0].value.as < int > (); }
-#line 1189 "bison.tab.cpp"
+#line 1188 "bison.tab.cpp"
     break;
 
   case 26: // unop: "-"
-#line 96 "bison.y"
+#line 95 "bison.y"
                { yylhs.value.as < int > () = yystack_[0].value.as < int > (); }
-#line 1195 "bison.tab.cpp"
+#line 1194 "bison.tab.cpp"
     break;
 
   case 27: // unop: "!"
-#line 96 "bison.y"
+#line 95 "bison.y"
                         { yylhs.value.as < int > () = yystack_[0].value.as < int > (); }
-#line 1201 "bison.tab.cpp"
+#line 1200 "bison.tab.cpp"
     break;
 
   case 28: // numeric: TNUMBER
-#line 99 "bison.y"
+#line 98 "bison.y"
                   { yylhs.value.as < NumberNode* > () = new NumberNode(atoi(yystack_[0].value.as < std::string > ().c_str())); }
-#line 1207 "bison.tab.cpp"
+#line 1206 "bison.tab.cpp"
     break;
 
   case 29: // boolean: "FALSE"
-#line 102 "bison.y"
+#line 101 "bison.y"
                  { yylhs.value.as < BooleanNode* > () = new BooleanNode(false); }
-#line 1213 "bison.tab.cpp"
+#line 1212 "bison.tab.cpp"
     break;
 
   case 30: // boolean: "TRUE"
-#line 103 "bison.y"
+#line 102 "bison.y"
                 { yylhs.value.as < BooleanNode* > () = new BooleanNode(true); }
-#line 1219 "bison.tab.cpp"
+#line 1218 "bison.tab.cpp"
     break;
 
   case 31: // method: TIDENTIFIER "(" call_params ")"
-#line 106 "bison.y"
+#line 105 "bison.y"
                                                             {yylhs.value.as < MethodCallNode* > () = new MethodCallNode(yystack_[3].value.as < std::string > (), yystack_[1].value.as < std::vector<Expression*> > ());}
-#line 1225 "bison.tab.cpp"
+#line 1224 "bison.tab.cpp"
     break;
 
   case 32: // call_params: %empty
-#line 109 "bison.y"
+#line 108 "bison.y"
                          { yylhs.value.as < std::vector<Expression*> > () = std::vector<Expression*>(); }
-#line 1231 "bison.tab.cpp"
+#line 1230 "bison.tab.cpp"
     break;
 
   case 33: // call_params: expr
-#line 110 "bison.y"
+#line 109 "bison.y"
                  { yylhs.value.as < std::vector<Expression*> > () = std::vector<Expression*>(); yylhs.value.as < std::vector<Expression*> > ().push_back(yystack_[0].value.as < Expression* > ()); }
-#line 1237 "bison.tab.cpp"
+#line 1236 "bison.tab.cpp"
     break;
 
   case 34: // call_params: call_params "," expr
-#line 111 "bison.y"
+#line 110 "bison.y"
                                     { yystack_[2].value.as < std::vector<Expression*> > ().push_back(yystack_[0].value.as < Expression* > ()); yylhs.value.as < std::vector<Expression*> > () = yystack_[2].value.as < std::vector<Expression*> > (); }
-#line 1243 "bison.tab.cpp"
+#line 1242 "bison.tab.cpp"
     break;
 
 
-#line 1247 "bison.tab.cpp"
+#line 1246 "bison.tab.cpp"
 
             default:
               break;
@@ -1693,10 +1692,10 @@ namespace yy {
   const signed char
   parser::yyrline_[] =
   {
-       0,    65,    65,    70,    71,    72,    75,    78,    82,    85,
-      86,    87,    88,    89,    90,    93,    93,    93,    93,    93,
-      93,    93,    93,    93,    93,    96,    96,    96,    99,   102,
-     103,   106,   109,   110,   111
+       0,    64,    64,    69,    70,    71,    74,    77,    81,    84,
+      85,    86,    87,    88,    89,    92,    92,    92,    92,    92,
+      92,    92,    92,    92,    92,    95,    95,    95,    98,   101,
+     102,   105,   108,   109,   110
   };
 
   void
@@ -1776,9 +1775,9 @@ namespace yy {
   }
 
 } // yy
-#line 1780 "bison.tab.cpp"
+#line 1779 "bison.tab.cpp"
 
-#line 114 "bison.y"
+#line 113 "bison.y"
 
 void yy::parser::error( const std::string& msg) {
     std::cout << msg << std::endl;

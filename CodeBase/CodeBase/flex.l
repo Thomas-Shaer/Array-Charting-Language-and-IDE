@@ -8,7 +8,6 @@
     class Expression;
     class Statement;
     class BooleanNode;
-    class UnaryOpNode;
 
     class BlockNode;
     class NumberNode;

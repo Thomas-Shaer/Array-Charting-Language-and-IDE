@@ -1,8 +1,6 @@
 #include "node.h"
 #include "symboltable.h"
 #include "languageexception.h"
-#include "binaryoperator.h"
-#include "unaryoperator.h"
 #include "methodsymbol.h"
 
 void BlockNode::semanticAnalysis(SymbolTable* symboltable) const {
@@ -27,21 +25,6 @@ DataType IdentifierNode::semanticAnalysis(SymbolTable* symboltable) const {
 		return symboltable->getVariable(name)->type;
 	}
 	throw LanguageException("No variable called " + name);
-}
-
-DataType BinaryOpNode::semanticAnalysis(SymbolTable* symboltable) const {
-	DataType leftV = left->semanticAnalysis(symboltable);
-	DataType rightV = right->semanticAnalysis(symboltable);
-
-
-	return op->semanticAnaylsis(leftV, rightV);
-}
-
-
-DataType UnaryOpNode::semanticAnalysis(SymbolTable* symboltable) const {
-	DataType leftV = expression->semanticAnalysis(symboltable);
-
-	return op->semanticAnaylsis(leftV);
 }
 
 
