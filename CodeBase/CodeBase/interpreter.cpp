@@ -36,5 +36,5 @@ ExpressionValue MethodCallNode::interpret(SymbolTable* symboltable) const {
 		argValues.push_back(expr->interpret(symboltable));
 	}
 
-	return symboltable->getMethod(name)->interpret(argValues);
+	return methodsymbol->interpret(argValues);
 }

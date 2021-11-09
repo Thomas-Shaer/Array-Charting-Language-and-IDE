@@ -80,6 +80,10 @@ int main() {
             k = 2 + 412 - 2");
 
 
+	execute("a = +true");
+
+
+
 	//execute("a = ! ! !false \
  //           b = + - - - - 2");
 
@@ -89,6 +93,6 @@ int main() {
 	execute("q = average(13)");
 	execute("q = average()");
 	execute("q = average(true, 12)");*/
-	execute("x = -1");
+	//execute("x = -1");
 
 }

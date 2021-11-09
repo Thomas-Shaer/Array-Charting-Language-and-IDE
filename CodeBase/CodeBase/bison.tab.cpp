@@ -1111,13 +1111,13 @@ namespace yy {
 
   case 13: // expr: expr binop expr
 #line 88 "bison.y"
-                       {yylhs.value.as < Expression* > () =  new MethodCallNode("binary_operator" + token_name(yystack_[1].value.as < int > ()), {yystack_[2].value.as < Expression* > (), yystack_[0].value.as < Expression* > ()}); }
+                       {yylhs.value.as < Expression* > () =  new MethodCallNode("operator" + token_name(yystack_[1].value.as < int > ()), {yystack_[2].value.as < Expression* > (), yystack_[0].value.as < Expression* > ()}); }
 #line 1116 "bison.tab.cpp"
     break;
 
   case 14: // expr: unop expr
 #line 89 "bison.y"
-                 {yylhs.value.as < Expression* > () =  new MethodCallNode("unary_operator" + token_name(yystack_[1].value.as < int > ()), {yystack_[0].value.as < Expression* > ()}); }
+                 {yylhs.value.as < Expression* > () =  new MethodCallNode("operator" + token_name(yystack_[1].value.as < int > ()), {yystack_[0].value.as < Expression* > ()}); }
 #line 1122 "bison.tab.cpp"
     break;
 

@@ -2,24 +2,25 @@
 #include "symboltable.h"
 #include "languageexception.h"
 #include "methodsymbol.h"
+#include "methodbucket.h"
 
-void BlockNode::semanticAnalysis(SymbolTable* symboltable) const {
+void BlockNode::semanticAnalysis(SymbolTable* symboltable) {
 	for (Statement* statement : statementNodes) {
 		statement->semanticAnalysis(symboltable);
 	}
 }
 
-DataType NumberNode::semanticAnalysis(SymbolTable* symboltable) const {
+DataType NumberNode::semanticAnalysis(SymbolTable* symboltable) {
 	return DataType::Float;
 }
 
-DataType BooleanNode::semanticAnalysis(SymbolTable* symboltable) const {
+DataType BooleanNode::semanticAnalysis(SymbolTable* symboltable) {
 	return DataType::Boolean;
 }
 
 
 
-DataType IdentifierNode::semanticAnalysis(SymbolTable* symboltable) const {
+DataType IdentifierNode::semanticAnalysis(SymbolTable* symboltable) {
 	// need to return item in symbol table
 	if (symboltable->isVariableDeclared(name)) {
 		return symboltable->getVariable(name)->type;
@@ -28,7 +29,7 @@ DataType IdentifierNode::semanticAnalysis(SymbolTable* symboltable) const {
 }
 
 
-void AssignNode::semanticAnalysis(SymbolTable* symboltable) const {
+void AssignNode::semanticAnalysis(SymbolTable* symboltable) {
 	DataType rhsType = rhs->semanticAnalysis(symboltable);
 
 	// variable already declared therefore right side type should be same as left side type
@@ -44,7 +45,7 @@ void AssignNode::semanticAnalysis(SymbolTable* symboltable) const {
 	// need to store value in symbol table at lhs name
 }
 
-DataType MethodCallNode::semanticAnalysis(SymbolTable* symboltable) const {
+DataType MethodCallNode::semanticAnalysis(SymbolTable* symboltable) {
 
 	// check to see if method exists first
 	if (!symboltable->isMethodDeclared(name)) {
@@ -56,5 +57,6 @@ DataType MethodCallNode::semanticAnalysis(SymbolTable* symboltable) const {
 		argTypes.push_back(expr->semanticAnalysis(symboltable));
 	}
 
-	return symboltable->getMethod(name)->semanticAnaylsis(argTypes);
+	this->methodsymbol = symboltable->getMethod(name)->getMethodSymbol(argTypes);
+	return methodsymbol->semanticAnaylsis(argTypes);
 }

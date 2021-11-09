@@ -2,9 +2,8 @@
 #include <map>
 #include <memory>
 #include <iostream>
-
 class VarSymbol;
-class MethodSymbol;
+class MethodBucket;
 
 /*
 * Symbol table stores variable and method symbols
@@ -34,7 +33,7 @@ public:
 	* Returns method symbol given a name.
 	* WARNING - must first check to see if method is declared (isMethodDeclared)
 	*/
-	MethodSymbol* getMethod(const std::string& name);
+	MethodBucket* getMethod(const std::string& name);
 
 
 	
@@ -49,5 +48,5 @@ private:
 	// since methods can't be declared this table will never be changed.
 	// therefore make it static so it isn't recreated every time symbol table is spawned
 	// also no need for shared pointers for same reason. Use regular pointers to help compile time
-	static std::map<std::string, MethodSymbol*> methodTable;
+	static std::map<std::string, MethodBucket*> methodTable;
 };

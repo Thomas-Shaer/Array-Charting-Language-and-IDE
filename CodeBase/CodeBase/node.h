@@ -7,6 +7,7 @@
 class SymbolTable;
 class BinaryOperator;
 class UnaryOperator;
+class MethodSymbol;
 
 /*
 Base node class
@@ -32,7 +33,7 @@ public:
 */
 class Expression : public Node {
 public:
-	virtual DataType semanticAnalysis(SymbolTable* symboltable) const = 0;
+	virtual DataType semanticAnalysis(SymbolTable* symboltable) = 0;
 	virtual ExpressionValue interpret(SymbolTable* symboltable) const = 0;
 };
 
@@ -41,7 +42,7 @@ public:
 */
 class Statement : public Node {
 public:
-	virtual void semanticAnalysis(SymbolTable* symboltable) const = 0;
+	virtual void semanticAnalysis(SymbolTable* symboltable) = 0;
 	virtual void interpret(SymbolTable* symboltable) const = 0;
 };
 
@@ -57,7 +58,7 @@ public:
 
 	virtual ~BlockNode();
 
-	virtual void semanticAnalysis(SymbolTable* symboltable) const;
+	virtual void semanticAnalysis(SymbolTable* symboltable);
 	virtual void interpret(SymbolTable* symboltable) const;
 };
 
@@ -74,7 +75,7 @@ public:
 
 	virtual ~NumberNode();
 
-	virtual DataType semanticAnalysis(SymbolTable* symboltable) const;
+	virtual DataType semanticAnalysis(SymbolTable* symboltable);
 	virtual ExpressionValue interpret(SymbolTable* symboltable) const;
 };
 
@@ -91,7 +92,7 @@ public:
 
 	virtual ~BooleanNode();
 
-	virtual DataType semanticAnalysis(SymbolTable* symboltable) const;
+	virtual DataType semanticAnalysis(SymbolTable* symboltable);
 	virtual ExpressionValue interpret(SymbolTable* symboltable) const;
 };
 
@@ -106,7 +107,7 @@ public:
 	virtual std::string toString() const;
 	virtual ~IdentifierNode();
 
-	virtual DataType semanticAnalysis(SymbolTable* symboltable) const;
+	virtual DataType semanticAnalysis(SymbolTable* symboltable);
 	virtual ExpressionValue interpret(SymbolTable* symboltable) const;
 
 };
@@ -118,14 +119,14 @@ Assign node, used for assign statements, e.g. x = 2 + 3
 class AssignNode : public Statement {
 public:
 	const std::string name;
-	const Expression* rhs;
+	Expression* rhs;
 	AssignNode(std::string _name, Expression* _rhs) : name(_name), rhs(_rhs) {}
 
 	virtual std::string toString() const;
 
 	virtual ~AssignNode();
 
-	virtual void semanticAnalysis(SymbolTable* symboltable) const;
+	virtual void semanticAnalysis(SymbolTable* symboltable);
 	virtual void interpret(SymbolTable* symboltable) const;
 };
 
@@ -143,6 +144,11 @@ public:
 
 	virtual ~MethodCallNode();
 
-	virtual DataType semanticAnalysis(SymbolTable* symboltable) const;
+	virtual DataType semanticAnalysis(SymbolTable* symboltable);
 	virtual ExpressionValue interpret(SymbolTable* symboltable) const;
+
+
+private:
+	MethodSymbol* methodsymbol;
+
 };
