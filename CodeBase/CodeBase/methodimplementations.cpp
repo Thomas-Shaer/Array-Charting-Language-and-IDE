@@ -89,3 +89,28 @@ ExpressionValue BinaryOrOperator::interpret(std::vector<ExpressionValue> _argume
 	return Boolean(boost::get<Boolean>(_argumentValues[0]).value || boost::get<Boolean>(_argumentValues[1]).value);
 }
 
+
+BinaryBooleanEqualOperator::BinaryBooleanEqualOperator(const std::string& _name) : MethodSymbol(_name, { DataType::Boolean, DataType::Boolean }, DataType::Boolean) {}
+
+ExpressionValue BinaryBooleanEqualOperator::interpret(std::vector<ExpressionValue> _argumentValues) const {
+	return Boolean(boost::get<Boolean>(_argumentValues[0]).value == boost::get<Boolean>(_argumentValues[1]).value);
+}
+
+BinaryFloatEqualOperator::BinaryFloatEqualOperator(const std::string& _name) : MethodSymbol(_name, { DataType::Float, DataType::Float }, DataType::Boolean) {}
+
+ExpressionValue BinaryFloatEqualOperator::interpret(std::vector<ExpressionValue> _argumentValues) const {
+	return Boolean(boost::get<Float>(_argumentValues[0]).value == boost::get<Float>(_argumentValues[1]).value);
+}
+
+
+BinaryBooleanNotEqualOperator::BinaryBooleanNotEqualOperator(const std::string& _name) : MethodSymbol(_name, { DataType::Boolean, DataType::Boolean }, DataType::Boolean) {}
+
+ExpressionValue BinaryBooleanNotEqualOperator::interpret(std::vector<ExpressionValue> _argumentValues) const {
+	return Boolean(boost::get<Boolean>(_argumentValues[0]).value != boost::get<Boolean>(_argumentValues[1]).value);
+}
+
+BinaryFloatNotEqualOperator::BinaryFloatNotEqualOperator(const std::string& _name) : MethodSymbol(_name, { DataType::Float, DataType::Float }, DataType::Boolean) {}
+
+ExpressionValue BinaryFloatNotEqualOperator::interpret(std::vector<ExpressionValue> _argumentValues) const {
+	return Boolean(boost::get<Float>(_argumentValues[0]).value != boost::get<Float>(_argumentValues[1]).value);
+}

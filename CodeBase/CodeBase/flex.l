@@ -53,6 +53,9 @@
 ">="                    value->emplace<int>(yy::parser::token::TGREATEREQUAL); return yy::parser::token::TGREATEREQUAL;
 "&&"                    value->emplace<int>(yy::parser::token::TAND); return yy::parser::token::TAND;
 "||"                    value->emplace<int>(yy::parser::token::TOR); return yy::parser::token::TOR;
+"!="                    value->emplace<int>(yy::parser::token::TNOTEQUAL); return yy::parser::token::TNOTEQUAL;
+"=="                    value->emplace<int>(yy::parser::token::TEQUAL); return yy::parser::token::TEQUAL;
+
 "!"                     value->emplace<int>(yy::parser::token::TNOT); return yy::parser::token::TNOT;
 "("                     value->emplace<int>(yy::parser::token::TOPENBRACKET); return yy::parser::token::TOPENBRACKET;
 ")"                     value->emplace<int>(yy::parser::token::TCLOSEBRACKET); return yy::parser::token::TCLOSEBRACKET;

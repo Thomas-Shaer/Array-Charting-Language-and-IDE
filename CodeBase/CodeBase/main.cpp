@@ -81,6 +81,7 @@ int main() {
 
 
 	execute("a = +true");
+	execute("a = 2 == 5");
 
 
 

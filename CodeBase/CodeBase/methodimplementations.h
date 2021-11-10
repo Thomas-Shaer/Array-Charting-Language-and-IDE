@@ -104,3 +104,27 @@ public:
 	BinaryOrOperator(const std::string& _name);
 	virtual ExpressionValue interpret(std::vector<ExpressionValue> _argumentValues) const;
 };
+
+class BinaryBooleanEqualOperator : public MethodSymbol {
+public:
+	BinaryBooleanEqualOperator(const std::string& _name);
+	virtual ExpressionValue interpret(std::vector<ExpressionValue> _argumentValues) const;
+};
+
+class BinaryFloatEqualOperator : public MethodSymbol {
+public:
+	BinaryFloatEqualOperator(const std::string& _name);
+	virtual ExpressionValue interpret(std::vector<ExpressionValue> _argumentValues) const;
+};
+
+class BinaryBooleanNotEqualOperator : public MethodSymbol {
+public:
+	BinaryBooleanNotEqualOperator(const std::string& _name);
+	virtual ExpressionValue interpret(std::vector<ExpressionValue> _argumentValues) const;
+};
+
+class BinaryFloatNotEqualOperator : public MethodSymbol {
+public:
+	BinaryFloatNotEqualOperator(const std::string& _name);
+	virtual ExpressionValue interpret(std::vector<ExpressionValue> _argumentValues) const;
+};

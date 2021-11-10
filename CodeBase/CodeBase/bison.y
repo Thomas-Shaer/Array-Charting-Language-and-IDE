@@ -40,7 +40,7 @@
 
 %token <std::string> TNUMBER TIDENTIFIER
 %token <int> TPLUS "+" TMINUS "-" TMUL "*" TDIV "/" TASSIGN "=" 
-%token <int> TLESS "<" TLESSEQUAL "<=" TGREATER ">" TGREATEREQUAL ">=" TAND "&&" TOR "||" TNOT "!"
+%token <int> TLESS "<" TLESSEQUAL "<=" TGREATER ">" TGREATEREQUAL ">=" TAND "&&" TOR "||" TNOT "!" TNOTEQUAL "!=" TEQUAL "=="
 %token <int> TOPENBRACKET "(" TCLOSEBRACKET ")" TCOMMA ","
 %token <int> TTRUE "TRUE" TFALSE "FALSE"
 
@@ -89,7 +89,7 @@ expr : numeric { $$ = $1; }
      | unop expr {$$ =  new MethodCallNode("operator" + token_name($1), {$2}); }
      ;
 
-binop : TMUL | TDIV | TPLUS | TMINUS | TLESS | TLESSEQUAL | TGREATER | TGREATEREQUAL | TAND | TOR
+binop : TMUL | TDIV | TPLUS | TMINUS | TLESS | TLESSEQUAL | TGREATER | TGREATEREQUAL | TAND | TOR | TNOTEQUAL |  TEQUAL
       ;
 
 unop : TPLUS | TMINUS | TNOT
