@@ -4,4 +4,3 @@
 #include <boost/variant.hpp>
 
 typedef boost::variant<Float, Boolean> ExpressionValue;
-enum class DataType : unsigned int { Boolean, Float };

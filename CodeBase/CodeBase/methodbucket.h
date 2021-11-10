@@ -4,7 +4,7 @@
 
 
 class MethodSymbol;
-
+class TypeSymbol;
 /*
 * Acts as an intermediate container for method symbols.
 * It's existance is to support overloaded methods.
@@ -17,7 +17,7 @@ public:
 	/*
 	* Get a method given the argument types
 	*/
-	virtual MethodSymbol* getMethodSymbol(std::vector<DataType> _argumentTypes) const=0;
+	virtual MethodSymbol* getMethodSymbol(std::vector<const TypeSymbol*> _argumentTypes) const=0;
 
 	virtual std::string toString() const = 0;
 };
@@ -33,7 +33,7 @@ public:
 
 	const std::vector<MethodSymbol*> overloads;
 
-	virtual MethodSymbol* getMethodSymbol(std::vector<DataType> _argumentTypes) const;
+	virtual MethodSymbol* getMethodSymbol(std::vector<const TypeSymbol*> _argumentTypes) const;
 
 	virtual std::string toString() const;
 
@@ -50,7 +50,7 @@ public:
 
 	MethodSymbol* methodsymbol;
 
-	virtual MethodSymbol* getMethodSymbol(std::vector<DataType> _argumentTypes) const;
+	virtual MethodSymbol* getMethodSymbol(std::vector<const TypeSymbol*> _argumentTypes) const;
 
 	virtual std::string toString() const;
 

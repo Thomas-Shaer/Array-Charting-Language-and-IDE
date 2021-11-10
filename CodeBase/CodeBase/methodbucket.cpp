@@ -11,7 +11,7 @@ std::string OverloadedMethodBucket::toString() const {
 	return output;
 }
 
-MethodSymbol* OverloadedMethodBucket::getMethodSymbol(std::vector<DataType> _argumentTypes) const {
+MethodSymbol* OverloadedMethodBucket::getMethodSymbol(std::vector<const TypeSymbol*> _argumentTypes) const {
 	for (MethodSymbol* overload : overloads) {
 		try {
 			overload->semanticAnaylsis(_argumentTypes);
@@ -35,6 +35,6 @@ std::string SingleMethodBucket::toString() const {
 	return methodsymbol->toString();
 }
 
-MethodSymbol* SingleMethodBucket::getMethodSymbol(std::vector<DataType> _argumentTypes) const {
+MethodSymbol* SingleMethodBucket::getMethodSymbol(std::vector<const TypeSymbol*> _argumentTypes) const {
 	return methodsymbol;
 }

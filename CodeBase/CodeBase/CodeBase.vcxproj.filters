@@ -72,6 +72,9 @@
     <ClCompile Include="methodbucket.cpp">
       <Filter>Source Files\Symbol</Filter>
     </ClCompile>
+    <ClCompile Include="typesymbol.cpp">
+      <Filter>Source Files\Symbol</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bison.tab.h">
@@ -108,6 +111,9 @@
       <Filter>Source Files\Symbol</Filter>
     </ClInclude>
     <ClInclude Include="methodbucket.h">
+      <Filter>Source Files\Symbol</Filter>
+    </ClInclude>
+    <ClInclude Include="typesymbol.h">
       <Filter>Source Files\Symbol</Filter>
     </ClInclude>
   </ItemGroup>

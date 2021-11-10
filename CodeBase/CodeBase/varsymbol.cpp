@@ -1,14 +1,15 @@
 #include "varsymbol.h"
 #include <iostream>
+#include "typesymbol.h"
 
 std::string VarSymbol::toString() {
 	std::string output = "<";
 	output += name;
 	output += ", ";
-	output += type == DataType::Boolean ? "boolean" : "float";
+	output += type->name;
 	output += ", ";
 
-	if (type == DataType::Float) {
+	if (type == TypeInstances::GetFloatInstance()) {
 		output += std::to_string(boost::get<Float>(value).value) + ">";
 	}
 	else {

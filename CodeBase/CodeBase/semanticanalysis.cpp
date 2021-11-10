@@ -3,6 +3,7 @@
 #include "languageexception.h"
 #include "methodsymbol.h"
 #include "methodbucket.h"
+#include "typesymbol.h"
 
 void BlockNode::semanticAnalysis(SymbolTable* symboltable) {
 	for (Statement* statement : statementNodes) {
@@ -10,17 +11,17 @@ void BlockNode::semanticAnalysis(SymbolTable* symboltable) {
 	}
 }
 
-DataType NumberNode::semanticAnalysis(SymbolTable* symboltable) {
-	return DataType::Float;
+const TypeSymbol* NumberNode::semanticAnalysis(SymbolTable* symboltable) {
+	return TypeInstances::GetFloatInstance();
 }
 
-DataType BooleanNode::semanticAnalysis(SymbolTable* symboltable) {
-	return DataType::Boolean;
+const TypeSymbol* BooleanNode::semanticAnalysis(SymbolTable* symboltable) {
+	return TypeInstances::GetBooleanInstance();
 }
 
 
 
-DataType IdentifierNode::semanticAnalysis(SymbolTable* symboltable) {
+const TypeSymbol* IdentifierNode::semanticAnalysis(SymbolTable* symboltable) {
 	// need to return item in symbol table
 	if (symboltable->isVariableDeclared(name)) {
 		return symboltable->getVariable(name)->type;
@@ -30,7 +31,7 @@ DataType IdentifierNode::semanticAnalysis(SymbolTable* symboltable) {
 
 
 void AssignNode::semanticAnalysis(SymbolTable* symboltable) {
-	DataType rhsType = rhs->semanticAnalysis(symboltable);
+	const TypeSymbol* rhsType = rhs->semanticAnalysis(symboltable);
 
 	// variable already declared therefore right side type should be same as left side type
 	if (symboltable->isVariableDeclared(name)) {
@@ -45,14 +46,14 @@ void AssignNode::semanticAnalysis(SymbolTable* symboltable) {
 	// need to store value in symbol table at lhs name
 }
 
-DataType MethodCallNode::semanticAnalysis(SymbolTable* symboltable) {
+const TypeSymbol* MethodCallNode::semanticAnalysis(SymbolTable* symboltable) {
 
 	// check to see if method exists first
 	if (!symboltable->isMethodDeclared(name)) {
 		throw LanguageException("No method called " + name);
 	}
 
-	std::vector<DataType> argTypes;
+	std::vector<const TypeSymbol*> argTypes;
 	for (Expression* expr : arguments) {
 		argTypes.push_back(expr->semanticAnalysis(symboltable));
 	}

@@ -1,8 +1,9 @@
 #include "methodsymbol.h"
 #include "languageexception.h"
+#include "typesymbol.h"
 
 
-DataType MethodSymbol::semanticAnaylsis(std::vector<DataType> _argumentTypes) const {
+const TypeSymbol* MethodSymbol::semanticAnaylsis(std::vector<const TypeSymbol*> _argumentTypes) const {
 
 	// if recieved wrong amount of parameters throw error
 	if (argumentTypes.size() != _argumentTypes.size()) {
@@ -11,10 +12,10 @@ DataType MethodSymbol::semanticAnaylsis(std::vector<DataType> _argumentTypes) co
 
 	// the input types must be what was expected
 	for (int i = 0; i < argumentTypes.size(); i++) {
-		DataType expected = argumentTypes[i];
-		DataType received = _argumentTypes[i];
+		const TypeSymbol* expected = argumentTypes[i];
+		const TypeSymbol* received = _argumentTypes[i];
 		if (expected != received) {
-			throw LanguageException("Method " + name + " expected parameter no. " + std::to_string(i) + " to be " + std::to_string((int)expected) + " but recieved " + std::to_string((int)received));
+			throw LanguageException("Method " + name + " expected parameter no. " + std::to_string(i) + " to be " + expected->name + " but recieved " + received->name);
 		}
 	}
 	return returnType;
@@ -22,9 +23,9 @@ DataType MethodSymbol::semanticAnaylsis(std::vector<DataType> _argumentTypes) co
 
 
 std::string MethodSymbol::toString() const {
-	std::string output = std::to_string((int)returnType) + " " + name + "(";
-	for (const DataType& arg : argumentTypes) {
-		output += std::to_string((int)arg) + ", ";
+	std::string output = returnType->name + " " + name + "(";
+	for (const TypeSymbol* arg : argumentTypes) {
+		output += arg->name + ", ";
 	}
 	output += ")";
 	return output;
