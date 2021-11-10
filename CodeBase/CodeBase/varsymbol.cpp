@@ -13,7 +13,7 @@ std::string VarSymbol::toString() {
 		output += std::to_string(boost::get<Float>(value).value) + ">";
 	}
 	else {
-		output += std::to_string((boost::get<Boolean>(value).value)/* ? "true" : "false"*/);
+		output += (boost::get<Boolean>(value).value ? "true" : "false");
 		output += ">";
 	}
 
