@@ -25,9 +25,6 @@
     <Filter Include="Source Files\Values">
       <UniqueIdentifier>{0e3ec2c2-8c48-46da-b03f-0cf13ec4a239}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Values\Boolean">
-      <UniqueIdentifier>{369b0f7f-b900-4615-b30f-0093f1256e0c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Nodes">
       <UniqueIdentifier>{2b69a40a-d821-47be-8911-e579c1ff4801}</UniqueIdentifier>
     </Filter>
@@ -75,6 +72,12 @@
     <ClCompile Include="typesymbol.cpp">
       <Filter>Source Files\Symbol</Filter>
     </ClCompile>
+    <ClCompile Include="boolean.cpp">
+      <Filter>Source Files\Values</Filter>
+    </ClCompile>
+    <ClCompile Include="float.cpp">
+      <Filter>Source Files\Values</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bison.tab.h">
@@ -91,12 +94,6 @@
     </ClInclude>
     <ClInclude Include="languageexception.h">
       <Filter>Source Files\Exceptions</Filter>
-    </ClInclude>
-    <ClInclude Include="boolean.h">
-      <Filter>Source Files\Values\Boolean</Filter>
-    </ClInclude>
-    <ClInclude Include="float.h">
-      <Filter>Source Files\Values\Boolean</Filter>
     </ClInclude>
     <ClInclude Include="node.h">
       <Filter>Source Files\Nodes</Filter>
@@ -115,6 +112,18 @@
     </ClInclude>
     <ClInclude Include="typesymbol.h">
       <Filter>Source Files\Symbol</Filter>
+    </ClInclude>
+    <ClInclude Include="boolean.h">
+      <Filter>Source Files\Values</Filter>
+    </ClInclude>
+    <ClInclude Include="float.h">
+      <Filter>Source Files\Values</Filter>
+    </ClInclude>
+    <ClInclude Include="value.h">
+      <Filter>Source Files\Values</Filter>
+    </ClInclude>
+    <ClInclude Include="visitors.h">
+      <Filter>Source Files\Values</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

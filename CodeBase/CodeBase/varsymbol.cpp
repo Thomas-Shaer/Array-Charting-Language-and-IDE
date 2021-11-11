@@ -1,6 +1,7 @@
 #include "varsymbol.h"
 #include <iostream>
 #include "typesymbol.h"
+#include "visitors.h"
 
 std::string VarSymbol::toString() {
 	std::string output = "<";
@@ -9,13 +10,8 @@ std::string VarSymbol::toString() {
 	output += type->name;
 	output += ", ";
 
-	if (type == TypeInstances::GetFloatInstance()) {
-		output += std::to_string(boost::get<Float>(value).value) + ">";
-	}
-	else {
-		output += (boost::get<Boolean>(value).value ? "true" : "false");
-		output += ">";
-	}
+	output += boost::apply_visitor(ToString(), value);
+	output += ">";
 
 	return output;
 }

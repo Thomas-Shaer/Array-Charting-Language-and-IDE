@@ -140,6 +140,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="boolean.cpp" />
+    <ClCompile Include="float.cpp" />
     <ClCompile Include="methodsymbol.cpp" />
     <ClCompile Include="methodimplementations.cpp" />
     <ClCompile Include="bison.tab.cpp" />
@@ -164,10 +166,12 @@
     <ClInclude Include="languageexception.h" />
     <ClInclude Include="node.h" />
     <ClInclude Include="methodbucket.h" />
+    <ClInclude Include="value.h" />
     <ClInclude Include="symboltable.h" />
     <ClInclude Include="global.h" />
     <ClInclude Include="typesymbol.h" />
     <ClInclude Include="varsymbol.h" />
+    <ClInclude Include="visitors.h" />
   </ItemGroup>
   <ItemGroup>
     <Flex Include="flex.l">

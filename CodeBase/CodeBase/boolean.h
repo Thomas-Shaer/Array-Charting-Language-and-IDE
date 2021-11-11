@@ -1,7 +1,7 @@
 #pragma once
+#include "value.h"
 
-
-class Boolean {
+class Boolean : public Value {
 
 public:
 
@@ -9,5 +9,7 @@ public:
 
 	Boolean(bool _value) : value(_value) {}
 	bool value;
+
+	virtual std::string toString() const;
 
 };

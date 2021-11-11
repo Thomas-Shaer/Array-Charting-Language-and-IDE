@@ -1,6 +1,8 @@
 #pragma once
+#include "value.h"
 
-class Float {
+
+class Float : public Value {
 
 public:
 
@@ -8,5 +10,8 @@ public:
 
 	Float(float _value) : value(_value) {}
 	float value;
+
+	virtual std::string toString() const;
+
 
 };
