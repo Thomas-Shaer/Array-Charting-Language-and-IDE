@@ -9,6 +9,11 @@ void BlockNode::interpret(SymbolTable* symboltable) const {
 	}
 }
 
+
+void ExpressionStatementNode::interpret(SymbolTable* symboltable) const {
+	expressionNode->interpret(symboltable);
+}
+
 ExpressionValue NumberNode::interpret(SymbolTable* symboltable) const {
 	return (ExpressionValue)Float(number);
 }

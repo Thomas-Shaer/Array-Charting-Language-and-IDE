@@ -45,7 +45,7 @@
 #ifndef YY_YY_BISON_TAB_H_INCLUDED
 # define YY_YY_BISON_TAB_H_INCLUDED
 // "%code requires" blocks.
-#line 28 "bison.y"
+#line 29 "bison.y"
 
   typedef void* yyscan_t;
 
@@ -381,17 +381,20 @@ namespace yy {
       // expr
       char dummy4[sizeof (Expression*)];
 
+      // exprstmt
+      char dummy5[sizeof (ExpressionStatementNode*)];
+
       // identifier
-      char dummy5[sizeof (IdentifierNode*)];
+      char dummy6[sizeof (IdentifierNode*)];
 
       // method
-      char dummy6[sizeof (MethodCallNode*)];
+      char dummy7[sizeof (MethodCallNode*)];
 
       // numeric
-      char dummy7[sizeof (NumberNode*)];
+      char dummy8[sizeof (NumberNode*)];
 
       // stmt
-      char dummy8[sizeof (Statement*)];
+      char dummy9[sizeof (Statement*)];
 
       // "+"
       // "-"
@@ -414,14 +417,14 @@ namespace yy {
       // "FALSE"
       // binop
       // unop
-      char dummy9[sizeof (int)];
+      char dummy10[sizeof (int)];
 
       // TNUMBER
       // TIDENTIFIER
-      char dummy10[sizeof (std::string)];
+      char dummy11[sizeof (std::string)];
 
       // call_params
-      char dummy11[sizeof (std::vector<Expression*>)];
+      char dummy12[sizeof (std::vector<Expression*>)];
     };
 
     /// The size of the largest semantic type.
@@ -531,15 +534,16 @@ namespace yy {
         S_program = 25,                          // program
         S_stmts = 26,                            // stmts
         S_stmt = 27,                             // stmt
-        S_identifier = 28,                       // identifier
-        S_assign = 29,                           // assign
-        S_expr = 30,                             // expr
-        S_binop = 31,                            // binop
-        S_unop = 32,                             // unop
-        S_numeric = 33,                          // numeric
-        S_boolean = 34,                          // boolean
-        S_method = 35,                           // method
-        S_call_params = 36                       // call_params
+        S_exprstmt = 28,                         // exprstmt
+        S_identifier = 29,                       // identifier
+        S_assign = 30,                           // assign
+        S_expr = 31,                             // expr
+        S_binop = 32,                            // binop
+        S_unop = 33,                             // unop
+        S_numeric = 34,                          // numeric
+        S_boolean = 35,                          // boolean
+        S_method = 36,                           // method
+        S_call_params = 37                       // call_params
       };
     };
 
@@ -588,6 +592,10 @@ namespace yy {
 
       case symbol_kind::S_expr: // expr
         value.move< Expression* > (std::move (that.value));
+        break;
+
+      case symbol_kind::S_exprstmt: // exprstmt
+        value.move< ExpressionStatementNode* > (std::move (that.value));
         break;
 
       case symbol_kind::S_identifier: // identifier
@@ -703,6 +711,18 @@ namespace yy {
       {}
 #else
       basic_symbol (typename Base::kind_type t, const Expression*& v)
+        : Base (t)
+        , value (v)
+      {}
+#endif
+
+#if 201103L <= YY_CPLUSPLUS
+      basic_symbol (typename Base::kind_type t, ExpressionStatementNode*&& v)
+        : Base (t)
+        , value (std::move (v))
+      {}
+#else
+      basic_symbol (typename Base::kind_type t, const ExpressionStatementNode*& v)
         : Base (t)
         , value (v)
       {}
@@ -828,6 +848,10 @@ switch (yykind)
 
       case symbol_kind::S_expr: // expr
         value.template destroy< Expression* > ();
+        break;
+
+      case symbol_kind::S_exprstmt: // exprstmt
+        value.template destroy< ExpressionStatementNode* > ();
         break;
 
       case symbol_kind::S_identifier: // identifier
@@ -1721,9 +1745,9 @@ switch (yykind)
     /// Constants.
     enum
     {
-      yylast_ = 39,     ///< Last index in yytable_.
-      yynnts_ = 13,  ///< Number of nonterminal symbols.
-      yyfinal_ = 7 ///< Termination state number.
+      yylast_ = 47,     ///< Last index in yytable_.
+      yynnts_ = 14,  ///< Number of nonterminal symbols.
+      yyfinal_ = 10 ///< Termination state number.
     };
 
 
@@ -1735,11 +1759,11 @@ switch (yykind)
 
 
 } // yy
-#line 1739 "bison.tab.h"
+#line 1763 "bison.tab.h"
 
 
 // "%code provides" blocks.
-#line 32 "bison.y"
+#line 33 "bison.y"
 
       #define YY_DECL \
         int yylex(yy::parser::semantic_type* value, yyscan_t yyscanner)
@@ -1747,7 +1771,7 @@ switch (yykind)
     std::string token_name(int t);
  
 
-#line 1751 "bison.tab.h"
+#line 1775 "bison.tab.h"
 
 
 #endif // !YY_YY_BISON_TAB_H_INCLUDED

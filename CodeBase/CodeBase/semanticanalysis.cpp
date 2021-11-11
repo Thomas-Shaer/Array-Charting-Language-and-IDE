@@ -30,6 +30,12 @@ const TypeSymbol* IdentifierNode::semanticAnalysis(SymbolTable* symboltable) {
 }
 
 
+
+void ExpressionStatementNode::semanticAnalysis(SymbolTable* symboltable) {
+	expressionNode->semanticAnalysis(symboltable);
+}
+
+
 void AssignNode::semanticAnalysis(SymbolTable* symboltable) {
 	const TypeSymbol* rhsType = rhs->semanticAnalysis(symboltable);
 

@@ -16,6 +16,7 @@
     class AssignNode;
     class IdentifierNode;
     class MethodCallNode;
+    class ExpressionStatementNode;
 
 
 #include "bison.tab.h"

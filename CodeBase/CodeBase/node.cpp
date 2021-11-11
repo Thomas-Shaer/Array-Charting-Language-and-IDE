@@ -4,6 +4,19 @@
 
 
 
+
+std::string ExpressionStatementNode::toString() const {
+	return expressionNode->toString();
+}
+
+
+
+
+ExpressionStatementNode::~ExpressionStatementNode() {
+	delete expressionNode;
+}
+
+
 std::string BlockNode::toString() const {
 	std::string block;
 

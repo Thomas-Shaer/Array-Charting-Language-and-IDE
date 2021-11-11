@@ -47,6 +47,25 @@ public:
 };
 
 /*
+Expression statment node, acts as a statement wrapper for a expression. Allows
+to parse things such as a method call outside a assign context.
+*/
+class ExpressionStatementNode : public Statement {
+public:
+
+	Expression* expressionNode;
+
+	ExpressionStatementNode(Expression* _expressionNode) : expressionNode(_expressionNode) {}
+
+	virtual std::string toString() const;
+
+	virtual ~ExpressionStatementNode();
+
+	virtual void semanticAnalysis(SymbolTable* symboltable);
+	virtual void interpret(SymbolTable* symboltable) const;
+};
+
+/*
 Block node class, represents a scope i.e. a collection of statements
 */
 class BlockNode : public Statement {

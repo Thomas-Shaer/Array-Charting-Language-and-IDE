@@ -82,7 +82,7 @@ int main() {
 
 	execute("a = +true");
 	execute("a = true && false");
-
+	execute("average(2, 3)");
 
 	//execute("a = ! ! !false \
  //           b = + - - - - 2");

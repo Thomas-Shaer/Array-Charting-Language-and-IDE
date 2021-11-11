@@ -21,6 +21,7 @@
     class AssignNode;
     class IdentifierNode;
     class MethodCallNode;
+    class ExpressionStatementNode;
 	#include "node.h"
 
 %}
@@ -56,6 +57,7 @@
 %type <AssignNode*> assign;
 %type <IdentifierNode*> identifier;
 %type <MethodCallNode*> method;
+%type <ExpressionStatementNode*> exprstmt;
 %type <std::vector<Expression*>> call_params
 
 
@@ -72,7 +74,11 @@ stmts : stmt { $$ = new BlockNode(); $$->statementNodes.push_back($1); }
       ;
 
 stmt : assign {$$ = $1;}
+     | exprstmt {$$ = $1;}
      ;
+
+exprstmt : method {$$ = new ExpressionStatementNode($1);}
+         ;
 
 identifier : TIDENTIFIER {$$ = new IdentifierNode($1);}
            ;
