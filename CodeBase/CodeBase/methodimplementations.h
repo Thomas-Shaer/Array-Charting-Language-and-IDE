@@ -128,15 +128,3 @@ public:
 	BinaryFloatNotEqualOperator(const std::string& _name);
 	virtual ExpressionValue interpret(std::vector<ExpressionValue> _argumentValues) const;
 };
-
-class PrintBoolean : public MethodSymbol {
-public:
-	PrintBoolean();
-	virtual ExpressionValue interpret(std::vector<ExpressionValue> _argumentValues) const;
-};
-
-class PrintFloat : public MethodSymbol {
-public:
-	PrintFloat();
-	virtual ExpressionValue interpret(std::vector<ExpressionValue> _argumentValues) const;
-};
