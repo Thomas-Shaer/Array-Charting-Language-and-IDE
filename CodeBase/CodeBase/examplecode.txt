@@ -1,0 +1,11 @@
+x = 2 + 2
+
+y = 23123 > 21
+
+q = true && false
+
+print(q)
+
+print(y)
+
+print(x)

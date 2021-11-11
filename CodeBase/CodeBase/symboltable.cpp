@@ -45,6 +45,11 @@ std::map<std::string, MethodBucket*> SymbolTable::methodTable{
 		 new BinaryBooleanNotEqualOperator("operator" + token_name(yy::parser::token::TNOTEQUAL))
 		}
 	)},
+	{"print", new OverloadedMethodBucket(
+		{new PrintBoolean(),
+		 new PrintFloat()
+		}
+	)},
 	{"operator" + token_name(yy::parser::token::TNOT), new SingleMethodBucket(new UnaryNotOperator("operator" + token_name(yy::parser::token::TNOT)))},
 
 	{"operator" + token_name(yy::parser::token::TMUL), new SingleMethodBucket(new BinaryMultiplyOperator("operator" + token_name(yy::parser::token::TMUL)))},

@@ -136,4 +136,9 @@
       <Filter>Source Files</Filter>
     </Bison>
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="examplecode.txt">
+      <Filter>Source Files</Filter>
+    </Text>
+  </ItemGroup>
 </Project>

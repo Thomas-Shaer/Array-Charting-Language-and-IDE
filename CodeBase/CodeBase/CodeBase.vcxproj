@@ -184,6 +184,9 @@
   <ItemGroup>
     <Bison Include="bison.y" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="examplecode.txt" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
     <Import Project="..\..\custom_build_rules\win_flex_bison\win_flex_bison_custom_build.targets" />

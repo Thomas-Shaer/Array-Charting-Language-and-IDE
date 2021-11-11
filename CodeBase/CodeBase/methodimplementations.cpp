@@ -120,7 +120,7 @@ ExpressionValue BinaryFloatNotEqualOperator::interpret(std::vector<ExpressionVal
 PrintBoolean::PrintBoolean() : MethodSymbol("print", { TypeInstances::GetBooleanInstance() }, TypeInstances::GetBooleanInstance()) {}
 
 ExpressionValue PrintBoolean::interpret(std::vector<ExpressionValue> _argumentValues) const {
-	std::cout << boost::apply_visitor(ToString(), _argumentValues[0]);
+	std::cout << boost::apply_visitor(ToString(), _argumentValues[0]) << std::endl;
 	return _argumentValues[0];
 }
 
@@ -129,6 +129,6 @@ ExpressionValue PrintBoolean::interpret(std::vector<ExpressionValue> _argumentVa
 PrintFloat::PrintFloat() : MethodSymbol("print", { TypeInstances::GetFloatInstance() }, TypeInstances::GetFloatInstance()) {}
 
 ExpressionValue PrintFloat::interpret(std::vector<ExpressionValue> _argumentValues) const {
-	std::cout << boost::apply_visitor(ToString(), _argumentValues[0]);
+	std::cout << boost::apply_visitor(ToString(), _argumentValues[0]) << std::endl;
 	return _argumentValues[0];
 }
