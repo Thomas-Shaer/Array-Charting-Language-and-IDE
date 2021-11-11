@@ -1,6 +1,6 @@
 #include "methodimplementations.h"
 #include "typesymbol.h"
-
+#include "visitors.h"
 
 ExpressionValue MethodAverage::interpret(std::vector<ExpressionValue> _argumentValues) const {
 	return Float((boost::get<Float>(_argumentValues[0]).value + boost::get<Float>(_argumentValues[1]).value) / 2);
@@ -114,4 +114,22 @@ BinaryFloatNotEqualOperator::BinaryFloatNotEqualOperator(const std::string& _nam
 
 ExpressionValue BinaryFloatNotEqualOperator::interpret(std::vector<ExpressionValue> _argumentValues) const {
 	return Boolean(boost::get<Float>(_argumentValues[0]).value != boost::get<Float>(_argumentValues[1]).value);
+}
+
+
+
+PrintBoolean::PrintBoolean() : MethodSymbol("print", { TypeInstances::GetBooleanInstance() }, TypeInstances::GetBooleanInstance()) {}
+
+ExpressionValue PrintBoolean::interpret(std::vector<ExpressionValue> _argumentValues) const {
+	std::cout << boost::apply_visitor(ToString(), _argumentValues[0]);
+	return _argumentValues[0];
+}
+
+
+
+PrintFloat::PrintFloat() : MethodSymbol("print", { TypeInstances::GetFloatInstance() }, TypeInstances::GetFloatInstance()) {}
+
+ExpressionValue PrintFloat::interpret(std::vector<ExpressionValue> _argumentValues) const {
+	std::cout << boost::apply_visitor(ToString(), _argumentValues[0]);
+	return _argumentValues[0];
 }
