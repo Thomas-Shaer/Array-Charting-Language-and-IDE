@@ -1,11 +1,7 @@
 x = 2 + 2
-
-y = 23123 > 21
-
-q = true && false
-
-print(q)
-
+y = true && false
+print(x)
 print(y)
 
-print(x)
+z = 21 > (321 + 23 - 2)
+print(z)
