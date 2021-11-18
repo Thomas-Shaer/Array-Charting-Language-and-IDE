@@ -31,6 +31,15 @@
     <Filter Include="Source Files\Methods">
       <UniqueIdentifier>{de751098-ba67-48fd-8b67-c3fc5bcae79e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\GUI">
+      <UniqueIdentifier>{9609c23b-3247-4d89-99b1-b07dfd1f7d65}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GUI\IMGUI">
+      <UniqueIdentifier>{3cb08d22-0583-44cc-b533-f5682c7ffd23}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GUI\IMPLOT">
+      <UniqueIdentifier>{460f9952-b25c-4954-82f3-e5a4dbd5c10f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -78,6 +87,39 @@
     <ClCompile Include="float.cpp">
       <Filter>Source Files\Values</Filter>
     </ClCompile>
+    <ClCompile Include="guimain.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_widgets.cpp">
+      <Filter>Source Files\GUI\IMGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_tables.cpp">
+      <Filter>Source Files\GUI\IMGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_impl_win32.cpp">
+      <Filter>Source Files\GUI\IMGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_impl_dx12.cpp">
+      <Filter>Source Files\GUI\IMGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_draw.cpp">
+      <Filter>Source Files\GUI\IMGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_demo.cpp">
+      <Filter>Source Files\GUI\IMGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui.cpp">
+      <Filter>Source Files\GUI\IMGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="implot.cpp">
+      <Filter>Source Files\GUI\IMPLOT</Filter>
+    </ClCompile>
+    <ClCompile Include="implot_demo.cpp">
+      <Filter>Source Files\GUI\IMPLOT</Filter>
+    </ClCompile>
+    <ClCompile Include="implot_items.cpp">
+      <Filter>Source Files\GUI\IMPLOT</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bison.tab.h">
@@ -124,6 +166,36 @@
     </ClInclude>
     <ClInclude Include="visitors.h">
       <Filter>Source Files\Values</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui_internal.h">
+      <Filter>Source Files\GUI\IMGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui_impl_win32.h">
+      <Filter>Source Files\GUI\IMGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui_impl_dx12.h">
+      <Filter>Source Files\GUI\IMGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui.h">
+      <Filter>Source Files\GUI\IMGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="imconfig.h">
+      <Filter>Source Files\GUI\IMGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="imstb_truetype.h">
+      <Filter>Source Files\GUI\IMGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="imstb_textedit.h">
+      <Filter>Source Files\GUI\IMGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="imstb_rectpack.h">
+      <Filter>Source Files\GUI\IMGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="implot.h">
+      <Filter>Source Files\GUI\IMPLOT</Filter>
+    </ClInclude>
+    <ClInclude Include="implot_internal.h">
+      <Filter>Source Files\GUI\IMPLOT</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
