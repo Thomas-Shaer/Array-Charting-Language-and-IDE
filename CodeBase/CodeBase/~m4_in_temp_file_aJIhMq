@@ -1,0 +1,2424 @@
+m4_init()
+m4_define([b4_mergers], 
+[[]])
+
+m4_define([b4_symbol_numbers],
+[[0], [1], [2], [3], [4], [5], [6], [7], [8], [9], [10], [11], [12], [13], [14], [15], [16], [17], [18], [19], [20], [21], [22], [23], [24], [25], [26], [27], [28], [29], [30], [31], [32], [33], [34], [35], [36], [37]])
+
+m4_define([b4_type_names],
+[[0, 1, 2, 24, 25],
+[30],
+[26],
+[35],
+[31],
+[28],
+[29],
+[36],
+[34],
+[27],
+[5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 32, 33],
+[3, 4],
+[37]])
+
+m4_define([b4_actions], 
+[b4_case(2, [b4_syncline(66, [["bison.y"]])dnl
+[                { 
+				   *inputnode = ]b4_rhs_value(1, 1, orig 27, [])[;
+				}]],
+[[program: stmts]])
+
+b4_case(3, [b4_syncline(71, [["bison.y"]])dnl
+[             { ]b4_lhs_value(orig 27, [])[ = new BlockNode(); ]b4_lhs_value(orig 27, [])[->statementNodes.push_back(]b4_rhs_value(1, 1, orig 28, [])[); }]],
+[[stmts: stmt]])
+
+b4_case(4, [b4_syncline(72, [["bison.y"]])dnl
+[                   { ]b4_rhs_value(2, 1, orig 27, [])[->statementNodes.push_back(]b4_rhs_value(2, 2, orig 28, [])[); ]b4_lhs_value(orig 27, [])[ = ]b4_rhs_value(2, 1, orig 27, [])[; }]],
+[[stmts: stmts stmt]])
+
+b4_case(5, [b4_syncline(73, [["bison.y"]])dnl
+[                      { ]b4_lhs_value(orig 27, [])[ = new BlockNode(); }]],
+[[stmts: %empty]])
+
+b4_case(6, [b4_syncline(76, [["bison.y"]])dnl
+[              {]b4_lhs_value(orig 28, [])[ = ]b4_rhs_value(1, 1, orig 31, [])[;}]],
+[[stmt: assign]])
+
+b4_case(7, [b4_syncline(77, [["bison.y"]])dnl
+[                {]b4_lhs_value(orig 28, [])[ = ]b4_rhs_value(1, 1, orig 29, [])[;}]],
+[[stmt: exprstmt]])
+
+b4_case(8, [b4_syncline(80, [["bison.y"]])dnl
+[                  {]b4_lhs_value(orig 29, [])[ = new ExpressionStatementNode(]b4_rhs_value(1, 1, orig 37, [])[);}]],
+[[exprstmt: method]])
+
+b4_case(9, [b4_syncline(83, [["bison.y"]])dnl
+[                         {]b4_lhs_value(orig 30, [])[ = new IdentifierNode(]b4_rhs_value(1, 1, 4, [])[);}]],
+[[identifier: TIDENTIFIER]])
+
+b4_case(10, [b4_syncline(87, [["bison.y"]])dnl
+[                                  {]b4_lhs_value(orig 31, [])[ = new AssignNode(]b4_rhs_value(3, 1, 4, [])[, ]b4_rhs_value(3, 3, orig 32, [])[);}]],
+[[assign: TIDENTIFIER "=" expr]])
+
+b4_case(11, [b4_syncline(90, [["bison.y"]])dnl
+[               { ]b4_lhs_value(orig 32, [])[ = ]b4_rhs_value(1, 1, orig 35, [])[; }]],
+[[expr: numeric]])
+
+b4_case(12, [b4_syncline(91, [["bison.y"]])dnl
+[               {]b4_lhs_value(orig 32, [])[=]b4_rhs_value(1, 1, orig 36, [])[;}]],
+[[expr: boolean]])
+
+b4_case(13, [b4_syncline(92, [["bison.y"]])dnl
+[              {]b4_lhs_value(orig 32, [])[=]b4_rhs_value(1, 1, orig 37, [])[;}]],
+[[expr: method]])
+
+b4_case(14, [b4_syncline(93, [["bison.y"]])dnl
+[                  {]b4_lhs_value(orig 32, [])[ = ]b4_rhs_value(1, 1, orig 30, [])[; }]],
+[[expr: identifier]])
+
+b4_case(15, [b4_syncline(94, [["bison.y"]])dnl
+[                       {]b4_lhs_value(orig 32, [])[ =  new MethodCallNode("operator" + token_name(]b4_rhs_value(3, 2, orig 33, [])[), {]b4_rhs_value(3, 1, orig 32, [])[, ]b4_rhs_value(3, 3, orig 32, [])[}); }]],
+[[expr: expr binop expr]])
+
+b4_case(16, [b4_syncline(95, [["bison.y"]])dnl
+[                 {]b4_lhs_value(orig 32, [])[ =  new MethodCallNode("operator" + token_name(]b4_rhs_value(2, 1, orig 34, [])[), {]b4_rhs_value(2, 2, orig 32, [])[}); }]],
+[[expr: unop expr]])
+
+b4_case(17, [b4_syncline(98, [["bison.y"]])dnl
+[        { ]b4_lhs_value(orig 33, [])[ = ]b4_rhs_value(1, 1, 7, [])[; }]],
+[[binop: "*"]])
+
+b4_case(18, [b4_syncline(98, [["bison.y"]])dnl
+[               { ]b4_lhs_value(orig 33, [])[ = ]b4_rhs_value(1, 1, 8, [])[; }]],
+[[binop: "/"]])
+
+b4_case(19, [b4_syncline(98, [["bison.y"]])dnl
+[                      { ]b4_lhs_value(orig 33, [])[ = ]b4_rhs_value(1, 1, 5, [])[; }]],
+[[binop: "+"]])
+
+b4_case(20, [b4_syncline(98, [["bison.y"]])dnl
+[                              { ]b4_lhs_value(orig 33, [])[ = ]b4_rhs_value(1, 1, 6, [])[; }]],
+[[binop: "-"]])
+
+b4_case(21, [b4_syncline(98, [["bison.y"]])dnl
+[                                       { ]b4_lhs_value(orig 33, [])[ = ]b4_rhs_value(1, 1, 10, [])[; }]],
+[[binop: "<"]])
+
+b4_case(22, [b4_syncline(98, [["bison.y"]])dnl
+[                                               { ]b4_lhs_value(orig 33, [])[ = ]b4_rhs_value(1, 1, 11, [])[; }]],
+[[binop: "<="]])
+
+b4_case(23, [b4_syncline(98, [["bison.y"]])dnl
+[                                                            { ]b4_lhs_value(orig 33, [])[ = ]b4_rhs_value(1, 1, 12, [])[; }]],
+[[binop: ">"]])
+
+b4_case(24, [b4_syncline(98, [["bison.y"]])dnl
+[                                                                       { ]b4_lhs_value(orig 33, [])[ = ]b4_rhs_value(1, 1, 13, [])[; }]],
+[[binop: ">="]])
+
+b4_case(25, [b4_syncline(98, [["bison.y"]])dnl
+[                                                                                       { ]b4_lhs_value(orig 33, [])[ = ]b4_rhs_value(1, 1, 14, [])[; }]],
+[[binop: "&&"]])
+
+b4_case(26, [b4_syncline(98, [["bison.y"]])dnl
+[                                                                                              { ]b4_lhs_value(orig 33, [])[ = ]b4_rhs_value(1, 1, 15, [])[; }]],
+[[binop: "||"]])
+
+b4_case(27, [b4_syncline(98, [["bison.y"]])dnl
+[                                                                                                    { ]b4_lhs_value(orig 33, [])[ = ]b4_rhs_value(1, 1, 17, [])[; }]],
+[[binop: "!="]])
+
+b4_case(28, [b4_syncline(98, [["bison.y"]])dnl
+[                                                                                                                 { ]b4_lhs_value(orig 33, [])[ = ]b4_rhs_value(1, 1, 18, [])[; }]],
+[[binop: "=="]])
+
+b4_case(29, [b4_syncline(101, [["bison.y"]])dnl
+[       { ]b4_lhs_value(orig 34, [])[ = ]b4_rhs_value(1, 1, 5, [])[; }]],
+[[unop: "+"]])
+
+b4_case(30, [b4_syncline(101, [["bison.y"]])dnl
+[               { ]b4_lhs_value(orig 34, [])[ = ]b4_rhs_value(1, 1, 6, [])[; }]],
+[[unop: "-"]])
+
+b4_case(31, [b4_syncline(101, [["bison.y"]])dnl
+[                        { ]b4_lhs_value(orig 34, [])[ = ]b4_rhs_value(1, 1, 16, [])[; }]],
+[[unop: "!"]])
+
+b4_case(32, [b4_syncline(104, [["bison.y"]])dnl
+[                  { ]b4_lhs_value(orig 35, [])[ = new NumberNode(atoi(]b4_rhs_value(1, 1, 3, [])[.c_str())); }]],
+[[numeric: TNUMBER]])
+
+b4_case(33, [b4_syncline(107, [["bison.y"]])dnl
+[                 { ]b4_lhs_value(orig 36, [])[ = new BooleanNode(false); }]],
+[[boolean: "FALSE"]])
+
+b4_case(34, [b4_syncline(108, [["bison.y"]])dnl
+[                { ]b4_lhs_value(orig 36, [])[ = new BooleanNode(true); }]],
+[[boolean: "TRUE"]])
+
+b4_case(35, [b4_syncline(111, [["bison.y"]])dnl
+[                                                            {]b4_lhs_value(orig 37, [])[ = new MethodCallNode(]b4_rhs_value(4, 1, 4, [])[, ]b4_rhs_value(4, 3, orig 38, [])[);}]],
+[[method: TIDENTIFIER "(" call_params ")"]])
+
+b4_case(36, [b4_syncline(114, [["bison.y"]])dnl
+[                         { ]b4_lhs_value(orig 38, [])[ = std::vector<Expression*>(); }]],
+[[call_params: %empty]])
+
+b4_case(37, [b4_syncline(115, [["bison.y"]])dnl
+[                 { ]b4_lhs_value(orig 38, [])[ = std::vector<Expression*>(); ]b4_lhs_value(orig 38, [])[.push_back(]b4_rhs_value(1, 1, orig 32, [])[); }]],
+[[call_params: expr]])
+
+b4_case(38, [b4_syncline(116, [["bison.y"]])dnl
+[                                    { ]b4_rhs_value(3, 1, orig 38, [])[.push_back(]b4_rhs_value(3, 3, orig 32, [])[); ]b4_lhs_value(orig 38, [])[ = ]b4_rhs_value(3, 1, orig 38, [])[; }]],
+[[call_params: call_params "," expr]])
+
+])
+
+m4_define([b4_percent_code_user_qualifiers],
+[[[[[[requires]], [[bison.y:29.7@@7]], [[bison.y:29.15@@15]]]],[[[[provides]], [[bison.y:33.7@@7]], [[bison.y:33.15@@15]]]]]])
+
+
+m4_define([b4_symbol(35, has_destructor)],
+[[0]])
+
+
+m4_define([b4_symbol(27, type)],
+[[Statement*]])
+
+
+m4_define([b4_symbol(25, id)],
+[[program]])
+
+
+m4_define([b4_symbol(16, type)],
+[[int]])
+
+
+m4_define([b4_symbol(35, id)],
+[[boolean]])
+
+
+m4_define([b4_symbol(6, type)],
+[[int]])
+
+
+m4_define([b4_skeletonsdir],
+[[C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Project\CodeBase\CodeBase\data/skeletons]])
+
+
+m4_define([b4_translate],
+[[     0,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     1,     2,     3,     4,
+       5,     6,     7,     8,     9,    10,    11,    12,    13,    14,
+      15,    16,    17,    18,    19,    20,    21,    22,    23]])
+
+
+m4_define([b4_symbol(orig 30, number)],
+[[29]])
+
+
+m4_define([b4_symbol(orig 31, number)],
+[[30]])
+
+
+m4_define([b4_symbol(orig 32, number)],
+[[31]])
+
+
+m4_define([b4_symbol(orig 33, number)],
+[[32]])
+
+
+m4_define([b4_use_push_for_pull_flag],
+[[0]])
+
+
+m4_define([b4_symbol(3, is_token)],
+[[1]])
+
+
+m4_define([b4_symbol(orig 34, number)],
+[[33]])
+
+
+m4_define([b4_symbol(12, is_token)],
+[[1]])
+
+
+m4_define([b4_symbol(orig 35, number)],
+[[34]])
+
+
+m4_define([b4_symbol(22, is_token)],
+[[1]])
+
+
+m4_define([b4_symbol(orig 36, number)],
+[[35]])
+
+
+m4_define([b4_symbol(32, is_token)],
+[[0]])
+
+
+m4_define([b4_symbol(8, has_printer)],
+[[0]])
+
+
+m4_define([b4_symbol(4, has_type)],
+[[1]])
+
+
+m4_define([b4_pact_ninf],
+[[-14]])
+
+
+m4_define([b4_symbol(17, has_printer)],
+[[0]])
+
+
+m4_define([b4_symbol(13, has_type)],
+[[1]])
+
+
+m4_define([b4_symbol(orig 37, number)],
+[[36]])
+
+
+m4_define([b4_symbol(orig 38, number)],
+[[37]])
+
+
+m4_define([b4_symbol(27, has_printer)],
+[[0]])
+
+
+m4_define([b4_symbol(23, has_type)],
+[[1]])
+
+
+m4_define([b4_percent_define_loc(api.value.type)],
+[[[[bison.y:6.1@@1]], [[bison.y:6.31@@31]]]])
+
+
+m4_define([b4_symbol(37, has_printer)],
+[[0]])
+
+
+m4_define([b4_symbol(33, has_type)],
+[[1]])
+
+
+m4_define([b4_conflict_list_heads],
+[[     0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
+       0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
+       0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
+       0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
+       0,     0,     0,     0,     0,     0,     0,     0]])
+
+
+m4_define([b4_symbol(0, tag)],
+[["end of file"]])
+
+
+m4_define([b4_symbol(1, tag)],
+[[error]])
+
+
+m4_define([b4_symbol(2, tag)],
+[["invalid token"]])
+
+
+m4_define([b4_symbol(3, tag)],
+[[TNUMBER]])
+
+
+m4_define([b4_symbol(20, number)],
+[[20]])
+
+
+m4_define([b4_percent_define_how(parse.trace)],
+[[2]])
+
+
+m4_define([b4_symbol(21, number)],
+[[21]])
+
+
+m4_define([b4_symbol(4, tag)],
+[[TIDENTIFIER]])
+
+
+m4_define([b4_symbol(5, tag)],
+[["+"]])
+
+
+m4_define([b4_symbol(22, number)],
+[[22]])
+
+
+m4_define([b4_toknum_max],
+[[278]])
+
+
+m4_define([b4_symbol(33, code)],
+[[-1]])
+
+
+m4_define([b4_symbol(23, number)],
+[[23]])
+
+
+m4_define([b4_symbol(6, tag)],
+[["-"]])
+
+
+m4_define([b4_rhs],
+[[    25,     0,    -1,    26,    -1,    27,    -1,    26,    27,    -1,
+      -1,    30,    -1,    28,    -1,    36,    -1,     4,    -1,     4,
+       9,    31,    -1,    34,    -1,    35,    -1,    36,    -1,    29,
+      -1,    31,    32,    31,    -1,    33,    31,    -1,     7,    -1,
+       8,    -1,     5,    -1,     6,    -1,    10,    -1,    11,    -1,
+      12,    -1,    13,    -1,    14,    -1,    15,    -1,    17,    -1,
+      18,    -1,     5,    -1,     6,    -1,    16,    -1,     3,    -1,
+      23,    -1,    22,    -1,     4,    19,    37,    20,    -1,    -1,
+      31,    -1,    37,    21,    31,    -1]])
+
+
+m4_define([b4_last],
+[[47]])
+
+
+m4_define([b4_symbol(24, number)],
+[[24]])
+
+
+m4_define([b4_symbol(22, code)],
+[[277]])
+
+
+m4_define([b4_symbol(7, tag)],
+[["*"]])
+
+
+m4_define([b4_symbol(8, tag)],
+[["/"]])
+
+
+m4_define([b4_symbol(25, number)],
+[[25]])
+
+
+m4_define([b4_symbol(11, code)],
+[[266]])
+
+
+m4_define([b4_stos_min],
+[[0]])
+
+
+m4_define([b4_symbol(26, number)],
+[[26]])
+
+
+m4_define([b4_symbol(9, tag)],
+[["="]])
+
+
+m4_define([b4_symbol(1, code)],
+[[256]])
+
+
+m4_define([b4_symbol(27, number)],
+[[27]])
+
+
+m4_define([b4_tag_seen_flag],
+[[1]])
+
+
+m4_define([b4_percent_define(parse.trace)],
+[[]])
+
+
+m4_define([b4_token_table_flag],
+[[1]])
+
+
+m4_define([b4_symbol(28, number)],
+[[28]])
+
+
+m4_define([b4_symbol(29, number)],
+[[29]])
+
+
+m4_define([b4_parser_file_name],
+[[bison.tab.cpp]])
+
+
+m4_define([b4_percent_define_bison_variables(lr.default-reduction)],
+[[]])
+
+
+m4_define([b4_symbol(5, has_destructor)],
+[[0]])
+
+
+m4_define([b4_symbol(5, id)],
+[[TPLUS]])
+
+
+m4_define([b4_symbol(14, has_destructor)],
+[[0]])
+
+
+m4_define([b4_symbol(14, id)],
+[[TAND]])
+
+
+m4_define([b4_symbol(28, type)],
+[[ExpressionStatementNode*]])
+
+
+m4_define([b4_symbol(24, has_destructor)],
+[[0]])
+
+
+m4_define([b4_immediate],
+[[     0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
+       0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
+       0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
+       0,     0,     0,     0,     0,     0,     0,     0,     0]])
+
+
+m4_define([b4_symbol(34, has_destructor)],
+[[0]])
+
+
+m4_define([b4_symbol(24, id)],
+[[]])
+
+
+m4_define([b4_symbol(17, type)],
+[[int]])
+
+
+m4_define([b4_table_min],
+[[0]])
+
+
+m4_define([b4_symbol(34, id)],
+[[numeric]])
+
+
+m4_define([b4_symbol(7, type)],
+[[int]])
+
+
+m4_define([b4_table],
+[[    25,    12,    13,    14,    15,     8,     7,    41,    42,     7,
+      10,     1,    40,     9,    16,     9,    11,     0,     0,     0,
+      17,    18,     0,     0,     0,     0,     0,     0,     0,     0,
+      43,     0,     0,    44,    27,    28,    29,    30,     0,    31,
+      32,    33,    34,    35,    36,     0,    37,    38]])
+
+
+m4_define([b4_conflicting_rules_max],
+[[0]])
+
+
+m4_define([b4_merger],
+[[     0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
+       0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
+       0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
+       0,     0,     0,     0,     0,     0,     0,     0,     0]])
+
+
+m4_define([b4_glr_flag],
+[[0]])
+
+
+m4_define([b4_percent_define_kind(api.value.type)],
+[[keyword]])
+
+
+m4_define([b4_symbol(2, is_token)],
+[[1]])
+
+
+m4_define([b4_symbol(11, is_token)],
+[[1]])
+
+
+m4_define([b4_check_max],
+[[42]])
+
+
+m4_define([b4_symbol(21, is_token)],
+[[1]])
+
+
+m4_define([b4_symbol(3, has_type)],
+[[1]])
+
+
+m4_define([b4_symbol(31, is_token)],
+[[0]])
+
+
+m4_define([b4_symbol(7, has_printer)],
+[[0]])
+
+
+m4_define([b4_symbol(12, has_type)],
+[[1]])
+
+
+m4_define([b4_symbol(16, has_printer)],
+[[0]])
+
+
+m4_define([b4_symbol(22, has_type)],
+[[1]])
+
+
+m4_define([b4_symbol(26, has_printer)],
+[[0]])
+
+
+m4_define([b4_symbol(32, has_type)],
+[[1]])
+
+
+m4_define([b4_symbol(36, has_printer)],
+[[0]])
+
+
+m4_define([b4_spec_graph_file],
+[[]])
+
+
+m4_define([b4_symbol(10, tag)],
+[["<"]])
+
+
+m4_define([b4_symbol(11, tag)],
+[["<="]])
+
+
+m4_define([b4_rline_min],
+[[0]])
+
+
+m4_define([b4_symbol(30, number)],
+[[30]])
+
+
+m4_define([b4_symbol(12, tag)],
+[[">"]])
+
+
+m4_define([b4_symbol(13, tag)],
+[[">="]])
+
+
+m4_define([b4_symbol(31, number)],
+[[31]])
+
+
+m4_define([b4_toknum],
+[[     0,   256,   257,   258,   259,   260,   261,   262,   263,   264,
+     265,   266,   267,   268,   269,   270,   271,   272,   273,   274,
+     275,   276,   277,   278]])
+
+
+m4_define([b4_symbol(32, number)],
+[[32]])
+
+
+m4_define([b4_symbol(14, tag)],
+[["&&"]])
+
+
+m4_define([b4_percent_define_syncline(parse.error)],
+[[]b4_syncline(2, [["bison.y"]])dnl
+[]])
+
+
+m4_define([b4_symbol(34, code)],
+[[-1]])
+
+
+m4_define([b4_symbol(33, number)],
+[[33]])
+
+
+m4_define([b4_symbol(15, tag)],
+[["||"]])
+
+
+m4_define([b4_symbol(16, tag)],
+[["!"]])
+
+
+m4_define([b4_symbol(34, number)],
+[[34]])
+
+
+m4_define([b4_symbol(23, code)],
+[[278]])
+
+
+m4_define([b4_symbol(12, code)],
+[[267]])
+
+
+m4_define([b4_symbol(35, number)],
+[[35]])
+
+
+m4_define([b4_symbol(17, tag)],
+[["!="]])
+
+
+m4_define([b4_defgoto_max],
+[[39]])
+
+
+m4_define([b4_symbol(36, number)],
+[[36]])
+
+
+m4_define([b4_symbol(18, tag)],
+[["=="]])
+
+
+m4_define([b4_symbol(2, code)],
+[[257]])
+
+
+m4_define([b4_symbol(19, tag)],
+[["("]])
+
+
+m4_define([b4_symbol(37, number)],
+[[37]])
+
+
+m4_define([b4_symbol(4, has_destructor)],
+[[0]])
+
+
+m4_define([b4_symbol(4, id)],
+[[TIDENTIFIER]])
+
+
+m4_define([b4_symbol(29, type)],
+[[IdentifierNode*]])
+
+
+m4_define([b4_symbol(13, has_destructor)],
+[[0]])
+
+
+m4_define([b4_symbol(13, id)],
+[[TGREATEREQUAL]])
+
+
+m4_define([b4_symbol(23, has_destructor)],
+[[0]])
+
+
+m4_define([b4_symbol(18, type)],
+[[int]])
+
+
+m4_define([b4_immediate_max],
+[[0]])
+
+
+m4_define([b4_version],
+[[30704]])
+
+
+m4_define([b4_symbol(33, has_destructor)],
+[[0]])
+
+
+m4_define([b4_symbol(23, id)],
+[[TFALSE]])
+
+
+m4_define([b4_symbol(8, type)],
+[[int]])
+
+
+m4_define([b4_translate_min],
+[[0]])
+
+
+m4_define([b4_symbol(33, id)],
+[[unop]])
+
+
+m4_define([b4_percent_define_loc(parse.trace)],
+[[[[bison.y:7.1@@1]], [[bison.y:7.20@@20]]]])
+
+
+m4_define([b4_symbol(1, is_token)],
+[[1]])
+
+
+m4_define([b4_symbol(10, is_token)],
+[[1]])
+
+
+m4_define([b4_percent_define(lr.default-reduction)],
+[[most]])
+
+
+m4_define([b4_symbol(20, is_token)],
+[[1]])
+
+
+m4_define([b4_symbol(2, has_type)],
+[[0]])
+
+
+m4_define([b4_symbol(30, is_token)],
+[[0]])
+
+
+m4_define([b4_symbol(6, has_printer)],
+[[0]])
+
+
+m4_define([b4_symbol(11, has_type)],
+[[1]])
+
+
+m4_define([b4_symbol(15, has_printer)],
+[[0]])
+
+
+m4_define([b4_symbol(21, has_type)],
+[[1]])
+
+
+m4_define([b4_symbol(25, has_printer)],
+[[0]])
+
+
+m4_define([b4_symbol(31, has_type)],
+[[1]])
+
+
+m4_define([b4_symbol(35, has_printer)],
+[[0]])
+
+
+m4_define([b4_symbol(20, tag)],
+[[")"]])
+
+
+m4_define([b4_symbol(21, tag)],
+[[","]])
+
+
+m4_define([b4_symbol(22, tag)],
+[["TRUE"]])
+
+
+m4_define([b4_symbol(23, tag)],
+[["FALSE"]])
+
+
+m4_define([b4_symbol(30, type)],
+[[AssignNode*]])
+
+
+m4_define([b4_pgoto_min],
+[[-14]])
+
+
+m4_define([b4_symbol(24, tag)],
+[[$][accept]])
+
+
+m4_define([b4_symbol(25, tag)],
+[[program]])
+
+
+m4_define([b4_symbol(35, code)],
+[[-1]])
+
+
+m4_define([b4_rhs_max],
+[[37]])
+
+
+m4_define([b4_symbol(26, tag)],
+[[stmts]])
+
+
+m4_define([b4_symbol(24, code)],
+[[-1]])
+
+
+m4_define([b4_symbol(13, code)],
+[[268]])
+
+
+m4_define([b4_symbol(27, tag)],
+[[stmt]])
+
+
+m4_define([b4_symbol(3, code)],
+[[258]])
+
+
+m4_define([b4_symbol(28, tag)],
+[[exprstmt]])
+
+
+m4_define([b4_symbol(29, tag)],
+[[identifier]])
+
+
+m4_define([b4_percent_define_kind(lr.type)],
+[[keyword]])
+
+
+m4_define([b4_pgoto],
+[[   -14,   -14,   -14,    13,   -14,   -14,   -14,    -9,   -14,   -14,
+     -14,   -14,     6,   -14]])
+
+
+m4_define([b4_pact_max],
+[[29]])
+
+
+m4_define([b4_yacc_flag],
+[[0]])
+
+
+m4_define([b4_percent_define_kind(parse.trace)],
+[[keyword]])
+
+
+m4_define([b4_spec_verbose_file],
+[[]])
+
+
+m4_define([b4_symbol(3, has_destructor)],
+[[0]])
+
+
+m4_define([b4_symbol(3, id)],
+[[TNUMBER]])
+
+
+m4_define([b4_symbol(19, type)],
+[[int]])
+
+
+m4_define([b4_symbol(12, has_destructor)],
+[[0]])
+
+
+m4_define([b4_has_translations_flag],
+[[0]])
+
+
+m4_define([b4_symbol(22, has_destructor)],
+[[0]])
+
+
+m4_define([b4_symbol(12, id)],
+[[TGREATER]])
+
+
+m4_define([b4_symbol(9, type)],
+[[int]])
+
+
+m4_define([b4_symbol(22, id)],
+[[TTRUE]])
+
+
+m4_define([b4_symbol(32, has_destructor)],
+[[0]])
+
+
+m4_define([b4_symbol(32, id)],
+[[binop]])
+
+
+m4_define([b4_mapped_dir_prefix],
+[[]])
+
+
+m4_define([b4_symbol(0, is_token)],
+[[1]])
+
+
+m4_define([b4_percent_define_kind(lr.keep-unreachable-state)],
+[[keyword]])
+
+
+m4_define([b4_symbol(1, has_type)],
+[[0]])
+
+
+m4_define([b4_symbol(5, has_printer)],
+[[0]])
+
+
+m4_define([b4_conflict_list_heads_min],
+[[0]])
+
+
+m4_define([b4_symbol(14, has_printer)],
+[[0]])
+
+
+m4_define([b4_symbol(10, has_type)],
+[[1]])
+
+
+m4_define([b4_symbol(20, has_type)],
+[[1]])
+
+
+m4_define([b4_symbol(24, has_printer)],
+[[0]])
+
+
+m4_define([b4_symbol(30, has_type)],
+[[1]])
+
+
+m4_define([b4_symbol(34, has_printer)],
+[[0]])
+
+
+m4_define([b4_spec_mapped_header_file],
+[[bison.tab.h]])
+
+
+m4_define([b4_tname],
+[["\"end of file\"", "error", "\"invalid token\"", "TNUMBER",
+  "TIDENTIFIER", "\"+\"", "\"-\"", "\"*\"", "\"/\"", "\"=\"", "\"<\"",
+  "\"<=\"", "\">\"", "\">=\"", "\"&&\"", "\"||\"", "\"!\"", "\"!=\"",
+  "\"==\"", "\"(\"", "\")\"", "\",\"", "\"TRUE\"", "\"FALSE\"", "$][accept",
+  "program", "stmts", "stmt", "exprstmt", "identifier", "assign", "expr",
+  "binop", "unop", "numeric", "boolean", "method", "call_params", ]b4_null[]])
+
+
+m4_define([b4_symbol(30, tag)],
+[[assign]])
+
+
+m4_define([b4_percent_define_loc(lr.default-reduction)],
+[[[[<default value>:-1.-1@@-1]], [[<default value>:-1.-1@@-1]]]])
+
+
+m4_define([b4_symbol(31, tag)],
+[[expr]])
+
+
+m4_define([b4_symbol(32, tag)],
+[[binop]])
+
+
+m4_define([b4_symbol(31, type)],
+[[Expression*]])
+
+
+m4_define([b4_symbol(33, tag)],
+[[unop]])
+
+
+m4_define([b4_defact],
+[[     5,     0,     0,     2,     3,     7,     6,     8,     0,    36,
+       1,     4,    32,     9,    29,    30,    31,    34,    33,    14,
+      10,     0,    11,    12,    13,    37,     0,    19,    20,    17,
+      18,    21,    22,    23,    24,    25,    26,    27,    28,     0,
+      16,    35,     0,    15,    38]])
+
+
+m4_define([b4_symbol(34, tag)],
+[[numeric]])
+
+
+m4_define([b4_symbol(20, type)],
+[[int]])
+
+
+m4_define([b4_symbol(19, is_token)],
+[[1]])
+
+
+m4_define([b4_symbol(29, is_token)],
+[[0]])
+
+
+m4_define([b4_symbol(36, code)],
+[[-1]])
+
+
+m4_define([b4_symbol(35, tag)],
+[[boolean]])
+
+
+m4_define([b4_tokens_number],
+[[24]])
+
+
+m4_define([b4_symbol(36, tag)],
+[[method]])
+
+
+m4_define([b4_symbol(25, code)],
+[[-1]])
+
+
+m4_define([b4_symbol(14, code)],
+[[269]])
+
+
+m4_define([b4_symbol(37, tag)],
+[[call_params]])
+
+
+m4_define([b4_stos_max],
+[[37]])
+
+
+m4_define([b4_symbol(4, code)],
+[[259]])
+
+
+m4_define([b4_percent_define_user_variables],
+[[[[[[parse.error]], [[bison.y:2.1@@1]], [[bison.y:2.28@@28]]]],[[[[api.value.type]], [[bison.y:6.1@@1]], [[bison.y:6.31@@31]]]],[[[[parse.trace]], [[bison.y:7.1@@1]], [[bison.y:7.20@@20]]]]]])
+
+
+m4_define([b4_lex_param],
+[[[[[yyscan_t scanner]], [[scanner]]]]])
+
+
+m4_define([b4_symbol(2, has_destructor)],
+[[0]])
+
+
+m4_define([b4_merger_min],
+[[0]])
+
+
+m4_define([b4_symbol(11, has_destructor)],
+[[0]])
+
+
+m4_define([b4_symbol(2, id)],
+[[YYUNDEF]])
+
+
+m4_define([b4_table_max],
+[[44]])
+
+
+m4_define([b4_symbol(11, id)],
+[[TLESSEQUAL]])
+
+
+m4_define([b4_symbol(21, has_destructor)],
+[[0]])
+
+
+m4_define([b4_symbol(21, id)],
+[[TCOMMA]])
+
+
+m4_define([b4_spec_name_prefix],
+[[]])
+
+
+m4_define([b4_symbol(31, has_destructor)],
+[[0]])
+
+
+m4_define([b4_symbol(31, id)],
+[[expr]])
+
+
+m4_define([b4_epilogue],
+[[]b4_syncline(119, [["bison.y"]])dnl
+[
+void yy::parser::error( const std::string& msg) {
+    std::cout << msg << std::endl;
+}
+
+
+
+std::string token_name(int t) {
+    return yy::parser::symbol_name(yy::parser::by_kind((yy::parser::token_type)t).type_get());
+}
+
+]])
+
+
+m4_define([b4_table_ninf],
+[[-1]])
+
+
+m4_define([b4_prhs],
+[[     0,     0,     3,     5,     7,    10,    11,    13,    15,    17,
+      19,    23,    25,    27,    29,    31,    35,    38,    40,    42,
+      44,    46,    48,    50,    52,    54,    56,    58,    60,    62,
+      64,    66,    68,    70,    72,    74,    79,    80,    82]])
+
+
+m4_define([b4_percent_define_kind(lr.default-reduction)],
+[[keyword]])
+
+
+m4_define([b4_symbol(4, has_printer)],
+[[0]])
+
+
+m4_define([b4_symbol(0, has_type)],
+[[0]])
+
+
+m4_define([b4_check],
+[[     9,     3,     4,     5,     6,     9,     0,    20,    21,     3,
+       0,     4,    21,    19,    16,    19,     3,    -1,    -1,    -1,
+      22,    23,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,
+      39,    -1,    -1,    42,     5,     6,     7,     8,    -1,    10,
+      11,    12,    13,    14,    15,    -1,    17,    18]])
+
+
+m4_define([b4_symbol(13, has_printer)],
+[[0]])
+
+
+m4_define([b4_symbol(23, has_printer)],
+[[0]])
+
+
+m4_define([b4_nterms_number],
+[[14]])
+
+
+m4_define([b4_symbol(33, has_printer)],
+[[0]])
+
+
+m4_define([b4_rline_max],
+[[116]])
+
+
+m4_define([b4_symbol(32, type)],
+[[int]])
+
+
+m4_define([b4_percent_define_syncline(api.value.type)],
+[[]b4_syncline(6, [["bison.y"]])dnl
+[]])
+
+
+m4_define([b4_symbol(21, type)],
+[[int]])
+
+
+m4_define([b4_symbol(9, is_token)],
+[[1]])
+
+
+m4_define([b4_dprec],
+[[     0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
+       0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
+       0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
+       0,     0,     0,     0,     0,     0,     0,     0,     0]])
+
+
+m4_define([b4_symbol(37, code)],
+[[-1]])
+
+
+m4_define([b4_symbol(18, is_token)],
+[[1]])
+
+
+m4_define([b4_symbol(10, type)],
+[[int]])
+
+
+m4_define([b4_symbol(0, type)],
+[[]])
+
+
+m4_define([b4_symbol(28, is_token)],
+[[0]])
+
+
+m4_define([b4_symbol(26, code)],
+[[-1]])
+
+
+m4_define([b4_symbol(15, code)],
+[[270]])
+
+
+m4_define([b4_symbol(5, code)],
+[[260]])
+
+
+m4_define([b4_symbol(19, has_type)],
+[[1]])
+
+
+m4_define([b4_symbol(29, has_type)],
+[[1]])
+
+
+m4_define([b4_rline],
+[[     0,    66,    66,    71,    72,    73,    76,    77,    80,    83,
+      87,    90,    91,    92,    93,    94,    95,    98,    98,    98,
+      98,    98,    98,    98,    98,    98,    98,    98,    98,   101,
+     101,   101,   104,   107,   108,   111,   114,   115,   116]])
+
+
+m4_define([b4_prhs_min],
+[[0]])
+
+
+m4_define([b4_spec_outfile],
+[[bison.tab.cpp]])
+
+
+m4_define([b4_symbol_names],
+[["end of file", "error", "invalid token", "TNUMBER", "TIDENTIFIER", "+",
+  "-", "*", "/", "=", "<", "<=", ">", ">=", "&&", "||", "!", "!=", "==",
+  "(", ")", ",", "TRUE", "FALSE", "$][accept", "program", "stmts", "stmt",
+  "exprstmt", "identifier", "assign", "expr", "binop", "unop", "numeric",
+  "boolean", "method", "call_params", ]b4_null[]])
+
+
+m4_define([b4_symbol(1, has_destructor)],
+[[0]])
+
+
+m4_define([b4_translate_max],
+[[23]])
+
+
+m4_define([b4_symbol(10, has_destructor)],
+[[0]])
+
+
+m4_define([b4_symbol(1, id)],
+[[YYerror]])
+
+
+m4_define([b4_symbol(10, id)],
+[[TLESS]])
+
+
+m4_define([b4_symbol(20, has_destructor)],
+[[0]])
+
+
+m4_define([b4_r1_min],
+[[0]])
+
+
+m4_define([b4_symbol(30, has_destructor)],
+[[0]])
+
+
+m4_define([b4_symbol(20, id)],
+[[TCLOSEBRACKET]])
+
+
+m4_define([b4_symbol(30, id)],
+[[assign]])
+
+
+m4_define([b4_max_left_semantic_context],
+[[0]])
+
+
+m4_define([b4_symbol(3, has_printer)],
+[[0]])
+
+
+m4_define([b4_symbol(12, has_printer)],
+[[0]])
+
+
+m4_define([b4_symbol(22, has_printer)],
+[[0]])
+
+
+m4_define([b4_symbol(32, has_printer)],
+[[0]])
+
+
+m4_define([b4_symbol(33, type)],
+[[int]])
+
+
+m4_define([b4_pgoto_max],
+[[13]])
+
+
+m4_define([b4_symbol(22, type)],
+[[int]])
+
+
+m4_define([b4_symbol(8, is_token)],
+[[1]])
+
+
+m4_define([b4_symbol(11, type)],
+[[int]])
+
+
+m4_define([b4_rules_number],
+[[38]])
+
+
+m4_define([b4_symbol(27, code)],
+[[-1]])
+
+
+m4_define([b4_symbol(17, is_token)],
+[[1]])
+
+
+m4_define([b4_symbol(1, type)],
+[[]])
+
+
+m4_define([b4_symbol(16, code)],
+[[271]])
+
+
+m4_define([b4_symbol(27, is_token)],
+[[0]])
+
+
+m4_define([b4_symbol(6, code)],
+[[261]])
+
+
+m4_define([b4_file_name_all_but_ext],
+[[bison.tab]])
+
+
+m4_define([b4_symbol(37, is_token)],
+[[0]])
+
+
+m4_define([b4_symbol(9, has_type)],
+[[1]])
+
+
+m4_define([b4_symbol(18, has_type)],
+[[1]])
+
+
+m4_define([b4_percent_code(requires)],
+[[]b4_syncline(29, [["bison.y"]])dnl
+[
+  typedef void* yyscan_t;
+]])
+
+
+m4_define([b4_symbol(28, has_type)],
+[[1]])
+
+
+m4_define([b4_percent_define(lr.type)],
+[[lalr]])
+
+
+m4_define([b4_symbol(0, has_destructor)],
+[[0]])
+
+
+m4_define([b4_symbol(0, id)],
+[[YYEOF]])
+
+
+m4_define([b4_r2_min],
+[[0]])
+
+
+m4_define([b4_pact],
+[[     7,    -4,    10,     7,   -14,   -14,   -14,   -14,    -2,    -2,
+     -14,   -14,   -14,    -6,   -14,   -14,   -14,   -14,   -14,   -14,
+      29,    -2,   -14,   -14,   -14,    29,   -13,   -14,   -14,   -14,
+     -14,   -14,   -14,   -14,   -14,   -14,   -14,   -14,   -14,    -2,
+      29,   -14,    -2,    29,    29]])
+
+
+m4_define([b4_dprec_min],
+[[0]])
+
+
+m4_define([b4_defact_min],
+[[0]])
+
+
+m4_define([b4_code_max],
+[[278]])
+
+
+m4_define([b4_percent_define(lr.keep-unreachable-state)],
+[[false]])
+
+
+m4_define([b4_synclines_flag],
+[[1]])
+
+
+m4_define([b4_nondeterministic_flag],
+[[0]])
+
+
+m4_define([b4_defines_flag],
+[[1]])
+
+
+m4_define([b4_percent_define_syncline(parse.trace)],
+[[]b4_syncline(7, [["bison.y"]])dnl
+[]])
+
+
+m4_define([b4_conflict_list_heads_max],
+[[0]])
+
+
+m4_define([b4_dir_prefix],
+[[]])
+
+
+m4_define([b4_symbol(2, has_printer)],
+[[0]])
+
+
+m4_define([b4_symbol(19, has_destructor)],
+[[0]])
+
+
+m4_define([b4_symbol(11, has_printer)],
+[[0]])
+
+
+m4_define([b4_symbol(29, has_destructor)],
+[[0]])
+
+
+m4_define([b4_symbol(19, id)],
+[[TOPENBRACKET]])
+
+
+m4_define([b4_symbol(21, has_printer)],
+[[0]])
+
+
+m4_define([b4_symbol(29, id)],
+[[identifier]])
+
+
+m4_define([b4_symbol(31, has_printer)],
+[[0]])
+
+
+m4_define([b4_percent_define_how(parse.error)],
+[[2]])
+
+
+m4_define([b4_symbol(34, type)],
+[[NumberNode*]])
+
+
+m4_define([b4_symbol(23, type)],
+[[int]])
+
+
+m4_define([b4_symbol(12, type)],
+[[int]])
+
+
+m4_define([b4_symbol(2, type)],
+[[]])
+
+
+m4_define([b4_symbol(28, code)],
+[[-1]])
+
+
+m4_define([b4_symbol(7, is_token)],
+[[1]])
+
+
+m4_define([b4_symbol(16, is_token)],
+[[1]])
+
+
+m4_define([b4_symbol(17, code)],
+[[272]])
+
+
+m4_define([b4_symbol(0, has_id)],
+[[1]])
+
+
+m4_define([b4_symbol(26, is_token)],
+[[0]])
+
+
+m4_define([b4_symbol(7, code)],
+[[262]])
+
+
+m4_define([b4_percent_define(parse.error)],
+[[verbose]])
+
+
+m4_define([b4_symbol(36, is_token)],
+[[0]])
+
+
+m4_define([b4_symbol(8, has_type)],
+[[1]])
+
+
+m4_define([b4_symbol(1, has_id)],
+[[1]])
+
+
+m4_define([b4_symbol(2, has_id)],
+[[1]])
+
+
+m4_define([b4_symbol(17, has_type)],
+[[1]])
+
+
+m4_define([b4_symbol(3, has_id)],
+[[1]])
+
+
+m4_define([b4_symbol(27, has_type)],
+[[1]])
+
+
+m4_define([b4_symbol(4, has_id)],
+[[1]])
+
+
+m4_define([b4_symbol(37, has_type)],
+[[1]])
+
+
+m4_define([b4_symbol(5, has_id)],
+[[1]])
+
+
+m4_define([b4_symbol(6, has_id)],
+[[1]])
+
+
+m4_define([b4_symbol(7, has_id)],
+[[1]])
+
+
+m4_define([b4_merger_max],
+[[0]])
+
+
+m4_define([b4_symbol(8, has_id)],
+[[1]])
+
+
+m4_define([b4_symbol(9, has_id)],
+[[1]])
+
+
+m4_define([b4_symbol(9, has_destructor)],
+[[0]])
+
+
+m4_define([b4_symbol(1, has_printer)],
+[[0]])
+
+
+m4_define([b4_symbol(18, has_destructor)],
+[[0]])
+
+
+m4_define([b4_symbol(9, id)],
+[[TASSIGN]])
+
+
+m4_define([b4_symbol(10, has_printer)],
+[[0]])
+
+
+m4_define([b4_symbol(28, has_destructor)],
+[[0]])
+
+
+m4_define([b4_symbol(18, id)],
+[[TEQUAL]])
+
+
+m4_define([b4_percent_define_bison_variables(lr.type)],
+[[]])
+
+
+m4_define([b4_symbol(28, id)],
+[[exprstmt]])
+
+
+m4_define([b4_symbol(20, has_printer)],
+[[0]])
+
+
+m4_define([b4_symbols_number],
+[[38]])
+
+
+m4_define([b4_symbol(30, has_printer)],
+[[0]])
+
+
+m4_define([b4_symbol(35, type)],
+[[BooleanNode*]])
+
+
+m4_define([b4_symbol(24, type)],
+[[]])
+
+
+m4_define([b4_symbol(13, type)],
+[[int]])
+
+
+m4_define([b4_symbol(3, type)],
+[[std::string]])
+
+
+m4_define([b4_symbol(29, code)],
+[[-1]])
+
+
+m4_define([b4_symbol(6, is_token)],
+[[1]])
+
+
+m4_define([b4_symbol(18, code)],
+[[273]])
+
+
+m4_define([b4_symbol(8, code)],
+[[263]])
+
+
+m4_define([b4_symbol(15, is_token)],
+[[1]])
+
+
+m4_define([b4_symbol(10, has_id)],
+[[1]])
+
+
+m4_define([b4_symbol(25, is_token)],
+[[0]])
+
+
+m4_define([b4_percent_define_syncline(lr.default-reduction)],
+[[]])
+
+
+m4_define([b4_symbol(35, is_token)],
+[[0]])
+
+
+m4_define([b4_symbol(11, has_id)],
+[[1]])
+
+
+m4_define([b4_symbol(7, has_type)],
+[[1]])
+
+
+m4_define([b4_symbol(12, has_id)],
+[[1]])
+
+
+m4_define([b4_symbol(16, has_type)],
+[[1]])
+
+
+m4_define([b4_symbol(13, has_id)],
+[[1]])
+
+
+m4_define([b4_symbol(26, has_type)],
+[[1]])
+
+
+m4_define([b4_prhs_max],
+[[82]])
+
+
+m4_define([b4_symbol(36, has_type)],
+[[1]])
+
+
+m4_define([b4_symbol(14, has_id)],
+[[1]])
+
+
+m4_define([b4_symbol(15, has_id)],
+[[1]])
+
+
+m4_define([b4_symbol(16, has_id)],
+[[1]])
+
+
+m4_define([b4_percent_define_bison_variables(lr.keep-unreachable-state)],
+[[]])
+
+
+m4_define([b4_symbol(17, has_id)],
+[[1]])
+
+
+m4_define([b4_percent_define_loc(parse.error)],
+[[[[bison.y:2.1@@1]], [[bison.y:2.28@@28]]]])
+
+
+m4_define([b4_spec_file_prefix],
+[[]])
+
+
+m4_define([b4_symbol(18, has_id)],
+[[1]])
+
+
+m4_define([b4_symbol(19, has_id)],
+[[1]])
+
+
+m4_define([b4_r1_max],
+[[37]])
+
+
+m4_define([b4_required_version],
+[[30200]])
+
+
+m4_define([b4_percent_define_loc(lr.type)],
+[[[[<default value>:-1.-1@@-1]], [[<default value>:-1.-1@@-1]]]])
+
+
+m4_define([b4_toknum_min],
+[[0]])
+
+
+m4_define([b4_symbol(30, code)],
+[[-1]])
+
+
+m4_define([b4_symbol(8, has_destructor)],
+[[0]])
+
+
+m4_define([b4_symbol(0, has_printer)],
+[[0]])
+
+
+m4_define([b4_symbol(17, has_destructor)],
+[[0]])
+
+
+m4_define([b4_symbol(8, id)],
+[[TDIV]])
+
+
+m4_define([b4_symbol(17, id)],
+[[TNOTEQUAL]])
+
+
+m4_define([b4_symbol(27, has_destructor)],
+[[0]])
+
+
+m4_define([b4_symbol(27, id)],
+[[stmt]])
+
+
+m4_define([b4_symbol(37, has_destructor)],
+[[0]])
+
+
+m4_define([b4_symbol(36, type)],
+[[MethodCallNode*]])
+
+
+m4_define([b4_symbol(37, id)],
+[[call_params]])
+
+
+m4_define([b4_symbol(25, type)],
+[[]])
+
+
+m4_define([b4_percent_code(provides)],
+[[]b4_syncline(33, [["bison.y"]])dnl
+[
+      #define YY_DECL \
+        int yylex(yy::parser::semantic_type* value, yyscan_t yyscanner)
+	YY_DECL;
+    std::string token_name(int t);
+ 
+]])
+
+
+m4_define([b4_symbol(14, type)],
+[[int]])
+
+
+m4_define([b4_symbol(4, type)],
+[[std::string]])
+
+
+m4_define([b4_conflicting_rules_min],
+[[0]])
+
+
+m4_define([b4_symbol(19, code)],
+[[274]])
+
+
+m4_define([b4_r1],
+[[     0,    24,    25,    26,    26,    26,    27,    27,    28,    29,
+      30,    31,    31,    31,    31,    31,    31,    32,    32,    32,
+      32,    32,    32,    32,    32,    32,    32,    32,    32,    33,
+      33,    33,    34,    35,    35,    36,    37,    37,    37]])
+
+
+m4_define([b4_symbol(9, code)],
+[[264]])
+
+
+m4_define([b4_symbol(5, is_token)],
+[[1]])
+
+
+m4_define([b4_parse_param],
+[[[[[yyscan_t scanner]], [[scanner]]],
+[[[BlockNode** inputnode]], [[inputnode]]]]])
+
+
+m4_define([b4_symbol(20, has_id)],
+[[1]])
+
+
+m4_define([b4_symbol(14, is_token)],
+[[1]])
+
+
+m4_define([b4_r2],
+[[     0,     2,     1,     1,     2,     0,     1,     1,     1,     1,
+       3,     1,     1,     1,     1,     3,     2,     1,     1,     1,
+       1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
+       1,     1,     1,     1,     1,     4,     0,     1,     3]])
+
+
+m4_define([b4_percent_define_loc(lr.keep-unreachable-state)],
+[[[[<default value>:-1.-1@@-1]], [[<default value>:-1.-1@@-1]]]])
+
+
+m4_define([b4_pre_prologue],
+[[]b4_syncline(10, [["bison.y"]])dnl
+[
+
+    #include <string>
+    #include <vector>
+    class NumberNode;
+    class BooleanNode;
+    class Expression;
+    class Statement;
+    class Node;
+    class BinaryOpNode;
+    class BlockNode;
+    class AssignNode;
+    class IdentifierNode;
+    class MethodCallNode;
+    class ExpressionStatementNode;
+	#include "node.h"
+
+]])
+
+
+m4_define([b4_symbol(21, has_id)],
+[[1]])
+
+
+m4_define([b4_symbol(24, is_token)],
+[[0]])
+
+
+m4_define([b4_symbol(6, has_type)],
+[[1]])
+
+
+m4_define([b4_version_string],
+[[3.7.4]])
+
+
+m4_define([b4_symbol(34, is_token)],
+[[0]])
+
+
+m4_define([b4_symbol(22, has_id)],
+[[1]])
+
+
+m4_define([b4_percent_define_kind(parse.error)],
+[[keyword]])
+
+
+m4_define([b4_symbol(23, has_id)],
+[[1]])
+
+
+m4_define([b4_symbol(19, has_printer)],
+[[0]])
+
+
+m4_define([b4_symbol(15, has_type)],
+[[1]])
+
+
+m4_define([b4_check_min],
+[[-1]])
+
+
+m4_define([b4_symbol(29, has_printer)],
+[[0]])
+
+
+m4_define([b4_symbol(25, has_type)],
+[[0]])
+
+
+m4_define([b4_symbol(24, has_id)],
+[[0]])
+
+
+m4_define([b4_states_number],
+[[45]])
+
+
+m4_define([b4_symbol(35, has_type)],
+[[1]])
+
+
+m4_define([b4_symbol(25, has_id)],
+[[1]])
+
+
+m4_define([b4_symbol(26, has_id)],
+[[1]])
+
+
+m4_define([b4_symbol(27, has_id)],
+[[1]])
+
+
+m4_define([b4_symbol(28, has_id)],
+[[1]])
+
+
+m4_define([b4_symbol(29, has_id)],
+[[1]])
+
+
+m4_define([b4_r2_max],
+[[4]])
+
+
+m4_define([b4_symbol(0, number)],
+[[0]])
+
+
+m4_define([b4_dprec_max],
+[[0]])
+
+
+m4_define([b4_symbol(1, number)],
+[[1]])
+
+
+m4_define([b4_defgoto],
+[[    -1,     2,     3,     4,     5,    19,     6,    20,    39,    21,
+      22,    23,    24,    26]])
+
+
+m4_define([b4_defact_max],
+[[38]])
+
+
+m4_define([b4_symbol(2, number)],
+[[2]])
+
+
+m4_define([b4_stos],
+[[     0,     4,    25,    26,    27,    28,    30,    36,     9,    19,
+       0,    27,     3,     4,     5,     6,    16,    22,    23,    29,
+      31,    33,    34,    35,    36,    31,    37,     5,     6,     7,
+       8,    10,    11,    12,    13,    14,    15,    17,    18,    32,
+      31,    20,    21,    31,    31]])
+
+
+m4_define([b4_symbol(3, number)],
+[[3]])
+
+
+m4_define([b4_symbol(4, number)],
+[[4]])
+
+
+m4_define([b4_symbol(31, code)],
+[[-1]])
+
+
+m4_define([b4_final_state_number],
+[[10]])
+
+
+m4_define([b4_symbol(20, code)],
+[[275]])
+
+
+m4_define([b4_symbol(5, number)],
+[[5]])
+
+
+m4_define([b4_symbol(6, number)],
+[[6]])
+
+
+m4_define([b4_spec_header_file],
+[[bison.tab.h]])
+
+
+m4_define([b4_defgoto_min],
+[[-1]])
+
+
+m4_define([b4_symbol(7, number)],
+[[7]])
+
+
+m4_define([b4_symbol(8, number)],
+[[8]])
+
+
+m4_define([b4_symbol(7, has_destructor)],
+[[0]])
+
+
+m4_define([b4_symbol(9, number)],
+[[9]])
+
+
+m4_define([b4_percent_define_how(api.value.type)],
+[[2]])
+
+
+m4_define([b4_symbol(16, has_destructor)],
+[[0]])
+
+
+m4_define([b4_symbol(7, id)],
+[[TMUL]])
+
+
+m4_define([b4_file_name],
+[["bison.y"]])
+
+
+m4_define([b4_symbol(26, has_destructor)],
+[[0]])
+
+
+m4_define([b4_symbol(16, id)],
+[[TNOT]])
+
+
+m4_define([b4_symbol(26, id)],
+[[stmts]])
+
+
+m4_define([b4_symbol(37, type)],
+[[std::vector<Expression*>]])
+
+
+m4_define([b4_symbol(36, has_destructor)],
+[[0]])
+
+
+m4_define([b4_symbol(26, type)],
+[[BlockNode*]])
+
+
+m4_define([b4_symbol(36, id)],
+[[method]])
+
+
+m4_define([b4_symbol(15, type)],
+[[int]])
+
+
+m4_define([b4_immediate_min],
+[[0]])
+
+
+m4_define([b4_symbol(5, type)],
+[[int]])
+
+
+m4_define([b4_percent_define(api.value.type)],
+[[variant]])
+
+
+m4_define([b4_symbol(4, is_token)],
+[[1]])
+
+
+m4_define([b4_symbol(30, has_id)],
+[[1]])
+
+
+m4_define([b4_percent_define_syncline(lr.type)],
+[[]])
+
+
+m4_define([b4_symbol(31, has_id)],
+[[1]])
+
+
+m4_define([b4_symbol(13, is_token)],
+[[1]])
+
+
+m4_define([b4_symbol(orig 24, number)],
+[[24]])
+
+
+m4_define([b4_symbol(32, has_id)],
+[[1]])
+
+
+m4_define([b4_symbol(23, is_token)],
+[[1]])
+
+
+m4_define([b4_symbol(orig 25, number)],
+[[38]])
+
+
+m4_define([b4_symbol(33, is_token)],
+[[0]])
+
+
+m4_define([b4_symbol(33, has_id)],
+[[1]])
+
+
+m4_define([b4_symbol(9, has_printer)],
+[[0]])
+
+
+m4_define([b4_symbol(5, has_type)],
+[[1]])
+
+
+m4_define([b4_symbol(orig 26, number)],
+[[25]])
+
+
+m4_define([b4_symbol(34, has_id)],
+[[1]])
+
+
+m4_define([b4_symbol(18, has_printer)],
+[[0]])
+
+
+m4_define([b4_symbol(14, has_type)],
+[[1]])
+
+
+m4_define([b4_symbol(orig 27, number)],
+[[26]])
+
+
+m4_define([b4_symbol(35, has_id)],
+[[1]])
+
+
+m4_define([b4_symbol(28, has_printer)],
+[[0]])
+
+
+m4_define([b4_symbol(24, has_type)],
+[[0]])
+
+
+m4_define([b4_symbol(orig 28, number)],
+[[27]])
+
+
+m4_define([b4_symbol(36, has_id)],
+[[1]])
+
+
+m4_define([b4_symbol(34, has_type)],
+[[1]])
+
+
+m4_define([b4_symbol(orig 29, number)],
+[[28]])
+
+
+m4_define([b4_symbol(37, has_id)],
+[[1]])
+
+
+m4_define([b4_symbol(10, number)],
+[[10]])
+
+
+m4_define([b4_symbol(11, number)],
+[[11]])
+
+
+m4_define([b4_percent_define_syncline(lr.keep-unreachable-state)],
+[[]])
+
+
+m4_define([b4_symbol(12, number)],
+[[12]])
+
+
+m4_define([b4_symbol(13, number)],
+[[13]])
+
+
+m4_define([b4_symbol(32, code)],
+[[-1]])
+
+
+m4_define([b4_rhs_min],
+[[-1]])
+
+
+m4_define([b4_symbol(21, code)],
+[[276]])
+
+
+m4_define([b4_symbol(14, number)],
+[[14]])
+
+
+m4_define([b4_symbol(10, code)],
+[[265]])
+
+
+m4_define([b4_symbol(15, number)],
+[[15]])
+
+
+m4_define([b4_symbol(0, code)],
+[[0]])
+
+
+m4_define([b4_symbol(16, number)],
+[[16]])
+
+
+m4_define([b4_symbol(17, number)],
+[[17]])
+
+
+m4_define([b4_symbol(18, number)],
+[[18]])
+
+
+m4_define([b4_pact_min],
+[[-14]])
+
+
+m4_define([b4_symbol(19, number)],
+[[19]])
+
+
+m4_define([b4_symbol(6, has_destructor)],
+[[0]])
+
+
+m4_define([b4_symbol(6, id)],
+[[TMINUS]])
+
+
+m4_define([b4_symbol(15, has_destructor)],
+[[0]])
+
+
+m4_define([b4_conflicting_rules],
+[[     0]])
+
+
+m4_define([b4_symbol(25, has_destructor)],
+[[0]])
+
+
+m4_define([b4_symbol(15, id)],
+[[TOR]])
+
+
