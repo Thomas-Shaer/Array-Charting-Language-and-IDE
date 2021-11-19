@@ -154,17 +154,16 @@
   <ItemGroup>
     <ClCompile Include="boolean.cpp" />
     <ClCompile Include="float.cpp" />
-    <ClCompile Include="guimain.cpp" />
     <ClCompile Include="imgui.cpp" />
-    <ClCompile Include="imgui_demo.cpp" />
     <ClCompile Include="imgui_draw.cpp" />
     <ClCompile Include="imgui_impl_dx12.cpp" />
     <ClCompile Include="imgui_impl_win32.cpp" />
     <ClCompile Include="imgui_tables.cpp" />
     <ClCompile Include="imgui_widgets.cpp" />
     <ClCompile Include="implot.cpp" />
-    <ClCompile Include="implot_demo.cpp" />
     <ClCompile Include="implot_items.cpp" />
+    <ClCompile Include="interpretercontext.cpp" />
+    <ClCompile Include="maingui.cpp" />
     <ClCompile Include="methodsymbol.cpp" />
     <ClCompile Include="methodimplementations.cpp" />
     <ClCompile Include="bison.tab.cpp" />
@@ -176,6 +175,7 @@
     <ClCompile Include="methodbucket.cpp" />
     <ClCompile Include="semanticanalysis.cpp" />
     <ClCompile Include="symboltable.cpp" />
+    <ClCompile Include="testgui.cpp" />
     <ClCompile Include="typesymbol.cpp" />
     <ClCompile Include="varsymbol.cpp" />
   </ItemGroup>
@@ -190,6 +190,8 @@
     <ClInclude Include="imstb_rectpack.h" />
     <ClInclude Include="imstb_textedit.h" />
     <ClInclude Include="imstb_truetype.h" />
+    <ClInclude Include="interpretercontext.h" />
+    <ClInclude Include="maingui.h" />
     <ClInclude Include="methodsymbol.h" />
     <ClInclude Include="methodimplementations.h" />
     <ClInclude Include="bison.tab.h" />
@@ -199,6 +201,7 @@
     <ClInclude Include="languageexception.h" />
     <ClInclude Include="node.h" />
     <ClInclude Include="methodbucket.h" />
+    <ClInclude Include="testgui.h" />
     <ClInclude Include="value.h" />
     <ClInclude Include="symboltable.h" />
     <ClInclude Include="global.h" />
