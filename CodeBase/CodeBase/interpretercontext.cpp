@@ -16,8 +16,6 @@ void InterpreterContext::execute(const std::string& code) {
 
 
 
-	BlockNode* input = nullptr;
-	SymbolTable* symboltable = nullptr;
 	try {
 		yyscan_t scanner;
 
@@ -25,7 +23,7 @@ void InterpreterContext::execute(const std::string& code) {
 		yy_scan_string(code.c_str(), scanner);
 		std::string errorReturn = "";
 
-		yy::parser parseengine(scanner, &input);
+		yy::parser parseengine(scanner, &ast);
 		int parseResult = parseengine.parse();
 		if (parseResult != 0) {
 			//std::cout << "error" << std::endl;
@@ -34,29 +32,24 @@ void InterpreterContext::execute(const std::string& code) {
 
 		yylex_destroy(scanner);
 
-		std::cout << input->toString() << std::endl;
+		std::cout << ast->toString() << std::endl;
 
 		symboltable = new SymbolTable();
 
-		input->semanticAnalysis(symboltable);
-		input->interpret(symboltable);
-		std::cout << symboltable->toString() << std::endl;
+		ast->semanticAnalysis(symboltable, output);
+		ast->interpret(symboltable, output);
+		//std::cout << symboltable->toString() << std::endl;
 
 
 
 	}
 	catch (LanguageException langexception) {
 		std::cout << langexception.message << std::endl;
+		output.push_back(langexception.message);
 	}
 
-	if (input) {
-		delete input;
-	}
 
-	if (symboltable) {
-		delete symboltable;
-	}
-	std::cout << "_______________________________" << std::endl;
+	//std::cout << "_______________________________" << std::endl;
 }
 
 
@@ -72,7 +65,6 @@ void InterpreterContext::execute(std::ifstream& myfile) {
 		myfile.close();
 	}
 
-	BlockNode* input = nullptr;
 	SymbolTable* symboltable = nullptr;
 	try {
 		yyscan_t scanner;
@@ -81,7 +73,7 @@ void InterpreterContext::execute(std::ifstream& myfile) {
 		yy_scan_string(code.c_str(), scanner);
 		std::string errorReturn = "";
 
-		yy::parser parseengine(scanner, &input);
+		yy::parser parseengine(scanner, &ast);
 		int parseResult = parseengine.parse();
 		if (parseResult != 0) {
 			//std::cout << "error" << std::endl;
@@ -93,20 +85,27 @@ void InterpreterContext::execute(std::ifstream& myfile) {
 
 		symboltable = new SymbolTable();
 
-		input->semanticAnalysis(symboltable);
-		input->interpret(symboltable);
+		ast->semanticAnalysis(symboltable, output);
+		ast->interpret(symboltable, output);
 
 
 
 	}
 	catch (LanguageException langexception) {
 		std::cout << langexception.message << std::endl;
+		output.push_back(langexception.message);
+
 	}
 
-	if (input) {
-		delete input;
-	}
 
+
+}
+
+
+InterpreterContext::~InterpreterContext() {
+	if (ast) {
+		delete ast;
+	}
 	if (symboltable) {
 		delete symboltable;
 	}

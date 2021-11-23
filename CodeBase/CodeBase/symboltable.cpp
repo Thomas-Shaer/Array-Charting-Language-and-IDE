@@ -81,6 +81,15 @@ std::string SymbolTable::toString() {
 	return output;
 }
 
+std::string SymbolTable::variablesToString() {
+	std::string output = "";
+	for (const auto& value : variableTable) {
+		output += value.second->toString() + "\n";
+	}
+	return output;
+}
+
+
 bool SymbolTable::isVariableDeclared(const std::string& name) {
 	return variableTable.find(name) != variableTable.end();
 }

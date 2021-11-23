@@ -43,6 +43,12 @@
     <Filter Include="Source Files\GUI\Library\IMGUI">
       <UniqueIdentifier>{3cb08d22-0583-44cc-b533-f5682c7ffd23}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\GUI\Library\Text Editor">
+      <UniqueIdentifier>{bac202da-e901-4baf-b1ff-332d0f6f2fc6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GUI\Windows">
+      <UniqueIdentifier>{4446c07a-d91b-476c-9d39-2f7505a8a5d8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -117,11 +123,26 @@
     <ClCompile Include="maingui.cpp">
       <Filter>Source Files\GUI</Filter>
     </ClCompile>
-    <ClCompile Include="testgui.cpp">
-      <Filter>Source Files\GUI</Filter>
-    </ClCompile>
     <ClCompile Include="interpretercontext.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TextEditor.cpp">
+      <Filter>Source Files\GUI\Library\Text Editor</Filter>
+    </ClCompile>
+    <ClCompile Include="chartwindow.cpp">
+      <Filter>Source Files\GUI\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="documentationwindow.cpp">
+      <Filter>Source Files\GUI\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="texteditorwindow.cpp">
+      <Filter>Source Files\GUI\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="textoutputwindow.cpp">
+      <Filter>Source Files\GUI\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="displayinformation.cpp">
+      <Filter>Source Files\GUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -200,14 +221,29 @@
     <ClInclude Include="implot_internal.h">
       <Filter>Source Files\GUI\Library\IMPLOT</Filter>
     </ClInclude>
-    <ClInclude Include="testgui.h">
-      <Filter>Source Files\GUI</Filter>
-    </ClInclude>
     <ClInclude Include="maingui.h">
       <Filter>Source Files\GUI</Filter>
     </ClInclude>
     <ClInclude Include="interpretercontext.h">
       <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TextEditor.h">
+      <Filter>Source Files\GUI\Library\Text Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="chartwindow.h">
+      <Filter>Source Files\GUI\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="documentationwindow.h">
+      <Filter>Source Files\GUI\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="texteditorwindow.h">
+      <Filter>Source Files\GUI\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="textoutputwindow.h">
+      <Filter>Source Files\GUI\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="displayinformation.h">
+      <Filter>Source Files\GUI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

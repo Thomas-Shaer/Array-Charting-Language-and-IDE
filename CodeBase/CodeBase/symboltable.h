@@ -40,13 +40,17 @@ public:
 	//converts symbol table to string
 	std::string toString();
 
-private:
-	// use of shared pointer to remove change of memory leak + helps increase compile time
-	std::map<std::string, std::shared_ptr<VarSymbol>> variableTable;
-
+	std::string variablesToString();
 
 	// since methods can't be declared this table will never be changed.
 	// therefore make it static so it isn't recreated every time symbol table is spawned
 	// also no need for shared pointers for same reason. Use regular pointers to help compile time
 	static std::map<std::string, MethodBucket*> methodTable;
+
+private:
+	// use of shared pointer to remove change of memory leak + helps increase compile time
+	std::map<std::string, std::shared_ptr<VarSymbol>> variableTable;
+
+
+
 };

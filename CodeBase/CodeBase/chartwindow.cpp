@@ -1,4 +1,4 @@
-#include "testgui.h"
+#include "chartwindow.h"
 #include "implot.h"
 #include "imgui.h"
 #include <math.h>
@@ -26,14 +26,13 @@ void ShowDemo_LinePlots() {
     }
 }
 
-void ShowTestWindow(bool* p_open) {
+void ShowChartWindow(bool* p_open) {
 
 
-    ImGui::SetNextWindowPos(ImVec2(100, 50), ImGuiCond_FirstUseEver);
-    ImGui::SetNextWindowSize(ImVec2(600, 750), ImGuiCond_FirstUseEver);
-    ImGui::Begin("ImPlot Demo", p_open, ImGuiWindowFlags_MenuBar);
+    ImGui::SetNextWindowSize(ImVec2(400, 500), ImGuiCond_FirstUseEver);
+    //ImGui::SetNextWindowPos(ImVec2(0, 0)), ImGuiCond_FirstUseEver;
 
-    //-------------------------------------------------------------------------
+    ImGui::Begin("Chart Screen", p_open, ImGuiWindowFlags_MenuBar);
     ImGui::Text("ImPlot says hello. (%s)", IMPLOT_VERSION);
     // display warning about 16-bit indices
     static bool showWarning = sizeof(ImDrawIdx) * 8 == 16 && (ImGui::GetIO().BackendFlags & ImGuiBackendFlags_RendererHasVtxOffset) == false;
@@ -42,9 +41,9 @@ void ShowTestWindow(bool* p_open) {
         ImGui::TextWrapped("WARNING: ImDrawIdx is 16-bit and ImGuiBackendFlags_RendererHasVtxOffset is false. Expect visual glitches and artifacts! See README for more information.");
         ImGui::PopStyleColor();
     }
-
     ImGui::Spacing();
     ShowDemo_LinePlots();
+
 
 
     ImGui::End();

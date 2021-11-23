@@ -5,23 +5,23 @@
 #include "methodbucket.h"
 #include "typesymbol.h"
 
-void BlockNode::semanticAnalysis(SymbolTable* symboltable) {
+void BlockNode::semanticAnalysis(SymbolTable* symboltable, std::vector<std::string>& output) {
 	for (Statement* statement : statementNodes) {
-		statement->semanticAnalysis(symboltable);
+		statement->semanticAnalysis(symboltable, output);
 	}
 }
 
-const TypeSymbol* NumberNode::semanticAnalysis(SymbolTable* symboltable) {
+const TypeSymbol* NumberNode::semanticAnalysis(SymbolTable* symboltable, std::vector<std::string>& output) {
 	return TypeInstances::GetFloatInstance();
 }
 
-const TypeSymbol* BooleanNode::semanticAnalysis(SymbolTable* symboltable) {
+const TypeSymbol* BooleanNode::semanticAnalysis(SymbolTable* symboltable, std::vector<std::string>& output) {
 	return TypeInstances::GetBooleanInstance();
 }
 
 
 
-const TypeSymbol* IdentifierNode::semanticAnalysis(SymbolTable* symboltable) {
+const TypeSymbol* IdentifierNode::semanticAnalysis(SymbolTable* symboltable, std::vector<std::string>& output) {
 	// need to return item in symbol table
 	if (symboltable->isVariableDeclared(name)) {
 		return symboltable->getVariable(name)->type;
@@ -31,13 +31,13 @@ const TypeSymbol* IdentifierNode::semanticAnalysis(SymbolTable* symboltable) {
 
 
 
-void ExpressionStatementNode::semanticAnalysis(SymbolTable* symboltable) {
-	expressionNode->semanticAnalysis(symboltable);
+void ExpressionStatementNode::semanticAnalysis(SymbolTable* symboltable, std::vector<std::string>& output) {
+	expressionNode->semanticAnalysis(symboltable, output);
 }
 
 
-void AssignNode::semanticAnalysis(SymbolTable* symboltable) {
-	const TypeSymbol* rhsType = rhs->semanticAnalysis(symboltable);
+void AssignNode::semanticAnalysis(SymbolTable* symboltable, std::vector<std::string>& output) {
+	const TypeSymbol* rhsType = rhs->semanticAnalysis(symboltable, output);
 
 	// variable already declared therefore right side type should be same as left side type
 	if (symboltable->isVariableDeclared(name)) {
@@ -52,7 +52,7 @@ void AssignNode::semanticAnalysis(SymbolTable* symboltable) {
 	// need to store value in symbol table at lhs name
 }
 
-const TypeSymbol* MethodCallNode::semanticAnalysis(SymbolTable* symboltable) {
+const TypeSymbol* MethodCallNode::semanticAnalysis(SymbolTable* symboltable, std::vector<std::string>& output) {
 
 	// check to see if method exists first
 	if (!symboltable->isMethodDeclared(name)) {
@@ -61,7 +61,7 @@ const TypeSymbol* MethodCallNode::semanticAnalysis(SymbolTable* symboltable) {
 
 	std::vector<const TypeSymbol*> argTypes;
 	for (Expression* expr : arguments) {
-		argTypes.push_back(expr->semanticAnalysis(symboltable));
+		argTypes.push_back(expr->semanticAnalysis(symboltable, output));
 	}
 
 	this->methodsymbol = symboltable->getMethod(name)->getMethodSymbol(argTypes);

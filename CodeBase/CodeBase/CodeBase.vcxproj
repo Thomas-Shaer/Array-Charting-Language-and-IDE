@@ -153,6 +153,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="boolean.cpp" />
+    <ClCompile Include="displayinformation.cpp" />
+    <ClCompile Include="documentationwindow.cpp" />
     <ClCompile Include="float.cpp" />
     <ClCompile Include="imgui.cpp" />
     <ClCompile Include="imgui_draw.cpp" />
@@ -175,11 +177,16 @@
     <ClCompile Include="methodbucket.cpp" />
     <ClCompile Include="semanticanalysis.cpp" />
     <ClCompile Include="symboltable.cpp" />
-    <ClCompile Include="testgui.cpp" />
+    <ClCompile Include="chartwindow.cpp" />
+    <ClCompile Include="TextEditor.cpp" />
+    <ClCompile Include="texteditorwindow.cpp" />
+    <ClCompile Include="textoutputwindow.cpp" />
     <ClCompile Include="typesymbol.cpp" />
     <ClCompile Include="varsymbol.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="displayinformation.h" />
+    <ClInclude Include="documentationwindow.h" />
     <ClInclude Include="imconfig.h" />
     <ClInclude Include="imgui.h" />
     <ClInclude Include="imgui_impl_dx12.h" />
@@ -201,7 +208,10 @@
     <ClInclude Include="languageexception.h" />
     <ClInclude Include="node.h" />
     <ClInclude Include="methodbucket.h" />
-    <ClInclude Include="testgui.h" />
+    <ClInclude Include="chartwindow.h" />
+    <ClInclude Include="TextEditor.h" />
+    <ClInclude Include="texteditorwindow.h" />
+    <ClInclude Include="textoutputwindow.h" />
     <ClInclude Include="value.h" />
     <ClInclude Include="symboltable.h" />
     <ClInclude Include="global.h" />

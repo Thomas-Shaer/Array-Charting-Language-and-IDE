@@ -2,7 +2,12 @@
 
 #include "maingui.h"
 
-#include "testgui.h"
+#include "chartwindow.h"
+#include "TextEditor.h"
+#include "texteditorwindow.h"
+#include "textoutputwindow.h"
+#include "documentationwindow.h"
+#include "displayinformation.h"
 
 // Main code
 int start()
@@ -64,6 +69,18 @@ int start()
     bool show_another_window = false;
     ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 
+
+    TextEditor editor;
+    auto lang = TextEditor::LanguageDefinition::CPlusPlus();
+    editor.SetLanguageDefinition(lang);
+    editor.SetText(DisplayInformation::PLACEHOLDER_CODE);
+
+    struct PersistentInfo {
+        std::string CODE_OUTPUT;
+    };
+
+    PersistentInfo info;
+
     // Main loop
     bool done = false;
     while (!done)
@@ -90,7 +107,18 @@ int start()
         ImGui::NewFrame();
 
 
-        ShowTestWindow(&show_demo_window);
+        ShowChartWindow(&show_demo_window);
+
+
+
+        ShowEditorWindow(editor);
+
+
+        ShowTextOutputWindow();
+
+        ShowDocumentationWindow();
+
+
 
         // Rendering
         ImGui::Render();

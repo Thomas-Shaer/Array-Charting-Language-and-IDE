@@ -18,7 +18,7 @@ public:
 	// should take list of types
 	const TypeSymbol* semanticAnaylsis(std::vector<const TypeSymbol*> _argumentTypes) const;
 
-	virtual ExpressionValue interpret(std::vector<ExpressionValue> _argumentValues) const = 0;
+	virtual ExpressionValue interpret(std::vector<ExpressionValue> _argumentValues, std::vector<std::string>& output) const = 0;
 
 	std::string toString() const;
 };
