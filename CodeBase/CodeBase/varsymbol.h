@@ -1,5 +1,7 @@
 #pragma once
 #include "global.h"
+#include <vector>
+
 
 class TypeSymbol;
 
@@ -17,10 +19,10 @@ public:
 
 	std::string toString();
 
-	ExpressionValue getValue();
-	void setValue(ExpressionValue _value);
+	ExpressionValue getValue(const unsigned int i);
+	void setValue(const unsigned int i, ExpressionValue _value);
 
 private:
-	ExpressionValue value;
+	std::vector<ExpressionValue> value;
 
 };

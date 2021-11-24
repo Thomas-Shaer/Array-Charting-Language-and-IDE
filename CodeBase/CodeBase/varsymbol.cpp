@@ -10,7 +10,7 @@ std::string VarSymbol::toString() {
 	output += type->name;
 	output += ", ";
 
-	output += boost::apply_visitor(ToString(), value);
+	//output += boost::apply_visitor(ToString(), value);
 	output += ">";
 
 	return output;
@@ -18,11 +18,15 @@ std::string VarSymbol::toString() {
 
 
 
-ExpressionValue VarSymbol::getValue() {
-	return value;
+ExpressionValue VarSymbol::getValue(const unsigned int i) {
+	return value[i];
 }
 
-void VarSymbol::setValue(ExpressionValue _value) {
-	// ERORR CHECK HERE MAKE SURE SAME TYPE
-	value.swap(_value);
+void VarSymbol::setValue(const unsigned int i, ExpressionValue _value) {
+	if (value.size() == (i-1)) {
+		value[i].swap(_value);
+	}
+	else {
+		value.push_back(_value);
+	}
 }

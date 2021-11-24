@@ -2,6 +2,7 @@
 #include <iostream>
 #include "global.h"
 #include <vector>
+#include "interpreteroutput.h"
 
 class TypeSymbol;
 
@@ -18,7 +19,9 @@ public:
 	// should take list of types
 	const TypeSymbol* semanticAnaylsis(std::vector<const TypeSymbol*> _argumentTypes) const;
 
-	virtual ExpressionValue interpret(std::vector<ExpressionValue> _argumentValues, std::vector<std::string>& output) const = 0;
+	virtual ExpressionValue interpret(const unsigned int tick, std::vector<ExpressionValue> _argumentValues, InterpreterOutput& output) = 0;
 
 	std::string toString() const;
+
+	virtual MethodSymbol* clone() = 0;
 };

@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+#include <vector>
 
 /*
 * Stores all dynamic information used within rendering window
@@ -10,5 +11,10 @@ struct DisplayInformation {
 	static std::string CODE_OUTPUT; //Text output from the code is displayed here
 	static std::string CODE_OUTPUT_RECONSTRUCTION; //Shows how the input code is interpreted
 	static std::string CODE_OUTPUT_VARIABLES; //Shows all the variables stored on the symbol table
+	static std::string CHART_DESCRIPTION;
+
+
+	static 	std::vector<std::vector<float>> CHART_LINE_DATA;
+	static 	std::vector<std::vector<float>> CHART_MARK_DATA;
 };
 

@@ -3,25 +3,26 @@
 #include "imgui.h"
 #include <math.h>
 #include <limits>
+#include "displayinformation.h"
 
-#define AMOUNT 100000
 
 void ShowDemo_LinePlots() {
-    static double xs2[AMOUNT], ys2[AMOUNT];
-    for (int i = 0; i < AMOUNT; ++i) {
 
-        xs2[i] = i;
-        //ys2[i] = xs2[i] * xs2[i];
-        if (i % 3 == 0) {
-            //ys2[i] = std::numeric_limits<double>::quiet_NaN();
-            ys2[i] = i + 1;
-        }
-    }
     ImGui::BulletText("Test Chart Below");
     if (ImPlot::BeginPlot("Line Plot")) {
         ImPlot::SetupAxes("x", "f(x)");
         //ImPlot::SetNextMarkerStyle(ImPlotMarker_Circle);
-        ImPlot::PlotLine("x^2", xs2, ys2, AMOUNT);
+        for (auto line : DisplayInformation::CHART_LINE_DATA) {
+            ImPlot::PlotLine("data", line.data(), line.size());
+
+        }
+        for (auto line : DisplayInformation::CHART_MARK_DATA) {
+            ImPlot::PlotScatter("scatter", line.data(), line.size());
+
+        }
+        //float data[3] = {1.2, std::numeric_limits<double>::quiet_NaN(), 1.2};
+        //
+
         ImPlot::EndPlot();
     }
 }
@@ -33,7 +34,7 @@ void ShowChartWindow(bool* p_open) {
     //ImGui::SetNextWindowPos(ImVec2(0, 0)), ImGuiCond_FirstUseEver;
 
     ImGui::Begin("Chart Screen", p_open, ImGuiWindowFlags_MenuBar);
-    ImGui::Text("ImPlot says hello. (%s)", IMPLOT_VERSION);
+    ImGui::Text(DisplayInformation::CHART_DESCRIPTION.c_str());
     // display warning about 16-bit indices
     static bool showWarning = sizeof(ImDrawIdx) * 8 == 16 && (ImGui::GetIO().BackendFlags & ImGuiBackendFlags_RendererHasVtxOffset) == false;
     if (showWarning) {

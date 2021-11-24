@@ -87,4 +87,5 @@ MethodCallNode::~MethodCallNode() {
 	for (const Expression* argument : arguments) {
 		delete argument;
 	}
+	delete methodsymbol;
 }

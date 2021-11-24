@@ -25,6 +25,12 @@ class ExpressionStatementNode;
 
 std::map<std::string, MethodBucket*> SymbolTable::methodTable{
 	{"average", new SingleMethodBucket(new MethodAverage())},
+	{"plot", new SingleMethodBucket(new Plot())},
+	{"tick", new SingleMethodBucket(new GetTick())},
+	{"mark", new SingleMethodBucket(new Mark())},
+
+
+
 	{"operator" + token_name(yy::parser::token::TPLUS), new OverloadedMethodBucket(
 		{new UnaryPlusOperator("operator" + token_name(yy::parser::token::TPLUS)),
 		 new BinaryPlusOperator("operator" + token_name(yy::parser::token::TPLUS))
@@ -45,13 +51,7 @@ std::map<std::string, MethodBucket*> SymbolTable::methodTable{
 		 new BinaryBooleanNotEqualOperator("operator" + token_name(yy::parser::token::TNOTEQUAL))
 		}
 	)},
-	{"print", new OverloadedMethodBucket(
-		{new PrintBoolean(),
-		 new PrintFloat()
-		}
-	)},
 	{"operator" + token_name(yy::parser::token::TNOT), new SingleMethodBucket(new UnaryNotOperator("operator" + token_name(yy::parser::token::TNOT)))},
-
 	{"operator" + token_name(yy::parser::token::TMUL), new SingleMethodBucket(new BinaryMultiplyOperator("operator" + token_name(yy::parser::token::TMUL)))},
 	{"operator" + token_name(yy::parser::token::TDIV), new SingleMethodBucket(new BinaryDivideOperator("operator" + token_name(yy::parser::token::TDIV)))},
 	{"operator" + token_name(yy::parser::token::TLESS), new SingleMethodBucket(new BinaryLessOperator("operator" + token_name(yy::parser::token::TLESS)))},

@@ -49,6 +49,9 @@
     <Filter Include="Source Files\GUI\Windows">
       <UniqueIdentifier>{4446c07a-d91b-476c-9d39-2f7505a8a5d8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Output">
+      <UniqueIdentifier>{0a2af8de-d56a-4699-bdd5-4317c15d4ea6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -244,6 +247,9 @@
     </ClInclude>
     <ClInclude Include="displayinformation.h">
       <Filter>Source Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="interpreteroutput.h">
+      <Filter>Source Files\Output</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

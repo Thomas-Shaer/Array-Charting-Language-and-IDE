@@ -30,7 +30,7 @@ void ShowEditorWindow(TextEditor& texteditor) {
         DisplayInformation::CODE_OUTPUT_VARIABLES = "";
         InterpreterContext context;
         context.execute(texteditor.GetText());
-        for (auto string : context.output) {
+        for (auto string : context.output.textOutput) {
             //std::cout << "what" << std::endl;
             DisplayInformation::CODE_OUTPUT += string + "\n";
             //std::cout << string << std::endl;
@@ -41,6 +41,10 @@ void ShowEditorWindow(TextEditor& texteditor) {
         if (context.symboltable) {
             DisplayInformation::CODE_OUTPUT_VARIABLES = context.symboltable->variablesToString();
         }
+        DisplayInformation::CHART_LINE_DATA = context.output.chartData;
+        DisplayInformation::CHART_MARK_DATA = context.output.markData;
+        DisplayInformation::CHART_DESCRIPTION = "Displaying " + std::to_string(DisplayInformation::CHART_LINE_DATA.size()) + " plot(s) of size " + std::to_string(plotList.size());
+
         //std::cout << "what" << std::endl;
     }
 
