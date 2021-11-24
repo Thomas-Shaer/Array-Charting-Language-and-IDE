@@ -33,7 +33,7 @@ Finish a working prototype with all basic components implemented.
 	- **Ability to output data that can be rendered by a chart**✔️
 2. **Get basic GUI framework going for interaction with the program**✔️
 	- **Basic integration of language into the GUI**✔️
-3.** Basic chart working that can display output information from the language.**✔️
+3.**Basic chart working that can display output information from the language.**✔️
 4. Basic input and labelling for user submitted data so that it can be used and referenced in the language.
 
 
