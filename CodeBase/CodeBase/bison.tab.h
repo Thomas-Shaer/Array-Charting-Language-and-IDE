@@ -415,8 +415,6 @@ namespace yy {
       // ","
       // "TRUE"
       // "FALSE"
-      // binop
-      // unop
       char dummy10[sizeof (int)];
 
       // TNUMBER
@@ -538,12 +536,10 @@ namespace yy {
         S_identifier = 29,                       // identifier
         S_assign = 30,                           // assign
         S_expr = 31,                             // expr
-        S_binop = 32,                            // binop
-        S_unop = 33,                             // unop
-        S_numeric = 34,                          // numeric
-        S_boolean = 35,                          // boolean
-        S_method = 36,                           // method
-        S_call_params = 37                       // call_params
+        S_numeric = 32,                          // numeric
+        S_boolean = 33,                          // boolean
+        S_method = 34,                           // method
+        S_call_params = 35                       // call_params
       };
     };
 
@@ -633,8 +629,6 @@ namespace yy {
       case symbol_kind::S_TCOMMA: // ","
       case symbol_kind::S_TTRUE: // "TRUE"
       case symbol_kind::S_TFALSE: // "FALSE"
-      case symbol_kind::S_binop: // binop
-      case symbol_kind::S_unop: // unop
         value.move< int > (std::move (that.value));
         break;
 
@@ -889,8 +883,6 @@ switch (yykind)
       case symbol_kind::S_TCOMMA: // ","
       case symbol_kind::S_TTRUE: // "TRUE"
       case symbol_kind::S_TFALSE: // "FALSE"
-      case symbol_kind::S_binop: // binop
-      case symbol_kind::S_unop: // unop
         value.template destroy< int > ();
         break;
 
@@ -1518,7 +1510,7 @@ switch (yykind)
 
 #if YYDEBUG
     // YYRLINE[YYN] -- Source line where rule number YYN was defined.
-    static const signed char yyrline_[];
+    static const unsigned char yyrline_[];
     /// Report on the debug stream that the rule \a r is going to be reduced.
     virtual void yy_reduce_print_ (int r) const;
     /// Print the state stack on the debug stream.
@@ -1745,8 +1737,8 @@ switch (yykind)
     /// Constants.
     enum
     {
-      yylast_ = 47,     ///< Last index in yytable_.
-      yynnts_ = 14,  ///< Number of nonterminal symbols.
+      yylast_ = 102,     ///< Last index in yytable_.
+      yynnts_ = 12,  ///< Number of nonterminal symbols.
       yyfinal_ = 10 ///< Termination state number.
     };
 
@@ -1759,7 +1751,7 @@ switch (yykind)
 
 
 } // yy
-#line 1763 "bison.tab.h"
+#line 1755 "bison.tab.h"
 
 
 // "%code provides" blocks.
@@ -1771,7 +1763,7 @@ switch (yykind)
     std::string token_name(int t);
  
 
-#line 1775 "bison.tab.h"
+#line 1767 "bison.tab.h"
 
 
 #endif // !YY_YY_BISON_TAB_H_INCLUDED

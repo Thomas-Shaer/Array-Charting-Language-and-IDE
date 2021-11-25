@@ -47,7 +47,6 @@
 
 
 
-%type <int> binop unop
 %type <Expression*> expr
 %type <BlockNode*> stmts
 %type <Statement*> stmt
@@ -60,6 +59,14 @@
 %type <ExpressionStatementNode*> exprstmt;
 %type <std::vector<Expression*>> call_params
 
+
+%left TOR
+%left TAND
+%left TEQUAL TNOTEQUAL
+%left TLESS TLESSEQUAL TGREATER TGREATEREQUAL
+%left TPLUS TMINUS
+%left TMUL TDIV
+%left TOPENBRACKET TCLOSEBRACKET
 
 %%
 
@@ -91,15 +98,24 @@ expr : numeric { $$ = $1; }
      | boolean {$$=$1;}
      | method {$$=$1;}
      | identifier {$$ = $1; }
-     | expr binop expr {$$ =  new MethodCallNode("operator" + token_name($2), {$1, $3}); }
-     | unop expr {$$ =  new MethodCallNode("operator" + token_name($1), {$2}); }
+     | expr TMUL expr {$$ =  new MethodCallNode("operator" + token_name($2), {$1, $3}); }
+     | expr TDIV expr {$$ =  new MethodCallNode("operator" + token_name($2), {$1, $3}); }
+     | expr TPLUS expr {$$ =  new MethodCallNode("operator" + token_name($2), {$1, $3}); }
+     | expr TMINUS expr {$$ =  new MethodCallNode("operator" + token_name($2), {$1, $3}); }
+     | expr TLESS expr {$$ =  new MethodCallNode("operator" + token_name($2), {$1, $3}); }
+     | expr TLESSEQUAL expr {$$ =  new MethodCallNode("operator" + token_name($2), {$1, $3}); }
+     | expr TGREATER expr {$$ =  new MethodCallNode("operator" + token_name($2), {$1, $3}); }
+     | expr TGREATEREQUAL expr {$$ =  new MethodCallNode("operator" + token_name($2), {$1, $3}); }
+     | expr TNOTEQUAL expr {$$ =  new MethodCallNode("operator" + token_name($2), {$1, $3}); }
+     | expr TEQUAL expr {$$ =  new MethodCallNode("operator" + token_name($2), {$1, $3}); }
+     | expr TOR expr {$$ =  new MethodCallNode("operator" + token_name($2), {$1, $3}); }
+     | expr TAND expr {$$ =  new MethodCallNode("operator" + token_name($2), {$1, $3}); }
+     | TPLUS expr {$$ =  new MethodCallNode("operator" + token_name($1), {$2}); }
+     | TMINUS expr {$$ =  new MethodCallNode("operator" + token_name($1), {$2}); }
+     | TNOT expr {$$ =  new MethodCallNode("operator" + token_name($1), {$2}); }
+     | TOPENBRACKET expr TCLOSEBRACKET {$$ = $2; }
      ;
 
-binop : TMUL | TDIV | TPLUS | TMINUS | TLESS | TLESSEQUAL | TGREATER | TGREATEREQUAL | TAND | TOR | TNOTEQUAL |  TEQUAL
-      ;
-
-unop : TPLUS | TMINUS | TNOT
-      ;
 
 numeric : TNUMBER { $$ = new NumberNode(atoi($1.c_str())); }
         ;
