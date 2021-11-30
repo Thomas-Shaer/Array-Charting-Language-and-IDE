@@ -16,5 +16,7 @@ struct DisplayInformation {
 
 	static 	std::vector<std::vector<float>> CHART_LINE_DATA;
 	static 	std::vector<std::vector<float>> CHART_MARK_DATA;
+
+	static 	float MAX_CHART_Y;
 };
 

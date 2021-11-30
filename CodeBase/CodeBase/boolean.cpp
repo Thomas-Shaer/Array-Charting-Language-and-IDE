@@ -2,5 +2,5 @@
 #include <string>
 
 std::string Boolean::toString() const {
-	return value ? "true" : "false";
+	return this->value ? (*this->value ? "true" : "false") : "nan";
 }

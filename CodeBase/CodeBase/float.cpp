@@ -2,5 +2,5 @@
 #include <string>
 
 std::string Float::toString() const {
-	return std::to_string(value);
+	return this->value ? std::to_string(*this->value) : "nan";
 }

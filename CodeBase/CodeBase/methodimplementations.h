@@ -208,3 +208,22 @@ private:
 	std::vector<float> plotdata;
 };
 
+
+class FloatNAN : public MethodSymbol {
+public:
+	FloatNAN();
+	virtual ExpressionValue interpret(const unsigned int tick, std::vector<ExpressionValue> _argumentValues, InterpreterOutput& output);
+	virtual FloatNAN* clone() {
+		return new FloatNAN();
+	}
+};
+
+class BooleanNAN : public MethodSymbol {
+public:
+	BooleanNAN();
+	virtual ExpressionValue interpret(const unsigned int tick, std::vector<ExpressionValue> _argumentValues, InterpreterOutput& output);
+	virtual BooleanNAN* clone() {
+		return new BooleanNAN();
+	}
+};
+

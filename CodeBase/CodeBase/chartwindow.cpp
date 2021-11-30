@@ -7,14 +7,16 @@
 
 
 void ShowDemo_LinePlots() {
-
+    
     ImGui::BulletText("Test Chart Below");
+
     if (ImPlot::BeginPlot("Line Plot")) {
         ImPlot::SetupAxes("x", "f(x)");
+        //ImPlot::SetupAxesLimits(0, 39, 0, DisplayInformation::MAX_CHART_Y, ImPlotCond_Always);
         //ImPlot::SetNextMarkerStyle(ImPlotMarker_Circle);
         for (auto line : DisplayInformation::CHART_LINE_DATA) {
             ImPlot::PlotLine("data", line.data(), line.size());
-
+            
         }
         for (auto line : DisplayInformation::CHART_MARK_DATA) {
             ImPlot::PlotScatter("scatter", line.data(), line.size());

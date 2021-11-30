@@ -1,15 +1,15 @@
 #pragma once
 #include "value.h"
 
-class Boolean : public Value {
+class Boolean : public Value<bool> {
 
 public:
 
-	Boolean() : value(false) {}
-
-	Boolean(bool _value) : value(_value) {}
-	bool value;
-
+	Boolean() : Value() {}
+	Boolean(bool _value) : Value(_value) {}
+	
 	virtual std::string toString() const;
+
+
 
 };

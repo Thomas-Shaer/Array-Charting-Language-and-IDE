@@ -29,6 +29,9 @@ std::map<std::string, MethodBucket*> SymbolTable::methodTable{
 	{"tick", new SingleMethodBucket(new GetTick())},
 	{"mark", new SingleMethodBucket(new Mark())},
 
+	{"nan_f", new SingleMethodBucket(new FloatNAN())},
+	{"nan_b", new SingleMethodBucket(new BooleanNAN())},
+
 
 
 	{"operator" + token_name(yy::parser::token::TPLUS), new OverloadedMethodBucket(
