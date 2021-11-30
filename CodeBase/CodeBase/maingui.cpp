@@ -8,15 +8,24 @@
 #include "textoutputwindow.h"
 #include "documentationwindow.h"
 #include "displayinformation.h"
+#include "settingswindow.h"
+#include "jsonsettings.h"
 
 // Main code
 int start()
 {
+    
+
+
+    // write prettified JSON to another file
+    //std::ofstream o("pretty.json");
+    //o << std::setw(4) << j << std::endl;
+
     // Create application window
     //ImGui_ImplWin32_EnableDpiAwareness();
     WNDCLASSEX wc = { sizeof(WNDCLASSEX), CS_CLASSDC, WndProc, 0L, 0L, GetModuleHandle(NULL), NULL, NULL, NULL, NULL, _T("ImGui Example"), NULL };
     ::RegisterClassEx(&wc);
-    HWND hwnd = ::CreateWindow(wc.lpszClassName, _T("Dear ImGui DirectX12 Example"), WS_OVERLAPPEDWINDOW, 100, 100, 1280, 800, NULL, NULL, wc.hInstance, NULL);
+    HWND hwnd = ::CreateWindow(wc.lpszClassName, _T("Dear ImGui DirectX12 Example"), WS_OVERLAPPEDWINDOW, 100, 100, Settings::settingsFile["windowwidth"].get<float>(), Settings::settingsFile["windowheight"].get<float>(), NULL, NULL, wc.hInstance, NULL);
 
     // Initialize Direct3D
     if (!CreateDeviceD3D(hwnd))
@@ -40,7 +49,9 @@ int start()
 
     // Setup Dear ImGui style
     ImGui::StyleColorsDark();
-    //ImGui::StyleColorsClassic();
+    //ImGui::GetStyle().ScaleAllSizes(4);
+    //ImGui::GetIO().FontGlobalScale = 2;
+
 
     // Setup Platform/Renderer backends
     ImGui_ImplWin32_Init(hwnd);
@@ -100,12 +111,15 @@ int start()
         }
         if (done)
             break;
+        //std::cout << ImGui::GetWindowWidth() << std::endl;
 
         // Start the Dear ImGui frame
         ImGui_ImplDX12_NewFrame();
         ImGui_ImplWin32_NewFrame();
         ImGui::NewFrame();
 
+        //Settings::settingsFile["windowwidth"] = ImGui::GetWindowWidth();
+        //Settings::settingsFile["windowheight"] = ImGui::GetWindowHeight();
 
         ShowChartWindow(&show_demo_window);
 
@@ -117,8 +131,9 @@ int start()
         ShowTextOutputWindow();
 
         ShowDocumentationWindow();
+        ShowSettingsWindow();
 
-
+        Settings::autoSave();
 
         // Rendering
         ImGui::Render();

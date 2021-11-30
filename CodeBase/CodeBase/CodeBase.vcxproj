@@ -165,6 +165,7 @@
     <ClCompile Include="implot.cpp" />
     <ClCompile Include="implot_items.cpp" />
     <ClCompile Include="interpretercontext.cpp" />
+    <ClCompile Include="jsonsettings.cpp" />
     <ClCompile Include="maingui.cpp" />
     <ClCompile Include="methodsymbol.cpp" />
     <ClCompile Include="methodimplementations.cpp" />
@@ -176,6 +177,7 @@
     <ClCompile Include="node.cpp" />
     <ClCompile Include="methodbucket.cpp" />
     <ClCompile Include="semanticanalysis.cpp" />
+    <ClCompile Include="settingswindow.cpp" />
     <ClCompile Include="symboltable.cpp" />
     <ClCompile Include="chartwindow.cpp" />
     <ClCompile Include="TextEditor.cpp" />
@@ -199,6 +201,7 @@
     <ClInclude Include="imstb_truetype.h" />
     <ClInclude Include="interpretercontext.h" />
     <ClInclude Include="interpreteroutput.h" />
+    <ClInclude Include="jsonsettings.h" />
     <ClInclude Include="maingui.h" />
     <ClInclude Include="methodsymbol.h" />
     <ClInclude Include="methodimplementations.h" />
@@ -210,6 +213,7 @@
     <ClInclude Include="node.h" />
     <ClInclude Include="methodbucket.h" />
     <ClInclude Include="chartwindow.h" />
+    <ClInclude Include="settingswindow.h" />
     <ClInclude Include="TextEditor.h" />
     <ClInclude Include="texteditorwindow.h" />
     <ClInclude Include="textoutputwindow.h" />
@@ -233,6 +237,9 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="examplecode.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="settings.json" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
