@@ -48,7 +48,6 @@ void ShowChartWindow(bool* p_open) {
     ShowDemo_LinePlots();
 
 
-
     ImGui::End();
 }
 

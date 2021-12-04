@@ -52,6 +52,12 @@
     <Filter Include="Source Files\Output">
       <UniqueIdentifier>{0a2af8de-d56a-4699-bdd5-4317c15d4ea6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\GUI\Library\File Browser">
+      <UniqueIdentifier>{79791cb3-1c1d-4ae2-b015-c566afffa456}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Data">
+      <UniqueIdentifier>{9bbd3ec4-9c37-4d7a-ad63-54d597d5ea75}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -152,6 +158,12 @@
     </ClCompile>
     <ClCompile Include="jsonsettings.cpp">
       <Filter>Source Files\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="datamanagerwindow.cpp">
+      <Filter>Source Files\GUI\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="inputdata.cpp">
+      <Filter>Source Files\Data</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -262,6 +274,15 @@
     </ClInclude>
     <ClInclude Include="jsonsettings.h">
       <Filter>Source Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="datamanagerwindow.h">
+      <Filter>Source Files\GUI\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="imfilebrowser.h">
+      <Filter>Source Files\GUI\Library\File Browser</Filter>
+    </ClInclude>
+    <ClInclude Include="inputdata.h">
+      <Filter>Source Files\Data</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

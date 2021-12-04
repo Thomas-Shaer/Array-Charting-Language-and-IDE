@@ -13,5 +13,6 @@ std::string DisplayInformation::CHART_DESCRIPTION = "Displaying 1 plot(s) of siz
 std::vector<std::vector<float>> DisplayInformation::CHART_LINE_DATA = { plotList };
 std::vector<std::vector<float>> DisplayInformation::CHART_MARK_DATA = { };
 
+std::vector<std::shared_ptr<InputData>> DisplayInformation::LOADED_IN_DATA = { };
 
 float DisplayInformation::MAX_CHART_Y = 0;

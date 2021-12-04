@@ -45,6 +45,8 @@ void ShowEditorWindow(TextEditor& texteditor) {
         DisplayInformation::CHART_LINE_DATA = context.output.chartData;
         DisplayInformation::CHART_MARK_DATA = context.output.markData;
         DisplayInformation::CHART_DESCRIPTION = "Displaying " + std::to_string(DisplayInformation::CHART_LINE_DATA.size()) + " plot(s) of size " + std::to_string(plotList.size());
+        
+
         ImPlot::SetNextAxisToFit(ImAxis_X1);
         ImPlot::SetNextAxisToFit(ImAxis_Y1);
         //std::cout << "what" << std::endl;
