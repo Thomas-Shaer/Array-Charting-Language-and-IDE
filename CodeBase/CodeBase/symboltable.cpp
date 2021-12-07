@@ -23,7 +23,7 @@ class ExpressionStatementNode;
 #include "bison.tab.h"
 
 
-std::map<std::string, MethodBucket*> SymbolTable::methodTable{
+const std::map<std::string, MethodBucket*> SymbolTable::methodTable{
 	{"average", new SingleMethodBucket(new MethodAverage())},
 	{"plot", new SingleMethodBucket(new Plot())},
 	{"tick", new SingleMethodBucket(new GetTick())},
@@ -66,7 +66,14 @@ std::map<std::string, MethodBucket*> SymbolTable::methodTable{
 
 };
 
-SymbolTable::SymbolTable() {}
+
+std::map<std::string, std::shared_ptr<VarSymbol>> SymbolTable::globalVariableTable{
+
+};
+
+SymbolTable::SymbolTable() {
+	variableTable = globalVariableTable;
+}
 
 std::string SymbolTable::toString() {
 	std::string output = "SYMBOL TABLE\nVariables:\n";
@@ -107,7 +114,7 @@ std::shared_ptr<VarSymbol> SymbolTable::getVariable(const std::string& name) {
 
 
 MethodBucket* SymbolTable::getMethod(const std::string& name) {
-	return methodTable[name];
+	return methodTable.at(name);
 }
 
 void SymbolTable::declareVariable(std::shared_ptr<VarSymbol> varsymbol) {

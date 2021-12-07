@@ -3,31 +3,14 @@
 #include <iostream>
 #include "jsonsettings.h"
 #include "displayinformation.h"
-#include <fstream>
-#include <sstream>
+#include "symboltable.h"
+#include "typesymbol.h"
 #include "inputdata.h"
 #include "implot.h"
+#include "varsymbol.h"
+#include "chartwindow.h"
+#include <boost/algorithm/string.hpp>
 
-std::vector<std::shared_ptr<InputData>> LoadInputData(std::string name) {
-
-    std::vector<std::shared_ptr<InputData>> values;
-    std::ifstream fin(name);
-    for (std::string line; std::getline(fin, line); )
-    {
-        std::string firstWord = line.substr(0, line.find(","));
-        line = line.substr(firstWord.size(), line.max_size());
-        std::replace(line.begin(), line.end(), ',', ' ');
-        std::istringstream in(line);
-
-        std::shared_ptr<InputData> newdata = std::make_shared<InputData>();
-        newdata->name = firstWord;
-        newdata->data = std::vector<float>(std::istream_iterator<float>(in), std::istream_iterator<float>());
-        values.push_back(newdata);
-    }
-
-    return values;
-
-}
 
 void ShowDataWindow(ImGui::FileBrowser& fileDialog) {
     ImGui::Begin("Data Manager", nullptr, ImGuiWindowFlags_HorizontalScrollbar | ImGuiWindowFlags_MenuBar);
@@ -40,40 +23,59 @@ void ShowDataWindow(ImGui::FileBrowser& fileDialog) {
 
 
     static int selected = -1;
+    static char characters[40];
 
     ImGui::BeginChild("left pane", ImVec2(150, 0), true);
         for (int i = 0; i < DisplayInformation::LOADED_IN_DATA.size(); i ++) {
         // FIXME: Good candidate to use ImGuiSelectableFlags_SelectOnNav
         if (ImGui::Selectable(DisplayInformation::LOADED_IN_DATA.at(i)->name.c_str())) {
             selected = i;
+            std::shared_ptr<InputData> data = DisplayInformation::LOADED_IN_DATA.at(selected);
+            std::string name = data->name;
+            boost::algorithm::to_lower(name);
+            std::replace_if(std::begin(name), std::end(name),
+                [](std::string::value_type v) { return v == ' '; },
+                '_');
+
+            strncpy_s(characters, name.c_str(), sizeof(characters));
         }
     }
 
 
     ImGui::EndChild();
     ImGui::SameLine();
-
+    ImGui::BeginGroup();
     if (selected != -1) {
         std::shared_ptr<InputData> data = DisplayInformation::LOADED_IN_DATA.at(selected);
 
         ImGui::Text(data->name.c_str());
-        ImGui::SameLine();
 
         if (ImGui::Button("Plot"))
         {
-            ImPlot::SetNextAxisToFit(ImAxis_X1);
-            ImPlot::SetNextAxisToFit(ImAxis_Y1);
             DisplayInformation::CHART_LINE_DATA.push_back(data->data);
+            UpdateChart();
         }
-        //ImGui::BeginGroup();
-        //ImGui::BeginChild("item view", ImVec2(0, -ImGui::GetFrameHeightWithSpacing())); // Leave room for 1 line below us
-        //ImGui::Text(data->name.c_str());
-        //ImGui::EndChild();
-        //ImGui::EndGroup();
+
+        //ImGui::Size
+        ImGui::NewLine();
+        ImGui::Text((std::string("Size: ") + std::to_string(data->data.size())).c_str());
+        ImGui::NewLine();
+        ImGui::PushItemWidth(200);
+        ImGui::Text("Variable name (40 char)");
+        ImGui::InputText("", characters, sizeof(characters));
+        if (ImGui::Button("Create Variable"))
+        {
+            std::vector<ExpressionValue> values;
+            for (auto i : data->data) {
+                values.push_back((ExpressionValue)Float(i));
+            }
+            std::shared_ptr<VarSymbol> varSymbol = std::make_shared<VarSymbol>(std::string(characters), TypeInstances::GetFloatInstance(), values);
+            SymbolTable::globalVariableTable[std::string(characters)] = varSymbol;
+        }
     }
+    ImGui::EndGroup();
 
     ImGui::End();
-
     fileDialog.Display();
     if(fileDialog.IsOpened()) {
         Settings::settingsFile["lastDirectory"] = fileDialog.GetPwd().root_path().generic_string() + (fileDialog.GetPwd().relative_path()).generic_string();
@@ -82,7 +84,9 @@ void ShowDataWindow(ImGui::FileBrowser& fileDialog) {
 
     if (fileDialog.HasSelected())
     {
-        DisplayInformation::LOADED_IN_DATA = LoadInputData(fileDialog.GetSelected().string());
+        auto newData = InputData::LoadInputData(fileDialog.GetSelected().string());
+        DisplayInformation::LOADED_IN_DATA.insert(DisplayInformation::LOADED_IN_DATA.end(), newData.begin(), newData.end());
+        Settings::settingsFile["loadedInData"].push_back(fileDialog.GetSelected().string());
         fileDialog.ClearSelected();
     }
 }

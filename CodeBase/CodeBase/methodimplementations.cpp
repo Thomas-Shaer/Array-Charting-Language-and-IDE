@@ -1,6 +1,7 @@
 #include "methodimplementations.h"
 #include "typesymbol.h"
 #include "visitors.h"
+#include "interpretercontext.h"
 
 ExpressionValue MethodAverage::interpret(const unsigned int tick, std::vector<ExpressionValue> _argumentValues, InterpreterOutput& output) {
 
@@ -206,7 +207,7 @@ ExpressionValue Plot::interpret(const unsigned int tick, std::vector<ExpressionV
 	// if nan return a nan value else extract the correct value
 	float pushBackValue = boost::get<Float>(_argumentValues.at(0)).value ? *boost::get<Float>(_argumentValues.at(0)).value : std::numeric_limits<double>::quiet_NaN();
 	plotdata.push_back(pushBackValue);
-	if (tick == output.maxTicks - 1) {
+	if (tick == InterpreterContext::ticks - 1) {
 		output.chartData.push_back(plotdata);
 		plotdata.clear();
 	}
@@ -232,7 +233,7 @@ ExpressionValue Mark::interpret(const unsigned int tick, std::vector<ExpressionV
 	else {
 		plotdata.push_back(std::numeric_limits<double>::quiet_NaN());
 	}
-	if (tick == output.maxTicks - 1) {
+	if (tick == InterpreterContext::ticks - 1) {
 		output.markData.push_back(plotdata);
 		plotdata.clear();
 	}

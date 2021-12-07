@@ -5,8 +5,14 @@
 
 class InputData {
 
+
 public:
+
+
+	static std::vector<std::shared_ptr<InputData>> LoadInputData(std::string name);
+
 	std::string name;
+	std::string fileName;
 	std::vector<float> data;
 
 	std::string toString() {

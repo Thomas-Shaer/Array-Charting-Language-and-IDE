@@ -8,3 +8,6 @@
 */
 void ShowChartWindow(bool* p_open);
 
+
+void UpdateChart();
+

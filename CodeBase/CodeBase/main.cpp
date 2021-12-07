@@ -10,6 +10,7 @@ void newJSON() {
     Settings::settingsFile["windowwidth"] = 1800;
     Settings::settingsFile["windowheight"] = 800;
     Settings::settingsFile["lastDirectory"] = "";
+    Settings::settingsFile["loadedInData"] = {};
     Settings::saveSettings();
 }
 

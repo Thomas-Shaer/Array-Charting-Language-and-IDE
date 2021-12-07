@@ -15,6 +15,7 @@ public:
 	const TypeSymbol* type;
 
 	VarSymbol(const std::string _name, const TypeSymbol* _type) : name(_name), type(_type) {}
+	VarSymbol(const std::string _name, const TypeSymbol* _type, std::vector<ExpressionValue> _value);
 
 
 	std::string toString();
