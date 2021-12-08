@@ -17,6 +17,6 @@ void Settings::autoSave() {
 	if ((timeNow - lastSaved) >= saveFrequency) {
 		saveSettings();
 		lastSaved = timeNow;
-		std::cout << "AUtosaved" << std::endl;
+		std::cout << "Autosaved" << std::endl;
 	}
 }

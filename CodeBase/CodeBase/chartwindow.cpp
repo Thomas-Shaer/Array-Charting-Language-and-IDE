@@ -4,6 +4,7 @@
 #include <math.h>
 #include <limits>
 #include "displayinformation.h"
+#include <string>
 
 
 void ShowDemo_LinePlots() {
@@ -29,6 +30,19 @@ void ShowDemo_LinePlots() {
     }
 }
 
+void UpdateChart() {
+    unsigned int maxSize = 0;
+    for (auto vector : DisplayInformation::CHART_LINE_DATA) {
+        maxSize = vector.size() > maxSize ? vector.size() : maxSize;
+    }
+    DisplayInformation::CHART_DESCRIPTION = "Displaying " + std::to_string(DisplayInformation::CHART_LINE_DATA.size() + DisplayInformation::CHART_MARK_DATA.size()) + " plot(s) of size " + std::to_string(maxSize);
+
+
+    ImPlot::SetNextAxisToFit(ImAxis_X1);
+    ImPlot::SetNextAxisToFit(ImAxis_Y1);
+}
+
+
 void ShowChartWindow(bool* p_open) {
 
 
@@ -36,6 +50,7 @@ void ShowChartWindow(bool* p_open) {
     //ImGui::SetNextWindowPos(ImVec2(0, 0)), ImGuiCond_FirstUseEver;
 
     ImGui::Begin("Chart Screen", p_open, ImGuiWindowFlags_MenuBar);
+
     ImGui::Text(DisplayInformation::CHART_DESCRIPTION.c_str());
     // display warning about 16-bit indices
     static bool showWarning = sizeof(ImDrawIdx) * 8 == 16 && (ImGui::GetIO().BackendFlags & ImGuiBackendFlags_RendererHasVtxOffset) == false;
@@ -46,7 +61,6 @@ void ShowChartWindow(bool* p_open) {
     }
     ImGui::Spacing();
     ShowDemo_LinePlots();
-
 
 
     ImGui::End();

@@ -157,6 +157,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="boolean.cpp" />
+    <ClCompile Include="datamanagerwindow.cpp" />
     <ClCompile Include="displayinformation.cpp" />
     <ClCompile Include="documentationwindow.cpp" />
     <ClCompile Include="float.cpp" />
@@ -168,6 +169,7 @@
     <ClCompile Include="imgui_widgets.cpp" />
     <ClCompile Include="implot.cpp" />
     <ClCompile Include="implot_items.cpp" />
+    <ClCompile Include="inputdata.cpp" />
     <ClCompile Include="interpretercontext.cpp" />
     <ClCompile Include="jsonsettings.cpp" />
     <ClCompile Include="maingui.cpp" />
@@ -191,9 +193,11 @@
     <ClCompile Include="varsymbol.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="datamanagerwindow.h" />
     <ClInclude Include="displayinformation.h" />
     <ClInclude Include="documentationwindow.h" />
     <ClInclude Include="imconfig.h" />
+    <ClInclude Include="imfilebrowser.h" />
     <ClInclude Include="imgui.h" />
     <ClInclude Include="imgui_impl_dx12.h" />
     <ClInclude Include="imgui_impl_win32.h" />
@@ -203,6 +207,7 @@
     <ClInclude Include="imstb_rectpack.h" />
     <ClInclude Include="imstb_textedit.h" />
     <ClInclude Include="imstb_truetype.h" />
+    <ClInclude Include="inputdata.h" />
     <ClInclude Include="interpretercontext.h" />
     <ClInclude Include="interpreteroutput.h" />
     <ClInclude Include="jsonsettings.h" />
@@ -249,4 +254,9 @@
   <ImportGroup Label="ExtensionTargets">
     <Import Project="..\..\custom_build_rules\win_flex_bison\win_flex_bison_custom_build.targets" />
   </ImportGroup>
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties settings_1json__JsonSchema="https://beaujs.com/schema.json" />
+    </VisualStudio>
+  </ProjectExtensions>
 </Project>

@@ -11,10 +11,9 @@
 #include <string>
 
 
+unsigned int InterpreterContext::ticks = 30;
 
 void InterpreterContext::execute(const std::string& code) {
-	output.maxTicks = plotList.size();
-	output.chartData.push_back(plotList);
 
 
 	try {
@@ -39,7 +38,7 @@ void InterpreterContext::execute(const std::string& code) {
 
 		ast->semanticAnalysis(symboltable, output);
 
-		for (int i = 0; i < plotList.size(); i++) {
+		for (int i = 0; i < ticks; i++) {
 			ast->interpret(i, symboltable, output);
 		}		//std::cout << symboltable->toString() << std::endl;
 
@@ -57,8 +56,6 @@ void InterpreterContext::execute(const std::string& code) {
 
 
 void InterpreterContext::execute(std::ifstream& myfile) {
-	output.maxTicks = plotList.size();
-	output.chartData.push_back(plotList);
 	std::string code = "";
 	std::string line;
 	if (myfile.is_open())
@@ -91,7 +88,7 @@ void InterpreterContext::execute(std::ifstream& myfile) {
 		symboltable = new SymbolTable();
 
 		ast->semanticAnalysis(symboltable, output);
-		for (int i = 0; i < plotList.size(); i++) {
+		for (int i = 0; i < ticks; i++) {
 			ast->interpret(i, symboltable, output);
 		}
 

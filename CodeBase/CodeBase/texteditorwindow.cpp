@@ -7,14 +7,16 @@
 #include "node.h"
 #include "symboltable.h"
 #include "implot.h"
+#include "chartwindow.h"
 
 void ShowEditorWindow(TextEditor& texteditor) {
     ImGui::Begin("Code Input", nullptr, ImGuiWindowFlags_HorizontalScrollbar | ImGuiWindowFlags_MenuBar);
     ImGui::SetWindowSize(ImVec2(800, 600), ImGuiCond_FirstUseEver);
     ImGui::SetWindowPos(ImVec2(10, 600), ImGuiCond_FirstUseEver);
 
-    bool runCode = false;
-
+    static int textScale =0;
+    if (ImGui::SliderInt("Amount ticks", &textScale, 0, 1000)) {
+    }
 
 
     if (ImGui::BeginMenuBar()) {
@@ -43,10 +45,9 @@ void ShowEditorWindow(TextEditor& texteditor) {
             DisplayInformation::CODE_OUTPUT_VARIABLES = context.symboltable->variablesToString();
         }
         DisplayInformation::CHART_LINE_DATA = context.output.chartData;
+        std::cout << context.output.chartData.size();
         DisplayInformation::CHART_MARK_DATA = context.output.markData;
-        DisplayInformation::CHART_DESCRIPTION = "Displaying " + std::to_string(DisplayInformation::CHART_LINE_DATA.size()) + " plot(s) of size " + std::to_string(plotList.size());
-        ImPlot::SetNextAxisToFit(ImAxis_X1);
-        ImPlot::SetNextAxisToFit(ImAxis_Y1);
+        UpdateChart();
         //std::cout << "what" << std::endl;
     }
 
