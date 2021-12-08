@@ -94,8 +94,8 @@ int start()
 
     fileDialog.SetPwd(std::filesystem::path(Settings::settingsFile["lastDirectory"].get<std::string>()));
     
-    for (std::string path : Settings::settingsFile["loadedInData"].get<std::vector<std::string>>() ) {
-        auto newData = InputData::LoadInputData(path);
+    for (nlohmann::json path : Settings::settingsFile["loadedInData"].get<std::vector<nlohmann::json>>() ) {
+        auto newData = InputData::LoadInputData(path["path"], path["name"]);
         DisplayInformation::LOADED_IN_DATA.insert(DisplayInformation::LOADED_IN_DATA.end(), newData.begin(), newData.end());
     }
 

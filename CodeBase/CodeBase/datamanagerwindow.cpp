@@ -11,19 +11,65 @@
 #include "chartwindow.h"
 #include <boost/algorithm/string.hpp>
 
-
 void ShowDataWindow(ImGui::FileBrowser& fileDialog) {
-    ImGui::Begin("Data Manager", nullptr, ImGuiWindowFlags_HorizontalScrollbar | ImGuiWindowFlags_MenuBar);
+    ImGui::Begin("Data Manager", nullptr, /*ImGuiWindowFlags_HorizontalScrollbar | */ImGuiWindowFlags_MenuBar);
     ImGui::SetWindowSize(ImVec2(500, 600), ImGuiCond_FirstUseEver);
     ImGui::SetWindowPos(ImVec2(100, 600), ImGuiCond_FirstUseEver);
 
-    if (ImGui::Button("open file dialog")) {
+
+
+    //ImGui::NewLine();
+    static std::string current_item;
+    static int selected = -1;
+    static char characters[40];
+
+    if (ImGui::BeginCombo("Files", current_item.c_str())) // The second parameter is the label previewed before opening the combo.
+    {
+        for (nlohmann::json path : Settings::settingsFile["loadedInData"].get<std::vector<nlohmann::json>>()) {
+
+                bool is_selected = false; // You can store your selection however you want, outside or inside your objects
+                if (ImGui::Selectable(path["name"].get<std::string>().c_str(), is_selected)) {
+                    current_item = path["name"].get<std::string>();
+                }
+                if (is_selected) {
+                    ImGui::SetItemDefaultFocus();
+                }
+        }
+        ImGui::EndCombo();
+    }
+
+    if (ImGui::Button("Import File")) {
         fileDialog.Open();
+    }
+    ImGui::SameLine();
+
+    if (ImGui::Button("Remove File")) {
+        DisplayInformation::LOADED_IN_DATA.erase(std::remove_if(DisplayInformation::LOADED_IN_DATA.begin(),
+            DisplayInformation::LOADED_IN_DATA.end(),
+            [](std::shared_ptr<InputData> input) {return input->fileName == current_item; }),
+            DisplayInformation::LOADED_IN_DATA.end());
+        Settings::settingsFile["loadedInData"].erase(std::remove_if(Settings::settingsFile["loadedInData"].begin(),
+            Settings::settingsFile["loadedInData"].end(),
+            [](nlohmann::json json) {return json["name"] == current_item; }),
+            Settings::settingsFile["loadedInData"].end());
+
+        selected = -1;
+        current_item = "";
+    }
+    ImGui::SameLine();
+    if (ImGui::Button("Remove all Files")) {
+        // remove all laoded in data
+        // clear loaded files
+        DisplayInformation::LOADED_IN_DATA.clear();
+        Settings::settingsFile["loadedInData"] = nlohmann::json::array();
+
+
+        selected = -1;
+        current_item = "";
     }
 
 
-    static int selected = -1;
-    static char characters[40];
+
 
     ImGui::BeginChild("left pane", ImVec2(150, 0), true);
         for (int i = 0; i < DisplayInformation::LOADED_IN_DATA.size(); i ++) {
@@ -58,6 +104,8 @@ void ShowDataWindow(ImGui::FileBrowser& fileDialog) {
 
         //ImGui::Size
         ImGui::NewLine();
+        ImGui::Text(std::string( "File: \"" + data->fileName + "\"").c_str());
+        ImGui::NewLine();
         ImGui::Text((std::string("Size: ") + std::to_string(data->data.size())).c_str());
         ImGui::NewLine();
         ImGui::PushItemWidth(200);
@@ -75,6 +123,8 @@ void ShowDataWindow(ImGui::FileBrowser& fileDialog) {
     }
     ImGui::EndGroup();
 
+
+
     ImGui::End();
     fileDialog.Display();
     if(fileDialog.IsOpened()) {
@@ -84,9 +134,14 @@ void ShowDataWindow(ImGui::FileBrowser& fileDialog) {
 
     if (fileDialog.HasSelected())
     {
-        auto newData = InputData::LoadInputData(fileDialog.GetSelected().string());
+        auto newData = InputData::LoadInputData(fileDialog.GetSelected().string(), fileDialog.GetSelected().filename().string());
         DisplayInformation::LOADED_IN_DATA.insert(DisplayInformation::LOADED_IN_DATA.end(), newData.begin(), newData.end());
-        Settings::settingsFile["loadedInData"].push_back(fileDialog.GetSelected().string());
+        nlohmann::json newSave;
+        newSave["path"] = fileDialog.GetSelected().string();
+        newSave["name"] = fileDialog.GetSelected().filename().string();
+        Settings::settingsFile["loadedInData"].push_back(newSave);
         fileDialog.ClearSelected();
+
+
     }
 }

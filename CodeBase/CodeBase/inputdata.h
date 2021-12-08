@@ -9,7 +9,7 @@ class InputData {
 public:
 
 
-	static std::vector<std::shared_ptr<InputData>> LoadInputData(std::string name);
+	static std::vector<std::shared_ptr<InputData>> LoadInputData(std::string name, std::string filename);
 
 	std::string name;
 	std::string fileName;

@@ -4,7 +4,7 @@
 #include <algorithm> 
 #include <string>
 
-std::vector<std::shared_ptr<InputData>> InputData::LoadInputData(std::string name) {
+std::vector<std::shared_ptr<InputData>> InputData::LoadInputData(std::string name, std::string filename) {
 
     std::vector<std::shared_ptr<InputData>> values;
     std::ifstream fin(name);
@@ -19,7 +19,7 @@ std::vector<std::shared_ptr<InputData>> InputData::LoadInputData(std::string nam
         std::shared_ptr<InputData> newdata = std::make_shared<InputData>();
         newdata->name = firstWord;
         newdata->data = std::vector<float>(std::istream_iterator<float>(in), std::istream_iterator<float>());
-        newdata->fileName = name;
+        newdata->fileName = filename;
 
         values.push_back(newdata);
     }
