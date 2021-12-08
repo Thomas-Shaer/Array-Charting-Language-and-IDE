@@ -22,10 +22,10 @@ The first major milestone will likely take the largest amount of time to complet
 
 **Milestone 1**✔️
 
-Finish a working prototype with all basic components implemented. 
+**Finish a working prototype with all basic components implemented.** 
 
 
-*Planned time of completion: between week 10-13*
+***Planned time of completion: between week 10 to 13*** ✔️ *week 11*
 1. **Basic version of the language with following features implemented**✔️
 	- **Float/Boolean/null type**✔️
 	- **Built In Methods**✔️
