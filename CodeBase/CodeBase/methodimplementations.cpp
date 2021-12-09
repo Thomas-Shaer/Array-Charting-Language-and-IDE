@@ -2,6 +2,7 @@
 #include "typesymbol.h"
 #include "visitors.h"
 #include "interpretercontext.h"
+#include "chartplot.h"
 
 ExpressionValue MethodAverage::interpret(const unsigned int tick, std::vector<ExpressionValue> _argumentValues, InterpreterOutput& output) {
 
@@ -199,22 +200,29 @@ ExpressionValue GetTick::interpret(const unsigned int tick, std::vector<Expressi
 }
 
 
-
+static int plotNo = 0;
 
 Plot::Plot() : MethodSymbol("plot", { TypeInstances::GetFloatInstance()}, TypeInstances::GetBooleanInstance()) {}
 
 ExpressionValue Plot::interpret(const unsigned int tick, std::vector<ExpressionValue> _argumentValues, InterpreterOutput& output) {
+	
+
 	// if nan return a nan value else extract the correct value
 	float pushBackValue = boost::get<Float>(_argumentValues.at(0)).value ? *boost::get<Float>(_argumentValues.at(0)).value : std::numeric_limits<double>::quiet_NaN();
 	plotdata.push_back(pushBackValue);
 	if (tick == InterpreterContext::ticks - 1) {
-		output.chartData.push_back(plotdata);
+		output.chartData.push_back(std::make_shared<ChartPlot>("Plot" + std::to_string(plotNo), plotdata));
 		plotdata.clear();
+		plotNo++;
+
 	}
 	return Boolean(true);
 }
 
 Mark::Mark() : MethodSymbol("mark", { TypeInstances::GetBooleanInstance(), TypeInstances::GetFloatInstance() }, TypeInstances::GetBooleanInstance()) {}
+
+
+static int markNo = 0;
 
 ExpressionValue Mark::interpret(const unsigned int tick, std::vector<ExpressionValue> _argumentValues, InterpreterOutput& output) {
 	//if not nan
@@ -234,8 +242,9 @@ ExpressionValue Mark::interpret(const unsigned int tick, std::vector<ExpressionV
 		plotdata.push_back(std::numeric_limits<double>::quiet_NaN());
 	}
 	if (tick == InterpreterContext::ticks - 1) {
-		output.markData.push_back(plotdata);
+		output.markData.push_back(std::make_shared<ChartPlot>("Mark" + std::to_string(markNo), plotdata));
 		plotdata.clear();
+		markNo++;
 	}
 	return Boolean(true);
 }

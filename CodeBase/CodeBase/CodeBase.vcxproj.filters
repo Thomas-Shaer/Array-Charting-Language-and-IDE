@@ -165,6 +165,9 @@
     <ClCompile Include="inputdata.cpp">
       <Filter>Source Files\Data</Filter>
     </ClCompile>
+    <ClCompile Include="chartplot.cpp">
+      <Filter>Source Files\GUI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bison.tab.h">
@@ -283,6 +286,9 @@
     </ClInclude>
     <ClInclude Include="inputdata.h">
       <Filter>Source Files\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="chartplot.h">
+      <Filter>Source Files\GUI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -45,7 +45,6 @@ void ShowEditorWindow(TextEditor& texteditor) {
             DisplayInformation::CODE_OUTPUT_VARIABLES = context.symboltable->variablesToString();
         }
         DisplayInformation::CHART_LINE_DATA = context.output.chartData;
-        std::cout << context.output.chartData.size();
         DisplayInformation::CHART_MARK_DATA = context.output.markData;
         UpdateChart();
         //std::cout << "what" << std::endl;

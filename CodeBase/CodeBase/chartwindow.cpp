@@ -5,7 +5,7 @@
 #include <limits>
 #include "displayinformation.h"
 #include <string>
-
+#include "chartplot.h"
 
 void ShowDemo_LinePlots() {
     
@@ -19,15 +19,14 @@ void ShowDemo_LinePlots() {
         int i = 0;
         for (auto line : DisplayInformation::CHART_LINE_DATA) {
             ImPlot::PushStyleColor(ImPlotCol_Line, ImPlot::GetColormapColor(i));
-            ImPlot::PlotLine("data", line.data(), line.size());
+            ImPlot::PlotLine(line->plotName.c_str(), line->data.data(), line->data.size());
             ImPlot::PopStyleColor();
             i++;
         }
         for (auto line : DisplayInformation::CHART_MARK_DATA) {
-            ImPlot::NextColormapColor();
             ImPlot::PushStyleColor(ImPlotCol_Line, ImPlot::GetColormapColor(i));
-            ImPlot::PlotScatter("scatter", line.data(), line.size());
-            ImPlot::NextColormapColor();
+            ImPlot::PlotScatter(line->plotName.c_str(), line->data.data(), line->data.size());
+            ImPlot::PopStyleColor();
             i++;
         }
 
@@ -41,8 +40,8 @@ void ShowDemo_LinePlots() {
 
 void UpdateChart() {
     unsigned int maxSize = 0;
-    for (auto vector : DisplayInformation::CHART_LINE_DATA) {
-        maxSize = vector.size() > maxSize ? vector.size() : maxSize;
+    for (auto line : DisplayInformation::CHART_LINE_DATA) {
+        maxSize = line->data.size() > maxSize ? line->data.size() : maxSize;
     }
     DisplayInformation::CHART_DESCRIPTION = "Displaying " + std::to_string(DisplayInformation::CHART_LINE_DATA.size() + DisplayInformation::CHART_MARK_DATA.size()) + " plot(s) of size " + std::to_string(maxSize);
 

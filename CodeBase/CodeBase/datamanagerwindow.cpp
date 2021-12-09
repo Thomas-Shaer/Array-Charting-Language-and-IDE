@@ -10,6 +10,7 @@
 #include "varsymbol.h"
 #include "chartwindow.h"
 #include <boost/algorithm/string.hpp>
+#include "chartplot.h"
 
 void ShowDataWindow(ImGui::FileBrowser& fileDialog) {
     ImGui::Begin("Data Manager", nullptr, /*ImGuiWindowFlags_HorizontalScrollbar | */ImGuiWindowFlags_MenuBar);
@@ -107,7 +108,7 @@ void ShowDataWindow(ImGui::FileBrowser& fileDialog) {
 
         if (ImGui::Button("Plot"))
         {
-            DisplayInformation::CHART_LINE_DATA.push_back(data->data);
+            DisplayInformation::CHART_LINE_DATA.push_back(std::make_shared<ChartPlot>(data->name, data->data));
             UpdateChart();
         }
 

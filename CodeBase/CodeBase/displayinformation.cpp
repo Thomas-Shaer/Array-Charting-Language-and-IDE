@@ -10,8 +10,8 @@ std::string DisplayInformation::PLACEHOLDER_CODE = "plot(tick())\nmark(tick() > 
 std::string DisplayInformation::CHART_DESCRIPTION = "Displaying 0 plot(s) of size " + std::to_string(InterpreterContext::ticks);
 
 
-std::vector<std::vector<float>> DisplayInformation::CHART_LINE_DATA = { };
-std::vector<std::vector<float>> DisplayInformation::CHART_MARK_DATA = { };
+std::vector<std::shared_ptr<ChartPlot>> DisplayInformation::CHART_LINE_DATA = { };
+std::vector<std::shared_ptr<ChartPlot>> DisplayInformation::CHART_MARK_DATA = { };
 
 std::vector<std::shared_ptr<InputData>> DisplayInformation::LOADED_IN_DATA = { };
 

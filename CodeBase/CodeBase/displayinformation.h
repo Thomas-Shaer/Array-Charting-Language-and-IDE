@@ -3,7 +3,7 @@
 #include <vector>
 
 class InputData;
-
+class ChartPlot;
 /*
 * Stores all dynamic information used within rendering window
 * Also acts as optimisation as stores information such that it doesn't have to be continouly calculated
@@ -17,13 +17,13 @@ public:
 	static std::string CHART_DESCRIPTION;
 
 
-	static 	std::vector<std::vector<float>> CHART_MARK_DATA;
-	
+	static 	std::vector<std::shared_ptr<ChartPlot>> CHART_MARK_DATA;
+	static 	std::vector<std::shared_ptr<ChartPlot>> CHART_LINE_DATA;
+
 	static 	std::vector<std::shared_ptr<InputData>> LOADED_IN_DATA;
 
 	static 	float MAX_CHART_Y;
 
-	static 	std::vector<std::vector<float>> CHART_LINE_DATA;
 
 };
 
