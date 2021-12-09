@@ -73,18 +73,27 @@ void ShowDataWindow(ImGui::FileBrowser& fileDialog) {
 
     ImGui::BeginChild("left pane", ImVec2(150, 0), true);
         for (int i = 0; i < DisplayInformation::LOADED_IN_DATA.size(); i ++) {
-        // FIXME: Good candidate to use ImGuiSelectableFlags_SelectOnNav
-        if (ImGui::Selectable(DisplayInformation::LOADED_IN_DATA.at(i)->name.c_str())) {
-            selected = i;
-            std::shared_ptr<InputData> data = DisplayInformation::LOADED_IN_DATA.at(selected);
-            std::string name = data->name;
-            boost::algorithm::to_lower(name);
-            std::replace_if(std::begin(name), std::end(name),
-                [](std::string::value_type v) { return v == ' '; },
-                '_');
+            std::shared_ptr<InputData> data = DisplayInformation::LOADED_IN_DATA.at(i);
 
-            strncpy_s(characters, name.c_str(), sizeof(characters));
-        }
+            if (data->isVariable) {
+                ImGui::PushStyleColor(ImGuiCol_Text, IM_COL32(0, 255, 0, 255));
+            }
+
+        // FIXME: Good candidate to use ImGuiSelectableFlags_SelectOnNav
+            if (ImGui::Selectable(DisplayInformation::LOADED_IN_DATA.at(i)->name.c_str())) {
+                selected = i;
+                std::string name = data->name;
+                boost::algorithm::to_lower(name);
+                std::replace_if(std::begin(name), std::end(name),
+                    [](std::string::value_type v) { return v == ' '; },
+                    '_');
+
+                strncpy_s(characters, name.c_str(), sizeof(characters));
+            }
+
+            if (data->isVariable) {
+                ImGui::PopStyleColor();
+            }
     }
 
 
@@ -111,15 +120,29 @@ void ShowDataWindow(ImGui::FileBrowser& fileDialog) {
         ImGui::PushItemWidth(200);
         ImGui::Text("Variable name (40 char)");
         ImGui::InputText("", characters, sizeof(characters));
+
+        bool createVariable = false;
+
+        if (data->isVariable) {
+            ImGui::BeginDisabled();
+        }
         if (ImGui::Button("Create Variable"))
         {
+            createVariable = true;
+        }
+        if (data->isVariable) {
+            ImGui::EndDisabled();
+        }
+        if (createVariable) {
             std::vector<ExpressionValue> values;
             for (auto i : data->data) {
                 values.push_back((ExpressionValue)Float(i));
             }
+            data->isVariable = true;
             std::shared_ptr<VarSymbol> varSymbol = std::make_shared<VarSymbol>(std::string(characters), TypeInstances::GetFloatInstance(), values);
             SymbolTable::globalVariableTable[std::string(characters)] = varSymbol;
         }
+
     }
     ImGui::EndGroup();
 
