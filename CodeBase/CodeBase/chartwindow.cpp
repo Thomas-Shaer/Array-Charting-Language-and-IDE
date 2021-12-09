@@ -51,6 +51,12 @@ void ShowChartWindow(bool* p_open) {
 
     ImGui::Begin("Chart Screen", p_open, ImGuiWindowFlags_MenuBar);
 
+    if (ImGui::Button("Clear Chart")) {
+        DisplayInformation::CHART_LINE_DATA.clear();
+        DisplayInformation::CHART_MARK_DATA.clear();
+        UpdateChart();
+    }
+
     ImGui::Text(DisplayInformation::CHART_DESCRIPTION.c_str());
     // display warning about 16-bit indices
     static bool showWarning = sizeof(ImDrawIdx) * 8 == 16 && (ImGui::GetIO().BackendFlags & ImGuiBackendFlags_RendererHasVtxOffset) == false;
