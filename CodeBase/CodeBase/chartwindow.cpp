@@ -10,24 +10,33 @@
 void ShowDemo_LinePlots() {
     
     ImGui::BulletText("Test Chart Below");
+    //ImPlot::StyleColorsAuto();
 
     if (ImPlot::BeginPlot("Line Plot")) {
-        ImPlot::SetupAxes("x", "f(x)");
-        //ImPlot::SetupAxesLimits(0, 39, 0, DisplayInformation::MAX_CHART_Y, ImPlotCond_Always);
-        //ImPlot::SetNextMarkerStyle(ImPlotMarker_Circle);
+        ImPlot::PushColormap(ImPlotColormap_Paired);
+
+
+        int i = 0;
         for (auto line : DisplayInformation::CHART_LINE_DATA) {
+            ImPlot::PushStyleColor(ImPlotCol_Line, ImPlot::GetColormapColor(i));
             ImPlot::PlotLine("data", line.data(), line.size());
-            
+            ImPlot::PopStyleColor();
+            i++;
         }
         for (auto line : DisplayInformation::CHART_MARK_DATA) {
+            ImPlot::NextColormapColor();
+            ImPlot::PushStyleColor(ImPlotCol_Line, ImPlot::GetColormapColor(i));
             ImPlot::PlotScatter("scatter", line.data(), line.size());
-
+            ImPlot::NextColormapColor();
+            i++;
         }
-        //float data[3] = {1.2, std::numeric_limits<double>::quiet_NaN(), 1.2};
-        //
+
 
         ImPlot::EndPlot();
+        ImPlot::PopColormap();
+        
     }
+
 }
 
 void UpdateChart() {
