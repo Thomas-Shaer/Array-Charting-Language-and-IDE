@@ -99,6 +99,14 @@ std::string SymbolTable::variablesToString() {
 	return output;
 }
 
+std::string SymbolTable::globalVariablesToString() {
+	std::string output = "";
+	for (const auto& value : globalVariableTable) {
+		output += value.second->toString() + "\n";
+	}
+	return output;
+}
+
 
 bool SymbolTable::isVariableDeclared(const std::string& name) {
 	return variableTable.find(name) != variableTable.end();

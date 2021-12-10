@@ -11,6 +11,7 @@
 #include "chartwindow.h"
 #include <boost/algorithm/string.hpp>
 #include "chartplot.h"
+#include "textoutputwindow.h"
 
 void ShowDataWindow(ImGui::FileBrowser& fileDialog) {
     ImGui::Begin("Data Manager", nullptr, /*ImGuiWindowFlags_HorizontalScrollbar | */ImGuiWindowFlags_MenuBar);
@@ -142,6 +143,13 @@ void ShowDataWindow(ImGui::FileBrowser& fileDialog) {
             data->isVariable = true;
             std::shared_ptr<VarSymbol> varSymbol = std::make_shared<VarSymbol>(std::string(characters), TypeInstances::GetFloatInstance(), values);
             SymbolTable::globalVariableTable[std::string(characters)] = varSymbol;
+            UpdateVariablesTab();
+        }
+
+        if (data->isVariable) {
+            if (ImGui::Button("Rename Variable"))
+            {
+            }
         }
 
     }

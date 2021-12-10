@@ -41,6 +41,7 @@ public:
 	std::string toString();
 
 	std::string variablesToString();
+	static std::string globalVariablesToString();
 
 	// since methods can't be declared this table will never be changed.
 	// therefore make it static so it isn't recreated every time symbol table is spawned
