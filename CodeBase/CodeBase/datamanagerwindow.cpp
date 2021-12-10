@@ -141,14 +141,30 @@ void ShowDataWindow(ImGui::FileBrowser& fileDialog) {
                 values.push_back((ExpressionValue)Float(i));
             }
             data->isVariable = true;
-            std::shared_ptr<VarSymbol> varSymbol = std::make_shared<VarSymbol>(std::string(characters), TypeInstances::GetFloatInstance(), values);
-            SymbolTable::globalVariableTable[std::string(characters)] = varSymbol;
+            data->variableName = std::string(characters);
+            std::shared_ptr<VarSymbol> varSymbol = std::make_shared<VarSymbol>(data->variableName, TypeInstances::GetFloatInstance(), values);
+            SymbolTable::globalVariableTable[data->variableName] = varSymbol;
             UpdateVariablesTab();
         }
 
         if (data->isVariable) {
-            if (ImGui::Button("Rename Variable"))
-            {
+            /*
+            Could be optimised, recreates entire variable symbol rather then just changing the symbol name.
+            */
+            if (ImGui::Button("Rename Variable")) {
+                std::shared_ptr<VarSymbol> oldSymbol = SymbolTable::globalVariableTable[data->variableName];
+                SymbolTable::globalVariableTable.erase(SymbolTable::globalVariableTable.find(data->variableName));
+                data->variableName = std::string(characters);
+                std::shared_ptr<VarSymbol> varSymbol = std::make_shared<VarSymbol>(data->variableName, TypeInstances::GetFloatInstance(), oldSymbol->getValues());
+                SymbolTable::globalVariableTable[data->variableName] = varSymbol;
+                UpdateVariablesTab();
+            }
+
+
+            if (ImGui::Button("Delete Variable")) {
+                SymbolTable::globalVariableTable.erase(SymbolTable::globalVariableTable.find(data->variableName));
+                data->isVariable = false;
+                UpdateVariablesTab();
             }
         }
 

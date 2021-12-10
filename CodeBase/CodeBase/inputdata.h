@@ -14,7 +14,9 @@ public:
 	std::string name;
 	std::string fileName;
 	std::vector<float> data;
+
 	bool isVariable = false;
+	std::string variableName;
 
 	std::string toString() {
 		std::string output = name + " : ";

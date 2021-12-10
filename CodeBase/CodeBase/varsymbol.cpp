@@ -35,3 +35,12 @@ void VarSymbol::setValue(const unsigned int i, ExpressionValue _value) {
 		value.push_back(_value);
 	}
 }
+
+
+
+std::vector<ExpressionValue> VarSymbol::getValues() {
+	return value;
+}
+void VarSymbol::setValues(const std::vector<ExpressionValue>& values) {
+	value = values;
+}

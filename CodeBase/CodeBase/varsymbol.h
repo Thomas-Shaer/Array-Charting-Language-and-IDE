@@ -23,6 +23,10 @@ public:
 	ExpressionValue getValue(const unsigned int i);
 	void setValue(const unsigned int i, ExpressionValue _value);
 
+
+	std::vector<ExpressionValue> getValues();
+	void setValues(const std::vector<ExpressionValue>& values);
+
 private:
 	std::vector<ExpressionValue> value;
 
