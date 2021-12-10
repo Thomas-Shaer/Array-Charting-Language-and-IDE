@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 
+void SnapToOutputTab();
 
 void UpdateVariablesTab();
 

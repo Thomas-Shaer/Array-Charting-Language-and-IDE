@@ -33,11 +33,15 @@ void ShowEditorWindow(TextEditor& texteditor) {
         DisplayInformation::CODE_OUTPUT_VARIABLES = "";
         InterpreterContext context;
         context.execute(texteditor.GetText());
-        for (auto string : context.output.textOutput) {
-            //std::cout << "what" << std::endl;
-            DisplayInformation::CODE_OUTPUT += string + "\n";
-            //std::cout << string << std::endl;
+
+
+        if (!context.output.textOutput.empty()) {
+            for (auto string : context.output.textOutput) {
+                DisplayInformation::CODE_OUTPUT += string + "\n";
+            }
+            SnapToOutputTab();
         }
+        
         if (context.ast) {
             DisplayInformation::CODE_OUTPUT_RECONSTRUCTION = context.ast->toString();
         }

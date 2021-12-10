@@ -8,6 +8,10 @@ static ImGuiTabItemFlags_ outputTabFlags = ImGuiTabItemFlags_None;
 static ImGuiTabItemFlags_ codeReconstructionTabFlags = ImGuiTabItemFlags_None;
 static ImGuiTabItemFlags_ variableTabFlags = ImGuiTabItemFlags_None;
 
+void SnapToOutputTab() {
+    outputTabFlags = ImGuiTabItemFlags_SetSelected;
+}
+
 void UpdateVariablesTab() {
     variableTabFlags = ImGuiTabItemFlags_SetSelected;
     DisplayInformation::CODE_OUTPUT_VARIABLES = SymbolTable::globalVariablesToString();
@@ -24,15 +28,15 @@ void ShowTextOutputWindow() {
     if (ImGui::BeginTabBar("Output Menu")) {
         bool open = true; // placeholder
 
-        if (ImGui::BeginTabItem("Output", &open)) {
+        if (ImGui::BeginTabItem("Output", &open, outputTabFlags)) {
             ImGui::Text(DisplayInformation::CODE_OUTPUT.c_str());
             ImGui::EndTabItem();
         }
-        if (ImGui::BeginTabItem("Code Reconstruction", &open)) {
+        if (ImGui::BeginTabItem("Code Reconstruction", &open, codeReconstructionTabFlags)) {
             ImGui::Text(DisplayInformation::CODE_OUTPUT_RECONSTRUCTION.c_str());
             ImGui::EndTabItem();
         }
-        if (ImGui::BeginTabItem("Variables", &open, ImGuiTabItemFlags_SetSelected)) {
+        if (ImGui::BeginTabItem("Variables", &open, variableTabFlags)) {
             ImGui::Text(DisplayInformation::CODE_OUTPUT_VARIABLES.c_str());
             ImGui::EndTabItem();
         }
