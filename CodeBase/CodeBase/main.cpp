@@ -9,8 +9,11 @@ void newJSON() {
     Settings::settingsFile["zoom"] = 1;
     Settings::settingsFile["windowwidth"] = 1800;
     Settings::settingsFile["windowheight"] = 800;
-    Settings::settingsFile["lastDirectory"] = "";
+    Settings::settingsFile["lastDataDirectory"] = "";
     Settings::settingsFile["loadedInData"] = nlohmann::json::array();
+    Settings::settingsFile["currentCodeFile"] = "";
+    Settings::settingsFile["lastSaveDirectory"] = "";
+    Settings::settingsFile["lastOpenDirectory"] = "";
     Settings::saveSettings();
 }
 

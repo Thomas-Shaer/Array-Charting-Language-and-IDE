@@ -13,7 +13,26 @@
 #include "chartplot.h"
 #include "textoutputwindow.h"
 
-void ShowDataWindow(ImGui::FileBrowser& fileDialog) {
+
+ImGui::FileBrowser FileBrowserSingletonDataLoader::fb;
+
+
+void FileBrowserSingletonDataLoader::init() {
+    fb.SetPwd(std::filesystem::path(Settings::settingsFile["lastDataDirectory"].get<std::string>()));
+
+    for (nlohmann::json path : Settings::settingsFile["loadedInData"].get<std::vector<nlohmann::json>>()) {
+        auto newData = InputData::LoadInputData(path["path"], path["name"]);
+        DisplayInformation::LOADED_IN_DATA.insert(DisplayInformation::LOADED_IN_DATA.end(), newData.begin(), newData.end());
+    }
+
+    // (optional) set browser properties
+    fb.SetTitle("title");
+    fb.SetTypeFilters({ ".csv" });
+}
+
+
+
+void ShowDataWindow() {
     ImGui::Begin("Data Manager", nullptr, /*ImGuiWindowFlags_HorizontalScrollbar | */ImGuiWindowFlags_MenuBar);
     ImGui::SetWindowSize(ImVec2(500, 600), ImGuiCond_FirstUseEver);
     ImGui::SetWindowPos(ImVec2(100, 600), ImGuiCond_FirstUseEver);
@@ -41,7 +60,7 @@ void ShowDataWindow(ImGui::FileBrowser& fileDialog) {
     }
 
     if (ImGui::Button("Import File")) {
-        fileDialog.Open();
+        FileBrowserSingletonDataLoader::fb.Open();
     }
     ImGui::SameLine();
 
@@ -174,21 +193,21 @@ void ShowDataWindow(ImGui::FileBrowser& fileDialog) {
 
 
     ImGui::End();
-    fileDialog.Display();
-    if(fileDialog.IsOpened()) {
-        Settings::settingsFile["lastDirectory"] = fileDialog.GetPwd().root_path().generic_string() + (fileDialog.GetPwd().relative_path()).generic_string();
+    FileBrowserSingletonDataLoader::fb.Display();
+    if(FileBrowserSingletonDataLoader::fb.IsOpened()) {
+        Settings::settingsFile["lastDataDirectory"] = FileBrowserSingletonDataLoader::fb.GetPwd().root_path().generic_string() + (FileBrowserSingletonDataLoader::fb.GetPwd().relative_path()).generic_string();
     }
 
 
-    if (fileDialog.HasSelected())
+    if (FileBrowserSingletonDataLoader::fb.HasSelected())
     {
-        auto newData = InputData::LoadInputData(fileDialog.GetSelected().string(), fileDialog.GetSelected().filename().string());
+        auto newData = InputData::LoadInputData(FileBrowserSingletonDataLoader::fb.GetSelected().string(), FileBrowserSingletonDataLoader::fb.GetSelected().filename().string());
         DisplayInformation::LOADED_IN_DATA.insert(DisplayInformation::LOADED_IN_DATA.end(), newData.begin(), newData.end());
         nlohmann::json newSave;
-        newSave["path"] = fileDialog.GetSelected().string();
-        newSave["name"] = fileDialog.GetSelected().filename().string();
+        newSave["path"] = FileBrowserSingletonDataLoader::fb.GetSelected().string();
+        newSave["name"] = FileBrowserSingletonDataLoader::fb.GetSelected().filename().string();
         Settings::settingsFile["loadedInData"].push_back(newSave);
-        fileDialog.ClearSelected();
+        FileBrowserSingletonDataLoader::fb.ClearSelected();
 
 
     }
