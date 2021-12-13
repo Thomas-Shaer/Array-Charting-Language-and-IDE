@@ -21,7 +21,7 @@ void ShowEditorWindow(TextEditor& texteditor) {
 
     if (ImGui::BeginMenuBar()) {
         if (ImGui::BeginMenu("File")) {
-            //ImGui::MenuItem("Execute Script", NULL, &runCode);
+            //ImGui::MenuItem("Execute Script", NULL, &runCode);s
             ImGui::EndMenu();
         }
         ImGui::EndMenuBar();
