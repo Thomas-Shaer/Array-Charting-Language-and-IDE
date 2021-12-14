@@ -28,7 +28,7 @@ int start()
     //ImGui_ImplWin32_EnableDpiAwareness();
     WNDCLASSEX wc = { sizeof(WNDCLASSEX), CS_CLASSDC, WndProc, 0L, 0L, GetModuleHandle(NULL), NULL, NULL, NULL, NULL, _T("ImGui Example"), NULL };
     ::RegisterClassEx(&wc);
-    HWND hwnd = ::CreateWindow(wc.lpszClassName, _T("Dear ImGui DirectX12 Example"), WS_OVERLAPPEDWINDOW, 2000, 50, Settings::settingsFile["windowwidth"].get<float>(), Settings::settingsFile["windowheight"].get<float>(), NULL, NULL, wc.hInstance, NULL);
+    HWND hwnd = ::CreateWindow(wc.lpszClassName, _T("Dear ImGui DirectX12 Example"), WS_OVERLAPPEDWINDOW, 0, 0, Settings::settingsFile["windowwidth"].get<float>(), Settings::settingsFile["windowheight"].get<float>(), NULL, NULL, wc.hInstance, NULL);
 
     // Initialize Direct3D
     if (!CreateDeviceD3D(hwnd))
@@ -84,30 +84,13 @@ int start()
     ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 
 
-    TextEditor editor;
-    auto lang = TextEditor::LanguageDefinition::CPlusPlus();
-    editor.SetLanguageDefinition(lang);
-    editor.SetText(DisplayInformation::PLACEHOLDER_CODE);
+
 
     // create a file browser instance
-    ImGui::FileBrowser fileDialog;
-
-    fileDialog.SetPwd(std::filesystem::path(Settings::settingsFile["lastDirectory"].get<std::string>()));
-    
-    for (nlohmann::json path : Settings::settingsFile["loadedInData"].get<std::vector<nlohmann::json>>() ) {
-        auto newData = InputData::LoadInputData(path["path"], path["name"]);
-        DisplayInformation::LOADED_IN_DATA.insert(DisplayInformation::LOADED_IN_DATA.end(), newData.begin(), newData.end());
-    }
-
-    // (optional) set browser properties
-    fileDialog.SetTitle("title");
-    fileDialog.SetTypeFilters({ ".csv" });
-
-    struct PersistentInfo {
-        std::string CODE_OUTPUT;
-    };
-
-    PersistentInfo info;
+    FileBrowserSingletonDataLoader::init();
+    TextEditorSingleton::initTextEditor();
+    TextEditorSingleton::initFileBrowserSave();
+    TextEditorSingleton::initFileBrowserOpen();
 
     // Main loop
     bool done = false;
@@ -142,14 +125,14 @@ int start()
 
 
 
-        ShowEditorWindow(editor);
+        ShowEditorWindow();
 
 
         ShowTextOutputWindow();
 
         ShowDocumentationWindow();
         ShowSettingsWindow();
-        ShowDataWindow(fileDialog);
+        ShowDataWindow();
         Settings::autoSave();
 
         // Rendering
