@@ -47,9 +47,9 @@ Add extra features that make the software more convenient for the user to use. T
 
 - **Interface for saving/loading code to and from the user’s file system** ✔️
 - Ability for user to export chart data from the program
+- <del>More language features such as if statements or user defined functions (moved from milestone 3)</del> Control flow features: if statements and ternary conditions.
 - Additional built in functions supporting a common basic mathematical operations such as regressions, stochastics etc.
 - If required, more sophisticated methods of loading in data from CSVs, e.g. tables of data, different file types etc.
-- Testing the application for system compatibility on different OS's
 
 
 **Milestone 3**
@@ -59,6 +59,6 @@ Add features that add to a sense of “polish” for the software. These feature
 *Planned time of completion: between week 18-22*
 
 - Intellisense/autocomplete for writing code
-- More language features such as if statements or user defined functions
 - Ability to spawn and plot on multiple different charts
 - Ability to save a chart to disk as a PNG or JPEG
+- Testing the application for system compatibility on different OS's (moved from milestone 2)
