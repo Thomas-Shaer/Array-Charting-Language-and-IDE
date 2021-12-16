@@ -45,7 +45,7 @@ Add extra features that make the software more convenient for the user to use. T
 
 *Planned time of completion: between week 13-18*
 
-- Interface for saving/loading code to and from the user’s file system
+- **Interface for saving/loading code to and from the user’s file system** ✔️
 - Ability for user to export chart data from the program
 - Additional built in functions supporting a common basic mathematical operations such as regressions, stochastics etc.
 - If required, more sophisticated methods of loading in data from CSVs, e.g. tables of data, different file types etc.
