@@ -87,9 +87,6 @@
     <ClCompile Include="node.cpp">
       <Filter>Source Files\Nodes</Filter>
     </ClCompile>
-    <ClCompile Include="methodimplementations.cpp">
-      <Filter>Source Files\Methods</Filter>
-    </ClCompile>
     <ClCompile Include="methodsymbol.cpp">
       <Filter>Source Files\Symbol</Filter>
     </ClCompile>
@@ -167,6 +164,15 @@
     </ClCompile>
     <ClCompile Include="chartplot.cpp">
       <Filter>Source Files\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="parametersymbol.cpp">
+      <Filter>Source Files\Symbol</Filter>
+    </ClCompile>
+    <ClCompile Include="methodimplementations.cpp">
+      <Filter>Source Files\Methods</Filter>
+    </ClCompile>
+    <ClCompile Include="returnsymbol.cpp">
+      <Filter>Source Files\Symbol</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -289,6 +295,12 @@
     </ClInclude>
     <ClInclude Include="chartplot.h">
       <Filter>Source Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="parametersymbol.h">
+      <Filter>Source Files\Symbol</Filter>
+    </ClInclude>
+    <ClInclude Include="returnsymbol.h">
+      <Filter>Source Files\Symbol</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

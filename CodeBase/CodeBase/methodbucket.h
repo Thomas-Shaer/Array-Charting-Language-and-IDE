@@ -19,6 +19,14 @@ public:
 	*/
 	virtual MethodSymbol* getMethodSymbol(std::vector<const TypeSymbol*> _argumentTypes) const=0;
 
+
+	/*
+	Used to nicely format the method when drawing onto the GUI
+	Usually I want to separate the logic completely from the GUI, but in this 
+	case this is the cleanest way to nicely format and draw the information.
+	*/
+	virtual void renderAsDocumentation() const = 0;
+
 	virtual std::string toString() const = 0;
 };
 
@@ -37,6 +45,9 @@ public:
 
 	virtual std::string toString() const;
 
+	virtual void renderAsDocumentation() const;
+	
+
 };
 
 
@@ -53,6 +64,7 @@ public:
 	virtual MethodSymbol* getMethodSymbol(std::vector<const TypeSymbol*> _argumentTypes) const;
 
 	virtual std::string toString() const;
+	virtual void renderAsDocumentation() const;
 
 
 };

@@ -23,6 +23,13 @@
 #pragma comment(lib, "dxguid.lib")
 #endif
 
+struct Fonts {
+    static ImFont* SMALLFONT;
+    static ImFont* DEFAULTFONT;
+};
+
+
+
 struct FrameContext
 {
     ID3D12CommandAllocator* CommandAllocator;

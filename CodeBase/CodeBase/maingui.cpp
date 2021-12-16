@@ -14,6 +14,10 @@
 #include "imfilebrowser.h"
 #include "inputdata.h"
 
+
+ImFont* Fonts::SMALLFONT;
+ImFont* Fonts::DEFAULTFONT;
+
 // Main code
 int start()
 {
@@ -92,6 +96,13 @@ int start()
     TextEditorSingleton::initFileBrowserSave();
     TextEditorSingleton::initFileBrowserOpen();
 
+
+    /*
+    The order of these declarations matter. Default first.
+    */
+    Fonts::DEFAULTFONT = io.Fonts->AddFontFromFileTTF("misc\\fonts\\ProggyClean.ttf", 13);
+    Fonts::SMALLFONT = io.Fonts->AddFontFromFileTTF("misc\\fonts\\ProggyClean.ttf", 10);
+
     // Main loop
     bool done = false;
     while (!done)
@@ -124,15 +135,16 @@ int start()
         ShowChartWindow(&show_demo_window);
 
 
-
         ShowEditorWindow();
-
 
         ShowTextOutputWindow();
 
         ShowDocumentationWindow();
+
         ShowSettingsWindow();
+
         ShowDataWindow();
+
         Settings::autoSave();
 
         // Rendering

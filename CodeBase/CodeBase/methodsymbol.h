@@ -3,17 +3,19 @@
 #include "global.h"
 #include <vector>
 #include "interpreteroutput.h"
-
+#include "parametersymbol.h"
+#include "returnsymbol.h"
 class TypeSymbol;
 
 class MethodSymbol {
 public:
-	const TypeSymbol* returnType; // return type
+	const ReturnSymbol returnType; // return type
 	const std::string name; // method name
+	const std::string description; //method description
 
-	const std::vector<TypeSymbol*> argumentTypes; //  type the method takes
+	const std::vector<ParameterSymbol> argumentTypes; //  type the method takes
 
-	MethodSymbol(const std::string& _name, const std::vector<TypeSymbol*> _argumentTypes, const TypeSymbol* _returnType) : name(_name), argumentTypes(_argumentTypes), returnType(_returnType) {}
+	MethodSymbol(const std::string& _name, const std::string& _description, const std::vector<ParameterSymbol> _argumentTypes, const ReturnSymbol _returnType) : name(_name), argumentTypes(_argumentTypes), returnType(_returnType), description(_description) {}
 
 
 	// should take list of types
@@ -21,7 +23,8 @@ public:
 
 	virtual ExpressionValue interpret(const unsigned int tick, std::vector<ExpressionValue> _argumentValues, InterpreterOutput& output) = 0;
 
-	std::string toString() const;
+	std::string getSignature() const;
+	std::string getDescription() const;
 
 	virtual MethodSymbol* clone() = 0;
 };

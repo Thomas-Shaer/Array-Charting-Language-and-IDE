@@ -12,20 +12,28 @@ const TypeSymbol* MethodSymbol::semanticAnaylsis(std::vector<const TypeSymbol*> 
 
 	// the input types must be what was expected
 	for (int i = 0; i < argumentTypes.size(); i++) {
-		const TypeSymbol* expected = argumentTypes[i];
+		const TypeSymbol* expected = argumentTypes[i].typesymbol;
 		const TypeSymbol* received = _argumentTypes[i];
 		if (expected != received) {
 			throw LanguageException("Method " + name + " expected parameter no. " + std::to_string(i) + " to be " + expected->name + " but recieved " + received->name);
 		}
 	}
-	return returnType;
+	return returnType.typesymbol;
+}
+
+std::string MethodSymbol::getDescription() const {
+	std::string description = "";
+	for (const ParameterSymbol arg : argumentTypes) {
+		description += arg.getDescription();
+	}
+	return description;
 }
 
 
-std::string MethodSymbol::toString() const {
-	std::string output = returnType->name + " " + name + "(";
-	for (const TypeSymbol* arg : argumentTypes) {
-		output += arg->name + ", ";
+std::string MethodSymbol::getSignature() const {
+	std::string output = returnType.typesymbol->name + " " + name + "(";
+	for (const ParameterSymbol arg : argumentTypes) {
+		output += arg.toString() + ", ";
 	}
 	output += ")";
 	return output;

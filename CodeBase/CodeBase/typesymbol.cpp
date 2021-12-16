@@ -21,3 +21,8 @@ TypeSymbol*& TypeInstances::GetBooleanInstance() {
 	static TypeSymbol* boolinstance = new TypeSymbol("boolean");
 	return boolinstance;
 }
+
+TypeSymbol*& TypeInstances::GetVoidInstance() {
+	static TypeSymbol* voidinstance = new TypeSymbol("void");
+	return voidinstance;
+}

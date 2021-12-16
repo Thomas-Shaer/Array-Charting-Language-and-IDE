@@ -17,6 +17,7 @@ struct TypeInstances {
 	TypeInstances();
 	static TypeSymbol*& GetFloatInstance();
 	static TypeSymbol*& GetBooleanInstance();
+	static TypeSymbol*& GetVoidInstance();
 };
 
 static TypeInstances typeinstances;

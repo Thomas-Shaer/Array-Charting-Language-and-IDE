@@ -8,7 +8,13 @@
 class  MethodAverage : public MethodSymbol {
 public:
 
-	MethodAverage() : MethodSymbol("avg", {TypeInstances::GetFloatInstance(), TypeInstances::GetFloatInstance() }, TypeInstances::GetFloatInstance()) {}
+	MethodAverage() : MethodSymbol("avg",
+		"Returns the average of two numbers.",
+		{
+		
+			ParameterSymbol(TypeInstances::GetFloatInstance(), "value1", "Argument 1 for average."),
+	ParameterSymbol(TypeInstances::GetFloatInstance(), "value2", "Argument 2 for average.")
+		}, ReturnSymbol(TypeInstances::GetFloatInstance(), "The average")) {}
 
 	ExpressionValue interpret(const unsigned int tick, std::vector<ExpressionValue> _argumentValues, InterpreterOutput& output);
 	virtual MethodAverage* clone() {

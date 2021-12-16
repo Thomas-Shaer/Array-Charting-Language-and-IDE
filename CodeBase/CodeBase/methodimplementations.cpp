@@ -14,7 +14,11 @@ ExpressionValue MethodAverage::interpret(const unsigned int tick, std::vector<Ex
 }
 
 
-UnaryPlusOperator::UnaryPlusOperator(const std::string& _name) : MethodSymbol(_name, { TypeInstances::GetFloatInstance()}, TypeInstances::GetFloatInstance()) {}
+UnaryPlusOperator::UnaryPlusOperator(const std::string& _name) : MethodSymbol(_name,
+	"Propagates a expression.",
+	{ 
+	ParameterSymbol(TypeInstances::GetFloatInstance(), "expr", "The expression to progate.")
+	}, ReturnSymbol(TypeInstances::GetFloatInstance(), "Result of the propogation")) {}
 
 ExpressionValue UnaryPlusOperator::interpret(const unsigned int tick, std::vector<ExpressionValue> _argumentValues, InterpreterOutput& output) {
 	// if arg is nan return a nan
@@ -24,7 +28,13 @@ ExpressionValue UnaryPlusOperator::interpret(const unsigned int tick, std::vecto
 	return Float(+*boost::get<Float>(_argumentValues[0]).value);
 }
 
-UnaryMinusOperator::UnaryMinusOperator(const std::string& _name) : MethodSymbol(_name, { TypeInstances::GetFloatInstance()}, TypeInstances::GetFloatInstance()) {}
+UnaryMinusOperator::UnaryMinusOperator(const std::string& _name) : MethodSymbol(_name, 
+	"Negates a expression.",
+
+	{
+	ParameterSymbol(TypeInstances::GetFloatInstance(), "expr", "The expression to negate.")
+
+	}, ReturnSymbol(TypeInstances::GetFloatInstance(), "Result of the negation")) {}
 
 ExpressionValue UnaryMinusOperator::interpret(const unsigned int tick, std::vector<ExpressionValue> _argumentValues, InterpreterOutput& output) {
 	// if arg is nan return a nan
@@ -34,7 +44,12 @@ ExpressionValue UnaryMinusOperator::interpret(const unsigned int tick, std::vect
 	return Float(-*boost::get<Float>(_argumentValues[0]).value);
 }
 
-UnaryNotOperator::UnaryNotOperator(const std::string& _name) : MethodSymbol(_name, { TypeInstances::GetBooleanInstance()}, TypeInstances::GetBooleanInstance()) {}
+UnaryNotOperator::UnaryNotOperator(const std::string& _name) : MethodSymbol(_name, 
+	"Negates a boolean expression.",
+	{
+	ParameterSymbol(TypeInstances::GetBooleanInstance (), "expr", "The expression to negate.")
+	
+	}, ReturnSymbol(TypeInstances::GetBooleanInstance(), "Result of the boolean negation")) {}
 
 ExpressionValue UnaryNotOperator::interpret(const unsigned int tick, std::vector<ExpressionValue> _argumentValues, InterpreterOutput& output) {
 	// if arg is nan return a nan
@@ -45,7 +60,12 @@ ExpressionValue UnaryNotOperator::interpret(const unsigned int tick, std::vector
 }
 
 
-BinaryPlusOperator::BinaryPlusOperator(const std::string& _name) : MethodSymbol(_name, { TypeInstances::GetFloatInstance(), TypeInstances::GetFloatInstance() }, TypeInstances::GetFloatInstance()) {}
+BinaryPlusOperator::BinaryPlusOperator(const std::string& _name) : MethodSymbol(_name, 
+	"Adds together two numbers.",
+	{ 
+	ParameterSymbol(TypeInstances::GetFloatInstance(), "lhs", "The left hand side of the addition operation."),
+	ParameterSymbol(TypeInstances::GetFloatInstance(), "rhs", "The rhs hand side of the addition operation.")
+	}, ReturnSymbol(TypeInstances::GetFloatInstance(), "Result of the addition")) {}
 
 ExpressionValue BinaryPlusOperator::interpret(const unsigned int tick, std::vector<ExpressionValue> _argumentValues, InterpreterOutput& output) {
 	// if any argument is a NAN return NAN
@@ -55,7 +75,15 @@ ExpressionValue BinaryPlusOperator::interpret(const unsigned int tick, std::vect
 	return Float(*boost::get<Float>(_argumentValues[0]).value + *boost::get<Float>(_argumentValues[1]).value);
 }
 
-BinaryMinusOperator::BinaryMinusOperator(const std::string& _name) : MethodSymbol(_name, { TypeInstances::GetFloatInstance(), TypeInstances::GetFloatInstance() }, TypeInstances::GetFloatInstance()) {}
+BinaryMinusOperator::BinaryMinusOperator(const std::string& _name) : MethodSymbol(_name, 
+	"Minuses two numbers.",
+	{ 
+	
+	ParameterSymbol(TypeInstances::GetFloatInstance(), "lhs", "The left hand side of the minus operation."),
+	ParameterSymbol(TypeInstances::GetFloatInstance(), "rhs", "The rhs hand side of the minus operation.")
+
+	
+	}, ReturnSymbol(TypeInstances::GetFloatInstance(), "Result of the negation")) {}
 
 ExpressionValue BinaryMinusOperator::interpret(const unsigned int tick, std::vector<ExpressionValue> _argumentValues, InterpreterOutput& output) {
 	// if any argument is a NAN return NAN
@@ -65,7 +93,13 @@ ExpressionValue BinaryMinusOperator::interpret(const unsigned int tick, std::vec
 	return Float(*boost::get<Float>(_argumentValues[0]).value - *boost::get<Float>(_argumentValues[1]).value);
 }
 
-BinaryDivideOperator::BinaryDivideOperator(const std::string& _name) : MethodSymbol(_name, { TypeInstances::GetFloatInstance(), TypeInstances::GetFloatInstance() }, TypeInstances::GetFloatInstance()) {}
+BinaryDivideOperator::BinaryDivideOperator(const std::string& _name) : MethodSymbol(_name, 
+	"Divides two numbers.",
+	{ 
+		ParameterSymbol(TypeInstances::GetFloatInstance(), "lhs", "The left hand side of the division operation."),
+	ParameterSymbol(TypeInstances::GetFloatInstance(), "rhs", "The rhs hand side of the division operation.")
+	
+	}, ReturnSymbol(TypeInstances::GetFloatInstance(), "Result of the division")) {}
 
 ExpressionValue BinaryDivideOperator::interpret(const unsigned int tick, std::vector<ExpressionValue> _argumentValues, InterpreterOutput& output) {
 	// if any argument is a NAN return NAN
@@ -75,7 +109,14 @@ ExpressionValue BinaryDivideOperator::interpret(const unsigned int tick, std::ve
 	return Float(*boost::get<Float>(_argumentValues[0]).value / *boost::get<Float>(_argumentValues[1]).value);
 }
 
-BinaryMultiplyOperator::BinaryMultiplyOperator(const std::string& _name) : MethodSymbol(_name, { TypeInstances::GetFloatInstance(), TypeInstances::GetFloatInstance() }, TypeInstances::GetFloatInstance()) {}
+BinaryMultiplyOperator::BinaryMultiplyOperator(const std::string& _name) : MethodSymbol(_name, 
+	"Multiplies two numbers.",
+	{ 
+	ParameterSymbol(TypeInstances::GetFloatInstance(), "lhs", "The left hand side of the multiply operation."),
+	ParameterSymbol(TypeInstances::GetFloatInstance(), "rhs", "The rhs hand side of the multiply operation.")
+	
+	
+	}, ReturnSymbol(TypeInstances::GetFloatInstance(), "Result of the multiplication")) {}
 
 ExpressionValue BinaryMultiplyOperator::interpret(const unsigned int tick, std::vector<ExpressionValue> _argumentValues, InterpreterOutput& output) {
 	// if any argument is a NAN return NAN
@@ -86,7 +127,14 @@ ExpressionValue BinaryMultiplyOperator::interpret(const unsigned int tick, std::
 }
 
 
-BinaryLessOperator::BinaryLessOperator(const std::string& _name) : MethodSymbol(_name, { TypeInstances::GetFloatInstance(), TypeInstances::GetFloatInstance() }, TypeInstances::GetBooleanInstance()) {}
+BinaryLessOperator::BinaryLessOperator(const std::string& _name) : MethodSymbol(_name, 
+	"Performs less than operator on two numbers.",
+	{ 
+	
+	ParameterSymbol(TypeInstances::GetFloatInstance(), "lhs", "The left hand side of the less than operation."),
+	ParameterSymbol(TypeInstances::GetFloatInstance(), "rhs", "The rhs hand side of the less than operation.")
+	
+	}, ReturnSymbol(TypeInstances::GetBooleanInstance(), "Result of the less then operation")) {}
 
 ExpressionValue BinaryLessOperator::interpret(const unsigned int tick, std::vector<ExpressionValue> _argumentValues, InterpreterOutput& output) {
 	// if any argument is a NAN return NAN
@@ -96,7 +144,15 @@ ExpressionValue BinaryLessOperator::interpret(const unsigned int tick, std::vect
 	return Boolean(*boost::get<Float>(_argumentValues[0]).value < *boost::get<Float>(_argumentValues[1]).value);
 }
 
-BinaryLessEqualOperator::BinaryLessEqualOperator(const std::string& _name) : MethodSymbol(_name, { TypeInstances::GetFloatInstance(), TypeInstances::GetFloatInstance() }, TypeInstances::GetBooleanInstance()) {}
+BinaryLessEqualOperator::BinaryLessEqualOperator(const std::string& _name) : MethodSymbol(_name, 
+	"Performs less than or equal operator on two numbers.",
+
+	{
+	
+	ParameterSymbol(TypeInstances::GetFloatInstance(), "lhs", "The left hand side of the less than or equal operation."),
+	ParameterSymbol(TypeInstances::GetFloatInstance(), "rhs", "The rhs hand side of the less than or equal operation.")
+	
+	}, ReturnSymbol(TypeInstances::GetBooleanInstance(), "Result of the less then or equal operation")) {}
 
 ExpressionValue BinaryLessEqualOperator::interpret(const unsigned int tick, std::vector<ExpressionValue> _argumentValues, InterpreterOutput& output) {
 	// if any argument is a NAN return NAN
@@ -107,7 +163,13 @@ ExpressionValue BinaryLessEqualOperator::interpret(const unsigned int tick, std:
 }
 
 
-BinaryGreaterOperator::BinaryGreaterOperator(const std::string& _name) : MethodSymbol(_name, { TypeInstances::GetFloatInstance(), TypeInstances::GetFloatInstance() }, TypeInstances::GetBooleanInstance()) {}
+BinaryGreaterOperator::BinaryGreaterOperator(const std::string& _name) : MethodSymbol(_name, 
+	"Performs greater than operator on two numbers.",
+	{ 
+	ParameterSymbol(TypeInstances::GetFloatInstance(), "lhs", "The left hand side of the greater than operation."),
+	ParameterSymbol(TypeInstances::GetFloatInstance(), "rhs", "The rhs hand side of the greater than operation.")
+
+	}, ReturnSymbol(TypeInstances::GetBooleanInstance(), "Result of the greater then operation")) {}
 
 ExpressionValue BinaryGreaterOperator::interpret(const unsigned int tick, std::vector<ExpressionValue> _argumentValues, InterpreterOutput& output) {
 	// if any argument is a NAN return NAN
@@ -117,7 +179,15 @@ ExpressionValue BinaryGreaterOperator::interpret(const unsigned int tick, std::v
 	return Boolean(*boost::get<Float>(_argumentValues[0]).value > *boost::get<Float>(_argumentValues[1]).value);
 }
 
-BinaryGreaterEqualOperator::BinaryGreaterEqualOperator(const std::string& _name) : MethodSymbol(_name, { TypeInstances::GetFloatInstance(), TypeInstances::GetFloatInstance() }, TypeInstances::GetBooleanInstance()) {}
+BinaryGreaterEqualOperator::BinaryGreaterEqualOperator(const std::string& _name) : MethodSymbol(_name, 
+	
+	"Performs greater than or equal operator on two numbers.",
+	{ 
+	
+	ParameterSymbol(TypeInstances::GetFloatInstance(), "lhs", "The left hand side of the greater than or equal operation."),
+	ParameterSymbol(TypeInstances::GetFloatInstance(), "rhs", "The rhs hand side of the greater than or equal operation.")
+	
+	}, ReturnSymbol(TypeInstances::GetBooleanInstance(), "Result of the greater then or equal operation")) {}
 
 ExpressionValue BinaryGreaterEqualOperator::interpret(const unsigned int tick, std::vector<ExpressionValue> _argumentValues, InterpreterOutput& output) {
 	// if any argument is a NAN return NAN
@@ -128,7 +198,16 @@ ExpressionValue BinaryGreaterEqualOperator::interpret(const unsigned int tick, s
 }
 
 
-BinaryAndOperator::BinaryAndOperator(const std::string& _name) : MethodSymbol(_name, { TypeInstances::GetBooleanInstance(), TypeInstances::GetBooleanInstance() }, TypeInstances::GetBooleanInstance()) {}
+BinaryAndOperator::BinaryAndOperator(const std::string& _name) : MethodSymbol(_name, 
+	"Performs and operator on two booleans.",
+
+	{
+	
+	ParameterSymbol(TypeInstances::GetBooleanInstance(), "lhs", "The left hand side of the and operation."),
+	ParameterSymbol(TypeInstances::GetBooleanInstance(), "rhs", "The rhs hand side of the and operation.")
+
+	
+	}, ReturnSymbol(TypeInstances::GetBooleanInstance(), "Result of and operation")) {}
 
 ExpressionValue BinaryAndOperator::interpret(const unsigned int tick, std::vector<ExpressionValue> _argumentValues, InterpreterOutput& output) {
 	// if any argument is a NAN return NAN
@@ -139,7 +218,13 @@ ExpressionValue BinaryAndOperator::interpret(const unsigned int tick, std::vecto
 }
 
 
-BinaryOrOperator::BinaryOrOperator(const std::string& _name) : MethodSymbol(_name, { TypeInstances::GetBooleanInstance(), TypeInstances::GetBooleanInstance() }, TypeInstances::GetBooleanInstance()) {}
+BinaryOrOperator::BinaryOrOperator(const std::string& _name) : MethodSymbol(_name, 
+	"Performs or operator on two booleans.",
+	{ 
+		ParameterSymbol(TypeInstances::GetBooleanInstance(), "lhs", "The left hand side of the or operation."),
+	ParameterSymbol(TypeInstances::GetBooleanInstance(), "rhs", "The rhs hand side of the or operation.")
+	
+	}, ReturnSymbol(TypeInstances::GetBooleanInstance(), "Result of the or operation")) {}
 
 ExpressionValue BinaryOrOperator::interpret(const unsigned int tick, std::vector<ExpressionValue> _argumentValues, InterpreterOutput& output) {
 	// if any argument is a NAN return NAN
@@ -150,7 +235,13 @@ ExpressionValue BinaryOrOperator::interpret(const unsigned int tick, std::vector
 }
 
 
-BinaryBooleanEqualOperator::BinaryBooleanEqualOperator(const std::string& _name) : MethodSymbol(_name, { TypeInstances::GetBooleanInstance(), TypeInstances::GetBooleanInstance() }, TypeInstances::GetBooleanInstance()) {}
+BinaryBooleanEqualOperator::BinaryBooleanEqualOperator(const std::string& _name) : MethodSymbol(_name, 
+	"Performs equal operator on two booleans.",
+	{ 
+			ParameterSymbol(TypeInstances::GetBooleanInstance(), "lhs", "The left hand side of the equal operation."),
+	ParameterSymbol(TypeInstances::GetBooleanInstance(), "rhs", "The rhs hand side of the equal operation.")
+	
+	}, ReturnSymbol(TypeInstances::GetBooleanInstance(), "Are the two operands equal")) {}
 
 ExpressionValue BinaryBooleanEqualOperator::interpret(const unsigned int tick, std::vector<ExpressionValue> _argumentValues, InterpreterOutput& output) {
 	// if any argument is a NAN return NAN
@@ -160,7 +251,13 @@ ExpressionValue BinaryBooleanEqualOperator::interpret(const unsigned int tick, s
 	return Boolean(*boost::get<Boolean>(_argumentValues[0]).value == *boost::get<Boolean>(_argumentValues[1]).value);
 }
 
-BinaryFloatEqualOperator::BinaryFloatEqualOperator(const std::string& _name) : MethodSymbol(_name, { TypeInstances::GetFloatInstance(), TypeInstances::GetFloatInstance() }, TypeInstances::GetBooleanInstance()) {}
+BinaryFloatEqualOperator::BinaryFloatEqualOperator(const std::string& _name) : MethodSymbol(_name, 
+	"Performs equal operator on two floats.",
+	{ 
+	ParameterSymbol(TypeInstances::GetFloatInstance(), "lhs", "The left hand side of the equal operation."),
+	ParameterSymbol(TypeInstances::GetFloatInstance(), "rhs", "The rhs hand side of the equal operation.")
+	
+	}, ReturnSymbol(TypeInstances::GetBooleanInstance(), "Are the two operands equal")) {}
 
 ExpressionValue BinaryFloatEqualOperator::interpret(const unsigned int tick, std::vector<ExpressionValue> _argumentValues, InterpreterOutput& output) {
 	// if any argument is a NAN return NAN
@@ -171,7 +268,14 @@ ExpressionValue BinaryFloatEqualOperator::interpret(const unsigned int tick, std
 }
 
 
-BinaryBooleanNotEqualOperator::BinaryBooleanNotEqualOperator(const std::string& _name) : MethodSymbol(_name, { TypeInstances::GetBooleanInstance(), TypeInstances::GetBooleanInstance() }, TypeInstances::GetBooleanInstance()) {}
+BinaryBooleanNotEqualOperator::BinaryBooleanNotEqualOperator(const std::string& _name) : MethodSymbol(_name, 
+	"Performs not equal operator on two booleans.",
+
+	{ 
+			ParameterSymbol(TypeInstances::GetBooleanInstance(), "lhs", "The left hand side of the not equal operation."),
+	ParameterSymbol(TypeInstances::GetBooleanInstance(), "rhs", "The rhs hand side of the not equal operation.")
+	
+	}, ReturnSymbol(TypeInstances::GetBooleanInstance(), "Are the two operands not equal")) {}
 
 ExpressionValue BinaryBooleanNotEqualOperator::interpret(const unsigned int tick, std::vector<ExpressionValue> _argumentValues, InterpreterOutput& output) {
 	// if any argument is a NAN return NAN
@@ -181,7 +285,15 @@ ExpressionValue BinaryBooleanNotEqualOperator::interpret(const unsigned int tick
 	return Boolean(*boost::get<Boolean>(_argumentValues[0]).value != *boost::get<Boolean>(_argumentValues[1]).value);
 }
 
-BinaryFloatNotEqualOperator::BinaryFloatNotEqualOperator(const std::string& _name) : MethodSymbol(_name, { TypeInstances::GetFloatInstance(), TypeInstances::GetFloatInstance() }, TypeInstances::GetBooleanInstance()) {}
+BinaryFloatNotEqualOperator::BinaryFloatNotEqualOperator(const std::string& _name) : MethodSymbol(_name, 
+	
+	"Performs not equal operator on two floats.",
+
+	{ 
+	
+				ParameterSymbol(TypeInstances::GetFloatInstance(), "lhs", "The left hand side of the not equal operation."),
+	ParameterSymbol(TypeInstances::GetFloatInstance(), "rhs", "The rhs hand side of the not equal operation.")
+	}, ReturnSymbol(TypeInstances::GetBooleanInstance(), "Are the two operands not equal")) {}
 
 ExpressionValue BinaryFloatNotEqualOperator::interpret(const unsigned int tick, std::vector<ExpressionValue> _argumentValues, InterpreterOutput& output) {
 	// if any argument is a NAN return NAN
@@ -193,7 +305,9 @@ ExpressionValue BinaryFloatNotEqualOperator::interpret(const unsigned int tick, 
 
 
 
-GetTick::GetTick() : MethodSymbol("tick", { }, TypeInstances::GetFloatInstance()) {}
+GetTick::GetTick() : MethodSymbol("tick",
+	"Gets the current tick.",
+	{ }, ReturnSymbol(TypeInstances::GetFloatInstance(), "The current tick")) {}
 
 ExpressionValue GetTick::interpret(const unsigned int tick, std::vector<ExpressionValue> _argumentValues, InterpreterOutput& output) {
 	return Float(tick);
@@ -202,7 +316,12 @@ ExpressionValue GetTick::interpret(const unsigned int tick, std::vector<Expressi
 
 static int plotNo = 0;
 
-Plot::Plot() : MethodSymbol("plot", { TypeInstances::GetFloatInstance()}, TypeInstances::GetBooleanInstance()) {}
+Plot::Plot() : MethodSymbol("plot", 
+	"Plots a series of values onto the chart",
+	{ 
+	ParameterSymbol(TypeInstances::GetFloatInstance(), "value", "The value that will be plotted at the current tick")
+	
+	}, ReturnSymbol(TypeInstances::GetVoidInstance())) {}
 
 ExpressionValue Plot::interpret(const unsigned int tick, std::vector<ExpressionValue> _argumentValues, InterpreterOutput& output) {
 	
@@ -219,7 +338,15 @@ ExpressionValue Plot::interpret(const unsigned int tick, std::vector<ExpressionV
 	return Boolean(true);
 }
 
-Mark::Mark() : MethodSymbol("mark", { TypeInstances::GetBooleanInstance(), TypeInstances::GetFloatInstance() }, TypeInstances::GetBooleanInstance()) {}
+Mark::Mark() : MethodSymbol("mark", 
+	"Conditionally marks points on the chart when a condition is true.",
+
+	{ 
+	ParameterSymbol(TypeInstances::GetBooleanInstance(), "when", "Mark the current tick or not"),
+	ParameterSymbol(TypeInstances::GetFloatInstance(), "value", "The value to mark if marking this tick")
+
+	
+	}, ReturnSymbol(TypeInstances::GetVoidInstance())) {}
 
 
 static int markNo = 0;
@@ -253,14 +380,19 @@ ExpressionValue Mark::interpret(const unsigned int tick, std::vector<ExpressionV
 
 
 
-FloatNAN::FloatNAN() : MethodSymbol("nan_f", { }, TypeInstances::GetFloatInstance()) {}
+FloatNAN::FloatNAN() : MethodSymbol("nan_f", 
+	"Get a float NAN.",
+
+	{ }, ReturnSymbol(TypeInstances::GetFloatInstance(), "NAN value")) {}
 
 ExpressionValue FloatNAN::interpret(const unsigned int tick, std::vector<ExpressionValue> _argumentValues, InterpreterOutput& output) {
 	return Float();
 }
 
 
-BooleanNAN::BooleanNAN() : MethodSymbol("nan_b", { }, TypeInstances::GetBooleanInstance()) {}
+BooleanNAN::BooleanNAN() : MethodSymbol("nan_b", 
+	"Get a boolean NAN.",
+	{ }, ReturnSymbol(TypeInstances::GetBooleanInstance(), "NAN value")) {}
 
 ExpressionValue BooleanNAN::interpret(const unsigned int tick, std::vector<ExpressionValue> _argumentValues, InterpreterOutput& output) {
 	return Boolean();

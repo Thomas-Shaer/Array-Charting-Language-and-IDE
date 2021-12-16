@@ -39,6 +39,11 @@ void ExpressionStatementNode::semanticAnalysis(SymbolTable* symboltable, Interpr
 void AssignNode::semanticAnalysis(SymbolTable* symboltable, InterpreterOutput& output) {
 	const TypeSymbol* rhsType = rhs->semanticAnalysis(symboltable, output);
 
+	// x = void
+	if (rhsType == TypeInstances::GetVoidInstance()) {
+		throw LanguageException("Void is not a assignable type.");
+	}
+
 	// variable already declared therefore right side type should be same as left side type
 	if (symboltable->isVariableDeclared(name)) {
 		if (symboltable->getVariable(name)->type != rhsType) {

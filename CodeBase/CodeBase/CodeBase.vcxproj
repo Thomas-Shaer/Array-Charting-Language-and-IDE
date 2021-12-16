@@ -183,6 +183,8 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="node.cpp" />
     <ClCompile Include="methodbucket.cpp" />
+    <ClCompile Include="parametersymbol.cpp" />
+    <ClCompile Include="returnsymbol.cpp" />
     <ClCompile Include="semanticanalysis.cpp" />
     <ClCompile Include="settingswindow.cpp" />
     <ClCompile Include="symboltable.cpp" />
@@ -224,6 +226,8 @@
     <ClInclude Include="node.h" />
     <ClInclude Include="methodbucket.h" />
     <ClInclude Include="chartwindow.h" />
+    <ClInclude Include="parametersymbol.h" />
+    <ClInclude Include="returnsymbol.h" />
     <ClInclude Include="settingswindow.h" />
     <ClInclude Include="TextEditor.h" />
     <ClInclude Include="texteditorwindow.h" />

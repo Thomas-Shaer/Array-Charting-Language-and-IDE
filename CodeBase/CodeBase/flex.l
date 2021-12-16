@@ -34,8 +34,15 @@
 %}
 
  
+
+%x SINGLE_LINE_COMMENT
+
 %%
 
+"//"                              { BEGIN(SINGLE_LINE_COMMENT); }
+<SINGLE_LINE_COMMENT>"\n"         { BEGIN(INITIAL); }
+<SINGLE_LINE_COMMENT>\n			  { }
+<SINGLE_LINE_COMMENT>.			  { }
 " "                     { }
 [\n]                    { }
 [\t]                    { }
