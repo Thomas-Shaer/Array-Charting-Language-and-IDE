@@ -14,7 +14,7 @@ void SnapToOutputTab() {
 
 void UpdateVariablesTab() {
     variableTabFlags = ImGuiTabItemFlags_SetSelected;
-    DisplayInformation::CODE_OUTPUT_VARIABLES = SymbolTable::globalVariablesToString();
+    DisplayInformation::CODE_OUTPUT_VARIABLES = SymbolTable::GLOBAL_SYMBOL_TABLE->variablesToString(true);
 }
 
 void ShowTextOutputWindow() {

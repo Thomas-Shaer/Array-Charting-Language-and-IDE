@@ -34,12 +34,14 @@ void InterpreterContext::execute(const std::string& code) {
 
 		std::cout << ast->toString() << std::endl;
 
-		symboltable = new SymbolTable();
+		symboltable = std::make_shared<SymbolTable>(SymbolTable::GLOBAL_SYMBOL_TABLE);
 
-		ast->semanticAnalysis(symboltable, output);
+		output = std::make_shared<InterpreterOutput>(ticks);
+
+		ast->semanticAnalysis(symboltable, *output);
 
 		for (int i = 0; i < ticks; i++) {
-			ast->interpret(i, symboltable, output);
+			ast->interpret(i, *output);
 		}		//std::cout << symboltable->toString() << std::endl;
 
 
@@ -47,7 +49,7 @@ void InterpreterContext::execute(const std::string& code) {
 	}
 	catch (LanguageException langexception) {
 		std::cout << langexception.message << std::endl;
-		output.textOutput.push_back(langexception.message);
+		output->textOutput.push_back(langexception.message);
 	}
 
 
@@ -67,7 +69,7 @@ void InterpreterContext::execute(std::ifstream& myfile) {
 		myfile.close();
 	}
 
-	SymbolTable* symboltable = nullptr;
+	std::shared_ptr<SymbolTable> symboltable = nullptr;
 	try {
 		yyscan_t scanner;
 
@@ -85,11 +87,11 @@ void InterpreterContext::execute(std::ifstream& myfile) {
 		yylex_destroy(scanner);
 
 
-		symboltable = new SymbolTable();
-
-		ast->semanticAnalysis(symboltable, output);
+		symboltable = std::make_shared<SymbolTable>(SymbolTable::GLOBAL_SYMBOL_TABLE);
+		output = std::make_shared<InterpreterOutput>(ticks);
+		ast->semanticAnalysis(symboltable, *output);
 		for (int i = 0; i < ticks; i++) {
-			ast->interpret(i, symboltable, output);
+			ast->interpret(i, *output);
 		}
 
 
@@ -97,7 +99,7 @@ void InterpreterContext::execute(std::ifstream& myfile) {
 	}
 	catch (LanguageException langexception) {
 		std::cout << langexception.message << std::endl;
-		output.textOutput.push_back(langexception.message);
+		output->textOutput.push_back(langexception.message);
 
 	}
 
@@ -110,7 +112,5 @@ InterpreterContext::~InterpreterContext() {
 	if (ast) {
 		delete ast;
 	}
-	if (symboltable) {
-		delete symboltable;
-	}
+
 }

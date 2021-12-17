@@ -162,7 +162,7 @@ void ShowDataWindow() {
             data->isVariable = true;
             data->variableName = std::string(characters);
             std::shared_ptr<VarSymbol> varSymbol = std::make_shared<VarSymbol>(data->variableName, TypeInstances::GetFloatInstance(), values);
-            SymbolTable::globalVariableTable[data->variableName] = varSymbol;
+            SymbolTable::GLOBAL_SYMBOL_TABLE->variableTable[data->variableName] = varSymbol;
             UpdateVariablesTab();
         }
 
@@ -171,17 +171,17 @@ void ShowDataWindow() {
             Could be optimised, recreates entire variable symbol rather then just changing the symbol name.
             */
             if (ImGui::Button("Rename Variable")) {
-                std::shared_ptr<VarSymbol> oldSymbol = SymbolTable::globalVariableTable[data->variableName];
-                SymbolTable::globalVariableTable.erase(SymbolTable::globalVariableTable.find(data->variableName));
+                std::shared_ptr<VarSymbol> oldSymbol = SymbolTable::GLOBAL_SYMBOL_TABLE->variableTable[data->variableName];
+                SymbolTable::GLOBAL_SYMBOL_TABLE->variableTable.erase(SymbolTable::GLOBAL_SYMBOL_TABLE->variableTable.find(data->variableName));
                 data->variableName = std::string(characters);
                 std::shared_ptr<VarSymbol> varSymbol = std::make_shared<VarSymbol>(data->variableName, TypeInstances::GetFloatInstance(), oldSymbol->getValues());
-                SymbolTable::globalVariableTable[data->variableName] = varSymbol;
+                SymbolTable::GLOBAL_SYMBOL_TABLE->variableTable[data->variableName] = varSymbol;
                 UpdateVariablesTab();
             }
 
 
             if (ImGui::Button("Delete Variable")) {
-                SymbolTable::globalVariableTable.erase(SymbolTable::globalVariableTable.find(data->variableName));
+                SymbolTable::GLOBAL_SYMBOL_TABLE->variableTable.erase(SymbolTable::GLOBAL_SYMBOL_TABLE->variableTable.find(data->variableName));
                 data->isVariable = false;
                 UpdateVariablesTab();
             }

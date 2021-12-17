@@ -76,7 +76,10 @@ void ShowEditorWindow() {
 
     if (ImGui::BeginMenuBar()) {
         if (ImGui::BeginMenu("File")) {
-            //ImGui::MenuItem("Execute Script", NULL, &runCode);
+            ImGui::MenuItem("New", NULL, &openNewFile);
+            ImGui::MenuItem("Open", NULL, &openLoadFile);
+            ImGui::MenuItem("Save", NULL, &openSaveFile);
+            ImGui::MenuItem("Save as...", NULL, &openSaveAsFile);
             ImGui::EndMenu();
         }
         ImGui::EndMenuBar();
@@ -109,8 +112,8 @@ void ShowEditorWindow() {
         context.execute(TextEditorSingleton::textEditor.GetText());
 
 
-        if (!context.output.textOutput.empty()) {
-            for (auto string : context.output.textOutput) {
+        if (!context.output->textOutput.empty()) {
+            for (auto string : context.output->textOutput) {
                 DisplayInformation::CODE_OUTPUT += string + "\n";
             }
             SnapToOutputTab();
@@ -120,10 +123,10 @@ void ShowEditorWindow() {
             DisplayInformation::CODE_OUTPUT_RECONSTRUCTION = context.ast->toString();
         }
         if (context.symboltable) {
-            DisplayInformation::CODE_OUTPUT_VARIABLES = context.symboltable->variablesToString();
+            DisplayInformation::CODE_OUTPUT_VARIABLES = context.symboltable->variablesToString(true);
         }
-        DisplayInformation::CHART_LINE_DATA = context.output.chartData;
-        DisplayInformation::CHART_MARK_DATA = context.output.markData;
+        DisplayInformation::CHART_LINE_DATA = context.output->chartData;
+        DisplayInformation::CHART_MARK_DATA = context.output->markData;
         UpdateChart();
         //std::cout << "what" << std::endl;
     }

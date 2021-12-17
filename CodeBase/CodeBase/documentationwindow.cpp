@@ -14,7 +14,8 @@ void ShowDocumentationWindow() {
     if (ImGui::BeginTabBar("ImPlotDemoTabs")) {
         if (ImGui::BeginTabItem("Methods")) {
             ImGui::BeginChild("Scrolling");
-            for (auto symbol : SymbolTable::methodTable) {
+
+            for (auto symbol : SymbolTable::GLOBAL_SYMBOL_TABLE->methodTable) {
                 MethodBucket* bucket = symbol.second;
                 if (ImGui::CollapsingHeader(symbol.first.c_str())) {
                     //ImGui::PushFont

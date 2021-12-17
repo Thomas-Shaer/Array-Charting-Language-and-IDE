@@ -22,6 +22,7 @@
     class IdentifierNode;
     class MethodCallNode;
     class ExpressionStatementNode;
+    class IfStatementNode;
 	#include "node.h"
 
 %}
@@ -44,12 +45,14 @@
 %token <int> TLESS "<" TLESSEQUAL "<=" TGREATER ">" TGREATEREQUAL ">=" TAND "&&" TOR "||" TNOT "!" TNOTEQUAL "!=" TEQUAL "=="
 %token <int> TOPENBRACKET "(" TCLOSEBRACKET ")" TCOMMA ","
 %token <int> TTRUE "TRUE" TFALSE "FALSE"
+%token <int> TIF "if" TOPENBLOCK "{" TCLOSEBLOCK "}"
 
 
 
 %type <Expression*> expr
 %type <BlockNode*> stmts
 %type <Statement*> stmt
+%type <IfStatementNode*> ifstmt
 %type <NumberNode*> numeric
 %type <BooleanNode*> boolean
 %type <BlockNode*> block;
@@ -82,10 +85,16 @@ stmts : stmt { $$ = new BlockNode(); $$->statementNodes.push_back($1); }
 
 stmt : assign {$$ = $1;}
      | exprstmt {$$ = $1;}
+     | ifstmt {$$ = $1;}
      ;
 
 exprstmt : method {$$ = new ExpressionStatementNode($1);}
          ;
+
+ifstmt : TIF TOPENBRACKET expr TCLOSEBRACKET TOPENBLOCK stmts TCLOSEBLOCK { 
+										$$ = new IfStatementNode($3, $6);
+									  }
+       ;
 
 identifier : TIDENTIFIER {$$ = new IdentifierNode($1);}
            ;

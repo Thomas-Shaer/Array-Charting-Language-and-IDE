@@ -11,7 +11,21 @@ class MethodBucket;
 class SymbolTable {
 public:
 
-	SymbolTable();
+	static std::shared_ptr<SymbolTable> GLOBAL_SYMBOL_TABLE;
+
+	/*
+	Symbol table for dynamically created ones. 
+	Therefore pass a enclosing symbol table.
+	*/
+	SymbolTable(std::shared_ptr<SymbolTable> _enclosingSymbolTable);
+
+	/*
+	Global symbol table creation. 
+	I.e. no enclosing symbol table, so
+	load this one with variables/methods.
+	*/
+	SymbolTable(std::map<std::string, MethodBucket*> _methodTable,
+		std::map<std::string, std::shared_ptr<VarSymbol>> _variableTable);
 
 	//returns true if variable is declared
 	bool isVariableDeclared(const std::string& name);
@@ -40,22 +54,19 @@ public:
 	//converts symbol table to string
 	std::string toString();
 
-	std::string variablesToString();
-	static std::string globalVariablesToString();
+	std::string variablesToString(bool _enclosing = false);
 
 	// since methods can't be declared this table will never be changed.
 	// therefore make it static so it isn't recreated every time symbol table is spawned
 	// also no need for shared pointers for same reason. Use regular pointers to help compile time
-	static const std::map<std::string, MethodBucket*> methodTable;
+	std::map<std::string, MethodBucket*> methodTable;
 
 
 	// use of shared pointer to remove change of memory leak + helps increase compile time
-	static std::map<std::string, std::shared_ptr<VarSymbol>> globalVariableTable;
-
-private:
 	std::map<std::string, std::shared_ptr<VarSymbol>> variableTable;
 
+private:
 
-
+	std::shared_ptr<SymbolTable> enclosingSymbolTable;
 
 };

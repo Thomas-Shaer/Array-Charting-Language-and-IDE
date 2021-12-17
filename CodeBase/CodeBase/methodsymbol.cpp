@@ -3,7 +3,7 @@
 #include "typesymbol.h"
 
 
-const TypeSymbol* MethodSymbol::semanticAnaylsis(std::vector<const TypeSymbol*> _argumentTypes) const {
+const TypeSymbol* MethodSymbol::semanticAnaylsis(std::vector<const TypeSymbol*> _argumentTypes, InterpreterOutput& output) {
 
 	// if recieved wrong amount of parameters throw error
 	if (argumentTypes.size() != _argumentTypes.size()) {

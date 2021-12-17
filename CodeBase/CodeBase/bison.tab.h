@@ -45,7 +45,7 @@
 #ifndef YY_YY_BISON_TAB_H_INCLUDED
 # define YY_YY_BISON_TAB_H_INCLUDED
 // "%code requires" blocks.
-#line 29 "bison.y"
+#line 30 "bison.y"
 
   typedef void* yyscan_t;
 
@@ -387,14 +387,17 @@ namespace yy {
       // identifier
       char dummy6[sizeof (IdentifierNode*)];
 
+      // ifstmt
+      char dummy7[sizeof (IfStatementNode*)];
+
       // method
-      char dummy7[sizeof (MethodCallNode*)];
+      char dummy8[sizeof (MethodCallNode*)];
 
       // numeric
-      char dummy8[sizeof (NumberNode*)];
+      char dummy9[sizeof (NumberNode*)];
 
       // stmt
-      char dummy9[sizeof (Statement*)];
+      char dummy10[sizeof (Statement*)];
 
       // "+"
       // "-"
@@ -415,14 +418,17 @@ namespace yy {
       // ","
       // "TRUE"
       // "FALSE"
-      char dummy10[sizeof (int)];
+      // "if"
+      // "{"
+      // "}"
+      char dummy11[sizeof (int)];
 
       // TNUMBER
       // TIDENTIFIER
-      char dummy11[sizeof (std::string)];
+      char dummy12[sizeof (std::string)];
 
       // call_params
-      char dummy12[sizeof (std::vector<Expression*>)];
+      char dummy13[sizeof (std::vector<Expression*>)];
     };
 
     /// The size of the largest semantic type.
@@ -485,7 +491,10 @@ namespace yy {
     TCLOSEBRACKET = 275,           // ")"
     TCOMMA = 276,                  // ","
     TTRUE = 277,                   // "TRUE"
-    TFALSE = 278                   // "FALSE"
+    TFALSE = 278,                  // "FALSE"
+    TIF = 279,                     // "if"
+    TOPENBLOCK = 280,              // "{"
+    TCLOSEBLOCK = 281              // "}"
       };
       /// Backward compatibility alias (Bison 3.6).
       typedef token_kind_type yytokentype;
@@ -502,7 +511,7 @@ namespace yy {
     {
       enum symbol_kind_type
       {
-        YYNTOKENS = 24, ///< Number of tokens.
+        YYNTOKENS = 27, ///< Number of tokens.
         S_YYEMPTY = -2,
         S_YYEOF = 0,                             // "end of file"
         S_YYerror = 1,                           // error
@@ -528,18 +537,22 @@ namespace yy {
         S_TCOMMA = 21,                           // ","
         S_TTRUE = 22,                            // "TRUE"
         S_TFALSE = 23,                           // "FALSE"
-        S_YYACCEPT = 24,                         // $accept
-        S_program = 25,                          // program
-        S_stmts = 26,                            // stmts
-        S_stmt = 27,                             // stmt
-        S_exprstmt = 28,                         // exprstmt
-        S_identifier = 29,                       // identifier
-        S_assign = 30,                           // assign
-        S_expr = 31,                             // expr
-        S_numeric = 32,                          // numeric
-        S_boolean = 33,                          // boolean
-        S_method = 34,                           // method
-        S_call_params = 35                       // call_params
+        S_TIF = 24,                              // "if"
+        S_TOPENBLOCK = 25,                       // "{"
+        S_TCLOSEBLOCK = 26,                      // "}"
+        S_YYACCEPT = 27,                         // $accept
+        S_program = 28,                          // program
+        S_stmts = 29,                            // stmts
+        S_stmt = 30,                             // stmt
+        S_exprstmt = 31,                         // exprstmt
+        S_ifstmt = 32,                           // ifstmt
+        S_identifier = 33,                       // identifier
+        S_assign = 34,                           // assign
+        S_expr = 35,                             // expr
+        S_numeric = 36,                          // numeric
+        S_boolean = 37,                          // boolean
+        S_method = 38,                           // method
+        S_call_params = 39                       // call_params
       };
     };
 
@@ -598,6 +611,10 @@ namespace yy {
         value.move< IdentifierNode* > (std::move (that.value));
         break;
 
+      case symbol_kind::S_ifstmt: // ifstmt
+        value.move< IfStatementNode* > (std::move (that.value));
+        break;
+
       case symbol_kind::S_method: // method
         value.move< MethodCallNode* > (std::move (that.value));
         break;
@@ -629,6 +646,9 @@ namespace yy {
       case symbol_kind::S_TCOMMA: // ","
       case symbol_kind::S_TTRUE: // "TRUE"
       case symbol_kind::S_TFALSE: // "FALSE"
+      case symbol_kind::S_TIF: // "if"
+      case symbol_kind::S_TOPENBLOCK: // "{"
+      case symbol_kind::S_TCLOSEBLOCK: // "}"
         value.move< int > (std::move (that.value));
         break;
 
@@ -729,6 +749,18 @@ namespace yy {
       {}
 #else
       basic_symbol (typename Base::kind_type t, const IdentifierNode*& v)
+        : Base (t)
+        , value (v)
+      {}
+#endif
+
+#if 201103L <= YY_CPLUSPLUS
+      basic_symbol (typename Base::kind_type t, IfStatementNode*&& v)
+        : Base (t)
+        , value (std::move (v))
+      {}
+#else
+      basic_symbol (typename Base::kind_type t, const IfStatementNode*& v)
         : Base (t)
         , value (v)
       {}
@@ -852,6 +884,10 @@ switch (yykind)
         value.template destroy< IdentifierNode* > ();
         break;
 
+      case symbol_kind::S_ifstmt: // ifstmt
+        value.template destroy< IfStatementNode* > ();
+        break;
+
       case symbol_kind::S_method: // method
         value.template destroy< MethodCallNode* > ();
         break;
@@ -883,6 +919,9 @@ switch (yykind)
       case symbol_kind::S_TCOMMA: // ","
       case symbol_kind::S_TTRUE: // "TRUE"
       case symbol_kind::S_TFALSE: // "FALSE"
+      case symbol_kind::S_TIF: // "if"
+      case symbol_kind::S_TOPENBLOCK: // "{"
+      case symbol_kind::S_TCLOSEBLOCK: // "}"
         value.template destroy< int > ();
         break;
 
@@ -1409,6 +1448,51 @@ switch (yykind)
         return symbol_type (token::TFALSE, v);
       }
 #endif
+#if 201103L <= YY_CPLUSPLUS
+      static
+      symbol_type
+      make_TIF (int v)
+      {
+        return symbol_type (token::TIF, std::move (v));
+      }
+#else
+      static
+      symbol_type
+      make_TIF (const int& v)
+      {
+        return symbol_type (token::TIF, v);
+      }
+#endif
+#if 201103L <= YY_CPLUSPLUS
+      static
+      symbol_type
+      make_TOPENBLOCK (int v)
+      {
+        return symbol_type (token::TOPENBLOCK, std::move (v));
+      }
+#else
+      static
+      symbol_type
+      make_TOPENBLOCK (const int& v)
+      {
+        return symbol_type (token::TOPENBLOCK, v);
+      }
+#endif
+#if 201103L <= YY_CPLUSPLUS
+      static
+      symbol_type
+      make_TCLOSEBLOCK (int v)
+      {
+        return symbol_type (token::TCLOSEBLOCK, std::move (v));
+      }
+#else
+      static
+      symbol_type
+      make_TCLOSEBLOCK (const int& v)
+      {
+        return symbol_type (token::TCLOSEBLOCK, v);
+      }
+#endif
 
 
     class context
@@ -1737,9 +1821,9 @@ switch (yykind)
     /// Constants.
     enum
     {
-      yylast_ = 102,     ///< Last index in yytable_.
-      yynnts_ = 12,  ///< Number of nonterminal symbols.
-      yyfinal_ = 10 ///< Termination state number.
+      yylast_ = 139,     ///< Last index in yytable_.
+      yynnts_ = 13,  ///< Number of nonterminal symbols.
+      yyfinal_ = 13 ///< Termination state number.
     };
 
 
@@ -1751,11 +1835,11 @@ switch (yykind)
 
 
 } // yy
-#line 1755 "bison.tab.h"
+#line 1839 "bison.tab.h"
 
 
 // "%code provides" blocks.
-#line 33 "bison.y"
+#line 34 "bison.y"
 
       #define YY_DECL \
         int yylex(yy::parser::semantic_type* value, yyscan_t yyscanner)
@@ -1763,7 +1847,7 @@ switch (yykind)
     std::string token_name(int t);
  
 
-#line 1767 "bison.tab.h"
+#line 1851 "bison.tab.h"
 
 
 #endif // !YY_YY_BISON_TAB_H_INCLUDED

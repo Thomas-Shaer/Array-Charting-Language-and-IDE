@@ -89,3 +89,15 @@ MethodCallNode::~MethodCallNode() {
 	}
 	delete methodsymbol;
 }
+
+
+
+std::string IfStatementNode::toString() const {
+	std::string output =  "if (" + condition->toString() + ") { \n" + block->toString() + "}";
+	return output;
+}
+
+IfStatementNode::~IfStatementNode() {
+	delete condition;
+	delete block;
+}
