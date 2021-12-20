@@ -86,3 +86,16 @@ void IfStatementNode::semanticAnalysis(std::shared_ptr<SymbolTable> symboltable,
 	std::shared_ptr<SymbolTable> ifStatementSymbolTable = std::make_shared<SymbolTable>(symboltable);
 	block->semanticAnalysis(ifStatementSymbolTable, output);
 }
+
+const TypeSymbol* TernaryNode::semanticAnalysis(std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output) {
+	if (condition->semanticAnalysis(symboltable, output) != TypeInstances::GetBooleanInstance()) {
+		throw LanguageException("Ternary condition must be a boolean.");
+	}
+	const TypeSymbol* lhsType = expression1->semanticAnalysis(symboltable, output);
+	const TypeSymbol* rhstype = expression2->semanticAnalysis(symboltable, output);
+
+	if (lhsType != rhstype) {
+		throw LanguageException("Ternary expression, returning types must be the same - got " + lhsType->name + " and " + rhstype->name);
+	}
+	return lhsType;
+}

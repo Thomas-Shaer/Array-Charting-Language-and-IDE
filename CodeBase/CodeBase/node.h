@@ -199,3 +199,24 @@ public:
 	virtual void interpret(const unsigned int tick, InterpreterOutput& output) const;
 
 };
+
+
+/*
+Ternary node
+*/
+class TernaryNode : public Expression {
+public:
+	Expression* condition;
+	Expression* expression1;
+	Expression* expression2;
+	TernaryNode(Expression* _condition, Expression* _expression1, Expression* _expression2) 
+		: condition(_condition), expression1(_expression1), expression2(_expression2) {}
+
+	virtual std::string toString() const;
+
+	virtual ~TernaryNode();
+
+	virtual const TypeSymbol* semanticAnalysis(std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
+	virtual ExpressionValue interpret(const unsigned int tick, InterpreterOutput& output) const;
+
+};

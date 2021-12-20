@@ -18,6 +18,7 @@
     class MethodCallNode;
     class ExpressionStatementNode;
     class IfStatementNode;
+    class TernaryNode;
 
 
 
@@ -73,6 +74,10 @@
 "("                     value->emplace<int>(yy::parser::token::TOPENBRACKET); return yy::parser::token::TOPENBRACKET;
 ")"                     value->emplace<int>(yy::parser::token::TCLOSEBRACKET); return yy::parser::token::TCLOSEBRACKET;
 ","                     value->emplace<int>(yy::parser::token::TCOMMA); return yy::parser::token::TCOMMA;
+
+"?"                     value->emplace<int>(yy::parser::token::TQUESTIONMARK); return yy::parser::token::TQUESTIONMARK;
+":"                     value->emplace<int>(yy::parser::token::TCOLON); return yy::parser::token::TCOLON;
+
 
 
 

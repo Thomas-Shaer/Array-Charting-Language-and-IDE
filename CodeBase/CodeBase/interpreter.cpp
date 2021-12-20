@@ -55,3 +55,12 @@ void IfStatementNode::interpret(const unsigned int tick, InterpreterOutput& outp
 		}
 	}
 }
+
+
+ExpressionValue TernaryNode::interpret(const unsigned int tick, InterpreterOutput& output) const {
+	// if condition true execute block code.
+	std::optional<bool> conditionResult = boost::get<Boolean>(condition->interpret(tick, output)).value;
+	if (conditionResult) {
+		return *conditionResult ? expression1->interpret(tick, output) : expression2->interpret(tick, output);
+	}
+}

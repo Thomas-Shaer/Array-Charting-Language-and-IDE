@@ -45,7 +45,7 @@
 #ifndef YY_YY_BISON_TAB_H_INCLUDED
 # define YY_YY_BISON_TAB_H_INCLUDED
 // "%code requires" blocks.
-#line 30 "bison.y"
+#line 31 "bison.y"
 
   typedef void* yyscan_t;
 
@@ -399,6 +399,9 @@ namespace yy {
       // stmt
       char dummy10[sizeof (Statement*)];
 
+      // ternary
+      char dummy11[sizeof (TernaryNode*)];
+
       // "+"
       // "-"
       // "*"
@@ -421,14 +424,16 @@ namespace yy {
       // "if"
       // "{"
       // "}"
-      char dummy11[sizeof (int)];
+      // ":"
+      // "?"
+      char dummy12[sizeof (int)];
 
       // TNUMBER
       // TIDENTIFIER
-      char dummy12[sizeof (std::string)];
+      char dummy13[sizeof (std::string)];
 
       // call_params
-      char dummy13[sizeof (std::vector<Expression*>)];
+      char dummy14[sizeof (std::vector<Expression*>)];
     };
 
     /// The size of the largest semantic type.
@@ -494,7 +499,9 @@ namespace yy {
     TFALSE = 278,                  // "FALSE"
     TIF = 279,                     // "if"
     TOPENBLOCK = 280,              // "{"
-    TCLOSEBLOCK = 281              // "}"
+    TCLOSEBLOCK = 281,             // "}"
+    TCOLON = 282,                  // ":"
+    TQUESTIONMARK = 283            // "?"
       };
       /// Backward compatibility alias (Bison 3.6).
       typedef token_kind_type yytokentype;
@@ -511,7 +518,7 @@ namespace yy {
     {
       enum symbol_kind_type
       {
-        YYNTOKENS = 27, ///< Number of tokens.
+        YYNTOKENS = 29, ///< Number of tokens.
         S_YYEMPTY = -2,
         S_YYEOF = 0,                             // "end of file"
         S_YYerror = 1,                           // error
@@ -540,19 +547,22 @@ namespace yy {
         S_TIF = 24,                              // "if"
         S_TOPENBLOCK = 25,                       // "{"
         S_TCLOSEBLOCK = 26,                      // "}"
-        S_YYACCEPT = 27,                         // $accept
-        S_program = 28,                          // program
-        S_stmts = 29,                            // stmts
-        S_stmt = 30,                             // stmt
-        S_exprstmt = 31,                         // exprstmt
-        S_ifstmt = 32,                           // ifstmt
-        S_identifier = 33,                       // identifier
-        S_assign = 34,                           // assign
-        S_expr = 35,                             // expr
-        S_numeric = 36,                          // numeric
-        S_boolean = 37,                          // boolean
-        S_method = 38,                           // method
-        S_call_params = 39                       // call_params
+        S_TCOLON = 27,                           // ":"
+        S_TQUESTIONMARK = 28,                    // "?"
+        S_YYACCEPT = 29,                         // $accept
+        S_program = 30,                          // program
+        S_stmts = 31,                            // stmts
+        S_stmt = 32,                             // stmt
+        S_exprstmt = 33,                         // exprstmt
+        S_ifstmt = 34,                           // ifstmt
+        S_identifier = 35,                       // identifier
+        S_assign = 36,                           // assign
+        S_expr = 37,                             // expr
+        S_ternary = 38,                          // ternary
+        S_numeric = 39,                          // numeric
+        S_boolean = 40,                          // boolean
+        S_method = 41,                           // method
+        S_call_params = 42                       // call_params
       };
     };
 
@@ -627,6 +637,10 @@ namespace yy {
         value.move< Statement* > (std::move (that.value));
         break;
 
+      case symbol_kind::S_ternary: // ternary
+        value.move< TernaryNode* > (std::move (that.value));
+        break;
+
       case symbol_kind::S_TPLUS: // "+"
       case symbol_kind::S_TMINUS: // "-"
       case symbol_kind::S_TMUL: // "*"
@@ -649,6 +663,8 @@ namespace yy {
       case symbol_kind::S_TIF: // "if"
       case symbol_kind::S_TOPENBLOCK: // "{"
       case symbol_kind::S_TCLOSEBLOCK: // "}"
+      case symbol_kind::S_TCOLON: // ":"
+      case symbol_kind::S_TQUESTIONMARK: // "?"
         value.move< int > (std::move (that.value));
         break;
 
@@ -803,6 +819,18 @@ namespace yy {
 #endif
 
 #if 201103L <= YY_CPLUSPLUS
+      basic_symbol (typename Base::kind_type t, TernaryNode*&& v)
+        : Base (t)
+        , value (std::move (v))
+      {}
+#else
+      basic_symbol (typename Base::kind_type t, const TernaryNode*& v)
+        : Base (t)
+        , value (v)
+      {}
+#endif
+
+#if 201103L <= YY_CPLUSPLUS
       basic_symbol (typename Base::kind_type t, int&& v)
         : Base (t)
         , value (std::move (v))
@@ -900,6 +928,10 @@ switch (yykind)
         value.template destroy< Statement* > ();
         break;
 
+      case symbol_kind::S_ternary: // ternary
+        value.template destroy< TernaryNode* > ();
+        break;
+
       case symbol_kind::S_TPLUS: // "+"
       case symbol_kind::S_TMINUS: // "-"
       case symbol_kind::S_TMUL: // "*"
@@ -922,6 +954,8 @@ switch (yykind)
       case symbol_kind::S_TIF: // "if"
       case symbol_kind::S_TOPENBLOCK: // "{"
       case symbol_kind::S_TCLOSEBLOCK: // "}"
+      case symbol_kind::S_TCOLON: // ":"
+      case symbol_kind::S_TQUESTIONMARK: // "?"
         value.template destroy< int > ();
         break;
 
@@ -1493,6 +1527,36 @@ switch (yykind)
         return symbol_type (token::TCLOSEBLOCK, v);
       }
 #endif
+#if 201103L <= YY_CPLUSPLUS
+      static
+      symbol_type
+      make_TCOLON (int v)
+      {
+        return symbol_type (token::TCOLON, std::move (v));
+      }
+#else
+      static
+      symbol_type
+      make_TCOLON (const int& v)
+      {
+        return symbol_type (token::TCOLON, v);
+      }
+#endif
+#if 201103L <= YY_CPLUSPLUS
+      static
+      symbol_type
+      make_TQUESTIONMARK (int v)
+      {
+        return symbol_type (token::TQUESTIONMARK, std::move (v));
+      }
+#else
+      static
+      symbol_type
+      make_TQUESTIONMARK (const int& v)
+      {
+        return symbol_type (token::TQUESTIONMARK, v);
+      }
+#endif
 
 
     class context
@@ -1561,7 +1625,7 @@ switch (yykind)
     // Tables.
     // YYPACT[STATE-NUM] -- Index in YYTABLE of the portion describing
     // STATE-NUM.
-    static const signed char yypact_[];
+    static const short yypact_[];
 
     // YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
     // Performed when YYTABLE does not specify something else to do.  Zero
@@ -1821,9 +1885,9 @@ switch (yykind)
     /// Constants.
     enum
     {
-      yylast_ = 139,     ///< Last index in yytable_.
-      yynnts_ = 13,  ///< Number of nonterminal symbols.
-      yyfinal_ = 13 ///< Termination state number.
+      yylast_ = 249,     ///< Last index in yytable_.
+      yynnts_ = 14,  ///< Number of nonterminal symbols.
+      yyfinal_ = 32 ///< Termination state number.
     };
 
 
@@ -1835,11 +1899,11 @@ switch (yykind)
 
 
 } // yy
-#line 1839 "bison.tab.h"
+#line 1903 "bison.tab.h"
 
 
 // "%code provides" blocks.
-#line 34 "bison.y"
+#line 35 "bison.y"
 
       #define YY_DECL \
         int yylex(yy::parser::semantic_type* value, yyscan_t yyscanner)
@@ -1847,7 +1911,7 @@ switch (yykind)
     std::string token_name(int t);
  
 
-#line 1851 "bison.tab.h"
+#line 1915 "bison.tab.h"
 
 
 #endif // !YY_YY_BISON_TAB_H_INCLUDED
