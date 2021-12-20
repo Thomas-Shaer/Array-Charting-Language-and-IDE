@@ -5,38 +5,39 @@
 #include "methodbucket.h"
 #include "typesymbol.h"
 
-void BlockNode::semanticAnalysis(SymbolTable* symboltable, InterpreterOutput& output) {
+void BlockNode::semanticAnalysis(std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output) {
 	for (Statement* statement : statementNodes) {
 		statement->semanticAnalysis(symboltable, output);
 	}
 }
 
-const TypeSymbol* NumberNode::semanticAnalysis(SymbolTable* symboltable, InterpreterOutput& output) {
+const TypeSymbol* NumberNode::semanticAnalysis(std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output) {
 	return TypeInstances::GetFloatInstance();
 }
 
-const TypeSymbol* BooleanNode::semanticAnalysis(SymbolTable* symboltable, InterpreterOutput& output) {
+const TypeSymbol* BooleanNode::semanticAnalysis(std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output) {
 	return TypeInstances::GetBooleanInstance();
 }
 
 
 
-const TypeSymbol* IdentifierNode::semanticAnalysis(SymbolTable* symboltable, InterpreterOutput& output) {
+const TypeSymbol* IdentifierNode::semanticAnalysis(std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output) {
 	// need to return item in symbol table
 	if (symboltable->isVariableDeclared(name)) {
-		return symboltable->getVariable(name)->type;
+		varSymbol = symboltable->getVariable(name);
+		return varSymbol->type;
 	}
 	throw LanguageException("No variable called " + name);
 }
 
 
 
-void ExpressionStatementNode::semanticAnalysis(SymbolTable* symboltable, InterpreterOutput& output) {
+void ExpressionStatementNode::semanticAnalysis(std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output) {
 	expressionNode->semanticAnalysis(symboltable, output);
 }
 
 
-void AssignNode::semanticAnalysis(SymbolTable* symboltable, InterpreterOutput& output) {
+void AssignNode::semanticAnalysis(std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output) {
 	const TypeSymbol* rhsType = rhs->semanticAnalysis(symboltable, output);
 
 	// x = void
@@ -46,18 +47,22 @@ void AssignNode::semanticAnalysis(SymbolTable* symboltable, InterpreterOutput& o
 
 	// variable already declared therefore right side type should be same as left side type
 	if (symboltable->isVariableDeclared(name)) {
-		if (symboltable->getVariable(name)->type != rhsType) {
+		varSymbol = symboltable->getVariable(name);
+
+		if (varSymbol->type != rhsType) {
 			throw LanguageException("RHS type does not match LHS");
 		}
 	}
 	// variable not declared register new variable
 	else {
-		symboltable->declareVariable(std::make_shared<VarSymbol>(name, rhsType));
+		varSymbol = std::make_shared<VarSymbol>(name, rhsType);
+
+		symboltable->declareVariable(varSymbol);
 	}
 	// need to store value in symbol table at lhs name
 }
 
-const TypeSymbol* MethodCallNode::semanticAnalysis(SymbolTable* symboltable, InterpreterOutput& output) {
+const TypeSymbol* MethodCallNode::semanticAnalysis(std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output) {
 
 	// check to see if method exists first
 	if (!symboltable->isMethodDeclared(name)) {
@@ -70,5 +75,27 @@ const TypeSymbol* MethodCallNode::semanticAnalysis(SymbolTable* symboltable, Int
 	}
 
 	this->methodsymbol = symboltable->getMethod(name)->getMethodSymbol(argTypes)->clone();
-	return methodsymbol->semanticAnaylsis(argTypes);
+	return methodsymbol->semanticAnaylsis(argTypes, output);
+}
+
+void IfStatementNode::semanticAnalysis(std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output) {
+	if (condition->semanticAnalysis(symboltable, output) != TypeInstances::GetBooleanInstance()) {
+		throw LanguageException("If statement condition must be a boolean.");
+	}
+	// create new symbol table
+	std::shared_ptr<SymbolTable> ifStatementSymbolTable = std::make_shared<SymbolTable>(symboltable);
+	block->semanticAnalysis(ifStatementSymbolTable, output);
+}
+
+const TypeSymbol* TernaryNode::semanticAnalysis(std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output) {
+	if (condition->semanticAnalysis(symboltable, output) != TypeInstances::GetBooleanInstance()) {
+		throw LanguageException("Ternary condition must be a boolean.");
+	}
+	const TypeSymbol* lhsType = expression1->semanticAnalysis(symboltable, output);
+	const TypeSymbol* rhstype = expression2->semanticAnalysis(symboltable, output);
+
+	if (lhsType != rhstype) {
+		throw LanguageException("Ternary expression, returning types must be the same - got " + lhsType->name + " and " + rhstype->name);
+	}
+	return lhsType;
 }

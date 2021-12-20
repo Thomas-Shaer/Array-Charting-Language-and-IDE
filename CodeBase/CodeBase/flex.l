@@ -17,6 +17,9 @@
     class IdentifierNode;
     class MethodCallNode;
     class ExpressionStatementNode;
+    class IfStatementNode;
+    class TernaryNode;
+
 
 
 #include "bison.tab.h"
@@ -46,8 +49,11 @@
 " "                     { }
 [\n]                    { }
 [\t]                    { }
+"if"                    value->emplace<int>(yy::parser::token::TIF); return yy::parser::token::TIF;
 "true"                  value->emplace<int>(yy::parser::token::TTRUE); return yy::parser::token::TTRUE;
 "false"                 value->emplace<int>(yy::parser::token::TFALSE); return yy::parser::token::TFALSE;
+"{"                     value->emplace<int>(yy::parser::token::TOPENBLOCK); return yy::parser::token::TOPENBLOCK;
+"}"                     value->emplace<int>(yy::parser::token::TCLOSEBLOCK); return yy::parser::token::TCLOSEBLOCK;
 [a-zA-Z_][a-zA-Z0-9_]*  value->emplace<std::string>(yytext); return yy::parser::token::TIDENTIFIER;
 [0-9]+                  value->emplace<std::string>(yytext); return yy::parser::token::TNUMBER;
 [0-9]+\.[0-9]*          value->emplace<std::string>(yytext); return yy::parser::token::TNUMBER;
@@ -68,6 +74,10 @@
 "("                     value->emplace<int>(yy::parser::token::TOPENBRACKET); return yy::parser::token::TOPENBRACKET;
 ")"                     value->emplace<int>(yy::parser::token::TCLOSEBRACKET); return yy::parser::token::TCLOSEBRACKET;
 ","                     value->emplace<int>(yy::parser::token::TCOMMA); return yy::parser::token::TCOMMA;
+
+"?"                     value->emplace<int>(yy::parser::token::TQUESTIONMARK); return yy::parser::token::TQUESTIONMARK;
+":"                     value->emplace<int>(yy::parser::token::TCOLON); return yy::parser::token::TCOLON;
+
 
 
 

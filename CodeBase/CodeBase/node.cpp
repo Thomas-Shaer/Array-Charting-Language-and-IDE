@@ -89,3 +89,27 @@ MethodCallNode::~MethodCallNode() {
 	}
 	delete methodsymbol;
 }
+
+
+
+std::string IfStatementNode::toString() const {
+	std::string output =  "if (" + condition->toString() + ") { \n" + block->toString() + "}";
+	return output;
+}
+
+IfStatementNode::~IfStatementNode() {
+	delete condition;
+	delete block;
+}
+
+
+std::string TernaryNode::toString() const {
+	std::string output = condition->toString() + " ? " + expression1->toString() + " : " + expression2->toString();
+	return output;
+}
+
+TernaryNode::~TernaryNode() {
+	delete condition;
+	delete expression1;
+	delete expression2;
+}

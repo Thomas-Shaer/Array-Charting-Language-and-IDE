@@ -19,11 +19,16 @@ class AssignNode;
 class IdentifierNode;
 class MethodCallNode;
 class ExpressionStatementNode;
+class IfStatementNode;
+class TernaryNode;
 
 #include "bison.tab.h"
 
 
-const std::map<std::string, MethodBucket*> SymbolTable::methodTable{
+std::shared_ptr<SymbolTable> SymbolTable::GLOBAL_SYMBOL_TABLE = std::make_shared<SymbolTable>(
+
+	// methods declarations
+	std::map<std::string, MethodBucket*>({
 	{"average", new SingleMethodBucket(new MethodAverage())},
 	{"plot", new SingleMethodBucket(new Plot())},
 	{"tick", new SingleMethodBucket(new GetTick())},
@@ -64,16 +69,21 @@ const std::map<std::string, MethodBucket*> SymbolTable::methodTable{
 	{"operator" + token_name(yy::parser::token::TAND), new SingleMethodBucket(new BinaryAndOperator("operator" + token_name(yy::parser::token::TAND)))},
 	{"operator" + token_name(yy::parser::token::TOR), new SingleMethodBucket(new BinaryOrOperator("operator" + token_name(yy::parser::token::TOR)))},
 
-};
+	}),
+	
+
+	// variables declarations
+	std::map<std::string, std::shared_ptr<VarSymbol>>({})
+	);
 
 
-std::map<std::string, std::shared_ptr<VarSymbol>> SymbolTable::globalVariableTable{
 
-};
+SymbolTable::SymbolTable(std::shared_ptr<SymbolTable> _enclosingSymbolTable) 
+	: enclosingSymbolTable(_enclosingSymbolTable) {}
 
-SymbolTable::SymbolTable() {
-	variableTable = globalVariableTable;
-}
+SymbolTable::SymbolTable(std::map<std::string, MethodBucket*> _methodTable,
+	std::map<std::string, std::shared_ptr<VarSymbol>> _variableTable)
+	: methodTable(_methodTable), variableTable(_variableTable) {}
 
 std::string SymbolTable::toString() {
 	std::string output = "SYMBOL TABLE\nVariables:\n";
@@ -91,38 +101,74 @@ std::string SymbolTable::toString() {
 	return output;
 }
 
-std::string SymbolTable::variablesToString() {
+std::string SymbolTable::variablesToString(bool _enclosing) {
 	std::string output = "";
 	for (const auto& value : variableTable) {
 		output += value.second->toString() + "\n";
 	}
-	return output;
-}
-
-std::string SymbolTable::globalVariablesToString() {
-	std::string output = "";
-	for (const auto& value : globalVariableTable) {
-		output += value.second->toString() + "\n";
+	if (_enclosing) {
+		if (enclosingSymbolTable) {
+			output += "######\n";
+			output += enclosingSymbolTable->variablesToString(_enclosing);
+		}
 	}
 	return output;
 }
 
 
 bool SymbolTable::isVariableDeclared(const std::string& name) {
-	return variableTable.find(name) != variableTable.end();
+	if (variableTable.find(name) != variableTable.end()) {
+		return true;
+	}
+	else {
+		if (enclosingSymbolTable) {
+			return enclosingSymbolTable->isVariableDeclared(name);
+		}
+	}
+
+	return false;
 }
 
 bool SymbolTable::isMethodDeclared(const std::string& name) {
-	return methodTable.find(name) != methodTable.end();
+
+	if (methodTable.find(name) != methodTable.end()) {
+		return true;
+	}
+	else {
+		if (enclosingSymbolTable) {
+			return enclosingSymbolTable->isMethodDeclared(name);
+		}
+	}
+
+	return false;
 }
 
 std::shared_ptr<VarSymbol> SymbolTable::getVariable(const std::string& name) {
-	return variableTable[name];
+	if (variableTable.find(name) != variableTable.end()) {
+		return variableTable.find(name)->second;
+	}
+	else {
+		if (enclosingSymbolTable) {
+			return enclosingSymbolTable->getVariable(name);
+		}
+	}
+	return nullptr;
 }
 
 
 MethodBucket* SymbolTable::getMethod(const std::string& name) {
-	return methodTable.at(name);
+
+
+
+	if (methodTable.find(name) != methodTable.end()) {
+		return methodTable.find(name)->second;
+	}
+	else {
+		if (enclosingSymbolTable) {
+			return enclosingSymbolTable->getMethod(name);
+		}
+	}
+	return nullptr;
 }
 
 void SymbolTable::declareVariable(std::shared_ptr<VarSymbol> varsymbol) {

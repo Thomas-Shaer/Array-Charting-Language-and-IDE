@@ -15,9 +15,9 @@ public:
 
 	static unsigned int ticks;
 
-	SymbolTable* symboltable = nullptr;
+	std::shared_ptr<SymbolTable> symboltable = nullptr;
 	BlockNode* ast = nullptr;
-	InterpreterOutput output;
+	std::shared_ptr<InterpreterOutput> output;
 
 	void execute(const std::string& code);
 	void execute(std::ifstream& myfile);

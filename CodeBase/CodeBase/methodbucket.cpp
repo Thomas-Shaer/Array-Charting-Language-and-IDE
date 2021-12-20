@@ -14,7 +14,8 @@ std::string OverloadedMethodBucket::toString() const {
 MethodSymbol* OverloadedMethodBucket::getMethodSymbol(std::vector<const TypeSymbol*> _argumentTypes) const {
 	for (MethodSymbol* overload : overloads) {
 		try {
-			overload->semanticAnaylsis(_argumentTypes);
+			InterpreterOutput temp(0);
+			overload->semanticAnaylsis(_argumentTypes, temp);
 		}
 		catch (LanguageException langexception) {
 			continue;

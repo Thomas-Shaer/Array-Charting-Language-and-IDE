@@ -323,20 +323,33 @@ Plot::Plot() : MethodSymbol("plot",
 	
 	}, ReturnSymbol(TypeInstances::GetVoidInstance())) {}
 
+
+const TypeSymbol* Plot::semanticAnaylsis(std::vector<const TypeSymbol*> _argumentTypes, InterpreterOutput& output) {
+	const TypeSymbol* typereturn = MethodSymbol::semanticAnaylsis(_argumentTypes, output);
+
+
+	std::shared_ptr<ChartPlot> newData = std::make_shared<ChartPlot>("Plot" + std::to_string(plotNo), output.amountTicks);
+	plotNo++;
+	output.chartData.push_back(newData);
+	std::shared_ptr<ChartPlot> first = output.chartData.back(); //returns reference, not iterator, to the first object in the vector so you had only to write the data type in the generic of your vector, i.e. myObject, and not all the iterator stuff and the vector again and :: of course
+	plotdata = first;
+
+	return typereturn;
+
+}
+
+
 ExpressionValue Plot::interpret(const unsigned int tick, std::vector<ExpressionValue> _argumentValues, InterpreterOutput& output) {
 	
 
 	// if nan return a nan value else extract the correct value
 	float pushBackValue = boost::get<Float>(_argumentValues.at(0)).value ? *boost::get<Float>(_argumentValues.at(0)).value : std::numeric_limits<double>::quiet_NaN();
-	plotdata.push_back(pushBackValue);
-	if (tick == InterpreterContext::ticks - 1) {
-		output.chartData.push_back(std::make_shared<ChartPlot>("Plot" + std::to_string(plotNo), plotdata));
-		plotdata.clear();
-		plotNo++;
+	plotdata->data[tick] = pushBackValue;
 
-	}
 	return Boolean(true);
 }
+
+
 
 Mark::Mark() : MethodSymbol("mark", 
 	"Conditionally marks points on the chart when a condition is true.",
@@ -351,6 +364,19 @@ Mark::Mark() : MethodSymbol("mark",
 
 static int markNo = 0;
 
+
+const TypeSymbol* Mark::semanticAnaylsis(std::vector<const TypeSymbol*> _argumentTypes, InterpreterOutput& output) {
+	const TypeSymbol* typereturn = MethodSymbol::semanticAnaylsis(_argumentTypes, output);
+
+
+	std::shared_ptr<ChartPlot> newData = std::make_shared<ChartPlot>("Mark" + std::to_string(markNo), output.amountTicks);
+	markNo++;
+	output.markData.push_back(newData);
+	std::shared_ptr<ChartPlot> first = output.markData.back(); //returns reference, not iterator, to the first object in the vector so you had only to write the data type in the generic of your vector, i.e. myObject, and not all the iterator stuff and the vector again and :: of course
+	plotdata = first;
+	return typereturn;
+}
+
 ExpressionValue Mark::interpret(const unsigned int tick, std::vector<ExpressionValue> _argumentValues, InterpreterOutput& output) {
 	//if not nan
 	if (boost::get<Boolean>(_argumentValues.at(0)).value) {
@@ -359,20 +385,16 @@ ExpressionValue Mark::interpret(const unsigned int tick, std::vector<ExpressionV
 		if (*boost::get<Boolean>(_argumentValues.at(0)).value) {
 			
 			float pushBackValue = boost::get<Float>(_argumentValues.at(1)).value ? *boost::get<Float>(_argumentValues.at(1)).value : std::numeric_limits<double>::quiet_NaN();
-			plotdata.push_back(pushBackValue);
+			plotdata->data[tick] = (pushBackValue);
 		}
 		else {
-			plotdata.push_back(std::numeric_limits<double>::quiet_NaN());
+			plotdata->data[tick] = (std::numeric_limits<double>::quiet_NaN());
 		}
 	}
 	else {
-		plotdata.push_back(std::numeric_limits<double>::quiet_NaN());
+		plotdata->data[tick] = (std::numeric_limits<double>::quiet_NaN());
 	}
-	if (tick == InterpreterContext::ticks - 1) {
-		output.markData.push_back(std::make_shared<ChartPlot>("Mark" + std::to_string(markNo), plotdata));
-		plotdata.clear();
-		markNo++;
-	}
+
 	return Boolean(true);
 }
 

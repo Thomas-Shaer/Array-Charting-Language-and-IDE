@@ -22,6 +22,8 @@
     class IdentifierNode;
     class MethodCallNode;
     class ExpressionStatementNode;
+    class IfStatementNode;
+    class TernaryNode;
 	#include "node.h"
 
 %}
@@ -44,12 +46,14 @@
 %token <int> TLESS "<" TLESSEQUAL "<=" TGREATER ">" TGREATEREQUAL ">=" TAND "&&" TOR "||" TNOT "!" TNOTEQUAL "!=" TEQUAL "=="
 %token <int> TOPENBRACKET "(" TCLOSEBRACKET ")" TCOMMA ","
 %token <int> TTRUE "TRUE" TFALSE "FALSE"
-
+%token <int> TIF "if" TOPENBLOCK "{" TCLOSEBLOCK "}"
+%token <int> TCOLON ":" TQUESTIONMARK "?"
 
 
 %type <Expression*> expr
 %type <BlockNode*> stmts
 %type <Statement*> stmt
+%type <IfStatementNode*> ifstmt
 %type <NumberNode*> numeric
 %type <BooleanNode*> boolean
 %type <BlockNode*> block;
@@ -57,9 +61,11 @@
 %type <IdentifierNode*> identifier;
 %type <MethodCallNode*> method;
 %type <ExpressionStatementNode*> exprstmt;
+%type <TernaryNode*> ternary;
 %type <std::vector<Expression*>> call_params
 
 
+%right TQUESTIONMARK
 %left TOR
 %left TAND
 %left TEQUAL TNOTEQUAL
@@ -82,10 +88,17 @@ stmts : stmt { $$ = new BlockNode(); $$->statementNodes.push_back($1); }
 
 stmt : assign {$$ = $1;}
      | exprstmt {$$ = $1;}
+     | ifstmt {$$ = $1;}
      ;
 
 exprstmt : method {$$ = new ExpressionStatementNode($1);}
+         | ternary {$$ = new ExpressionStatementNode($1);}
          ;
+
+ifstmt : TIF TOPENBRACKET expr TCLOSEBRACKET TOPENBLOCK stmts TCLOSEBLOCK { 
+										$$ = new IfStatementNode($3, $6);
+									  }
+       ;
 
 identifier : TIDENTIFIER {$$ = new IdentifierNode($1);}
            ;
@@ -98,6 +111,8 @@ expr : numeric { $$ = $1; }
      | boolean {$$=$1;}
      | method {$$=$1;}
      | identifier {$$ = $1; }
+     | TOPENBRACKET expr TCLOSEBRACKET {$$ = $2; }
+     | ternary {$$ =  $1; }
      | expr TMUL expr {$$ =  new MethodCallNode("operator" + token_name($2), {$1, $3}); }
      | expr TDIV expr {$$ =  new MethodCallNode("operator" + token_name($2), {$1, $3}); }
      | expr TPLUS expr {$$ =  new MethodCallNode("operator" + token_name($2), {$1, $3}); }
@@ -113,8 +128,10 @@ expr : numeric { $$ = $1; }
      | TPLUS expr {$$ =  new MethodCallNode("operator" + token_name($1), {$2}); }
      | TMINUS expr {$$ =  new MethodCallNode("operator" + token_name($1), {$2}); }
      | TNOT expr {$$ =  new MethodCallNode("operator" + token_name($1), {$2}); }
-     | TOPENBRACKET expr TCLOSEBRACKET {$$ = $2; }
      ;
+
+ternary : expr TQUESTIONMARK expr TCOLON expr { $$ = new TernaryNode($1, $3, $5); }
+        ;
 
 
 numeric : TNUMBER { $$ = new NumberNode(atoi($1.c_str())); }

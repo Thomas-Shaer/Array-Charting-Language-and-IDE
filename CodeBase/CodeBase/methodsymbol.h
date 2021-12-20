@@ -19,7 +19,7 @@ public:
 
 
 	// should take list of types
-	const TypeSymbol* semanticAnaylsis(std::vector<const TypeSymbol*> _argumentTypes) const;
+	virtual const TypeSymbol* semanticAnaylsis(std::vector<const TypeSymbol*> _argumentTypes, InterpreterOutput& output);
 
 	virtual ExpressionValue interpret(const unsigned int tick, std::vector<ExpressionValue> _argumentValues, InterpreterOutput& output) = 0;
 
