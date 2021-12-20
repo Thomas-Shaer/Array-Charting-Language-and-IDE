@@ -11,11 +11,71 @@
 #include "jsonsettings.h"
 #include <fstream>
 #include <sstream> //std::stringstream
-
+#include "inputdata.h"
+#include "datamanagerwindow.h"
 
 ImGui::FileBrowser TextEditorSingleton::fbSave(ImGuiFileBrowserFlags_EnterNewFilename);
 ImGui::FileBrowser TextEditorSingleton::fbOpen;
 TextEditor TextEditorSingleton::textEditor;
+
+
+static void saveFile(const std::string& filePath) {
+    nlohmann::json saveJSON;
+    saveJSON["code"] = TextEditorSingleton::textEditor.GetText();
+    saveJSON["variables"] = nlohmann::json::array();
+
+    for (std::shared_ptr<InputData> data : DisplayInformation::LOADED_IN_DATA) {
+        if (data->isVariable) {
+            nlohmann::json variableJSON;
+            variableJSON["variableName"] = data->variableName;
+            variableJSON["fileName"] = data->fileName;
+            variableJSON["path"] = data->path;
+            variableJSON["dataName"] = data->name;
+            saveJSON["variables"].push_back(variableJSON);
+        }
+    }
+    std::ofstream o(filePath);
+    o << saveJSON << std::endl;
+    o.close();
+}
+
+static void loadFile(const std::string& filePath) {
+    deleteAllVariables();
+    nlohmann::json saveJSON;
+    std::ifstream inputjson(filePath);
+    inputjson >> saveJSON;
+    for (nlohmann::json variable : saveJSON["variables"].get<std::vector<nlohmann::json>>()) {
+        std::string variableName = variable["variableName"];
+        std::string fileName = variable["fileName"];
+        std::string dataName = variable["dataName"];
+        std::string filepath = variable["path"];
+
+        bool dataLoadedIn = false;
+
+        for (nlohmann::json path : Settings::settingsFile["loadedInData"].get<std::vector<nlohmann::json>>()) {
+            if (path["path"] == filepath) {
+                dataLoadedIn = true;
+                break;
+            }
+        }
+
+        if (!dataLoadedIn) {
+            loadInData(filepath, fileName);
+        }
+
+        for (std::shared_ptr<InputData> data : DisplayInformation::LOADED_IN_DATA) {
+            if (data->name == dataName) {
+                createNewVariable(data, variableName);
+            }
+        }
+
+   
+    }
+    TextEditorSingleton::textEditor.SetText(saveJSON["code"]);
+
+    //InputData::LoadInputData(std::string name, std::string filename)
+}
+
 
 
 void TextEditorSingleton::initFileBrowserSave() {
@@ -38,6 +98,7 @@ void TextEditorSingleton::initFileBrowserOpen() {
 }
 
 
+
 void TextEditorSingleton::initTextEditor() {
     auto lang = TextEditor::LanguageDefinition::CPlusPlus();
     textEditor.SetLanguageDefinition(lang);
@@ -46,16 +107,10 @@ void TextEditorSingleton::initTextEditor() {
 
     std::string currentCodeFile = Settings::settingsFile["currentCodeFile"].get<std::string>();
     if (currentCodeFile != "") {
-        std::ifstream inFile;
-        inFile.open(currentCodeFile); //open the input file
-
-        std::stringstream strStream;
-        strStream << inFile.rdbuf(); //read the file
-        std::string str = strStream.str(); //str holds the content of the file
-
-        textEditor.SetText(str);
+        loadFile(currentCodeFile);
     }
 }
+
 
 
 
@@ -94,9 +149,7 @@ void ShowEditorWindow() {
     }
 
     if (openSaveFile) {
-        std::ofstream file(currentCodeFile);
-        file << TextEditorSingleton::textEditor.GetText();
-        file.close();
+        saveFile(currentCodeFile);
     }
 
     if (openNewFile) {
@@ -150,12 +203,8 @@ void ShowEditorWindow() {
         std::string fileName = TextEditorSingleton::fbSave.GetSelected().filename().string() + ".al";
         std::string fullPath = TextEditorSingleton::fbSave.GetSelected().string() + ".al";
         
-
-        std::ofstream file(fullPath);
-        file << TextEditorSingleton::textEditor.GetText();
-        file.close();
+        saveFile(fullPath);
         Settings::settingsFile["currentCodeFile"] = fullPath;
-
 
         TextEditorSingleton::fbSave.ClearSelected();
 
@@ -164,15 +213,8 @@ void ShowEditorWindow() {
     if (TextEditorSingleton::fbOpen.HasSelected())
     {
         std::string openFile = (TextEditorSingleton::fbOpen.GetSelected().string());
-        std::ifstream inFile;
-        inFile.open(openFile); //open the input file
-
-        std::stringstream strStream;
-        strStream << inFile.rdbuf(); //read the file
-        std::string str = strStream.str(); //str holds the content of the file
-        TextEditorSingleton::textEditor.SetText(str);
+        loadFile(openFile);
         Settings::settingsFile["currentCodeFile"] = openFile;
-
         TextEditorSingleton::fbOpen.ClearSelected();
 
     }

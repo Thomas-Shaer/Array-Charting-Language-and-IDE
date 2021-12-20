@@ -30,7 +30,44 @@ void FileBrowserSingletonDataLoader::init() {
     fb.SetTypeFilters({ ".csv" });
 }
 
+void loadInData(const std::string& pathName, const std::string& fileName) {
+    auto newData = InputData::LoadInputData(pathName, fileName);
+    DisplayInformation::LOADED_IN_DATA.insert(DisplayInformation::LOADED_IN_DATA.end(), newData.begin(), newData.end());
+    nlohmann::json newSave;
+    newSave["path"] = FileBrowserSingletonDataLoader::fb.GetSelected().string();
+    newSave["name"] = FileBrowserSingletonDataLoader::fb.GetSelected().filename().string();
+    Settings::settingsFile["loadedInData"].push_back(newSave);
+}
 
+
+void createNewVariable(std::shared_ptr<InputData> data, const std::string& variableName) {
+    std::vector<ExpressionValue> values;
+    for (auto i : data->data) {
+        values.push_back((ExpressionValue)Float(i));
+    }
+    data->isVariable = true;
+    data->variableName = variableName;
+    std::shared_ptr<VarSymbol> varSymbol = std::make_shared<VarSymbol>(data->variableName, TypeInstances::GetFloatInstance(), values);
+    SymbolTable::GLOBAL_SYMBOL_TABLE->variableTable[data->variableName] = varSymbol;
+    UpdateVariablesTab();
+}
+
+void deleteVariable(std::shared_ptr<InputData> data) {
+    SymbolTable::GLOBAL_SYMBOL_TABLE->variableTable.erase(SymbolTable::GLOBAL_SYMBOL_TABLE->variableTable.find(data->variableName));
+    data->isVariable = false;
+    UpdateVariablesTab();
+
+}
+
+
+void deleteAllVariables() {
+    SymbolTable::GLOBAL_SYMBOL_TABLE->variableTable.clear();
+    for (std::shared_ptr<InputData> inputdata : DisplayInformation::LOADED_IN_DATA) {
+        inputdata->isVariable = false;
+    }
+    UpdateVariablesTab();
+
+}
 
 void ShowDataWindow() {
     ImGui::Begin("Data Manager", nullptr, /*ImGuiWindowFlags_HorizontalScrollbar | */ImGuiWindowFlags_MenuBar);
@@ -155,15 +192,7 @@ void ShowDataWindow() {
             ImGui::EndDisabled();
         }
         if (createVariable) {
-            std::vector<ExpressionValue> values;
-            for (auto i : data->data) {
-                values.push_back((ExpressionValue)Float(i));
-            }
-            data->isVariable = true;
-            data->variableName = std::string(characters);
-            std::shared_ptr<VarSymbol> varSymbol = std::make_shared<VarSymbol>(data->variableName, TypeInstances::GetFloatInstance(), values);
-            SymbolTable::GLOBAL_SYMBOL_TABLE->variableTable[data->variableName] = varSymbol;
-            UpdateVariablesTab();
+            createNewVariable(data, std::string(characters));
         }
 
         if (data->isVariable) {
@@ -181,9 +210,7 @@ void ShowDataWindow() {
 
 
             if (ImGui::Button("Delete Variable")) {
-                SymbolTable::GLOBAL_SYMBOL_TABLE->variableTable.erase(SymbolTable::GLOBAL_SYMBOL_TABLE->variableTable.find(data->variableName));
-                data->isVariable = false;
-                UpdateVariablesTab();
+                deleteVariable(data);
             }
         }
 
@@ -201,12 +228,7 @@ void ShowDataWindow() {
 
     if (FileBrowserSingletonDataLoader::fb.HasSelected())
     {
-        auto newData = InputData::LoadInputData(FileBrowserSingletonDataLoader::fb.GetSelected().string(), FileBrowserSingletonDataLoader::fb.GetSelected().filename().string());
-        DisplayInformation::LOADED_IN_DATA.insert(DisplayInformation::LOADED_IN_DATA.end(), newData.begin(), newData.end());
-        nlohmann::json newSave;
-        newSave["path"] = FileBrowserSingletonDataLoader::fb.GetSelected().string();
-        newSave["name"] = FileBrowserSingletonDataLoader::fb.GetSelected().filename().string();
-        Settings::settingsFile["loadedInData"].push_back(newSave);
+        loadInData(FileBrowserSingletonDataLoader::fb.GetSelected().string(), FileBrowserSingletonDataLoader::fb.GetSelected().filename().string());
         FileBrowserSingletonDataLoader::fb.ClearSelected();
 
 

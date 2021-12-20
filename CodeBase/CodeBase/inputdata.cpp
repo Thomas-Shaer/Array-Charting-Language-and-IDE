@@ -18,6 +18,8 @@ std::vector<std::shared_ptr<InputData>> InputData::LoadInputData(std::string nam
         
         std::shared_ptr<InputData> newdata = std::make_shared<InputData>();
         newdata->name = firstWord;
+        newdata->path = name;
+
         newdata->data = std::vector<float>(std::istream_iterator<float>(in), std::istream_iterator<float>());
         newdata->fileName = filename;
 

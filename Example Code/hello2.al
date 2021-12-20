@@ -1,0 +1,1 @@
+{"code":"test2 whats up\n\n\n","variables":[{"dataName":"London","fileName":"Rainfall data regional UK FORMATTED vert.csv","path":"C:\\Users\\shaer\\Desktop\\Uni Work\\Year 3\\Project\\Project\\Example Data\\Rainfall\\Rainfall data regional UK FORMATTED vert.csv","variableName":"london"}]}

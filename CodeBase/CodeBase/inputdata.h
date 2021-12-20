@@ -13,6 +13,7 @@ public:
 
 	std::string name;
 	std::string fileName;
+	std::string path;
 	std::vector<float> data;
 
 	bool isVariable = false;
