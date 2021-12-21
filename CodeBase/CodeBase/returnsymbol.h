@@ -3,6 +3,9 @@
 
 class TypeSymbol;
 
+/*
+A wrapper for a return type in a method symbol.
+*/
 class ReturnSymbol {
 public:
 

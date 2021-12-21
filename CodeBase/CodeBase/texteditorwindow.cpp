@@ -19,6 +19,7 @@ ImGui::FileBrowser TextEditorSingleton::fbOpen;
 TextEditor TextEditorSingleton::textEditor;
 
 
+
 static void saveFile(const std::string& filePath) {
     nlohmann::json saveJSON;
     saveJSON["code"] = TextEditorSingleton::textEditor.GetText();
@@ -39,7 +40,9 @@ static void saveFile(const std::string& filePath) {
     o.close();
 }
 
-static void loadFile(const std::string& filePath) {
+
+
+void loadFile(const std::string& filePath) {
     deleteAllVariables();
     nlohmann::json saveJSON;
     std::ifstream inputjson(filePath);
@@ -51,7 +54,11 @@ static void loadFile(const std::string& filePath) {
         std::string filepath = variable["path"];
 
         bool dataLoadedIn = false;
-
+        
+        /*
+        If detected that the data file associated with the variable has been removed,
+        attempt to load it in again.
+        */
         for (nlohmann::json path : Settings::settingsFile["loadedInData"].get<std::vector<nlohmann::json>>()) {
             if (path["path"] == filepath) {
                 dataLoadedIn = true;
@@ -112,6 +119,31 @@ void TextEditorSingleton::initTextEditor() {
 }
 
 
+void executeCode(const std::string& code) {
+    DisplayInformation::CODE_OUTPUT = "";
+    DisplayInformation::CODE_OUTPUT_RECONSTRUCTION = "";
+    DisplayInformation::CODE_OUTPUT_VARIABLES = "";
+    InterpreterContext context;
+    context.execute(code);
+
+
+    if (!context.output->textOutput.empty()) {
+        for (auto string : context.output->textOutput) {
+            DisplayInformation::CODE_OUTPUT += string + "\n";
+        }
+        SnapToOutputTab();
+    }
+
+    if (context.ast) {
+        DisplayInformation::CODE_OUTPUT_RECONSTRUCTION = context.ast->toString();
+    }
+    if (context.symboltable) {
+        DisplayInformation::CODE_OUTPUT_VARIABLES = context.symboltable->variablesToString(true);
+    }
+    DisplayInformation::CHART_LINE_DATA = context.output->chartData;
+    DisplayInformation::CHART_MARK_DATA = context.output->markData;
+    UpdateChart();
+}
 
 
 void ShowEditorWindow() {
@@ -142,60 +174,31 @@ void ShowEditorWindow() {
 
     if (openSaveAsFile) {
         TextEditorSingleton::fbSave.Open();
-    }
-
-    if (openLoadFile) {
+    } else if (openLoadFile) {
         TextEditorSingleton::fbOpen.Open();
-    }
-
-    if (openSaveFile) {
+    } else if (openSaveFile) {
         saveFile(currentCodeFile);
-    }
-
-    if (openNewFile) {
+    } else if (openNewFile) {
         TextEditorSingleton::textEditor.SetText("");
         Settings::settingsFile["currentCodeFile"] = "";
     }
 
     if (ImGui::Button("Execute")) {
-        DisplayInformation::CODE_OUTPUT = "";
-        DisplayInformation::CODE_OUTPUT_RECONSTRUCTION = "";
-        DisplayInformation::CODE_OUTPUT_VARIABLES = "";
-        InterpreterContext context;
-        context.execute(TextEditorSingleton::textEditor.GetText());
-
-
-        if (!context.output->textOutput.empty()) {
-            for (auto string : context.output->textOutput) {
-                DisplayInformation::CODE_OUTPUT += string + "\n";
-            }
-            SnapToOutputTab();
-        }
-        
-        if (context.ast) {
-            DisplayInformation::CODE_OUTPUT_RECONSTRUCTION = context.ast->toString();
-        }
-        if (context.symboltable) {
-            DisplayInformation::CODE_OUTPUT_VARIABLES = context.symboltable->variablesToString(true);
-        }
-        DisplayInformation::CHART_LINE_DATA = context.output->chartData;
-        DisplayInformation::CHART_MARK_DATA = context.output->markData;
-        UpdateChart();
-        //std::cout << "what" << std::endl;
+        executeCode(TextEditorSingleton::textEditor.GetText());
     }
 
     TextEditorSingleton::textEditor.Render("TextEditor");
 
     ImGui::End();
 
+    /*
+    Controls for "save as" dialog.
+    */
+
     TextEditorSingleton::fbSave.Display();
-    TextEditorSingleton::fbOpen.Display();
+
     if (TextEditorSingleton::fbSave.IsOpened()) {
         Settings::settingsFile["lastSaveDirectory"] = TextEditorSingleton::fbSave.GetPwd().root_path().generic_string() + (TextEditorSingleton::fbSave.GetPwd().relative_path()).generic_string();
-    }
-
-    if (TextEditorSingleton::fbOpen.IsOpened()) {
-        Settings::settingsFile["lastOpenDirectory"] = TextEditorSingleton::fbOpen.GetPwd().root_path().generic_string() + (TextEditorSingleton::fbOpen.GetPwd().relative_path()).generic_string();
     }
 
     if (TextEditorSingleton::fbSave.HasSelected())
@@ -208,6 +211,16 @@ void ShowEditorWindow() {
 
         TextEditorSingleton::fbSave.ClearSelected();
 
+    }
+
+    /*
+    Controls for "open" dialog.
+    */
+
+    TextEditorSingleton::fbOpen.Display();
+
+    if (TextEditorSingleton::fbOpen.IsOpened()) {
+        Settings::settingsFile["lastOpenDirectory"] = TextEditorSingleton::fbOpen.GetPwd().root_path().generic_string() + (TextEditorSingleton::fbOpen.GetPwd().relative_path()).generic_string();
     }
 
     if (TextEditorSingleton::fbOpen.HasSelected())

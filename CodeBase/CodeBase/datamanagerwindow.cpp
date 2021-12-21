@@ -69,20 +69,45 @@ void deleteAllVariables() {
 
 }
 
+void removeFile(const std::string& fileName) {
+    DisplayInformation::LOADED_IN_DATA.erase(std::remove_if(DisplayInformation::LOADED_IN_DATA.begin(),
+        DisplayInformation::LOADED_IN_DATA.end(),
+        [fileName](std::shared_ptr<InputData> input) {return input->fileName == fileName; }),
+        DisplayInformation::LOADED_IN_DATA.end());
+    Settings::settingsFile["loadedInData"].erase(std::remove_if(Settings::settingsFile["loadedInData"].begin(),
+        Settings::settingsFile["loadedInData"].end(),
+        [fileName](nlohmann::json json) {return json["name"] == fileName; }),
+        Settings::settingsFile["loadedInData"].end());
+}
+
+void removeAllFiles() {
+    DisplayInformation::LOADED_IN_DATA.clear();
+    Settings::settingsFile["loadedInData"] = nlohmann::json::array();
+}
+
+std::string makeVariableName(std::string name) {
+    boost::algorithm::to_lower(name);
+    std::replace_if(std::begin(name), std::end(name),
+        [](std::string::value_type v) { return v == ' '; },
+        '_');
+    return name;
+}
+
+
 void ShowDataWindow() {
     ImGui::Begin("Data Manager", nullptr, /*ImGuiWindowFlags_HorizontalScrollbar | */ImGuiWindowFlags_MenuBar);
     ImGui::SetWindowSize(ImVec2(500, 600), ImGuiCond_FirstUseEver);
     ImGui::SetWindowPos(ImVec2(100, 600), ImGuiCond_FirstUseEver);
 
-
-
-    //ImGui::NewLine();
     static std::string current_item;
     static int selected = -1;
     static char characters[40];
 
-    if (ImGui::BeginCombo("Files", current_item.c_str())) // The second parameter is the label previewed before opening the combo.
-    {
+
+    /*
+    Combobox widget containing current loaded in files.
+    */
+    if (ImGui::BeginCombo("Files", current_item.c_str())) {
         for (nlohmann::json path : Settings::settingsFile["loadedInData"].get<std::vector<nlohmann::json>>()) {
 
                 bool is_selected = false; // You can store your selection however you want, outside or inside your objects
@@ -102,24 +127,16 @@ void ShowDataWindow() {
     ImGui::SameLine();
 
     if (ImGui::Button("Remove File")) {
-        DisplayInformation::LOADED_IN_DATA.erase(std::remove_if(DisplayInformation::LOADED_IN_DATA.begin(),
-            DisplayInformation::LOADED_IN_DATA.end(),
-            [](std::shared_ptr<InputData> input) {return input->fileName == current_item; }),
-            DisplayInformation::LOADED_IN_DATA.end());
-        Settings::settingsFile["loadedInData"].erase(std::remove_if(Settings::settingsFile["loadedInData"].begin(),
-            Settings::settingsFile["loadedInData"].end(),
-            [](nlohmann::json json) {return json["name"] == current_item; }),
-            Settings::settingsFile["loadedInData"].end());
+        removeFile(current_item);
 
         selected = -1;
         current_item = "";
     }
+
     ImGui::SameLine();
+
     if (ImGui::Button("Remove all Files")) {
-        // remove all laoded in data
-        // clear loaded files
-        DisplayInformation::LOADED_IN_DATA.clear();
-        Settings::settingsFile["loadedInData"] = nlohmann::json::array();
+        removeAllFiles();
 
 
         selected = -1;
@@ -129,29 +146,30 @@ void ShowDataWindow() {
 
 
 
+    /*
+    Load all data input names on the left hand side of the pane scroller.
+    */
     ImGui::BeginChild("left pane", ImVec2(150, 0), true);
-        for (int i = 0; i < DisplayInformation::LOADED_IN_DATA.size(); i ++) {
-            std::shared_ptr<InputData> data = DisplayInformation::LOADED_IN_DATA.at(i);
+    for (int i = 0; i < DisplayInformation::LOADED_IN_DATA.size(); i ++) {
+        std::shared_ptr<InputData> data = DisplayInformation::LOADED_IN_DATA.at(i);
 
-            if (data->isVariable) {
-                ImGui::PushStyleColor(ImGuiCol_Text, IM_COL32(0, 255, 0, 255));
-            }
+        /*
+        Give it a slight different colour if variable has been made.
+        */
+        if (data->isVariable) {
+            ImGui::PushStyleColor(ImGuiCol_Text, IM_COL32(0, 255, 0, 255));
+        }
 
-        // FIXME: Good candidate to use ImGuiSelectableFlags_SelectOnNav
-            if (ImGui::Selectable(DisplayInformation::LOADED_IN_DATA.at(i)->name.c_str())) {
-                selected = i;
-                std::string name = data->name;
-                boost::algorithm::to_lower(name);
-                std::replace_if(std::begin(name), std::end(name),
-                    [](std::string::value_type v) { return v == ' '; },
-                    '_');
 
-                strncpy_s(characters, name.c_str(), sizeof(characters));
-            }
+        if (ImGui::Selectable(DisplayInformation::LOADED_IN_DATA.at(i)->name.c_str())) {
+            selected = i;
+            std::string name = makeVariableName(data->name);
+            strncpy_s(characters, name.c_str(), sizeof(characters));
+        }
 
-            if (data->isVariable) {
-                ImGui::PopStyleColor();
-            }
+        if (data->isVariable) {
+            ImGui::PopStyleColor();
+        }
     }
 
 

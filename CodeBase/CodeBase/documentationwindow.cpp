@@ -18,7 +18,6 @@ void ShowDocumentationWindow() {
             for (auto symbol : SymbolTable::GLOBAL_SYMBOL_TABLE->methodTable) {
                 MethodBucket* bucket = symbol.second;
                 if (ImGui::CollapsingHeader(symbol.first.c_str())) {
-                    //ImGui::PushFont
                     bucket->renderAsDocumentation();
 
                 }

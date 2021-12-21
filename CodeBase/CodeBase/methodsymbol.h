@@ -7,6 +7,10 @@
 #include "returnsymbol.h"
 class TypeSymbol;
 
+/*
+Contains all information related to a method.
+Stored on the method symbol table.
+*/
 class MethodSymbol {
 public:
 	const ReturnSymbol returnType; // return type

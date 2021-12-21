@@ -2,7 +2,9 @@
 #include "TextEditor.h"
 #include "imfilebrowser.h"
 
-
+/*
+Contains all the GUI that requires a one time initalisation for the text editor window.
+*/
 struct TextEditorSingleton {
 
 	static void initFileBrowserSave();
@@ -12,6 +14,26 @@ struct TextEditorSingleton {
 	static ImGui::FileBrowser fbOpen;
 	static TextEditor textEditor;
 };
+
+
+/*
+Saves code in text editor to disk.
+Use .al file extension.
+Uses JSON to store additional information.
+*/
+void saveFile(const std::string& filePath);
+
+
+/*
+Loads code from disk and updates the GUI.
+Use .al file extension.
+*/
+void loadFile(const std::string& filePath);
+
+/*
+Executes the code through the GUI.
+*/
+void executeCode(const std::string& code);
 
 /*
 * Window that allows user to enter and execute code

@@ -3,6 +3,9 @@
 
 class TypeSymbol;
 
+/*
+A wrapper for a parameter in a method symbol.
+*/
 class ParameterSymbol {
 public:
 

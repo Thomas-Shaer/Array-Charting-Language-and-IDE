@@ -3,7 +3,9 @@
 #include "displayinformation.h"
 #include "symboltable.h"
 
-
+/*
+Flags to indicate whether tab should be opened or not.
+*/
 static ImGuiTabItemFlags_ outputTabFlags = ImGuiTabItemFlags_None;
 static ImGuiTabItemFlags_ codeReconstructionTabFlags = ImGuiTabItemFlags_None;
 static ImGuiTabItemFlags_ variableTabFlags = ImGuiTabItemFlags_None;
@@ -21,8 +23,6 @@ void ShowTextOutputWindow() {
     ImGui::Begin("Program Output", nullptr, ImGuiWindowFlags_HorizontalScrollbar | ImGuiWindowFlags_MenuBar);
     ImGui::SetWindowSize(ImVec2(500, 600), ImGuiCond_FirstUseEver);
     ImGui::SetWindowPos(ImVec2(100, 600), ImGuiCond_FirstUseEver);
-
-
 
 
     if (ImGui::BeginTabBar("Output Menu")) {
