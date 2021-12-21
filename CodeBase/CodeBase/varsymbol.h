@@ -14,7 +14,7 @@ public:
 	const std::string name;
 	const TypeSymbol* type;
 
-	VarSymbol(const std::string _name, const TypeSymbol* _type) : name(_name), type(_type) {}
+	VarSymbol(const std::string _name, const TypeSymbol* _type);
 	VarSymbol(const std::string _name, const TypeSymbol* _type, std::vector<ExpressionValue> _value);
 
 
@@ -27,7 +27,12 @@ public:
 	std::vector<ExpressionValue> getValues();
 	void setValues(const std::vector<ExpressionValue>& values);
 
+	/*
+	Updates the size of the internal buffer array to match max ticks
+	*/
+	void matchGlobalBufferSize();
+
 private:
-	std::vector<ExpressionValue> value;
+	std::vector<ExpressionValue> buffer;
 
 };

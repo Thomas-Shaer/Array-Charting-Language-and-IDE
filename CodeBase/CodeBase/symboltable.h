@@ -36,6 +36,7 @@ public:
 	//delare new variable
 	void declareVariable(std::shared_ptr<VarSymbol> varsymbol);
 
+
 	/*
 	* Returns variable symbol given a name.
 	* WARNING - must first check to see if variable is declared (isVariableDeclared)

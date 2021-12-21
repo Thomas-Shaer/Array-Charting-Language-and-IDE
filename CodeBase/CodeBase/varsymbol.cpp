@@ -4,8 +4,12 @@
 #include "visitors.h"
 #include "interpretercontext.h"
 
-VarSymbol::VarSymbol(const std::string _name, const TypeSymbol* _type, std::vector<ExpressionValue> _value) : name(_name), type(_type), value(_value) {
+VarSymbol::VarSymbol(const std::string _name, const TypeSymbol* _type, std::vector<ExpressionValue> _value) : name(_name), type(_type), buffer(_value) {
 	InterpreterContext::ticks = _value.size() >= InterpreterContext::ticks ? _value.size() : InterpreterContext::ticks;
+}
+
+VarSymbol::VarSymbol(const std::string _name, const TypeSymbol* _type) : name(_name), type(_type) {
+	matchGlobalBufferSize();
 }
 
 std::string VarSymbol::toString() {
@@ -15,7 +19,6 @@ std::string VarSymbol::toString() {
 	output += type->name;
 	output += ", ";
 
-	//output += boost::apply_visitor(ToString(), value);
 	output += ">";
 
 	return output;
@@ -24,23 +27,30 @@ std::string VarSymbol::toString() {
 
 
 ExpressionValue VarSymbol::getValue(const unsigned int i) {
-	return value[i];
+	return buffer[i];
 }
 
 void VarSymbol::setValue(const unsigned int i, ExpressionValue _value) {
-	if (value.size() == (i-1)) {
-		value[i].swap(_value);
-	}
-	else {
-		value.push_back(_value);
-	}
+	buffer[i].swap(_value);
 }
 
+
+void VarSymbol::matchGlobalBufferSize() {
+	if (buffer.size() < InterpreterContext::ticks) {
+		buffer = std::vector<ExpressionValue>(InterpreterContext::ticks);
+		if (type == TypeInstances::GetBooleanInstance()) {
+			std::fill(buffer.begin(), buffer.end(), Boolean());
+		}
+		else if (type == TypeInstances::GetFloatInstance()) {
+			std::fill(buffer.begin(), buffer.end(), Float());
+		}
+	}
+}
 
 
 std::vector<ExpressionValue> VarSymbol::getValues() {
-	return value;
+	return buffer;
 }
 void VarSymbol::setValues(const std::vector<ExpressionValue>& values) {
-	value = values;
+	buffer = values;
 }
