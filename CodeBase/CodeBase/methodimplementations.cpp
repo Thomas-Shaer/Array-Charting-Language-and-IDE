@@ -345,7 +345,6 @@ ExpressionValue Plot::interpret(const unsigned int tick, std::vector<ExpressionV
 	// if nan return a nan value else extract the correct value
 	float pushBackValue = boost::get<Float>(_argumentValues.at(0)).value ? *boost::get<Float>(_argumentValues.at(0)).value : std::numeric_limits<double>::quiet_NaN();
 	plotdata->data[tick] = pushBackValue;
-	std::cout << "Tick " << tick << " is " << pushBackValue << std::endl;
 
 	return Boolean(true);
 }
