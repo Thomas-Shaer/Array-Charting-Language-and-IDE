@@ -236,3 +236,62 @@ public:
 	}
 };
 
+
+class ValueWhen : public MethodSymbol {
+public:
+	ValueWhen();
+	virtual ExpressionValue interpret(const unsigned int tick, std::vector<ExpressionValue> _argumentValues, InterpreterOutput& output);
+	virtual ValueWhen* clone() {
+		return new ValueWhen();
+	}
+private:
+	ExpressionValue currentValue{Float()};
+};
+
+class Minimum : public MethodSymbol {
+public:
+	Minimum();
+	virtual ExpressionValue interpret(const unsigned int tick, std::vector<ExpressionValue> _argumentValues, InterpreterOutput& output);
+	virtual Minimum* clone() {
+		return new Minimum();
+	}
+private:
+	ExpressionValue minimumValue{ Float(std::numeric_limits<float>::max()) };
+};
+
+
+class Maximum : public MethodSymbol {
+public:
+	Maximum();
+	virtual ExpressionValue interpret(const unsigned int tick, std::vector<ExpressionValue> _argumentValues, InterpreterOutput& output);
+	virtual Maximum* clone() {
+		return new Maximum();
+	}
+private:
+	ExpressionValue maximumValue{ Float(std::numeric_limits<float>::min()) };
+};
+
+
+class Sum : public MethodSymbol {
+public:
+	Sum();
+	virtual ExpressionValue interpret(const unsigned int tick, std::vector<ExpressionValue> _argumentValues, InterpreterOutput& output);
+	virtual Sum* clone() {
+		return new Sum();
+	}
+private:
+	ExpressionValue sum{ Float(0) };
+};
+
+
+class Mean : public MethodSymbol {
+public:
+	Mean();
+	virtual ExpressionValue interpret(const unsigned int tick, std::vector<ExpressionValue> _argumentValues, InterpreterOutput& output);
+	virtual Mean* clone() {
+		return new Mean();
+	}
+private:
+	float amountSoFar = 0;
+	float sum = 0;
+};

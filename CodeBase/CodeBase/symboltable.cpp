@@ -36,6 +36,11 @@ std::shared_ptr<SymbolTable> SymbolTable::GLOBAL_SYMBOL_TABLE = std::make_shared
 
 	{"nan_f", new SingleMethodBucket(new FloatNAN())},
 	{"nan_b", new SingleMethodBucket(new BooleanNAN())},
+	{"valuewhen", new SingleMethodBucket(new ValueWhen())},
+	{"min", new SingleMethodBucket(new Minimum())},
+	{"max", new SingleMethodBucket(new Maximum())},
+	{"sum", new SingleMethodBucket(new Sum())},
+	{"mean", new SingleMethodBucket(new Mean())},
 
 
 

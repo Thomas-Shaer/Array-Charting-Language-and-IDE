@@ -400,6 +400,31 @@ ExpressionValue Mark::interpret(const unsigned int tick, std::vector<ExpressionV
 
 
 
+ValueWhen::ValueWhen() : MethodSymbol("valuewhen",
+	"Stores and returns a value that only changes when the condition is true.",
+
+	{
+	ParameterSymbol(TypeInstances::GetBooleanInstance(), "when", "When to update the current value."),
+	ParameterSymbol(TypeInstances::GetFloatInstance(), "value", "The value to update it with.")
+
+
+	}, ReturnSymbol(TypeInstances::GetFloatInstance(), "The value last time the condition was true")) {}
+
+
+
+ExpressionValue ValueWhen::interpret(const unsigned int tick, std::vector<ExpressionValue> _argumentValues, InterpreterOutput& output) {
+	if (boost::get<Boolean>(_argumentValues.at(0)).value) {
+		if (*boost::get<Boolean>(_argumentValues.at(0)).value) {
+			currentValue = _argumentValues.at(1);
+		}
+	}
+
+	return currentValue;
+}
+
+
+
+
 
 
 FloatNAN::FloatNAN() : MethodSymbol("nan_f", 
@@ -419,3 +444,102 @@ BooleanNAN::BooleanNAN() : MethodSymbol("nan_b",
 ExpressionValue BooleanNAN::interpret(const unsigned int tick, std::vector<ExpressionValue> _argumentValues, InterpreterOutput& output) {
 	return Boolean();
 }
+
+
+
+Minimum::Minimum() : MethodSymbol("min",
+	"Returns the smallest value that has ever been passed to it.",
+
+	{
+	ParameterSymbol(TypeInstances::GetFloatInstance(), "value", "Next potentially minimum value.")
+
+
+	}, ReturnSymbol(TypeInstances::GetFloatInstance(), "The maximum value.")) {}
+
+
+
+ExpressionValue Minimum::interpret(const unsigned int tick, std::vector<ExpressionValue> _argumentValues, InterpreterOutput& output) {
+	if (boost::get<Float>(_argumentValues.at(0)).value) {
+		if (*boost::get<Float>(_argumentValues.at(0)).value < *boost::get<Float>(minimumValue).value) {
+			minimumValue = _argumentValues.at(0);
+		}
+	}
+
+	return minimumValue;
+}
+
+
+
+Maximum::Maximum() : MethodSymbol("min",
+	"Returns the max value that has ever been passed to it.",
+
+	{
+	ParameterSymbol(TypeInstances::GetFloatInstance(), "value", "Next potentially maximum value.")
+
+
+	}, ReturnSymbol(TypeInstances::GetFloatInstance(), "The minimum value.")) {}
+
+
+
+ExpressionValue Maximum::interpret(const unsigned int tick, std::vector<ExpressionValue> _argumentValues, InterpreterOutput& output) {
+	if (boost::get<Float>(_argumentValues.at(0)).value) {
+		if (*boost::get<Float>(_argumentValues.at(0)).value > *boost::get<Float>(maximumValue).value) {
+			maximumValue = _argumentValues.at(0);
+		}
+	}
+
+	return maximumValue;
+}
+
+
+Sum::Sum() : MethodSymbol("sum",
+	"Returns the sum of the values passed to it so far",
+
+	{
+	ParameterSymbol(TypeInstances::GetFloatInstance(), "value", "Add this to sum/")
+
+
+	}, ReturnSymbol(TypeInstances::GetFloatInstance(), "The total sum.")) {}
+
+
+
+ExpressionValue Sum::interpret(const unsigned int tick, std::vector<ExpressionValue> _argumentValues, InterpreterOutput& output) {
+	if (boost::get<Float>(_argumentValues.at(0)).value) {
+		*boost::get<Float>(sum).value += *boost::get<Float>(_argumentValues.at(0)).value;
+	}
+
+	return sum;
+}
+
+
+
+Mean::Mean() : MethodSymbol("mean",
+	"Returns the mean of values passed to it so far. (Doesn't take na values into account).",
+
+	{
+	ParameterSymbol(TypeInstances::GetFloatInstance(), "value", "The value to add to the mean calculation. (Will ignore NAs)")
+
+
+	}, ReturnSymbol(TypeInstances::GetFloatInstance(), "The mean value so far.")) {}
+
+
+
+ExpressionValue Mean::interpret(const unsigned int tick, std::vector<ExpressionValue> _argumentValues, InterpreterOutput& output) {
+	if (boost::get<Float>(_argumentValues.at(0)).value) {
+		amountSoFar++;
+		sum += *boost::get<Float>(_argumentValues.at(0)).value;
+	}
+
+	return Float(sum / amountSoFar);
+}
+
+//template< typename T >
+//typename std::vector<T>::iterator
+//insert_sorted(std::vector<T>& vec, T const& item)
+//{
+//	return vec.insert
+//	(
+//		std::upper_bound(vec.begin(), vec.end(), item),
+//		item
+//	);
+//}
