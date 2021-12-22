@@ -41,6 +41,9 @@ std::shared_ptr<SymbolTable> SymbolTable::GLOBAL_SYMBOL_TABLE = std::make_shared
 	{"max", new SingleMethodBucket(new Maximum())},
 	{"sum", new SingleMethodBucket(new Sum())},
 	{"mean", new SingleMethodBucket(new Mean())},
+	{"pi", new SingleMethodBucket(new GetPi())},
+	{"e", new SingleMethodBucket(new GetE())},
+	{"round", new SingleMethodBucket(new Round())},
 
 
 

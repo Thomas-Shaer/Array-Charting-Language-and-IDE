@@ -41,7 +41,7 @@
 }
 
 
-%token <std::string> TNUMBER TIDENTIFIER
+%token <std::string> TNUMBER TIDENTIFIER TFLOAT
 %token <int> TPLUS "+" TMINUS "-" TMUL "*" TDIV "/" TASSIGN "=" 
 %token <int> TLESS "<" TLESSEQUAL "<=" TGREATER ">" TGREATEREQUAL ">=" TAND "&&" TOR "||" TNOT "!" TNOTEQUAL "!=" TEQUAL "=="
 %token <int> TOPENBRACKET "(" TCLOSEBRACKET ")" TCOMMA ","
@@ -135,6 +135,7 @@ ternary : expr TQUESTIONMARK expr TCOLON expr { $$ = new TernaryNode($1, $3, $5)
 
 
 numeric : TNUMBER { $$ = new NumberNode(atoi($1.c_str())); }
+        | TFLOAT { $$ = new NumberNode(atof($1.c_str())); }
         ;
 
 boolean : TFALSE { $$ = new BooleanNode(false); }

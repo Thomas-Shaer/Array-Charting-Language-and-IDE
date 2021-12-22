@@ -882,7 +882,7 @@ value->emplace<std::string>(yytext); return yy::parser::token::TNUMBER;
 case 15:
 YY_RULE_SETUP
 #line 59 "flex.l"
-value->emplace<std::string>(yytext); return yy::parser::token::TNUMBER;
+value->emplace<std::string>(yytext); return yy::parser::token::TFLOAT;
 	YY_BREAK
 case 16:
 YY_RULE_SETUP

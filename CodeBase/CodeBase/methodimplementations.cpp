@@ -3,7 +3,7 @@
 #include "visitors.h"
 #include "interpretercontext.h"
 #include "chartplot.h"
-
+#include <numbers>
 ExpressionValue MethodAverage::interpret(const unsigned int tick, std::vector<ExpressionValue> _argumentValues, InterpreterOutput& output) {
 
 	// if any argument is a NAN return NAN
@@ -533,13 +533,44 @@ ExpressionValue Mean::interpret(const unsigned int tick, std::vector<ExpressionV
 	return Float(sum / amountSoFar);
 }
 
-//template< typename T >
-//typename std::vector<T>::iterator
-//insert_sorted(std::vector<T>& vec, T const& item)
-//{
-//	return vec.insert
-//	(
-//		std::upper_bound(vec.begin(), vec.end(), item),
-//		item
-//	);
-//}
+
+GetPi::GetPi() : MethodSymbol("pi",
+	"Gets the PI constant.",
+
+	{
+	}, ReturnSymbol(TypeInstances::GetFloatInstance(), "The PI constant")) {}
+
+
+ExpressionValue GetPi::interpret(const unsigned int tick, std::vector<ExpressionValue> _argumentValues, InterpreterOutput& output) {
+	return Float(std::numbers::pi_v<float>);
+}
+
+
+GetE::GetE() : MethodSymbol("e",
+	"Gets the E constant.",
+
+	{
+	}, ReturnSymbol(TypeInstances::GetFloatInstance(), "The E constant")) {}
+
+
+ExpressionValue GetE::interpret(const unsigned int tick, std::vector<ExpressionValue> _argumentValues, InterpreterOutput& output) {
+	return Float(std::numbers::e);
+}
+
+
+Round::Round() : MethodSymbol("round",
+	"Rounds to nearest int. Returns NA if NA passed.",
+
+	{
+		ParameterSymbol(TypeInstances::GetFloatInstance(), "value", "The value to round")
+	}, ReturnSymbol(TypeInstances::GetFloatInstance(), "The rounded value")) {}
+
+
+ExpressionValue Round::interpret(const unsigned int tick, std::vector<ExpressionValue> _argumentValues, InterpreterOutput& output) {
+	
+	if (boost::get<Float>(_argumentValues.at(0)).value) {
+		return Float(std::round(*boost::get<Float>(_argumentValues.at(0)).value));
+	}
+	
+	return Float();
+}

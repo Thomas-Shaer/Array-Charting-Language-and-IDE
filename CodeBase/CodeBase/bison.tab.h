@@ -430,6 +430,7 @@ namespace yy {
 
       // TNUMBER
       // TIDENTIFIER
+      // TFLOAT
       char dummy13[sizeof (std::string)];
 
       // call_params
@@ -478,30 +479,31 @@ namespace yy {
     YYUNDEF = 257,                 // "invalid token"
     TNUMBER = 258,                 // TNUMBER
     TIDENTIFIER = 259,             // TIDENTIFIER
-    TPLUS = 260,                   // "+"
-    TMINUS = 261,                  // "-"
-    TMUL = 262,                    // "*"
-    TDIV = 263,                    // "/"
-    TASSIGN = 264,                 // "="
-    TLESS = 265,                   // "<"
-    TLESSEQUAL = 266,              // "<="
-    TGREATER = 267,                // ">"
-    TGREATEREQUAL = 268,           // ">="
-    TAND = 269,                    // "&&"
-    TOR = 270,                     // "||"
-    TNOT = 271,                    // "!"
-    TNOTEQUAL = 272,               // "!="
-    TEQUAL = 273,                  // "=="
-    TOPENBRACKET = 274,            // "("
-    TCLOSEBRACKET = 275,           // ")"
-    TCOMMA = 276,                  // ","
-    TTRUE = 277,                   // "TRUE"
-    TFALSE = 278,                  // "FALSE"
-    TIF = 279,                     // "if"
-    TOPENBLOCK = 280,              // "{"
-    TCLOSEBLOCK = 281,             // "}"
-    TCOLON = 282,                  // ":"
-    TQUESTIONMARK = 283            // "?"
+    TFLOAT = 260,                  // TFLOAT
+    TPLUS = 261,                   // "+"
+    TMINUS = 262,                  // "-"
+    TMUL = 263,                    // "*"
+    TDIV = 264,                    // "/"
+    TASSIGN = 265,                 // "="
+    TLESS = 266,                   // "<"
+    TLESSEQUAL = 267,              // "<="
+    TGREATER = 268,                // ">"
+    TGREATEREQUAL = 269,           // ">="
+    TAND = 270,                    // "&&"
+    TOR = 271,                     // "||"
+    TNOT = 272,                    // "!"
+    TNOTEQUAL = 273,               // "!="
+    TEQUAL = 274,                  // "=="
+    TOPENBRACKET = 275,            // "("
+    TCLOSEBRACKET = 276,           // ")"
+    TCOMMA = 277,                  // ","
+    TTRUE = 278,                   // "TRUE"
+    TFALSE = 279,                  // "FALSE"
+    TIF = 280,                     // "if"
+    TOPENBLOCK = 281,              // "{"
+    TCLOSEBLOCK = 282,             // "}"
+    TCOLON = 283,                  // ":"
+    TQUESTIONMARK = 284            // "?"
       };
       /// Backward compatibility alias (Bison 3.6).
       typedef token_kind_type yytokentype;
@@ -518,51 +520,52 @@ namespace yy {
     {
       enum symbol_kind_type
       {
-        YYNTOKENS = 29, ///< Number of tokens.
+        YYNTOKENS = 30, ///< Number of tokens.
         S_YYEMPTY = -2,
         S_YYEOF = 0,                             // "end of file"
         S_YYerror = 1,                           // error
         S_YYUNDEF = 2,                           // "invalid token"
         S_TNUMBER = 3,                           // TNUMBER
         S_TIDENTIFIER = 4,                       // TIDENTIFIER
-        S_TPLUS = 5,                             // "+"
-        S_TMINUS = 6,                            // "-"
-        S_TMUL = 7,                              // "*"
-        S_TDIV = 8,                              // "/"
-        S_TASSIGN = 9,                           // "="
-        S_TLESS = 10,                            // "<"
-        S_TLESSEQUAL = 11,                       // "<="
-        S_TGREATER = 12,                         // ">"
-        S_TGREATEREQUAL = 13,                    // ">="
-        S_TAND = 14,                             // "&&"
-        S_TOR = 15,                              // "||"
-        S_TNOT = 16,                             // "!"
-        S_TNOTEQUAL = 17,                        // "!="
-        S_TEQUAL = 18,                           // "=="
-        S_TOPENBRACKET = 19,                     // "("
-        S_TCLOSEBRACKET = 20,                    // ")"
-        S_TCOMMA = 21,                           // ","
-        S_TTRUE = 22,                            // "TRUE"
-        S_TFALSE = 23,                           // "FALSE"
-        S_TIF = 24,                              // "if"
-        S_TOPENBLOCK = 25,                       // "{"
-        S_TCLOSEBLOCK = 26,                      // "}"
-        S_TCOLON = 27,                           // ":"
-        S_TQUESTIONMARK = 28,                    // "?"
-        S_YYACCEPT = 29,                         // $accept
-        S_program = 30,                          // program
-        S_stmts = 31,                            // stmts
-        S_stmt = 32,                             // stmt
-        S_exprstmt = 33,                         // exprstmt
-        S_ifstmt = 34,                           // ifstmt
-        S_identifier = 35,                       // identifier
-        S_assign = 36,                           // assign
-        S_expr = 37,                             // expr
-        S_ternary = 38,                          // ternary
-        S_numeric = 39,                          // numeric
-        S_boolean = 40,                          // boolean
-        S_method = 41,                           // method
-        S_call_params = 42                       // call_params
+        S_TFLOAT = 5,                            // TFLOAT
+        S_TPLUS = 6,                             // "+"
+        S_TMINUS = 7,                            // "-"
+        S_TMUL = 8,                              // "*"
+        S_TDIV = 9,                              // "/"
+        S_TASSIGN = 10,                          // "="
+        S_TLESS = 11,                            // "<"
+        S_TLESSEQUAL = 12,                       // "<="
+        S_TGREATER = 13,                         // ">"
+        S_TGREATEREQUAL = 14,                    // ">="
+        S_TAND = 15,                             // "&&"
+        S_TOR = 16,                              // "||"
+        S_TNOT = 17,                             // "!"
+        S_TNOTEQUAL = 18,                        // "!="
+        S_TEQUAL = 19,                           // "=="
+        S_TOPENBRACKET = 20,                     // "("
+        S_TCLOSEBRACKET = 21,                    // ")"
+        S_TCOMMA = 22,                           // ","
+        S_TTRUE = 23,                            // "TRUE"
+        S_TFALSE = 24,                           // "FALSE"
+        S_TIF = 25,                              // "if"
+        S_TOPENBLOCK = 26,                       // "{"
+        S_TCLOSEBLOCK = 27,                      // "}"
+        S_TCOLON = 28,                           // ":"
+        S_TQUESTIONMARK = 29,                    // "?"
+        S_YYACCEPT = 30,                         // $accept
+        S_program = 31,                          // program
+        S_stmts = 32,                            // stmts
+        S_stmt = 33,                             // stmt
+        S_exprstmt = 34,                         // exprstmt
+        S_ifstmt = 35,                           // ifstmt
+        S_identifier = 36,                       // identifier
+        S_assign = 37,                           // assign
+        S_expr = 38,                             // expr
+        S_ternary = 39,                          // ternary
+        S_numeric = 40,                          // numeric
+        S_boolean = 41,                          // boolean
+        S_method = 42,                           // method
+        S_call_params = 43                       // call_params
       };
     };
 
@@ -670,6 +673,7 @@ namespace yy {
 
       case symbol_kind::S_TNUMBER: // TNUMBER
       case symbol_kind::S_TIDENTIFIER: // TIDENTIFIER
+      case symbol_kind::S_TFLOAT: // TFLOAT
         value.move< std::string > (std::move (that.value));
         break;
 
@@ -961,6 +965,7 @@ switch (yykind)
 
       case symbol_kind::S_TNUMBER: // TNUMBER
       case symbol_kind::S_TIDENTIFIER: // TIDENTIFIER
+      case symbol_kind::S_TFLOAT: // TFLOAT
         value.template destroy< std::string > ();
         break;
 
@@ -1195,6 +1200,21 @@ switch (yykind)
       make_TIDENTIFIER (const std::string& v)
       {
         return symbol_type (token::TIDENTIFIER, v);
+      }
+#endif
+#if 201103L <= YY_CPLUSPLUS
+      static
+      symbol_type
+      make_TFLOAT (std::string v)
+      {
+        return symbol_type (token::TFLOAT, std::move (v));
+      }
+#else
+      static
+      symbol_type
+      make_TFLOAT (const std::string& v)
+      {
+        return symbol_type (token::TFLOAT, v);
       }
 #endif
 #if 201103L <= YY_CPLUSPLUS
@@ -1885,9 +1905,9 @@ switch (yykind)
     /// Constants.
     enum
     {
-      yylast_ = 249,     ///< Last index in yytable_.
+      yylast_ = 253,     ///< Last index in yytable_.
       yynnts_ = 14,  ///< Number of nonterminal symbols.
-      yyfinal_ = 32 ///< Termination state number.
+      yyfinal_ = 33 ///< Termination state number.
     };
 
 
@@ -1899,7 +1919,7 @@ switch (yykind)
 
 
 } // yy
-#line 1903 "bison.tab.h"
+#line 1923 "bison.tab.h"
 
 
 // "%code provides" blocks.
@@ -1911,7 +1931,7 @@ switch (yykind)
     std::string token_name(int t);
  
 
-#line 1915 "bison.tab.h"
+#line 1935 "bison.tab.h"
 
 
 #endif // !YY_YY_BISON_TAB_H_INCLUDED

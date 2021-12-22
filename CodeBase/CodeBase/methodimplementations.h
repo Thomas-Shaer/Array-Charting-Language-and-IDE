@@ -295,3 +295,31 @@ private:
 	float amountSoFar = 0;
 	float sum = 0;
 };
+
+class GetPi : public MethodSymbol {
+public:
+	GetPi();
+	virtual ExpressionValue interpret(const unsigned int tick, std::vector<ExpressionValue> _argumentValues, InterpreterOutput& output);
+	virtual GetPi* clone() {
+		return new GetPi();
+	}
+};
+
+class GetE : public MethodSymbol {
+public:
+	GetE();
+	virtual ExpressionValue interpret(const unsigned int tick, std::vector<ExpressionValue> _argumentValues, InterpreterOutput& output);
+	virtual GetE* clone() {
+		return new GetE();
+	}
+};
+
+
+class Round : public MethodSymbol {
+public:
+	Round();
+	virtual ExpressionValue interpret(const unsigned int tick, std::vector<ExpressionValue> _argumentValues, InterpreterOutput& output);
+	virtual Round* clone() {
+		return new Round();
+	}
+};
