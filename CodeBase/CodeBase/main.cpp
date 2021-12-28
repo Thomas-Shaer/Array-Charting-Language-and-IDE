@@ -17,10 +17,11 @@ void newJSON() {
     Settings::saveSettings();
 }
 
+
+
+
 int main(int, char**) {
-
-   
-
+  
     std::ifstream inputjson(SAVE_NAME);
     if (inputjson) {
         try {

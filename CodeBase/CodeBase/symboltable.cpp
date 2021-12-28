@@ -37,13 +37,79 @@ std::shared_ptr<SymbolTable> SymbolTable::GLOBAL_SYMBOL_TABLE = std::make_shared
 	{"nan_f", new SingleMethodBucket(new FloatNAN())},
 	{"nan_b", new SingleMethodBucket(new BooleanNAN())},
 	{"valuewhen", new SingleMethodBucket(new ValueWhen())},
-	{"min", new SingleMethodBucket(new Minimum())},
-	{"max", new SingleMethodBucket(new Maximum())},
-	{"sum", new SingleMethodBucket(new Sum())},
+
+	{"min", new OverloadedMethodBucket(
+		{(new Minimum()),
+		 (new MinimumBars())
+		}
+	)},
+
+
+	{"max", new OverloadedMethodBucket(
+		{(new Maximum()),
+		 (new MaximumBars())
+		}
+	)},
+
+
+	{"sum", new OverloadedMethodBucket(
+		{(new Sum()),
+		 (new SumBars())
+		}
+	)},
+
 	{"mean", new SingleMethodBucket(new Mean())},
 	{"pi", new SingleMethodBucket(new GetPi())},
 	{"e", new SingleMethodBucket(new GetE())},
 	{"round", new SingleMethodBucket(new Round())},
+	{"floor", new SingleMethodBucket(new Floor())},
+	{"ceil", new SingleMethodBucket(new Ceil())},
+	{"floatmax", new SingleMethodBucket(new FloatMax())},
+	{"floatmin", new SingleMethodBucket(new FloatMin())},
+	{"count", new SingleMethodBucket(new Count())},
+	{"float", new SingleMethodBucket(new FloatCast())},
+	{"boolean", new SingleMethodBucket(new BooleanCast())},
+	{"abs", new SingleMethodBucket(new Absolute())},
+	{"sqrt", new SingleMethodBucket(new SquareRoot())},
+	{"lcm", new SingleMethodBucket(new LCM())},
+	{"gcd", new SingleMethodBucket(new GCD())},
+	{"variance", new SingleMethodBucket(new Variance())},
+	{"std", new SingleMethodBucket(new STD())},
+	{"ma", new SingleMethodBucket(new MA())},
+	{"random", new SingleMethodBucket(new Random())},
+	{"falling", new SingleMethodBucket(new Falling())},
+	{"rising", new SingleMethodBucket(new Rising())},
+	{"cos", new SingleMethodBucket(new Cosine())},
+	{"tan", new SingleMethodBucket(new Tangent())},
+	{"sin", new SingleMethodBucket(new Sine())},
+	{"acos", new SingleMethodBucket(new ArcCosine())},
+	{"atan", new SingleMethodBucket(new ArcTan())},
+	{"asin", new SingleMethodBucket(new ArcSine())},
+	{"linreg", new SingleMethodBucket(new LinearRegression())},
+	{"correlation", new SingleMethodBucket(new Correlation())},
+	{"prev", new SingleMethodBucket(new PreviousValue())},
+	{"isprime", new SingleMethodBucket(new IsPrime())},
+	{"istriangle", new SingleMethodBucket(new IsTriangle())},
+
+
+	{"median", new OverloadedMethodBucket(
+		{(new Median()),
+		 (new MedianBars())
+		}
+	)},
+
+
+	{"log", new OverloadedMethodBucket(
+		{(new LogE()),
+		 (new LogBase())
+		}
+	)},
+
+	{"isnan", new OverloadedMethodBucket(
+		{(new IsNANF()),
+		(new IsNANB())
+		}
+	)},
 
 
 
