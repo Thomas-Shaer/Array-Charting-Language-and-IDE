@@ -122,7 +122,7 @@ void TextEditorSingleton::initTextEditor() {
 void executeCode(const std::string& code) {
     DisplayInformation::CODE_OUTPUT = "";
     DisplayInformation::CODE_OUTPUT_RECONSTRUCTION = "";
-    DisplayInformation::CODE_OUTPUT_VARIABLES = "";
+    DisplayInformation::CODE_OUTPUT_VARIABLES = {};
     InterpreterContext context;
     context.execute(code);
 
@@ -138,7 +138,7 @@ void executeCode(const std::string& code) {
         DisplayInformation::CODE_OUTPUT_RECONSTRUCTION = context.ast->toString();
     }
     if (context.symboltable) {
-        DisplayInformation::CODE_OUTPUT_VARIABLES = context.symboltable->variablesToString(true);
+        DisplayInformation::CODE_OUTPUT_VARIABLES = context.symboltable->variablesToVector(true);
     }
     DisplayInformation::CHART_LINE_DATA = context.output->chartData;
     DisplayInformation::CHART_MARK_DATA = context.output->markData;

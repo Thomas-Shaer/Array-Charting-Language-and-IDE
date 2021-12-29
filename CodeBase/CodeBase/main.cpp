@@ -13,6 +13,7 @@ void newJSON() {
     Settings::settingsFile["loadedInData"] = nlohmann::json::array();
     Settings::settingsFile["currentCodeFile"] = "";
     Settings::settingsFile["lastSaveDirectory"] = "";
+    Settings::settingsFile["lastExportDirectory"] = "";
     Settings::settingsFile["lastOpenDirectory"] = "";
     Settings::saveSettings();
 }

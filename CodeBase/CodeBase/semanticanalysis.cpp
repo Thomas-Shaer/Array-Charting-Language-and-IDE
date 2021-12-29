@@ -49,6 +49,10 @@ void AssignNode::semanticAnalysis(std::shared_ptr<SymbolTable> symboltable, Inte
 	if (symboltable->isVariableDeclared(name)) {
 		varSymbol = symboltable->getVariable(name);
 
+		if (!varSymbol->modifiable) {
+			throw LanguageException(name + " is not a modifiable variable");
+		}
+
 		if (varSymbol->type != rhsType) {
 			throw LanguageException("RHS type does not match LHS");
 		}

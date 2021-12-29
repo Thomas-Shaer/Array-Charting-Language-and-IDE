@@ -85,6 +85,7 @@ int start()
     TextEditorSingleton::initTextEditor();
     TextEditorSingleton::initFileBrowserSave();
     TextEditorSingleton::initFileBrowserOpen();
+    TextOutputWindow::init();
 
 
     /*

@@ -2,6 +2,8 @@
 #include <map>
 #include <memory>
 #include <iostream>
+#include <vector>
+
 class VarSymbol;
 class MethodBucket;
 
@@ -56,6 +58,8 @@ public:
 	std::string toString();
 
 	std::string variablesToString(bool _enclosing = false);
+
+	std::vector<std::shared_ptr<VarSymbol>> variablesToVector(bool _enclosing = false);
 
 	// since methods can't be declared this table will never be changed.
 	// therefore make it static so it isn't recreated every time symbol table is spawned

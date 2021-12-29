@@ -10,5 +10,7 @@ public:
 	Float(float _value) : Value(_value) {}
 
 	virtual std::string toString() const;
+	virtual std::string toFileString() const;
+
 
 };

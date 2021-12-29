@@ -13,6 +13,7 @@ class VarSymbol {
 public:
 	const std::string name;
 	const TypeSymbol* type;
+	const bool modifiable;
 
 	VarSymbol(const std::string _name, const TypeSymbol* _type);
 	VarSymbol(const std::string _name, const TypeSymbol* _type, std::vector<ExpressionValue> _value);
@@ -32,7 +33,9 @@ public:
 	*/
 	void matchGlobalBufferSize();
 
-private:
+	bool exportVariable = false;
+	std::string exportName;
+
 	std::vector<ExpressionValue> buffer;
 
 };

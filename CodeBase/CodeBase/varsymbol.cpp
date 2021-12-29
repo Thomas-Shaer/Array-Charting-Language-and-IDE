@@ -4,11 +4,11 @@
 #include "visitors.h"
 #include "interpretercontext.h"
 
-VarSymbol::VarSymbol(const std::string _name, const TypeSymbol* _type, std::vector<ExpressionValue> _value) : name(_name), type(_type), buffer(_value) {
+VarSymbol::VarSymbol(const std::string _name, const TypeSymbol* _type, std::vector<ExpressionValue> _value) : name(_name), type(_type), buffer(_value), modifiable(false), exportName(_name) {
 	InterpreterContext::ticks = _value.size() >= InterpreterContext::ticks ? _value.size() : InterpreterContext::ticks;
 }
 
-VarSymbol::VarSymbol(const std::string _name, const TypeSymbol* _type) : name(_name), type(_type) {
+VarSymbol::VarSymbol(const std::string _name, const TypeSymbol* _type) : name(_name), type(_type), modifiable(true), exportName(_name) {
 	matchGlobalBufferSize();
 }
 

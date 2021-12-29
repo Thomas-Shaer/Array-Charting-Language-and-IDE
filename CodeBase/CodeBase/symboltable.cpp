@@ -189,6 +189,21 @@ std::string SymbolTable::variablesToString(bool _enclosing) {
 	return output;
 }
 
+std::vector<std::shared_ptr<VarSymbol>> SymbolTable::variablesToVector(bool _enclosing) {
+	std::vector<std::shared_ptr<VarSymbol>> table;
+	for (auto pair : variableTable) {
+		table.push_back(pair.second);
+	}
+	if (_enclosing) {
+		if (enclosingSymbolTable) {
+			auto newTable = enclosingSymbolTable->variablesToVector(_enclosing);
+			table.insert(table.end(), newTable.begin(), newTable.end());
+		}
+	}
+	return table;
+}
+
+
 
 bool SymbolTable::isVariableDeclared(const std::string& name) {
 	if (variableTable.find(name) != variableTable.end()) {

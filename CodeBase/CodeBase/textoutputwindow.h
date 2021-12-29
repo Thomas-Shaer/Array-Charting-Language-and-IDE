@@ -1,6 +1,13 @@
 #pragma once
 #include <iostream>
+#include "imfilebrowser.h"
 
+
+struct TextOutputWindow {
+
+	static void init();
+	static ImGui::FileBrowser fb;
+};
 
 /*
 Snaps to the output tab.

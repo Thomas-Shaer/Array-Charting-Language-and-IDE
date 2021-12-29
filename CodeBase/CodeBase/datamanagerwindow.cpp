@@ -195,7 +195,7 @@ void ShowDataWindow() {
         ImGui::NewLine();
         ImGui::PushItemWidth(200);
         ImGui::Text("Variable name (40 char)");
-        ImGui::InputText("", characters, sizeof(characters));
+        ImGui::InputText("##variablename", characters, sizeof(characters));
 
         bool createVariable = false;
 

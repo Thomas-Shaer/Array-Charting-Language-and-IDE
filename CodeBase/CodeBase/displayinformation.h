@@ -2,6 +2,7 @@
 #include <iostream>
 #include <vector>
 
+class VarSymbol;
 class InputData;
 class ChartPlot;
 /*
@@ -13,7 +14,7 @@ public:
 	static std::string PLACEHOLDER_CODE; //Placeholder code for code input box
 	static std::string CODE_OUTPUT; //Text output from the code is displayed here
 	static std::string CODE_OUTPUT_RECONSTRUCTION; //Shows how the input code is interpreted
-	static std::string CODE_OUTPUT_VARIABLES; //Shows all the variables stored on the symbol table
+	static std::vector<std::shared_ptr<VarSymbol>> CODE_OUTPUT_VARIABLES; //Shows all the variables stored on the symbol table
 	static std::string CHART_DESCRIPTION;
 
 

@@ -161,6 +161,7 @@
     <ClCompile Include="datamanagerwindow.cpp" />
     <ClCompile Include="displayinformation.cpp" />
     <ClCompile Include="documentationwindow.cpp" />
+    <ClCompile Include="exportdata.cpp" />
     <ClCompile Include="float.cpp" />
     <ClCompile Include="imgui.cpp" />
     <ClCompile Include="imgui_draw.cpp" />
@@ -194,6 +195,7 @@
     <ClCompile Include="texteditorwindow.cpp" />
     <ClCompile Include="textoutputwindow.cpp" />
     <ClCompile Include="typesymbol.cpp" />
+    <ClCompile Include="value.cpp" />
     <ClCompile Include="varsymbol.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -201,6 +203,7 @@
     <ClInclude Include="datamanagerwindow.h" />
     <ClInclude Include="displayinformation.h" />
     <ClInclude Include="documentationwindow.h" />
+    <ClInclude Include="exportdata.h" />
     <ClInclude Include="imconfig.h" />
     <ClInclude Include="imfilebrowser.h" />
     <ClInclude Include="imgui.h" />

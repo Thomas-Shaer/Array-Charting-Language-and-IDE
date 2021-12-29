@@ -177,6 +177,12 @@
     <ClCompile Include="imgui_impl_dx11.cpp">
       <Filter>Source Files\GUI\Library\IMGUI</Filter>
     </ClCompile>
+    <ClCompile Include="exportdata.cpp">
+      <Filter>Source Files\Data</Filter>
+    </ClCompile>
+    <ClCompile Include="value.cpp">
+      <Filter>Source Files\Values</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bison.tab.h">
@@ -307,6 +313,9 @@
     </ClInclude>
     <ClInclude Include="maingui.h">
       <Filter>Source Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="exportdata.h">
+      <Filter>Source Files\Data</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
