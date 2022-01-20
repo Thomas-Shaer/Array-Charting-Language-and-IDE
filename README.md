@@ -39,11 +39,11 @@ The first major milestone will likely take the largest amount of time to complet
 
 
 
-**Milestone 2**
+**Milestone 2** ✔️
 
-Add extra features that make the software more convenient for the user to use. These items are not required but enhance the product greatly.
+**Add extra features that make the software more convenient for the user to use. These items are not required but enhance the product greatly.** 
 
-*Planned time of completion: between week 13-18*
+***Planned time of completion: between week 13-18*** *week 11 (Christmas holiday)*
 
 - **Interface for saving/loading code to and from the user’s file system** ✔️
 - **Ability for user to export chart data from the program** ✔️
