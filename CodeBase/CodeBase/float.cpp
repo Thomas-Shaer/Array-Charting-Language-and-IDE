@@ -7,7 +7,7 @@ std::string Float::toString() const {
 
 std::string Float::toFileString() const {
 	if (!value) {
-		return NaNHelper::NANFILESTRING;
+		return NaNHelper::NANEXPORTSTRING;
 	}
 	return std::to_string(*value);
 }

@@ -32,6 +32,10 @@ static void saveFile(const std::string& filePath) {
             variableJSON["fileName"] = data->fileName;
             variableJSON["path"] = data->path;
             variableJSON["dataName"] = data->name;
+            variableJSON["policy"] = ImportPolicyToString(data->importPolicy);
+            variableJSON["trueImportString"] = data->trueLiteral;
+            variableJSON["falseImportString"] = data->falseLiteral;
+            variableJSON["NANImportString"] = data->nanLiteral;
             saveJSON["variables"].push_back(variableJSON);
         }
     }
@@ -53,13 +57,19 @@ void loadFile(const std::string& filePath) {
         std::string dataName = variable["dataName"];
         std::string filepath = variable["path"];
 
+        std::string trueImport = variable["trueImportString"];
+        std::string falseImport = variable["falseImportString"];
+        std::string NANImport = variable["NANImportString"];
+
         bool dataLoadedIn = false;
         
         /*
         If detected that the data file associated with the variable has been removed,
         attempt to load it in again.
         */
+        ImportPolicy importPolicy;
         for (nlohmann::json path : Settings::settingsFile["loadedInData"].get<std::vector<nlohmann::json>>()) {
+            importPolicy = StringToImportPolicy(path["policy"]);
             if (path["path"] == filepath) {
                 dataLoadedIn = true;
                 break;
@@ -67,7 +77,7 @@ void loadFile(const std::string& filePath) {
         }
 
         if (!dataLoadedIn) {
-            loadInData(filepath, fileName);
+            loadInData(importPolicy, filepath, fileName, trueImport, falseImport, NANImport);
         }
 
         for (std::shared_ptr<InputData> data : DisplayInformation::LOADED_IN_DATA) {

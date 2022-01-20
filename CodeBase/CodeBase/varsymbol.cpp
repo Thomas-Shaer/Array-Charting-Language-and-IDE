@@ -4,11 +4,11 @@
 #include "visitors.h"
 #include "interpretercontext.h"
 
-VarSymbol::VarSymbol(const std::string _name, const TypeSymbol* _type, std::vector<ExpressionValue> _value) : name(_name), type(_type), buffer(_value), modifiable(false), exportName(_name) {
-	InterpreterContext::ticks = _value.size() >= InterpreterContext::ticks ? _value.size() : InterpreterContext::ticks;
+VarSymbol::VarSymbol(const std::string _name, const TypeSymbol* _type, std::vector<ExpressionValue> _value) : name(_name), type(_type), buffer(_value), modifiable(false), exportName(_name), originalSize(_value.size()){
 }
 
-VarSymbol::VarSymbol(const std::string _name, const TypeSymbol* _type) : name(_name), type(_type), modifiable(true), exportName(_name) {
+VarSymbol::VarSymbol(const std::string _name, const TypeSymbol* _type) : name(_name), type(_type), modifiable(true), exportName(_name), originalSize(0) {
+	// for new variables make sure they match the global buffer size
 	matchGlobalBufferSize();
 }
 
@@ -36,13 +36,26 @@ void VarSymbol::setValue(const unsigned int i, ExpressionValue _value) {
 
 
 void VarSymbol::matchGlobalBufferSize() {
+
+	/*
+	Add NaNs to match largest series
+	*/
 	if (buffer.size() < InterpreterContext::ticks) {
-		buffer = std::vector<ExpressionValue>(InterpreterContext::ticks);
-		if (type == TypeInstances::GetBooleanInstance()) {
-			std::fill(buffer.begin(), buffer.end(), Boolean());
+		for (int i = buffer.size(); i < InterpreterContext::ticks; i ++) {
+			if (type == TypeInstances::GetBooleanInstance()) {
+				buffer.push_back(Boolean());
+			}
+			else if (type == TypeInstances::GetFloatInstance()) {
+				buffer.push_back(Float());
+			}
 		}
-		else if (type == TypeInstances::GetFloatInstance()) {
-			std::fill(buffer.begin(), buffer.end(), Float());
+	}
+	/*
+	If too many i.e. a large input variable was removed, reduce all the variables that were previously matched to it's size
+	*/
+	else if (buffer.size() > InterpreterContext::ticks) {
+		while (buffer.size() != InterpreterContext::ticks) {
+			buffer.pop_back();
 		}
 	}
 }

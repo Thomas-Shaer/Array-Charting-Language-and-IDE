@@ -12,6 +12,7 @@
 #include <boost/algorithm/string.hpp>
 #include "chartplot.h"
 #include "textoutputwindow.h"
+#include "dataparseexception.h"
 
 
 ImGui::FileBrowser FileBrowserSingletonDataLoader::fb;
@@ -21,7 +22,7 @@ void FileBrowserSingletonDataLoader::init() {
     fb.SetPwd(std::filesystem::path(Settings::settingsFile["lastDataDirectory"].get<std::string>()));
 
     for (nlohmann::json path : Settings::settingsFile["loadedInData"].get<std::vector<nlohmann::json>>()) {
-        auto newData = InputData::LoadInputData(path["path"], path["name"]);
+        auto newData = InputData::LoadInputData(StringToImportPolicy(path["policy"]), path["path"], path["name"], path["trueImportString"], path["falseImportString"], path["NANImportString"]);
         DisplayInformation::LOADED_IN_DATA.insert(DisplayInformation::LOADED_IN_DATA.end(), newData.begin(), newData.end());
     }
 
@@ -30,24 +31,28 @@ void FileBrowserSingletonDataLoader::init() {
     fb.SetTypeFilters({ ".csv" });
 }
 
-void loadInData(const std::string& pathName, const std::string& fileName) {
-    auto newData = InputData::LoadInputData(pathName, fileName);
+void loadInData(const ImportPolicy importPolicy, const std::string& pathName, const std::string& fileName, const std::string& TrueString, const std::string& FalseString, const std::string& NANString) {
+    auto newData = InputData::LoadInputData(importPolicy, pathName, fileName, TrueString, FalseString, NANString);
     DisplayInformation::LOADED_IN_DATA.insert(DisplayInformation::LOADED_IN_DATA.end(), newData.begin(), newData.end());
+    
+    /*
+    Saves data
+    */
     nlohmann::json newSave;
-    newSave["path"] = FileBrowserSingletonDataLoader::fb.GetSelected().string();
-    newSave["name"] = FileBrowserSingletonDataLoader::fb.GetSelected().filename().string();
+    newSave["path"] = pathName;
+    newSave["name"] = fileName;
+    newSave["policy"] = ImportPolicyToString(importPolicy);
+    newSave["trueImportString"] = TrueString;
+    newSave["falseImportString"] = FalseString;
+    newSave["NANImportString"] = NANString;
     Settings::settingsFile["loadedInData"].push_back(newSave);
 }
 
 
 void createNewVariable(std::shared_ptr<InputData> data, const std::string& variableName) {
-    std::vector<ExpressionValue> values;
-    for (auto i : data->data) {
-        values.push_back((ExpressionValue)Float(i));
-    }
     data->isVariable = true;
     data->variableName = variableName;
-    std::shared_ptr<VarSymbol> varSymbol = std::make_shared<VarSymbol>(data->variableName, TypeInstances::GetFloatInstance(), values);
+    std::shared_ptr<VarSymbol> varSymbol = std::make_shared<VarSymbol>(data->variableName, TypeInstances::GetFloatInstance(), data->data);
     SymbolTable::GLOBAL_SYMBOL_TABLE->variableTable[data->variableName] = varSymbol;
     UpdateVariablesTab();
 }
@@ -102,6 +107,10 @@ void ShowDataWindow() {
     static std::string current_item;
     static int selected = -1;
     static char characters[40];
+    static bool showImportPopup = false;
+    static char defaultTrue[40];
+    static char defaultFalse[40];
+    static char defaultNAN[40];
 
 
     /*
@@ -120,10 +129,116 @@ void ShowDataWindow() {
         }
         ImGui::EndCombo();
     }
-
     if (ImGui::Button("Import File")) {
-        FileBrowserSingletonDataLoader::fb.Open();
+        showImportPopup = true;
     }
+
+    if (showImportPopup)
+    {
+        ImGui::OpenPopup("Import Data");
+
+        strncpy_s(defaultTrue, Settings::settingsFile["defaultTrueImportLiteral"].get<std::string>().c_str(), sizeof(defaultTrue));
+        strncpy_s(defaultFalse, Settings::settingsFile["defaultFalseImportLiteral"].get<std::string>().c_str(), sizeof(defaultFalse));
+        strncpy_s(defaultNAN, Settings::settingsFile["defaultNANImportLiteral"].get<std::string>().c_str(), sizeof(defaultNAN));
+
+    }
+
+    if (ImGui::BeginPopupModal("Import Data"))
+    {
+
+        static std::string fileName = "";
+        static std::string filePath = "";
+        static std::string parseMessage = "";
+
+        static ImportPolicy importPolicySelection = ImportPolicy::COLUMN_WISE;
+
+        ImGui::Text(std::string("Import data.").c_str());
+        ImGui::NewLine();
+        ImGui::Text("Import Policy");
+        if (ImGui::BeginCombo("", ImportPolicyToString(importPolicySelection).c_str())) {
+            bool is_selected = false;
+            if (ImGui::Selectable(ImportPolicyToString(ImportPolicy::COLUMN_WISE).c_str(), is_selected)) {
+                importPolicySelection = ImportPolicy::COLUMN_WISE;
+            }
+            if (ImGui::Selectable(ImportPolicyToString(ImportPolicy::ROW_WISE).c_str(), is_selected)) {
+                importPolicySelection = ImportPolicy::ROW_WISE;
+            }
+            ImGui::EndCombo();
+        }
+
+
+        ImGui::Text("True text (40 char)");
+        ImGui::InputText("##truetext", defaultTrue, sizeof(defaultTrue));
+
+        ImGui::Text("False text (40 char)");
+        ImGui::InputText("##falsetext", defaultFalse, sizeof(defaultFalse));
+
+        ImGui::Text("NAN text (40 char)");
+        ImGui::InputText("##nantext", defaultNAN, sizeof(defaultNAN));
+
+        /*
+        Save values
+        */
+        Settings::settingsFile["defaultTrueImportLiteral"] = std::string(defaultTrue);
+        Settings::settingsFile["defaultFalseImportLiteral"] = std::string(defaultFalse);
+        Settings::settingsFile["defaultNANImportLiteral"] = std::string(defaultNAN);
+
+
+        if (ImGui::Button("Select File")) {
+            FileBrowserSingletonDataLoader::fb.Open();
+        }
+        ImGui::Text(std::string("File: " + fileName).c_str());
+
+
+        if (fileName == "") {
+            ImGui::BeginDisabled();
+        }
+        if (ImGui::Button("Import")) {
+
+            try {
+                parseMessage = "";
+                loadInData(importPolicySelection, filePath, fileName, std::string(defaultTrue), std::string(defaultFalse), std::string(defaultNAN));
+                showImportPopup = false;
+                ImGui::CloseCurrentPopup();
+            }
+            catch (DataParseException e) {
+                parseMessage = e.message;
+            }
+
+
+        }
+
+        if (fileName == "") {
+            ImGui::EndDisabled();
+        }
+
+        ImGui::SameLine();
+
+        if (ImGui::Button("Cancel")) {
+            showImportPopup = false;
+            ImGui::CloseCurrentPopup();
+        }
+
+        ImGui::Text(parseMessage.c_str());
+
+
+
+        FileBrowserSingletonDataLoader::fb.Display();
+        if (FileBrowserSingletonDataLoader::fb.IsOpened()) {
+            Settings::settingsFile["lastDataDirectory"] = FileBrowserSingletonDataLoader::fb.GetPwd().root_path().generic_string() + (FileBrowserSingletonDataLoader::fb.GetPwd().relative_path()).generic_string();
+        }
+
+
+        if (FileBrowserSingletonDataLoader::fb.HasSelected())
+        {
+            fileName = FileBrowserSingletonDataLoader::fb.GetSelected().filename().string();
+            filePath = FileBrowserSingletonDataLoader::fb.GetSelected().string();
+            FileBrowserSingletonDataLoader::fb.ClearSelected();
+        }
+
+        ImGui::EndPopup();
+    }
+
     ImGui::SameLine();
 
     if (ImGui::Button("Remove File")) {
@@ -161,7 +276,8 @@ void ShowDataWindow() {
         }
 
 
-        if (ImGui::Selectable(DisplayInformation::LOADED_IN_DATA.at(i)->name.c_str())) {
+        if (ImGui::Selectable(std::string(std::to_string(i + 1) + ") " + DisplayInformation::LOADED_IN_DATA.at(i)->name).c_str())) {
+            std::cout << i << std::endl;
             selected = i;
             std::string name = makeVariableName(data->name);
             strncpy_s(characters, name.c_str(), sizeof(characters));
@@ -181,15 +297,45 @@ void ShowDataWindow() {
 
         ImGui::Text(data->name.c_str());
 
-        if (ImGui::Button("Plot"))
-        {
-            DisplayInformation::CHART_LINE_DATA.push_back(std::make_shared<ChartPlot>(data->name, data->data));
-            UpdateChart();
+        if (data->type == TypeInstances::GetFloatInstance()) {
+            if (ImGui::Button("Plot"))
+            {
+                std::vector<float> values;
+                for (auto val : data->data) {
+                    Float f = boost::get<Float>(val);
+                    if (!f.value) {
+                        values.push_back(std::numeric_limits<float>::quiet_NaN());
+                        continue;
+                    }
+                    values.push_back(*f.value);
+                }
+                DisplayInformation::CHART_LINE_DATA.push_back(std::make_shared<ChartPlot>(data->name, values));
+                UpdateChart();
+            }
         }
+        else if(data->type == TypeInstances::GetBooleanInstance()) {
+            if (ImGui::Button("Mark"))
+            {
+                std::vector<float> values;
+                for (auto val : data->data) {
+                    Boolean f = boost::get<Boolean>(val);
+                    if (!f.value) {
+                        values.push_back(std::numeric_limits<float>::quiet_NaN());
+                        continue;
+                    }
+                    values.push_back(*f.value ? 1 : 0);
+                }
+                DisplayInformation::CHART_LINE_DATA.push_back(std::make_shared<ChartPlot>(data->name, values));
+                UpdateChart();
+            }
+        }
+        
 
         //ImGui::Size
         ImGui::NewLine();
         ImGui::Text(std::string( "File: \"" + data->fileName + "\"").c_str());
+        ImGui::NewLine();
+        ImGui::Text(std::string("Type: " + data->type->name).c_str());
         ImGui::NewLine();
         ImGui::Text((std::string("Size: ") + std::to_string(data->data.size())).c_str());
         ImGui::NewLine();
@@ -238,17 +384,5 @@ void ShowDataWindow() {
 
 
     ImGui::End();
-    FileBrowserSingletonDataLoader::fb.Display();
-    if(FileBrowserSingletonDataLoader::fb.IsOpened()) {
-        Settings::settingsFile["lastDataDirectory"] = FileBrowserSingletonDataLoader::fb.GetPwd().root_path().generic_string() + (FileBrowserSingletonDataLoader::fb.GetPwd().relative_path()).generic_string();
-    }
-
-
-    if (FileBrowserSingletonDataLoader::fb.HasSelected())
-    {
-        loadInData(FileBrowserSingletonDataLoader::fb.GetSelected().string(), FileBrowserSingletonDataLoader::fb.GetSelected().filename().string());
-        FileBrowserSingletonDataLoader::fb.ClearSelected();
-
-
-    }
+    
 }

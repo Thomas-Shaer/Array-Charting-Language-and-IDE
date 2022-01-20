@@ -2,6 +2,7 @@
 #include "imfilebrowser.h"
 
 class InputData;
+enum class ImportPolicy : unsigned int;
 
 struct FileBrowserSingletonDataLoader {
 
@@ -12,7 +13,7 @@ struct FileBrowserSingletonDataLoader {
 /*
 Registers date file and also parses and loads in the various data columns.
 */
-void loadInData(const std::string& pathName, const std::string& fileName);
+void loadInData(const ImportPolicy importPolicy, const std::string& pathName, const std::string& fileName, const std::string& TrueString, const std::string& FalseString, const std::string& NANString);
 
 /*
 Creates and registers new variable on symbol table.

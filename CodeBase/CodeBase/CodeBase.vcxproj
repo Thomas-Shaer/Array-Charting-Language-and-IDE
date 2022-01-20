@@ -181,7 +181,6 @@
     <ClCompile Include="bison.tab.cpp" />
     <ClCompile Include="flex.flex.cpp" />
     <ClCompile Include="interpreter.cpp" />
-    <ClCompile Include="languageexception.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="node.cpp" />
     <ClCompile Include="methodbucket.cpp" />
@@ -201,6 +200,7 @@
   <ItemGroup>
     <ClInclude Include="chartplot.h" />
     <ClInclude Include="datamanagerwindow.h" />
+    <ClInclude Include="dataparseexception.h" />
     <ClInclude Include="displayinformation.h" />
     <ClInclude Include="documentationwindow.h" />
     <ClInclude Include="exportdata.h" />
@@ -232,6 +232,7 @@
     <ClInclude Include="methodbucket.h" />
     <ClInclude Include="chartwindow.h" />
     <ClInclude Include="parametersymbol.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="returnsymbol.h" />
     <ClInclude Include="settingswindow.h" />
     <ClInclude Include="TextEditor.h" />
@@ -260,6 +261,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="settings.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="CodeBase.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

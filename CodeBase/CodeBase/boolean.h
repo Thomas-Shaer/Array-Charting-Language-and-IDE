@@ -8,8 +8,10 @@ class Boolean : public Value<bool> {
 
 public:
 
-	static char TRUEFILESTRING[40];
-	static char FALSEFILESTRING[40];
+	static char TRUEEXPORTSTRING[40];
+	static char TRUEIMPORTSTRING[40];
+	static char FALSEEXPORTSTRING[40];
+	static char FALSEIMPORTSTRING[40];
 
 	Boolean() : Value() {}
 	Boolean(bool _value) : Value(_value) {}

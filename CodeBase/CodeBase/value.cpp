@@ -1,4 +1,5 @@
 #include "value.h"
 
 
-char NaNHelper::NANFILESTRING[40] = "";
+char NaNHelper::NANEXPORTSTRING[40] = "";
+char NaNHelper::NANIMPORTSTRING[40] = "";

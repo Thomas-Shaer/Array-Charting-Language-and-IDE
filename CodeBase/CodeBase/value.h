@@ -5,7 +5,8 @@
 
 class NaNHelper {
 public:
-	static char NANFILESTRING[40];
+	static char NANEXPORTSTRING[40];
+	static char NANIMPORTSTRING[40];
 };
 
 template<typename T>

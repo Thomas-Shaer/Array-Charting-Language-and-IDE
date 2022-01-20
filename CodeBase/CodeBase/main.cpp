@@ -15,6 +15,9 @@ void newJSON() {
     Settings::settingsFile["lastSaveDirectory"] = "";
     Settings::settingsFile["lastExportDirectory"] = "";
     Settings::settingsFile["lastOpenDirectory"] = "";
+    Settings::settingsFile["defaultTrueImportLiteral"] = "TRUE";
+    Settings::settingsFile["defaultFalseImportLiteral"] = "FALSE";
+    Settings::settingsFile["defaultNANImportLiteral"] = "NAN";
     Settings::saveSettings();
 }
 

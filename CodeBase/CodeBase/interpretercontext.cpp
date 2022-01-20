@@ -35,6 +35,20 @@ void InterpreterContext::execute(const std::string& code) {
 		std::cout << ast->toString() << std::endl;
 
 		symboltable = std::make_shared<SymbolTable>(SymbolTable::GLOBAL_SYMBOL_TABLE);
+		std::vector<std::shared_ptr<VarSymbol>> variables = symboltable->variablesToVector(true);
+		/*
+		Calculates largest series first
+		*/
+		for (std::shared_ptr<VarSymbol> variable : variables) {
+			InterpreterContext::ticks = InterpreterContext::ticks < variable->originalSize ? variable->originalSize : InterpreterContext::ticks;
+		}
+		//std::cout << InterpreterContext::ticks << std::endl;
+		/*
+		Matches all variables so they are have the same buffer size as that max series
+		*/
+		for (std::shared_ptr<VarSymbol> variable : variables) {
+			variable->matchGlobalBufferSize();
+		}
 
 		output = std::make_shared<InterpreterOutput>(ticks);
 

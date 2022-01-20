@@ -15,7 +15,17 @@ public:
 	const TypeSymbol* type;
 	const bool modifiable;
 
+	// size of buffer if imported
+	const unsigned int originalSize;
+
+	/*
+	User defined in code
+	*/
 	VarSymbol(const std::string _name, const TypeSymbol* _type);
+
+	/*
+	Imported code.
+	*/
 	VarSymbol(const std::string _name, const TypeSymbol* _type, std::vector<ExpressionValue> _value);
 
 

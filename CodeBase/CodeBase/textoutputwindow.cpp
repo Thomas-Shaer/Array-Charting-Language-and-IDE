@@ -106,13 +106,13 @@ void ShowTextOutputWindow() {
                 }
 
                 ImGui::Text("NaN text (40 char)");
-                ImGui::InputText("##nantext", NaNHelper::NANFILESTRING, sizeof(NaNHelper::NANFILESTRING));
+                ImGui::InputText("##nantext", NaNHelper::NANEXPORTSTRING, sizeof(NaNHelper::NANEXPORTSTRING));
 
                 ImGui::Text("True text (40 char)");
-                ImGui::InputText("##truetext", Boolean::TRUEFILESTRING, sizeof(Boolean::TRUEFILESTRING));
+                ImGui::InputText("##truetext", Boolean::TRUEEXPORTSTRING, sizeof(Boolean::TRUEEXPORTSTRING));
 
                 ImGui::Text("False text (40 char)");
-                ImGui::InputText("##falsetext", Boolean::FALSEFILESTRING, sizeof(Boolean::FALSEFILESTRING));
+                ImGui::InputText("##falsetext", Boolean::FALSEEXPORTSTRING, sizeof(Boolean::FALSEEXPORTSTRING));
 
                 
                 ImGui::NewLine();
@@ -194,6 +194,7 @@ void ShowTextOutputWindow() {
                 ImGui::Text(std::string("Type: " + data->type->name).c_str());
                 //ImGui::NewLine();
                 ImGui::Text(std::string("Size: " + std::to_string(data->buffer.size())).c_str());
+                ImGui::Text(std::string("Original Size: " + std::to_string(data->originalSize)).c_str());
                 ImGui::Text(std::string("Modifiable: " + std::string(data->modifiable ? "true" : "false")).c_str());
                 ImGui::NewLine();
                 ImGui::PushItemWidth(200);

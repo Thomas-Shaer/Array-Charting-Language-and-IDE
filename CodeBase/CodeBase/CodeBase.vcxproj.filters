@@ -81,9 +81,6 @@
     <ClCompile Include="varsymbol.cpp">
       <Filter>Source Files\Symbol</Filter>
     </ClCompile>
-    <ClCompile Include="languageexception.cpp">
-      <Filter>Source Files\Exceptions</Filter>
-    </ClCompile>
     <ClCompile Include="node.cpp">
       <Filter>Source Files\Nodes</Filter>
     </ClCompile>
@@ -317,6 +314,12 @@
     <ClInclude Include="exportdata.h">
       <Filter>Source Files\Data</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dataparseexception.h">
+      <Filter>Source Files\Exceptions</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Flex Include="flex.l">
@@ -337,5 +340,10 @@
     <None Include="settings.json">
       <Filter>Source Files</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="CodeBase.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>
