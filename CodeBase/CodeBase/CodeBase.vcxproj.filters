@@ -105,12 +105,6 @@
     <ClCompile Include="imgui_tables.cpp">
       <Filter>Source Files\GUI\Library\IMGUI</Filter>
     </ClCompile>
-    <ClCompile Include="imgui_impl_win32.cpp">
-      <Filter>Source Files\GUI\Library\IMGUI</Filter>
-    </ClCompile>
-    <ClCompile Include="imgui_impl_dx12.cpp">
-      <Filter>Source Files\GUI\Library\IMGUI</Filter>
-    </ClCompile>
     <ClCompile Include="imgui_draw.cpp">
       <Filter>Source Files\GUI\Library\IMGUI</Filter>
     </ClCompile>
@@ -171,14 +165,17 @@
     <ClCompile Include="returnsymbol.cpp">
       <Filter>Source Files\Symbol</Filter>
     </ClCompile>
-    <ClCompile Include="imgui_impl_dx11.cpp">
-      <Filter>Source Files\GUI\Library\IMGUI</Filter>
-    </ClCompile>
     <ClCompile Include="exportdata.cpp">
       <Filter>Source Files\Data</Filter>
     </ClCompile>
     <ClCompile Include="value.cpp">
       <Filter>Source Files\Values</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_impl_glfw.cpp">
+      <Filter>Source Files\GUI\Library\IMGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_impl_opengl3.cpp">
+      <Filter>Source Files\GUI\Library\IMGUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -228,12 +225,6 @@
       <Filter>Source Files\Values</Filter>
     </ClInclude>
     <ClInclude Include="imgui_internal.h">
-      <Filter>Source Files\GUI\Library\IMGUI</Filter>
-    </ClInclude>
-    <ClInclude Include="imgui_impl_win32.h">
-      <Filter>Source Files\GUI\Library\IMGUI</Filter>
-    </ClInclude>
-    <ClInclude Include="imgui_impl_dx12.h">
       <Filter>Source Files\GUI\Library\IMGUI</Filter>
     </ClInclude>
     <ClInclude Include="imgui.h">
@@ -305,9 +296,6 @@
     <ClInclude Include="returnsymbol.h">
       <Filter>Source Files\Symbol</Filter>
     </ClInclude>
-    <ClInclude Include="imgui_impl_dx11.h">
-      <Filter>Source Files\GUI\Library\IMGUI</Filter>
-    </ClInclude>
     <ClInclude Include="maingui.h">
       <Filter>Source Files\GUI</Filter>
     </ClInclude>
@@ -319,6 +307,15 @@
     </ClInclude>
     <ClInclude Include="dataparseexception.h">
       <Filter>Source Files\Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui_impl_glfw.h">
+      <Filter>Source Files\GUI\Library\IMGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui_impl_opengl3.h">
+      <Filter>Source Files\GUI\Library\IMGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui_impl_opengl3_loader.h">
+      <Filter>Source Files\GUI\Library\IMGUI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
