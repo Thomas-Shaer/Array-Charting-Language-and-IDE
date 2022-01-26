@@ -12,7 +12,7 @@ ImGui::FileBrowser TextOutputWindow::fb(ImGuiFileBrowserFlags_EnterNewFilename);
 
 
 void TextOutputWindow::init() {
-    fb.SetPwd(std::filesystem::path(Settings::settingsFile["lastExportDirectory"].get<std::string>()));
+    fb.SetPwd(std::filesystem::path(Settings::settingsFile["lastDataExportDirectory"].get<std::string>()));
 
 
     // (optional) set browser properties
@@ -129,7 +129,7 @@ void ShowTextOutputWindow() {
 
                 TextOutputWindow::fb.Display();
                 if (TextOutputWindow::fb.IsOpened()) {
-                    Settings::settingsFile["lastExportDirectory"] = TextOutputWindow::fb.GetPwd().root_path().generic_string() + (TextOutputWindow::fb.GetPwd().relative_path()).generic_string();
+                    Settings::settingsFile["lastDataExportDirectory"] = TextOutputWindow::fb.GetPwd().root_path().generic_string() + (TextOutputWindow::fb.GetPwd().relative_path()).generic_string();
                 }
 
 

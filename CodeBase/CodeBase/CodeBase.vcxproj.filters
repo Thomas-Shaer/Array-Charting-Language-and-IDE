@@ -58,6 +58,9 @@
     <Filter Include="Source Files\Data">
       <UniqueIdentifier>{9bbd3ec4-9c37-4d7a-ad63-54d597d5ea75}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\GUI\Library\STB">
+      <UniqueIdentifier>{bd4d7214-bd34-4865-a375-c5c3e88accde}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -176,6 +179,9 @@
     </ClCompile>
     <ClCompile Include="imgui_impl_opengl3.cpp">
       <Filter>Source Files\GUI\Library\IMGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="screenshot.cpp">
+      <Filter>Source Files\GUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -316,6 +322,12 @@
     </ClInclude>
     <ClInclude Include="imgui_impl_opengl3_loader.h">
       <Filter>Source Files\GUI\Library\IMGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="stb_image_write.h">
+      <Filter>Source Files\GUI\Library\STB</Filter>
+    </ClInclude>
+    <ClInclude Include="screenshot.h">
+      <Filter>Source Files\GUI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -9,15 +9,17 @@ void newJSON() {
     Settings::settingsFile["zoom"] = 1;
     Settings::settingsFile["windowwidth"] = 1800;
     Settings::settingsFile["windowheight"] = 800;
-    Settings::settingsFile["lastDataDirectory"] = "";
+    Settings::settingsFile["lastDataImportDirectory"] = "";
     Settings::settingsFile["loadedInData"] = nlohmann::json::array();
     Settings::settingsFile["currentCodeFile"] = "";
-    Settings::settingsFile["lastSaveDirectory"] = "";
-    Settings::settingsFile["lastExportDirectory"] = "";
-    Settings::settingsFile["lastOpenDirectory"] = "";
+    Settings::settingsFile["lastCodeSaveDirectory"] = "";
+    Settings::settingsFile["lastDataExportDirectory"] = "";
+    Settings::settingsFile["lastCodeOpenDirectory"] = "";
     Settings::settingsFile["defaultTrueImportLiteral"] = "TRUE";
     Settings::settingsFile["defaultFalseImportLiteral"] = "FALSE";
     Settings::settingsFile["defaultNANImportLiteral"] = "NAN";
+    Settings::settingsFile["lastScreenshotExportDirectory"] = "";
+    Settings::settingsFile["chartAntiAliasing"] = true;
     Settings::saveSettings();
 }
 

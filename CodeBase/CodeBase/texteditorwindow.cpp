@@ -96,7 +96,7 @@ void loadFile(const std::string& filePath) {
 
 
 void TextEditorSingleton::initFileBrowserSave() {
-    fbSave.SetPwd(std::filesystem::path(Settings::settingsFile["lastSaveDirectory"].get<std::string>()));
+    fbSave.SetPwd(std::filesystem::path(Settings::settingsFile["lastCodeSaveDirectory"].get<std::string>()));
 
 
     // (optional) set browser properties
@@ -106,7 +106,7 @@ void TextEditorSingleton::initFileBrowserSave() {
 
 
 void TextEditorSingleton::initFileBrowserOpen() {
-    fbOpen.SetPwd(std::filesystem::path(Settings::settingsFile["lastOpenDirectory"].get<std::string>()));
+    fbOpen.SetPwd(std::filesystem::path(Settings::settingsFile["lastCodeOpenDirectory"].get<std::string>()));
 
 
     // (optional) set browser properties
@@ -208,7 +208,7 @@ void ShowEditorWindow() {
     TextEditorSingleton::fbSave.Display();
 
     if (TextEditorSingleton::fbSave.IsOpened()) {
-        Settings::settingsFile["lastSaveDirectory"] = TextEditorSingleton::fbSave.GetPwd().root_path().generic_string() + (TextEditorSingleton::fbSave.GetPwd().relative_path()).generic_string();
+        Settings::settingsFile["lastCodeSaveDirectory"] = TextEditorSingleton::fbSave.GetPwd().root_path().generic_string() + (TextEditorSingleton::fbSave.GetPwd().relative_path()).generic_string();
     }
 
     if (TextEditorSingleton::fbSave.HasSelected())
@@ -230,7 +230,7 @@ void ShowEditorWindow() {
     TextEditorSingleton::fbOpen.Display();
 
     if (TextEditorSingleton::fbOpen.IsOpened()) {
-        Settings::settingsFile["lastOpenDirectory"] = TextEditorSingleton::fbOpen.GetPwd().root_path().generic_string() + (TextEditorSingleton::fbOpen.GetPwd().relative_path()).generic_string();
+        Settings::settingsFile["lastCodeOpenDirectory"] = TextEditorSingleton::fbOpen.GetPwd().root_path().generic_string() + (TextEditorSingleton::fbOpen.GetPwd().relative_path()).generic_string();
     }
 
     if (TextEditorSingleton::fbOpen.HasSelected())

@@ -18,6 +18,7 @@
 #include "maingui.h"
 #include "jsonsettings.h"
 #include "implot.h"
+//#include "screenshot.h"
 //
 //
 ImFont* Fonts::SMALLFONT;
@@ -102,6 +103,7 @@ int start()
     TextEditorSingleton::initTextEditor();
     TextEditorSingleton::initFileBrowserSave();
     TextEditorSingleton::initFileBrowserOpen();
+    ChartWindowSingleton::initFileBrowserSave();
     TextOutputWindow::init();
 
 
@@ -110,6 +112,8 @@ int start()
     */
     Fonts::DEFAULTFONT = io.Fonts->AddFontFromFileTTF("misc\\fonts\\ProggyClean.ttf", 13);
     Fonts::SMALLFONT = io.Fonts->AddFontFromFileTTF("misc\\fonts\\ProggyClean.ttf", 10);
+
+    //ScreenshotMaker sm;
 
 
     // Main loop
@@ -142,6 +146,7 @@ int start()
         ShowSettingsWindow();
 
         ShowDataWindow();
+        //sm.Draw();
 
         Settings::autoSave();
 

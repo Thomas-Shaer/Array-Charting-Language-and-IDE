@@ -19,7 +19,7 @@ ImGui::FileBrowser FileBrowserSingletonDataLoader::fb;
 
 
 void FileBrowserSingletonDataLoader::init() {
-    fb.SetPwd(std::filesystem::path(Settings::settingsFile["lastDataDirectory"].get<std::string>()));
+    fb.SetPwd(std::filesystem::path(Settings::settingsFile["lastDataImportDirectory"].get<std::string>()));
 
     for (nlohmann::json path : Settings::settingsFile["loadedInData"].get<std::vector<nlohmann::json>>()) {
         auto newData = InputData::LoadInputData(StringToImportPolicy(path["policy"]), path["path"], path["name"], path["trueImportString"], path["falseImportString"], path["NANImportString"]);
@@ -225,7 +225,7 @@ void ShowDataWindow() {
 
         FileBrowserSingletonDataLoader::fb.Display();
         if (FileBrowserSingletonDataLoader::fb.IsOpened()) {
-            Settings::settingsFile["lastDataDirectory"] = FileBrowserSingletonDataLoader::fb.GetPwd().root_path().generic_string() + (FileBrowserSingletonDataLoader::fb.GetPwd().relative_path()).generic_string();
+            Settings::settingsFile["lastDataImportDirectory"] = FileBrowserSingletonDataLoader::fb.GetPwd().root_path().generic_string() + (FileBrowserSingletonDataLoader::fb.GetPwd().relative_path()).generic_string();
         }
 
 

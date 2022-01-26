@@ -15,7 +15,6 @@ public:
 	static std::string CODE_OUTPUT; //Text output from the code is displayed here
 	static std::string CODE_OUTPUT_RECONSTRUCTION; //Shows how the input code is interpreted
 	static std::vector<std::shared_ptr<VarSymbol>> CODE_OUTPUT_VARIABLES; //Shows all the variables stored on the symbol table
-	static std::string CHART_DESCRIPTION;
 
 
 	static 	std::vector<std::shared_ptr<ChartPlot>> CHART_MARK_DATA;
