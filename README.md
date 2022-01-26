@@ -43,7 +43,7 @@ The first major milestone will likely take the largest amount of time to complet
 
 **Add extra features that make the software more convenient for the user to use. These items are not required but enhance the product greatly.** 
 
-***Planned time of completion: between week 13-18*** *week 11 (Christmas holiday)*
+***Planned time of completion: between week 13-18*** *(Christmas holiday)*
 
 - **Interface for saving/loading code to and from the user’s file system** ✔️
 - **Ability for user to export chart data from the program** ✔️
@@ -60,5 +60,5 @@ Add features that add to a sense of “polish” for the software. These feature
 
 - Intellisense/autocomplete for writing code
 - Ability to spawn and plot on multiple different charts
-- Ability to save a chart to disk as a PNG or JPEG
+- **Ability to save a chart to disk as a PNG or JPEG** ✔️
 - Testing the application for system compatibility on different OS's (moved from milestone 2)
