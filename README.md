@@ -59,6 +59,6 @@ Add features that add to a sense of “polish” for the software. These feature
 *Planned time of completion: between week 18-22*
 
 - Intellisense/autocomplete for writing code
-- Ability to spawn and plot on multiple different charts
+- **Ability to spawn and plot on multiple different charts** ✔️
 - **Ability to save a chart to disk as a PNG or JPEG** ✔️
 - Testing the application for system compatibility on different OS's (moved from milestone 2)
