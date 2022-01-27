@@ -6,6 +6,7 @@
 #include "parametersymbol.h"
 #include "returnsymbol.h"
 class TypeSymbol;
+class ArgumentSymbol;
 
 /*
 Contains all information related to a method.
@@ -23,7 +24,7 @@ public:
 
 
 	// should take list of types
-	virtual const TypeSymbol* semanticAnaylsis(std::vector<const TypeSymbol*> _argumentTypes, InterpreterOutput& output);
+	virtual const TypeSymbol* semanticAnaylsis(std::vector<std::shared_ptr<ArgumentSymbol>> _argumentSymbols, InterpreterOutput& output);
 
 	virtual ExpressionValue interpret(const unsigned int tick, std::vector<ExpressionValue> _argumentValues, InterpreterOutput& output) = 0;
 

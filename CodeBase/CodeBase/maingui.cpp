@@ -103,8 +103,12 @@ int start()
     TextEditorSingleton::initTextEditor();
     TextEditorSingleton::initFileBrowserSave();
     TextEditorSingleton::initFileBrowserOpen();
-    ChartWindowSingleton::initFileBrowserSave();
+    ChartWindow::initFileBrowserSave();
     TextOutputWindow::init();
+
+    // default chart window instance
+    //ChartWindow chartWindow(0);
+    ChartWindow::allChartWindows[0] = ChartWindow(0);
 
 
     /*
@@ -133,8 +137,15 @@ int start()
 
         //Settings::settingsFile["windowwidth"] = ImGui::GetWindowWidth();
                 //Settings::settingsFile["windowheight"] = ImGui::GetWindowHeight();
+        //ChartWindow::clearAllWindows();
+        //for (auto window : ChartWindow::allChartWindows) {
+        //    window.second.ShowChartWindow(&show_demo_window);
+        //    //std::cout << window.second.CHART_LINE_DATA.size() << std::endl;
+        //}
+        ChartWindow::renderAllWindows();
+        ChartWindow::fbSave.Display();
 
-        ShowChartWindow(&show_demo_window);
+        //ChartWindow::getOrCreateChartWindow(0).ShowChartWindow(&show_demo_window);
 
 
         ShowEditorWindow();

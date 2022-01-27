@@ -112,26 +112,34 @@ void ShowDataWindow() {
     static char defaultFalse[40];
     static char defaultNAN[40];
 
+    if (ImGui::BeginMenuBar()) {
 
-    /*
-    Combobox widget containing current loaded in files.
-    */
-    if (ImGui::BeginCombo("Files", current_item.c_str())) {
-        for (nlohmann::json path : Settings::settingsFile["loadedInData"].get<std::vector<nlohmann::json>>()) {
 
-                bool is_selected = false; // You can store your selection however you want, outside or inside your objects
-                if (ImGui::Selectable(path["name"].get<std::string>().c_str(), is_selected)) {
-                    current_item = path["name"].get<std::string>();
-                }
-                if (is_selected) {
-                    ImGui::SetItemDefaultFocus();
-                }
+        if (ImGui::BeginMenu("File")) {
+
+            if (ImGui::MenuItem("Import File", NULL, false)) {
+                showImportPopup = true;
+            }
+
+            if (ImGui::MenuItem("Remove all Files", NULL, false)) {
+                removeAllFiles();
+                selected = -1;
+                current_item = "";
+            }
+
+            
+            ImGui::EndMenu();
         }
-        ImGui::EndCombo();
+
+        ImGui::EndMenuBar();
     }
-    if (ImGui::Button("Import File")) {
-        showImportPopup = true;
-    }
+
+
+
+
+
+    
+
 
     if (showImportPopup)
     {
@@ -239,6 +247,23 @@ void ShowDataWindow() {
         ImGui::EndPopup();
     }
 
+    /*
+    Combobox widget containing current loaded in files.
+    */
+    if (ImGui::BeginCombo("Files", current_item.c_str())) {
+        for (nlohmann::json path : Settings::settingsFile["loadedInData"].get<std::vector<nlohmann::json>>()) {
+
+            bool is_selected = false; // You can store your selection however you want, outside or inside your objects
+            if (ImGui::Selectable(path["name"].get<std::string>().c_str(), is_selected)) {
+                current_item = path["name"].get<std::string>();
+            }
+            if (is_selected) {
+                ImGui::SetItemDefaultFocus();
+            }
+        }
+        ImGui::EndCombo();
+    }
+
     ImGui::SameLine();
 
     if (ImGui::Button("Remove File")) {
@@ -248,15 +273,7 @@ void ShowDataWindow() {
         current_item = "";
     }
 
-    ImGui::SameLine();
 
-    if (ImGui::Button("Remove all Files")) {
-        removeAllFiles();
-
-
-        selected = -1;
-        current_item = "";
-    }
 
 
 
@@ -309,8 +326,8 @@ void ShowDataWindow() {
                     }
                     values.push_back(*f.value);
                 }
-                DisplayInformation::CHART_LINE_DATA.push_back(std::make_shared<ChartPlot>(data->name, values));
-                UpdateChart();
+                ChartWindow::getOrCreateChartWindow(0)->CHART_LINE_DATA.push_back(std::make_shared<ChartPlot>(data->name, values));
+                ChartWindow::getOrCreateChartWindow(0)->UpdateChart();
             }
         }
         else if(data->type == TypeInstances::GetBooleanInstance()) {
@@ -325,8 +342,8 @@ void ShowDataWindow() {
                     }
                     values.push_back(*f.value ? 1 : 0);
                 }
-                DisplayInformation::CHART_LINE_DATA.push_back(std::make_shared<ChartPlot>(data->name, values));
-                UpdateChart();
+                ChartWindow::getOrCreateChartWindow(0)->CHART_LINE_DATA.push_back(std::make_shared<ChartPlot>(data->name, values));
+                ChartWindow::getOrCreateChartWindow(0)->UpdateChart();
             }
         }
         

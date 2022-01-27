@@ -198,7 +198,7 @@ class Plot : public MethodSymbol {
 public:
 	Plot();
 	virtual ExpressionValue interpret(const unsigned int tick, std::vector<ExpressionValue> _argumentValues, InterpreterOutput& output);
-	virtual const TypeSymbol* semanticAnaylsis(std::vector<const TypeSymbol*> _argumentTypes, InterpreterOutput& output);
+	virtual const TypeSymbol* semanticAnaylsis(std::vector<std::shared_ptr<ArgumentSymbol>> _argumentSymbols, InterpreterOutput& output);
 
 	virtual Plot* clone() {
 		return new Plot();
@@ -211,7 +211,7 @@ class Mark : public MethodSymbol {
 public:
 	Mark();
 	virtual ExpressionValue interpret(const unsigned int tick, std::vector<ExpressionValue> _argumentValues, InterpreterOutput& output);
-	virtual const TypeSymbol* semanticAnaylsis(std::vector<const TypeSymbol*> _argumentTypes, InterpreterOutput& output);
+	virtual const TypeSymbol* semanticAnaylsis(std::vector<std::shared_ptr<ArgumentSymbol>> _argumentSymbols, InterpreterOutput& output);
 	virtual Mark* clone() {
 		return new Mark();
 	}

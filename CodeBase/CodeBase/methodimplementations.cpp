@@ -7,6 +7,9 @@
 #include "languageexception.h"
 #include <numeric>
 #include <random>
+#include "argumentsymbol.h"
+#include "chartwindow.h"
+#include "node.h"
 
 ExpressionValue MethodAverage::interpret(const unsigned int tick, std::vector<ExpressionValue> _argumentValues, InterpreterOutput& output) {
 
@@ -323,19 +326,21 @@ static int plotNo = 0;
 Plot::Plot() : MethodSymbol("plot", 
 	"Plots a series of values onto the chart",
 	{ 
-	ParameterSymbol(TypeInstances::GetFloatInstance(), "value", "The value that will be plotted at the current tick")
+	ParameterSymbol(TypeInstances::GetFloatInstance(), "value", "The value that will be plotted at the current tick"),
+	ParameterSymbol(TypeInstances::GetFloatConstantInstance(), "chart_id", "The id of the chart to plot too.")
 	
 	}, ReturnSymbol(TypeInstances::GetVoidInstance())) {}
 
 
-const TypeSymbol* Plot::semanticAnaylsis(std::vector<const TypeSymbol*> _argumentTypes, InterpreterOutput& output) {
-	const TypeSymbol* typereturn = MethodSymbol::semanticAnaylsis(_argumentTypes, output);
+const TypeSymbol* Plot::semanticAnaylsis(std::vector<std::shared_ptr<ArgumentSymbol>> _argumentSymbols, InterpreterOutput& output) {
+	const TypeSymbol* typereturn = MethodSymbol::semanticAnaylsis(_argumentSymbols, output);
 
 
 	std::shared_ptr<ChartPlot> newData = std::make_shared<ChartPlot>("Plot" + std::to_string(plotNo), output.amountTicks);
 	plotNo++;
-	output.chartData.push_back(newData);
-	std::shared_ptr<ChartPlot> first = output.chartData.back(); //returns reference, not iterator, to the first object in the vector so you had only to write the data type in the generic of your vector, i.e. myObject, and not all the iterator stuff and the vector again and :: of course
+	int id = static_cast<NumberNode*>(_argumentSymbols.at(1)->expression)->number;
+	ChartWindow::getOrCreateChartWindow(id)->CHART_LINE_DATA.push_back(newData);
+	std::shared_ptr<ChartPlot> first = ChartWindow::getOrCreateChartWindow(id)->CHART_LINE_DATA.back(); //returns reference, not iterator, to the first object in the vector so you had only to write the data type in the generic of your vector, i.e. myObject, and not all the iterator stuff and the vector again and :: of course
 	plotdata = first;
 
 	return typereturn;
@@ -360,7 +365,9 @@ Mark::Mark() : MethodSymbol("mark",
 
 	{ 
 	ParameterSymbol(TypeInstances::GetBooleanInstance(), "when", "Mark the current tick or not"),
-	ParameterSymbol(TypeInstances::GetFloatInstance(), "value", "The value to mark if marking this tick")
+	ParameterSymbol(TypeInstances::GetFloatInstance(), "value", "The value to mark if marking this tick"),
+	ParameterSymbol(TypeInstances::GetFloatConstantInstance(), "chart_id", "The id of the chart to plot too.")
+
 
 	
 	}, ReturnSymbol(TypeInstances::GetVoidInstance())) {}
@@ -369,14 +376,16 @@ Mark::Mark() : MethodSymbol("mark",
 static int markNo = 0;
 
 
-const TypeSymbol* Mark::semanticAnaylsis(std::vector<const TypeSymbol*> _argumentTypes, InterpreterOutput& output) {
-	const TypeSymbol* typereturn = MethodSymbol::semanticAnaylsis(_argumentTypes, output);
+const TypeSymbol* Mark::semanticAnaylsis(std::vector<std::shared_ptr<ArgumentSymbol>> _argumentSymbols, InterpreterOutput& output) {
+	const TypeSymbol* typereturn = MethodSymbol::semanticAnaylsis(_argumentSymbols, output);
 
 
 	std::shared_ptr<ChartPlot> newData = std::make_shared<ChartPlot>("Mark" + std::to_string(markNo), output.amountTicks);
 	markNo++;
-	output.markData.push_back(newData);
-	std::shared_ptr<ChartPlot> first = output.markData.back(); //returns reference, not iterator, to the first object in the vector so you had only to write the data type in the generic of your vector, i.e. myObject, and not all the iterator stuff and the vector again and :: of course
+
+	int id = static_cast<NumberNode*>(_argumentSymbols.at(2)->expression)->number;
+	ChartWindow::getOrCreateChartWindow(id)->CHART_MARK_DATA.push_back(newData);
+	std::shared_ptr<ChartPlot> first = ChartWindow::getOrCreateChartWindow(id)->CHART_MARK_DATA.back(); //returns reference, not iterator, to the first object in the vector so you had only to write the data type in the generic of your vector, i.e. myObject, and not all the iterator stuff and the vector again and :: of course
 	plotdata = first;
 	return typereturn;
 }
@@ -754,7 +763,7 @@ FloatMax::FloatMax() : MethodSymbol("floatmax",
 
 ExpressionValue FloatMax::interpret(const unsigned int tick, std::vector<ExpressionValue> _argumentValues, InterpreterOutput& output) {
 
-	return Float(std::numeric_limits<float>::max());
+	return Float((std::numeric_limits<float>::max)());
 }
 
 
@@ -767,7 +776,7 @@ FloatMin::FloatMin() : MethodSymbol("floatmin",
 
 ExpressionValue FloatMin::interpret(const unsigned int tick, std::vector<ExpressionValue> _argumentValues, InterpreterOutput& output) {
 
-	return Float(std::numeric_limits<float>::min());
+	return Float((std::numeric_limits<float>::min)());
 }
 
 

@@ -17,8 +17,8 @@ public:
 	static std::vector<std::shared_ptr<VarSymbol>> CODE_OUTPUT_VARIABLES; //Shows all the variables stored on the symbol table
 
 
-	static 	std::vector<std::shared_ptr<ChartPlot>> CHART_MARK_DATA;
-	static 	std::vector<std::shared_ptr<ChartPlot>> CHART_LINE_DATA;
+	//static 	std::vector<std::shared_ptr<ChartPlot>> CHART_MARK_DATA;
+	//static 	std::vector<std::shared_ptr<ChartPlot>> CHART_LINE_DATA;
 
 	static 	std::vector<std::shared_ptr<InputData>> LOADED_IN_DATA;
 

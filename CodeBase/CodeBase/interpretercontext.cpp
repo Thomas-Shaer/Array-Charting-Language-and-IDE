@@ -9,6 +9,7 @@
 #include "languageexception.h"
 #include <fstream>
 #include <string>
+#include "chartwindow.h"
 
 
 unsigned int InterpreterContext::ticks = 30;
@@ -52,8 +53,9 @@ void InterpreterContext::execute(const std::string& code) {
 
 		output = std::make_shared<InterpreterOutput>(ticks);
 
-		ast->semanticAnalysis(symboltable, *output);
 
+		ChartWindow::clearAllWindows();
+		ast->semanticAnalysis(symboltable, *output);
 		for (int i = 0; i < ticks; i++) {
 			ast->interpret(i, *output);
 		}		//std::cout << symboltable->toString() << std::endl;
@@ -103,6 +105,8 @@ void InterpreterContext::execute(std::ifstream& myfile) {
 
 		symboltable = std::make_shared<SymbolTable>(SymbolTable::GLOBAL_SYMBOL_TABLE);
 		output = std::make_shared<InterpreterOutput>(ticks);
+
+		ChartWindow::clearAllWindows();
 		ast->semanticAnalysis(symboltable, *output);
 		for (int i = 0; i < ticks; i++) {
 			ast->interpret(i, *output);

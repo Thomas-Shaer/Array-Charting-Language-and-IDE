@@ -9,12 +9,59 @@
 #include "screenshot.h"
 #include "jsonsettings.h"
 
-ImGui::FileBrowser ChartWindowSingleton::fbSave(ImGuiFileBrowserFlags_EnterNewFilename);
-bool ChartWindowSingleton::exportWithBorder = false;
-bool ChartWindowSingleton::exportWithOutBorder = false;
+ImGui::FileBrowser ChartWindow::fbSave(ImGuiFileBrowserFlags_EnterNewFilename);
+bool ChartWindow::exportWithBorder = false;
+bool ChartWindow::exportWithOutBorder = false;
+std::map<int, ChartWindow> ChartWindow::allChartWindows;
+int ChartWindow::exportWindowId = 0;
 
 
-void ChartWindowSingleton::initFileBrowserSave() {
+
+ChartWindow::ChartWindow(unsigned int id) : chart_id(id) {
+
+    TITLE = "Chart Screen (" + std::to_string(chart_id) + ")"; 
+}
+
+
+
+
+void ChartWindow::clearAllWindows() {
+    //std::cout << ChartWindow::allChartWindows.size() << std::endl;
+    for (auto& window : ChartWindow::allChartWindows) {
+        window.second.reset();
+    }
+}
+
+void ChartWindow::renderAllWindows() {
+    bool temp = true;
+    for (auto& window : ChartWindow::allChartWindows) {
+        window.second.ShowChartWindow(&temp);
+    }
+}
+
+void ChartWindow::updateAllCharts() {
+    for (auto& window : ChartWindow::allChartWindows) {
+        window.second.UpdateChart();
+    }
+}
+
+void ChartWindow::reset() {
+    CHART_LINE_DATA.clear();
+    CHART_MARK_DATA.clear();
+}
+
+
+ChartWindow* ChartWindow::getOrCreateChartWindow(unsigned int id) {
+    auto find = allChartWindows.find(id);
+    if (find == allChartWindows.end()) {
+        allChartWindows[id] = ChartWindow(id);
+    }
+    return &allChartWindows[id];
+}
+
+
+
+void ChartWindow::initFileBrowserSave() {
     fbSave.SetPwd(std::filesystem::path(Settings::settingsFile["lastScreenshotExportDirectory"].get<std::string>()));
 
 
@@ -25,20 +72,19 @@ void ChartWindowSingleton::initFileBrowserSave() {
 
 
 
-static std::string TITLE = "Chart Screen";
 
-void UpdateChart() {
+void ChartWindow::UpdateChart() {
     unsigned int maxSize = 0;
-    for (auto line : DisplayInformation::CHART_LINE_DATA) {
+    for (auto line : CHART_LINE_DATA) {
         maxSize = line->data.size() > maxSize ? line->data.size() : maxSize;
     }
-    TITLE = "Chart Screen: displaying " + std::to_string(DisplayInformation::CHART_LINE_DATA.size() + DisplayInformation::CHART_MARK_DATA.size()) + " plot(s) of size " + std::to_string(maxSize);
+    TITLE = "Chart Screen (" + std::to_string(chart_id) + "): displaying " + std::to_string(CHART_LINE_DATA.size() + CHART_MARK_DATA.size()) + " plot(s) of size " + std::to_string(maxSize);
     ImPlot::SetNextAxisToFit(ImAxis_X1);
     ImPlot::SetNextAxisToFit(ImAxis_Y1);
 }
 
 
-void ShowChartWindow(bool* p_open) {
+void ChartWindow::ShowChartWindow(bool* p_open) {
 
     ImGui::SetNextWindowSize(ImVec2(400, 500), ImGuiCond_FirstUseEver | ImGuiWindowFlags_AlwaysAutoResize);
     //ImGui::SetNextWindowPos(ImVec2(0, 0)), ImGuiCond_FirstUseEver;
@@ -50,7 +96,6 @@ void ShowChartWindow(bool* p_open) {
 
 
     static bool antiAliasing = Settings::settingsFile["chartAntiAliasing"].get<bool>();
-    static bool exportChart = false;
     bool exportAs = false;
     static std::string exportName = "";
 
@@ -60,10 +105,12 @@ void ShowChartWindow(bool* p_open) {
         if (ImGui::BeginMenu("File")) {
             if (ImGui::BeginMenu("Export as...")) {
                 if (ImGui::MenuItem("Border", NULL, &exportAs)) {
-                    ChartWindowSingleton::exportWithBorder = true;
+                    ChartWindow::exportWindowId = chart_id;
+                    ChartWindow::exportWithBorder = true;
                 }
                 if (ImGui::MenuItem("No Border", NULL, &exportAs)) {
-                    ChartWindowSingleton::exportWithOutBorder = true;
+                    ChartWindow::exportWindowId = chart_id;
+                    ChartWindow::exportWithOutBorder = true;
                 }
 
 
@@ -74,9 +121,12 @@ void ShowChartWindow(bool* p_open) {
         }
         if (ImGui::BeginMenu("Chart")) {
             if (ImGui::MenuItem("Clear")) {
-                DisplayInformation::CHART_LINE_DATA.clear();
-                DisplayInformation::CHART_MARK_DATA.clear();
+                reset();
                 UpdateChart();
+            }
+            if (ImGui::MenuItem("Show Key", NULL, showName)) {
+                showName = !showName;
+                //Settings::settingsFile["chartAntiAliasing"] = antiAliasing;
             }
             
             ImGui::EndMenu();
@@ -98,7 +148,7 @@ void ShowChartWindow(bool* p_open) {
 
 
     if (exportAs) {
-        ChartWindowSingleton::fbSave.Open();
+        ChartWindow::fbSave.Open();
     }
 
     int chartX = 0, chartY = 0, chartWidth = 0, chartHeight = 0;
@@ -120,7 +170,6 @@ void ShowChartWindow(bool* p_open) {
 
     //ImPlot::StyleColorsAuto();
     ImPlot::PushStyleColor(ImPlotCol_FrameBg, { 0.152,0.286,0.447,1 });
-
     if (ImPlot::BeginPlot("Line Plot", ImVec2(-1, -1))) {
         ImPlot::PushColormap(ImPlotColormap_Paired);
 
@@ -138,15 +187,17 @@ void ShowChartWindow(bool* p_open) {
 
 
         int i = 0;
-        for (auto line : DisplayInformation::CHART_LINE_DATA) {
+        for (auto line : CHART_LINE_DATA) {
+            std::string name = showName ? line->plotName : "";
             ImPlot::PushStyleColor(ImPlotCol_Line, ImPlot::GetColormapColor(i));
-            ImPlot::PlotLine(line->plotName.c_str(), line->data.data(), line->data.size());
+            ImPlot::PlotLine(name.c_str(), line->data.data(), line->data.size());
             ImPlot::PopStyleColor();
             i++;
         }
-        for (auto line : DisplayInformation::CHART_MARK_DATA) {
+        for (auto line : CHART_MARK_DATA) {
+            std::string name = showName ? line->plotName : "";
             ImPlot::PushStyleColor(ImPlotCol_Line, ImPlot::GetColormapColor(i));
-            ImPlot::PlotScatter(line->plotName.c_str(), line->data.data(), line->data.size());
+            ImPlot::PlotScatter(name.c_str(), line->data.data(), line->data.size());
             ImPlot::PopStyleColor();
             i++;
         }
@@ -157,37 +208,43 @@ void ShowChartWindow(bool* p_open) {
 
     }
     ImPlot::PopStyleColor(1);
-    if (exportChart) {
-        if (ChartWindowSingleton::exportWithBorder) {
-            ImageBuf::capture(chartAxisX, chartAxisY, chartAxisWidth, chartAxisHeight, exportName);
-            ChartWindowSingleton::exportWithBorder = false;
+
+
+
+    if (ChartWindow::exportWindowId == chart_id) {
+
+        if (exportChart) {
+            if (ChartWindow::exportWithBorder) {
+                ImageBuf::capture(chartAxisX, chartAxisY, chartAxisWidth, chartAxisHeight, exportName);
+                ChartWindow::exportWithBorder = false;
+
+            }
+            else if (ChartWindow::exportWithOutBorder) {
+                ImageBuf::capture(chartX, chartY, chartWidth, chartHeight, exportName);
+                ChartWindow::exportWithOutBorder = false;
+            }
+
+            exportChart = false;
+        }
+
+        if (ChartWindow::fbSave.IsOpened()) {
+            Settings::settingsFile["lastScreenshotExportDirectory"] = ChartWindow::fbSave.GetPwd().root_path().generic_string() + (ChartWindow::fbSave.GetPwd().relative_path()).generic_string();
+        }
+
+        if (ChartWindow::fbSave.HasSelected())
+        {
+            std::string fullPath = ChartWindow::fbSave.GetSelected().string() + ".png";
+            exportName = fullPath;
+            exportChart = true;
+            ChartWindow::fbSave.ClearSelected();
 
         }
-        else if (ChartWindowSingleton::exportWithOutBorder) {
-            ImageBuf::capture(chartX, chartY, chartWidth, chartHeight, exportName);
-            ChartWindowSingleton::exportWithOutBorder = false;
-        }
-
-        exportChart = false;
     }
-
-
-    if (ChartWindowSingleton::fbSave.IsOpened()) {
-        Settings::settingsFile["lastScreenshotExportDirectory"] = ChartWindowSingleton::fbSave.GetPwd().root_path().generic_string() + (ChartWindowSingleton::fbSave.GetPwd().relative_path()).generic_string();
-    }
-
-    if (ChartWindowSingleton::fbSave.HasSelected())
-    {
-        std::string fullPath = ChartWindowSingleton::fbSave.GetSelected().string() + ".png";
-        exportName = fullPath;
-        exportChart = true;
-        ChartWindowSingleton::fbSave.ClearSelected();
-
-    }
+    
+    
 
 
     ImGui::End();
-    ChartWindowSingleton::fbSave.Display();
 
 }
 

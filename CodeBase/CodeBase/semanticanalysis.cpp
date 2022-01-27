@@ -4,6 +4,7 @@
 #include "methodsymbol.h"
 #include "methodbucket.h"
 #include "typesymbol.h"
+#include "argumentsymbol.h"
 
 void BlockNode::semanticAnalysis(std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output) {
 	for (Statement* statement : statementNodes) {
@@ -12,7 +13,7 @@ void BlockNode::semanticAnalysis(std::shared_ptr<SymbolTable> symboltable, Inter
 }
 
 const TypeSymbol* NumberNode::semanticAnalysis(std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output) {
-	return TypeInstances::GetFloatInstance();
+	return TypeInstances::GetFloatConstantInstance();
 }
 
 const TypeSymbol* BooleanNode::semanticAnalysis(std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output) {
@@ -45,6 +46,13 @@ void AssignNode::semanticAnalysis(std::shared_ptr<SymbolTable> symboltable, Inte
 		throw LanguageException("Void is not a assignable type.");
 	}
 
+	// x = 2
+	// store as float, not float_constant
+	if (rhsType == TypeInstances::GetFloatConstantInstance()) {
+		rhsType = TypeInstances::GetFloatInstance();
+	}
+
+
 	// variable already declared therefore right side type should be same as left side type
 	if (symboltable->isVariableDeclared(name)) {
 		varSymbol = symboltable->getVariable(name);
@@ -73,9 +81,9 @@ const TypeSymbol* MethodCallNode::semanticAnalysis(std::shared_ptr<SymbolTable> 
 		throw LanguageException("No method called " + name);
 	}
 
-	std::vector<const TypeSymbol*> argTypes;
+	std::vector<std::shared_ptr<ArgumentSymbol>> argTypes;
 	for (Expression* expr : arguments) {
-		argTypes.push_back(expr->semanticAnalysis(symboltable, output));
+		argTypes.push_back(std::make_shared<ArgumentSymbol>(expr->semanticAnalysis(symboltable, output), expr));
 	}
 
 	this->methodsymbol = symboltable->getMethod(name)->getMethodSymbol(argTypes)->clone();

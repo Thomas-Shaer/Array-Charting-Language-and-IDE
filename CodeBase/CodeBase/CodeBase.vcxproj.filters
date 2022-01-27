@@ -183,6 +183,9 @@
     <ClCompile Include="screenshot.cpp">
       <Filter>Source Files\GUI</Filter>
     </ClCompile>
+    <ClCompile Include="argumentsymbol.cpp">
+      <Filter>Source Files\Symbol</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bison.tab.h">
@@ -328,6 +331,9 @@
     </ClInclude>
     <ClInclude Include="screenshot.h">
       <Filter>Source Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="argumentsymbol.h">
+      <Filter>Source Files\Symbol</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

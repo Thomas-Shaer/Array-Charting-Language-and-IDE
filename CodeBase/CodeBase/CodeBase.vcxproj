@@ -156,6 +156,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="argumentsymbol.cpp" />
     <ClCompile Include="boolean.cpp" />
     <ClCompile Include="chartplot.cpp" />
     <ClCompile Include="datamanagerwindow.cpp" />
@@ -198,6 +199,7 @@
     <ClCompile Include="varsymbol.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="argumentsymbol.h" />
     <ClInclude Include="chartplot.h" />
     <ClInclude Include="datamanagerwindow.h" />
     <ClInclude Include="dataparseexception.h" />

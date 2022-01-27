@@ -150,9 +150,9 @@ void executeCode(const std::string& code) {
     if (context.symboltable) {
         DisplayInformation::CODE_OUTPUT_VARIABLES = context.symboltable->variablesToVector(true);
     }
-    DisplayInformation::CHART_LINE_DATA = context.output->chartData;
-    DisplayInformation::CHART_MARK_DATA = context.output->markData;
-    UpdateChart();
+    //ChartWindow::getOrCreateChartWindow(0)->CHART_LINE_DATA = context.output->chartData;
+    //ChartWindow::getOrCreateChartWindow(0)->CHART_MARK_DATA = context.output->markData;
+    ChartWindow::updateAllCharts();
 }
 
 
