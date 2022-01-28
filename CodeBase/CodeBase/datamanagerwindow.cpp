@@ -52,7 +52,16 @@ void loadInData(const ImportPolicy importPolicy, const std::string& pathName, co
 void createNewVariable(std::shared_ptr<InputData> data, const std::string& variableName) {
     data->isVariable = true;
     data->variableName = variableName;
-    std::shared_ptr<VarSymbol> varSymbol = std::make_shared<VarSymbol>(data->variableName, TypeInstances::GetFloatInstance(), data->data);
+    std::shared_ptr<VarSymbol> varSymbol = VarSymbol::createVarSymbol(data->variableName, TypeInstances::GetFloatInstance(), data->data);
+    SymbolTable::GLOBAL_SYMBOL_TABLE->variableTable[data->variableName] = varSymbol;
+    UpdateVariablesTab();
+}
+
+void renameVariable(std::shared_ptr<InputData> data, const std::string& variableName) {
+    std::shared_ptr<VarSymbol> oldSymbol = SymbolTable::GLOBAL_SYMBOL_TABLE->variableTable[data->variableName];
+    SymbolTable::GLOBAL_SYMBOL_TABLE->variableTable.erase(SymbolTable::GLOBAL_SYMBOL_TABLE->variableTable.find(data->variableName));
+    data->variableName = variableName;
+    std::shared_ptr<VarSymbol> varSymbol = VarSymbol::createVarSymbol(data->variableName, TypeInstances::GetFloatInstance(), oldSymbol->getValues());
     SymbolTable::GLOBAL_SYMBOL_TABLE->variableTable[data->variableName] = varSymbol;
     UpdateVariablesTab();
 }
@@ -111,6 +120,7 @@ void ShowDataWindow() {
     static char defaultTrue[40];
     static char defaultFalse[40];
     static char defaultNAN[40];
+    static std::string variableNameMessage = "";
 
     if (ImGui::BeginMenuBar()) {
 
@@ -294,7 +304,6 @@ void ShowDataWindow() {
 
 
         if (ImGui::Selectable(std::string(std::to_string(i + 1) + ") " + DisplayInformation::LOADED_IN_DATA.at(i)->name).c_str())) {
-            std::cout << i << std::endl;
             selected = i;
             std::string name = makeVariableName(data->name);
             strncpy_s(characters, name.c_str(), sizeof(characters));
@@ -356,6 +365,8 @@ void ShowDataWindow() {
         ImGui::NewLine();
         ImGui::Text((std::string("Size: ") + std::to_string(data->data.size())).c_str());
         ImGui::NewLine();
+        ImGui::Text(variableNameMessage.c_str());
+
         ImGui::PushItemWidth(200);
         ImGui::Text("Variable name (40 char)");
         ImGui::InputText("##variablename", characters, sizeof(characters));
@@ -373,7 +384,14 @@ void ShowDataWindow() {
             ImGui::EndDisabled();
         }
         if (createVariable) {
-            createNewVariable(data, std::string(characters));
+
+            if (VarSymbol::isValidName(std::string(characters))) {
+                createNewVariable(data, std::string(characters));
+                variableNameMessage = "";
+            }
+            else {
+                variableNameMessage = "Not a valid variable name " + std::string(characters);
+            }
         }
 
         if (data->isVariable) {
@@ -381,12 +399,14 @@ void ShowDataWindow() {
             Could be optimised, recreates entire variable symbol rather then just changing the symbol name.
             */
             if (ImGui::Button("Rename Variable")) {
-                std::shared_ptr<VarSymbol> oldSymbol = SymbolTable::GLOBAL_SYMBOL_TABLE->variableTable[data->variableName];
-                SymbolTable::GLOBAL_SYMBOL_TABLE->variableTable.erase(SymbolTable::GLOBAL_SYMBOL_TABLE->variableTable.find(data->variableName));
-                data->variableName = std::string(characters);
-                std::shared_ptr<VarSymbol> varSymbol = std::make_shared<VarSymbol>(data->variableName, TypeInstances::GetFloatInstance(), oldSymbol->getValues());
-                SymbolTable::GLOBAL_SYMBOL_TABLE->variableTable[data->variableName] = varSymbol;
-                UpdateVariablesTab();
+
+                if (VarSymbol::isValidName(std::string(characters))) {
+                    renameVariable(data, std::string(characters));
+                    variableNameMessage = "";
+                }
+                else {
+                    variableNameMessage = "Not a valid variable name " + std::string(characters);
+                }
             }
 
 

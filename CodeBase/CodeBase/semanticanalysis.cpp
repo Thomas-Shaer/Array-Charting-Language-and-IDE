@@ -67,7 +67,8 @@ void AssignNode::semanticAnalysis(std::shared_ptr<SymbolTable> symboltable, Inte
 	}
 	// variable not declared register new variable
 	else {
-		varSymbol = std::make_shared<VarSymbol>(name, rhsType);
+		varSymbol = VarSymbol::createVarSymbol(name, rhsType);
+
 
 		symboltable->declareVariable(varSymbol);
 	}

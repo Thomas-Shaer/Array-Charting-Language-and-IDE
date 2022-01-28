@@ -13,6 +13,7 @@
 #include <sstream> //std::stringstream
 #include "inputdata.h"
 #include "datamanagerwindow.h"
+#include "dataparseexception.h"
 
 ImGui::FileBrowser TextEditorSingleton::fbSave(ImGuiFileBrowserFlags_EnterNewFilename);
 ImGui::FileBrowser TextEditorSingleton::fbOpen;
@@ -82,7 +83,12 @@ void loadFile(const std::string& filePath) {
 
         for (std::shared_ptr<InputData> data : DisplayInformation::LOADED_IN_DATA) {
             if (data->name == dataName) {
-                createNewVariable(data, variableName);
+                try {
+                    createNewVariable(data, variableName);
+                }
+                catch (DataParseException e) {
+                    std::cout << e.message << std::endl;
+                }
             }
         }
 

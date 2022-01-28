@@ -134,7 +134,6 @@ int start()
         ImGui_ImplOpenGL3_NewFrame();
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
-
         //Settings::settingsFile["windowwidth"] = ImGui::GetWindowWidth();
                 //Settings::settingsFile["windowheight"] = ImGui::GetWindowHeight();
         //ChartWindow::clearAllWindows();
