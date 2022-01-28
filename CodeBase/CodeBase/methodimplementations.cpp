@@ -134,6 +134,48 @@ ExpressionValue BinaryMultiplyOperator::interpret(const unsigned int tick, std::
 }
 
 
+
+
+BinaryPowOperator::BinaryPowOperator(const std::string& _name) : MethodSymbol(_name,
+	"Raises number by power of another.",
+	{
+	ParameterSymbol(TypeInstances::GetFloatInstance(), "lhs", "The left hand side of the power operation."),
+	ParameterSymbol(TypeInstances::GetFloatInstance(), "rhs", "The rhs hand side of the power operation.")
+
+
+	}, ReturnSymbol(TypeInstances::GetFloatInstance(), "Result of the power operator")) {}
+
+ExpressionValue BinaryPowOperator::interpret(const unsigned int tick, std::vector<ExpressionValue> _argumentValues, InterpreterOutput& output) {
+	// if any argument is a NAN return NAN
+	if (!boost::get<Float>(_argumentValues[0]).value || !boost::get<Float>(_argumentValues[1]).value) {
+		return Float();
+	}
+	return Float(std::powf(*boost::get<Float>(_argumentValues[0]).value, *boost::get<Float>(_argumentValues[1]).value));
+}
+
+
+
+BinaryModOperator::BinaryModOperator(const std::string& _name) : MethodSymbol(_name,
+	"Applies modulus operator to number",
+	{
+	ParameterSymbol(TypeInstances::GetFloatInstance(), "lhs", "The left hand side of the modulus operation."),
+	ParameterSymbol(TypeInstances::GetFloatInstance(), "rhs", "The rhs hand side of the modulus operation.")
+
+
+	}, ReturnSymbol(TypeInstances::GetFloatInstance(), "Result of the modulus operator")) {}
+
+ExpressionValue BinaryModOperator::interpret(const unsigned int tick, std::vector<ExpressionValue> _argumentValues, InterpreterOutput& output) {
+	// if any argument is a NAN return NAN
+	if (!boost::get<Float>(_argumentValues[0]).value || !boost::get<Float>(_argumentValues[1]).value) {
+		return Float();
+	}
+	return Float(std::fmod(*boost::get<Float>(_argumentValues[0]).value, *boost::get<Float>(_argumentValues[1]).value));
+}
+
+
+
+
+
 BinaryLessOperator::BinaryLessOperator(const std::string& _name) : MethodSymbol(_name, 
 	"Performs less than operator on two numbers.",
 	{ 

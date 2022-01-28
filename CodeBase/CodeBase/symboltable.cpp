@@ -152,6 +152,10 @@ std::shared_ptr<SymbolTable> SymbolTable::GLOBAL_SYMBOL_TABLE = std::make_shared
 	registerMethod("operator" + token_name(yy::parser::token::TAND), new SingleMethodBucket(new BinaryAndOperator("operator" + token_name(yy::parser::token::TAND)),METHOD_TYPE::OPERATOR)),
 	registerMethod("operator" + token_name(yy::parser::token::TOR), new SingleMethodBucket(new BinaryOrOperator("operator" + token_name(yy::parser::token::TOR)),METHOD_TYPE::OPERATOR)),
 
+
+		registerMethod("operator" + token_name(yy::parser::token::TPOW), new SingleMethodBucket(new BinaryPowOperator("operator" + token_name(yy::parser::token::TPOW)), METHOD_TYPE::OPERATOR)),
+		registerMethod("operator" + token_name(yy::parser::token::TMOD), new SingleMethodBucket(new BinaryModOperator("operator" + token_name(yy::parser::token::TMOD)), METHOD_TYPE::OPERATOR)),
+
 	}),
 	
 

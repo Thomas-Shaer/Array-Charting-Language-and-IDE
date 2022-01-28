@@ -26,15 +26,6 @@ void ShowDocumentationWindow() {
                     }
                 }
             }
-            //ImGui::Flag
-
-            /*for (auto symbol : SymbolTable::GLOBAL_SYMBOL_TABLE->methodTable) {
-                MethodBucket* bucket = symbol.second;
-                if (ImGui::CollapsingHeader(symbol.first.c_str())) {
-                    bucket->renderAsDocumentation();
-
-                }
-            }*/
                 
             ImGui::EndChild();
             ImGui::EndTabItem();

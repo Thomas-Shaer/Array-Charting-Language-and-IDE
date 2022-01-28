@@ -94,6 +94,24 @@ public:
 };
 
 
+class BinaryModOperator : public MethodSymbol {
+public:
+	BinaryModOperator(const std::string& _name);
+	virtual ExpressionValue interpret(const unsigned int tick, std::vector<ExpressionValue> _argumentValues, InterpreterOutput& output);
+	virtual BinaryModOperator* clone() {
+		return new BinaryModOperator(name);
+	}
+};
+
+class BinaryPowOperator : public MethodSymbol {
+public:
+	BinaryPowOperator(const std::string& _name);
+	virtual ExpressionValue interpret(const unsigned int tick, std::vector<ExpressionValue> _argumentValues, InterpreterOutput& output);
+	virtual BinaryPowOperator* clone() {
+		return new BinaryPowOperator(name);
+	}
+};
+
 class BinaryLessOperator : public MethodSymbol {
 public:
 	BinaryLessOperator(const std::string& _name);

@@ -217,6 +217,8 @@ namespace yy {
       case symbol_kind::S_TMUL: // "*"
       case symbol_kind::S_TDIV: // "/"
       case symbol_kind::S_TASSIGN: // "="
+      case symbol_kind::S_TPOW: // "^"
+      case symbol_kind::S_TMOD: // "%"
       case symbol_kind::S_TLESS: // "<"
       case symbol_kind::S_TLESSEQUAL: // "<="
       case symbol_kind::S_TGREATER: // ">"
@@ -327,6 +329,8 @@ namespace yy {
       case symbol_kind::S_TMUL: // "*"
       case symbol_kind::S_TDIV: // "/"
       case symbol_kind::S_TASSIGN: // "="
+      case symbol_kind::S_TPOW: // "^"
+      case symbol_kind::S_TMOD: // "%"
       case symbol_kind::S_TLESS: // "<"
       case symbol_kind::S_TLESSEQUAL: // "<="
       case symbol_kind::S_TGREATER: // ">"
@@ -504,6 +508,8 @@ namespace yy {
       case symbol_kind::S_TMUL: // "*"
       case symbol_kind::S_TDIV: // "/"
       case symbol_kind::S_TASSIGN: // "="
+      case symbol_kind::S_TPOW: // "^"
+      case symbol_kind::S_TMOD: // "%"
       case symbol_kind::S_TLESS: // "<"
       case symbol_kind::S_TLESSEQUAL: // "<="
       case symbol_kind::S_TGREATER: // ">"
@@ -600,6 +606,8 @@ namespace yy {
       case symbol_kind::S_TMUL: // "*"
       case symbol_kind::S_TDIV: // "/"
       case symbol_kind::S_TASSIGN: // "="
+      case symbol_kind::S_TPOW: // "^"
+      case symbol_kind::S_TMOD: // "%"
       case symbol_kind::S_TLESS: // "<"
       case symbol_kind::S_TLESSEQUAL: // "<="
       case symbol_kind::S_TGREATER: // ">"
@@ -696,6 +704,8 @@ namespace yy {
       case symbol_kind::S_TMUL: // "*"
       case symbol_kind::S_TDIV: // "/"
       case symbol_kind::S_TASSIGN: // "="
+      case symbol_kind::S_TPOW: // "^"
+      case symbol_kind::S_TMOD: // "%"
       case symbol_kind::S_TLESS: // "<"
       case symbol_kind::S_TLESSEQUAL: // "<="
       case symbol_kind::S_TGREATER: // ">"
@@ -790,6 +800,8 @@ namespace yy {
       case symbol_kind::S_TMUL: // "*"
       case symbol_kind::S_TDIV: // "/"
       case symbol_kind::S_TASSIGN: // "="
+      case symbol_kind::S_TPOW: // "^"
+      case symbol_kind::S_TMOD: // "%"
       case symbol_kind::S_TLESS: // "<"
       case symbol_kind::S_TLESSEQUAL: // "<="
       case symbol_kind::S_TGREATER: // ">"
@@ -1124,6 +1136,8 @@ namespace yy {
       case symbol_kind::S_TMUL: // "*"
       case symbol_kind::S_TDIV: // "/"
       case symbol_kind::S_TASSIGN: // "="
+      case symbol_kind::S_TPOW: // "^"
+      case symbol_kind::S_TMOD: // "%"
       case symbol_kind::S_TLESS: // "<"
       case symbol_kind::S_TLESSEQUAL: // "<="
       case symbol_kind::S_TGREATER: // ">"
@@ -1175,55 +1189,55 @@ namespace yy {
                 { 
 				   *inputnode = yystack_[0].value.as < BlockNode* > ();
 				}
-#line 1179 "bison.tab.cpp"
+#line 1193 "bison.tab.cpp"
     break;
 
   case 3: // stmts: stmt
 #line 84 "bison.y"
              { yylhs.value.as < BlockNode* > () = new BlockNode(); yylhs.value.as < BlockNode* > ()->statementNodes.push_back(yystack_[0].value.as < Statement* > ()); }
-#line 1185 "bison.tab.cpp"
+#line 1199 "bison.tab.cpp"
     break;
 
   case 4: // stmts: stmts stmt
 #line 85 "bison.y"
                    { yystack_[1].value.as < BlockNode* > ()->statementNodes.push_back(yystack_[0].value.as < Statement* > ()); yylhs.value.as < BlockNode* > () = yystack_[1].value.as < BlockNode* > (); }
-#line 1191 "bison.tab.cpp"
+#line 1205 "bison.tab.cpp"
     break;
 
   case 5: // stmts: %empty
 #line 86 "bison.y"
                       { yylhs.value.as < BlockNode* > () = new BlockNode(); }
-#line 1197 "bison.tab.cpp"
+#line 1211 "bison.tab.cpp"
     break;
 
   case 6: // stmt: assign
 #line 89 "bison.y"
               {yylhs.value.as < Statement* > () = yystack_[0].value.as < AssignNode* > ();}
-#line 1203 "bison.tab.cpp"
+#line 1217 "bison.tab.cpp"
     break;
 
   case 7: // stmt: exprstmt
 #line 90 "bison.y"
                 {yylhs.value.as < Statement* > () = yystack_[0].value.as < ExpressionStatementNode* > ();}
-#line 1209 "bison.tab.cpp"
+#line 1223 "bison.tab.cpp"
     break;
 
   case 8: // stmt: ifstmt
 #line 91 "bison.y"
               {yylhs.value.as < Statement* > () = yystack_[0].value.as < IfStatementNode* > ();}
-#line 1215 "bison.tab.cpp"
+#line 1229 "bison.tab.cpp"
     break;
 
   case 9: // exprstmt: method
 #line 94 "bison.y"
                   {yylhs.value.as < ExpressionStatementNode* > () = new ExpressionStatementNode(yystack_[0].value.as < MethodCallNode* > ());}
-#line 1221 "bison.tab.cpp"
+#line 1235 "bison.tab.cpp"
     break;
 
   case 10: // exprstmt: ternary
 #line 95 "bison.y"
                    {yylhs.value.as < ExpressionStatementNode* > () = new ExpressionStatementNode(yystack_[0].value.as < TernaryNode* > ());}
-#line 1227 "bison.tab.cpp"
+#line 1241 "bison.tab.cpp"
     break;
 
   case 11: // ifstmt: "if" "(" expr ")" "{" stmts "}"
@@ -1231,203 +1245,215 @@ namespace yy {
                                                                           { 
 										yylhs.value.as < IfStatementNode* > () = new IfStatementNode(yystack_[4].value.as < Expression* > (), yystack_[1].value.as < BlockNode* > ());
 									  }
-#line 1235 "bison.tab.cpp"
+#line 1249 "bison.tab.cpp"
     break;
 
   case 12: // identifier: TIDENTIFIER
 #line 103 "bison.y"
                          {yylhs.value.as < IdentifierNode* > () = new IdentifierNode(yystack_[0].value.as < std::string > ());}
-#line 1241 "bison.tab.cpp"
+#line 1255 "bison.tab.cpp"
     break;
 
   case 13: // assign: TIDENTIFIER "=" expr
 #line 107 "bison.y"
                                   {yylhs.value.as < AssignNode* > () = new AssignNode(yystack_[2].value.as < std::string > (), yystack_[0].value.as < Expression* > ());}
-#line 1247 "bison.tab.cpp"
+#line 1261 "bison.tab.cpp"
     break;
 
   case 14: // expr: numeric
 #line 110 "bison.y"
                { yylhs.value.as < Expression* > () = yystack_[0].value.as < NumberNode* > (); }
-#line 1253 "bison.tab.cpp"
+#line 1267 "bison.tab.cpp"
     break;
 
   case 15: // expr: boolean
 #line 111 "bison.y"
                {yylhs.value.as < Expression* > ()=yystack_[0].value.as < BooleanNode* > ();}
-#line 1259 "bison.tab.cpp"
+#line 1273 "bison.tab.cpp"
     break;
 
   case 16: // expr: method
 #line 112 "bison.y"
               {yylhs.value.as < Expression* > ()=yystack_[0].value.as < MethodCallNode* > ();}
-#line 1265 "bison.tab.cpp"
+#line 1279 "bison.tab.cpp"
     break;
 
   case 17: // expr: identifier
 #line 113 "bison.y"
                   {yylhs.value.as < Expression* > () = yystack_[0].value.as < IdentifierNode* > (); }
-#line 1271 "bison.tab.cpp"
+#line 1285 "bison.tab.cpp"
     break;
 
   case 18: // expr: "(" expr ")"
 #line 114 "bison.y"
                                        {yylhs.value.as < Expression* > () = yystack_[1].value.as < Expression* > (); }
-#line 1277 "bison.tab.cpp"
+#line 1291 "bison.tab.cpp"
     break;
 
   case 19: // expr: ternary
 #line 115 "bison.y"
                {yylhs.value.as < Expression* > () =  yystack_[0].value.as < TernaryNode* > (); }
-#line 1283 "bison.tab.cpp"
+#line 1297 "bison.tab.cpp"
     break;
 
   case 20: // expr: expr "*" expr
 #line 116 "bison.y"
                       {yylhs.value.as < Expression* > () =  new MethodCallNode("operator" + token_name(yystack_[1].value.as < int > ()), {yystack_[2].value.as < Expression* > (), yystack_[0].value.as < Expression* > ()}); }
-#line 1289 "bison.tab.cpp"
+#line 1303 "bison.tab.cpp"
     break;
 
   case 21: // expr: expr "/" expr
 #line 117 "bison.y"
                       {yylhs.value.as < Expression* > () =  new MethodCallNode("operator" + token_name(yystack_[1].value.as < int > ()), {yystack_[2].value.as < Expression* > (), yystack_[0].value.as < Expression* > ()}); }
-#line 1295 "bison.tab.cpp"
+#line 1309 "bison.tab.cpp"
     break;
 
   case 22: // expr: expr "+" expr
 #line 118 "bison.y"
                        {yylhs.value.as < Expression* > () =  new MethodCallNode("operator" + token_name(yystack_[1].value.as < int > ()), {yystack_[2].value.as < Expression* > (), yystack_[0].value.as < Expression* > ()}); }
-#line 1301 "bison.tab.cpp"
+#line 1315 "bison.tab.cpp"
     break;
 
   case 23: // expr: expr "-" expr
 #line 119 "bison.y"
                         {yylhs.value.as < Expression* > () =  new MethodCallNode("operator" + token_name(yystack_[1].value.as < int > ()), {yystack_[2].value.as < Expression* > (), yystack_[0].value.as < Expression* > ()}); }
-#line 1307 "bison.tab.cpp"
+#line 1321 "bison.tab.cpp"
     break;
 
   case 24: // expr: expr "<" expr
 #line 120 "bison.y"
                        {yylhs.value.as < Expression* > () =  new MethodCallNode("operator" + token_name(yystack_[1].value.as < int > ()), {yystack_[2].value.as < Expression* > (), yystack_[0].value.as < Expression* > ()}); }
-#line 1313 "bison.tab.cpp"
+#line 1327 "bison.tab.cpp"
     break;
 
-  case 25: // expr: expr "<=" expr
+  case 25: // expr: expr "^" expr
 #line 121 "bison.y"
-                            {yylhs.value.as < Expression* > () =  new MethodCallNode("operator" + token_name(yystack_[1].value.as < int > ()), {yystack_[2].value.as < Expression* > (), yystack_[0].value.as < Expression* > ()}); }
-#line 1319 "bison.tab.cpp"
-    break;
-
-  case 26: // expr: expr ">" expr
-#line 122 "bison.y"
-                          {yylhs.value.as < Expression* > () =  new MethodCallNode("operator" + token_name(yystack_[1].value.as < int > ()), {yystack_[2].value.as < Expression* > (), yystack_[0].value.as < Expression* > ()}); }
-#line 1325 "bison.tab.cpp"
-    break;
-
-  case 27: // expr: expr ">=" expr
-#line 123 "bison.y"
-                               {yylhs.value.as < Expression* > () =  new MethodCallNode("operator" + token_name(yystack_[1].value.as < int > ()), {yystack_[2].value.as < Expression* > (), yystack_[0].value.as < Expression* > ()}); }
-#line 1331 "bison.tab.cpp"
-    break;
-
-  case 28: // expr: expr "!=" expr
-#line 124 "bison.y"
-                           {yylhs.value.as < Expression* > () =  new MethodCallNode("operator" + token_name(yystack_[1].value.as < int > ()), {yystack_[2].value.as < Expression* > (), yystack_[0].value.as < Expression* > ()}); }
-#line 1337 "bison.tab.cpp"
-    break;
-
-  case 29: // expr: expr "==" expr
-#line 125 "bison.y"
-                        {yylhs.value.as < Expression* > () =  new MethodCallNode("operator" + token_name(yystack_[1].value.as < int > ()), {yystack_[2].value.as < Expression* > (), yystack_[0].value.as < Expression* > ()}); }
-#line 1343 "bison.tab.cpp"
-    break;
-
-  case 30: // expr: expr "||" expr
-#line 126 "bison.y"
-                     {yylhs.value.as < Expression* > () =  new MethodCallNode("operator" + token_name(yystack_[1].value.as < int > ()), {yystack_[2].value.as < Expression* > (), yystack_[0].value.as < Expression* > ()}); }
-#line 1349 "bison.tab.cpp"
-    break;
-
-  case 31: // expr: expr "&&" expr
-#line 127 "bison.y"
                       {yylhs.value.as < Expression* > () =  new MethodCallNode("operator" + token_name(yystack_[1].value.as < int > ()), {yystack_[2].value.as < Expression* > (), yystack_[0].value.as < Expression* > ()}); }
-#line 1355 "bison.tab.cpp"
+#line 1333 "bison.tab.cpp"
     break;
 
-  case 32: // expr: "+" expr
+  case 26: // expr: expr "%" expr
+#line 122 "bison.y"
+                      {yylhs.value.as < Expression* > () =  new MethodCallNode("operator" + token_name(yystack_[1].value.as < int > ()), {yystack_[2].value.as < Expression* > (), yystack_[0].value.as < Expression* > ()}); }
+#line 1339 "bison.tab.cpp"
+    break;
+
+  case 27: // expr: expr "<=" expr
+#line 123 "bison.y"
+                            {yylhs.value.as < Expression* > () =  new MethodCallNode("operator" + token_name(yystack_[1].value.as < int > ()), {yystack_[2].value.as < Expression* > (), yystack_[0].value.as < Expression* > ()}); }
+#line 1345 "bison.tab.cpp"
+    break;
+
+  case 28: // expr: expr ">" expr
+#line 124 "bison.y"
+                          {yylhs.value.as < Expression* > () =  new MethodCallNode("operator" + token_name(yystack_[1].value.as < int > ()), {yystack_[2].value.as < Expression* > (), yystack_[0].value.as < Expression* > ()}); }
+#line 1351 "bison.tab.cpp"
+    break;
+
+  case 29: // expr: expr ">=" expr
+#line 125 "bison.y"
+                               {yylhs.value.as < Expression* > () =  new MethodCallNode("operator" + token_name(yystack_[1].value.as < int > ()), {yystack_[2].value.as < Expression* > (), yystack_[0].value.as < Expression* > ()}); }
+#line 1357 "bison.tab.cpp"
+    break;
+
+  case 30: // expr: expr "!=" expr
+#line 126 "bison.y"
+                           {yylhs.value.as < Expression* > () =  new MethodCallNode("operator" + token_name(yystack_[1].value.as < int > ()), {yystack_[2].value.as < Expression* > (), yystack_[0].value.as < Expression* > ()}); }
+#line 1363 "bison.tab.cpp"
+    break;
+
+  case 31: // expr: expr "==" expr
+#line 127 "bison.y"
+                        {yylhs.value.as < Expression* > () =  new MethodCallNode("operator" + token_name(yystack_[1].value.as < int > ()), {yystack_[2].value.as < Expression* > (), yystack_[0].value.as < Expression* > ()}); }
+#line 1369 "bison.tab.cpp"
+    break;
+
+  case 32: // expr: expr "||" expr
 #line 128 "bison.y"
-                  {yylhs.value.as < Expression* > () =  new MethodCallNode("operator" + token_name(yystack_[1].value.as < int > ()), {yystack_[0].value.as < Expression* > ()}); }
-#line 1361 "bison.tab.cpp"
+                     {yylhs.value.as < Expression* > () =  new MethodCallNode("operator" + token_name(yystack_[1].value.as < int > ()), {yystack_[2].value.as < Expression* > (), yystack_[0].value.as < Expression* > ()}); }
+#line 1375 "bison.tab.cpp"
     break;
 
-  case 33: // expr: "-" expr
+  case 33: // expr: expr "&&" expr
 #line 129 "bison.y"
-                   {yylhs.value.as < Expression* > () =  new MethodCallNode("operator" + token_name(yystack_[1].value.as < int > ()), {yystack_[0].value.as < Expression* > ()}); }
-#line 1367 "bison.tab.cpp"
+                      {yylhs.value.as < Expression* > () =  new MethodCallNode("operator" + token_name(yystack_[1].value.as < int > ()), {yystack_[2].value.as < Expression* > (), yystack_[0].value.as < Expression* > ()}); }
+#line 1381 "bison.tab.cpp"
     break;
 
-  case 34: // expr: "!" expr
+  case 34: // expr: "+" expr
 #line 130 "bison.y"
+                  {yylhs.value.as < Expression* > () =  new MethodCallNode("operator" + token_name(yystack_[1].value.as < int > ()), {yystack_[0].value.as < Expression* > ()}); }
+#line 1387 "bison.tab.cpp"
+    break;
+
+  case 35: // expr: "-" expr
+#line 131 "bison.y"
+                   {yylhs.value.as < Expression* > () =  new MethodCallNode("operator" + token_name(yystack_[1].value.as < int > ()), {yystack_[0].value.as < Expression* > ()}); }
+#line 1393 "bison.tab.cpp"
+    break;
+
+  case 36: // expr: "!" expr
+#line 132 "bison.y"
                  {yylhs.value.as < Expression* > () =  new MethodCallNode("operator" + token_name(yystack_[1].value.as < int > ()), {yystack_[0].value.as < Expression* > ()}); }
-#line 1373 "bison.tab.cpp"
+#line 1399 "bison.tab.cpp"
     break;
 
-  case 35: // ternary: expr "?" expr ":" expr
-#line 133 "bison.y"
+  case 37: // ternary: expr "?" expr ":" expr
+#line 135 "bison.y"
                                               { yylhs.value.as < TernaryNode* > () = new TernaryNode(yystack_[4].value.as < Expression* > (), yystack_[2].value.as < Expression* > (), yystack_[0].value.as < Expression* > ()); }
-#line 1379 "bison.tab.cpp"
+#line 1405 "bison.tab.cpp"
     break;
 
-  case 36: // numeric: TNUMBER
-#line 137 "bison.y"
+  case 38: // numeric: TNUMBER
+#line 139 "bison.y"
                   { yylhs.value.as < NumberNode* > () = new NumberNode(atoi(yystack_[0].value.as < std::string > ().c_str())); }
-#line 1385 "bison.tab.cpp"
+#line 1411 "bison.tab.cpp"
     break;
 
-  case 37: // numeric: TFLOAT
-#line 138 "bison.y"
+  case 39: // numeric: TFLOAT
+#line 140 "bison.y"
                  { yylhs.value.as < NumberNode* > () = new NumberNode(atof(yystack_[0].value.as < std::string > ().c_str())); }
-#line 1391 "bison.tab.cpp"
+#line 1417 "bison.tab.cpp"
     break;
 
-  case 38: // boolean: "FALSE"
-#line 141 "bison.y"
+  case 40: // boolean: "FALSE"
+#line 143 "bison.y"
                  { yylhs.value.as < BooleanNode* > () = new BooleanNode(false); }
-#line 1397 "bison.tab.cpp"
+#line 1423 "bison.tab.cpp"
     break;
 
-  case 39: // boolean: "TRUE"
-#line 142 "bison.y"
+  case 41: // boolean: "TRUE"
+#line 144 "bison.y"
                 { yylhs.value.as < BooleanNode* > () = new BooleanNode(true); }
-#line 1403 "bison.tab.cpp"
+#line 1429 "bison.tab.cpp"
     break;
 
-  case 40: // method: TIDENTIFIER "(" call_params ")"
-#line 145 "bison.y"
+  case 42: // method: TIDENTIFIER "(" call_params ")"
+#line 147 "bison.y"
                                                             {yylhs.value.as < MethodCallNode* > () = new MethodCallNode(yystack_[3].value.as < std::string > (), yystack_[1].value.as < std::vector<Expression*> > ());}
-#line 1409 "bison.tab.cpp"
+#line 1435 "bison.tab.cpp"
     break;
 
-  case 41: // call_params: %empty
-#line 148 "bison.y"
-                         { yylhs.value.as < std::vector<Expression*> > () = std::vector<Expression*>(); }
-#line 1415 "bison.tab.cpp"
-    break;
-
-  case 42: // call_params: expr
-#line 149 "bison.y"
-                 { yylhs.value.as < std::vector<Expression*> > () = std::vector<Expression*>(); yylhs.value.as < std::vector<Expression*> > ().push_back(yystack_[0].value.as < Expression* > ()); }
-#line 1421 "bison.tab.cpp"
-    break;
-
-  case 43: // call_params: call_params "," expr
+  case 43: // call_params: %empty
 #line 150 "bison.y"
+                         { yylhs.value.as < std::vector<Expression*> > () = std::vector<Expression*>(); }
+#line 1441 "bison.tab.cpp"
+    break;
+
+  case 44: // call_params: expr
+#line 151 "bison.y"
+                 { yylhs.value.as < std::vector<Expression*> > () = std::vector<Expression*>(); yylhs.value.as < std::vector<Expression*> > ().push_back(yystack_[0].value.as < Expression* > ()); }
+#line 1447 "bison.tab.cpp"
+    break;
+
+  case 45: // call_params: call_params "," expr
+#line 152 "bison.y"
                                     { yystack_[2].value.as < std::vector<Expression*> > ().push_back(yystack_[0].value.as < Expression* > ()); yylhs.value.as < std::vector<Expression*> > () = yystack_[2].value.as < std::vector<Expression*> > (); }
-#line 1427 "bison.tab.cpp"
+#line 1453 "bison.tab.cpp"
     break;
 
 
-#line 1431 "bison.tab.cpp"
+#line 1457 "bison.tab.cpp"
 
             default:
               break;
@@ -1772,133 +1798,137 @@ namespace yy {
   }
 
 
-  const signed char parser::yypact_ninf_ = -47;
+  const signed char parser::yypact_ninf_ = -45;
 
-  const signed char parser::yytable_ninf_ = -20;
+  const signed char parser::yytable_ninf_ = -11;
 
   const short
   parser::yypact_[] =
   {
-     154,   -47,    -4,   -47,   201,   201,   201,   201,   -47,   -47,
-       3,    17,   154,   -47,   -47,   -47,   -47,   -47,   137,   172,
-     -47,   -47,   184,   201,   201,     4,     6,   -47,   -47,     6,
-     137,    40,   201,   -47,   -47,   201,   201,   201,   201,   201,
-     201,   201,   201,   201,   201,   201,   201,   201,   137,   137,
-      -3,   -47,    94,     6,     6,   -47,   -47,     2,     2,     2,
-       2,   234,   220,    74,    74,   113,   -47,   201,    -6,   201,
-     137,   154,   137,    72,   -47
+     208,   -45,    -4,   -45,   218,   218,   218,   218,   -45,   -45,
+       3,    28,   208,   -45,   -45,   -45,   -45,   -45,   189,    60,
+     -45,   -45,    88,   218,   218,     7,    15,   -45,   -45,    15,
+     189,   121,   218,   -45,   -45,   218,   218,   218,   218,   218,
+     218,   218,   218,   218,   218,   218,   218,   218,   218,   218,
+     189,   189,   -15,   -45,   142,    15,    15,    -1,    -1,   189,
+     189,     8,     8,     8,     8,   255,   239,    42,    42,   163,
+     -45,   218,     4,   218,   189,   208,   189,    97,   -45
   };
 
   const signed char
   parser::yydefact_[] =
   {
-       5,    36,    12,    37,     0,     0,     0,     0,    39,    38,
-       0,     0,     2,     3,     7,     8,    17,     6,     0,    10,
-      14,    15,     9,     0,    41,    12,    32,    19,    16,    33,
-      34,     0,     0,     1,     4,     0,     0,     0,     0,     0,
-       0,     0,     0,     0,     0,     0,     0,     0,    13,    42,
-       0,    18,     0,    22,    23,    20,    21,    24,    25,    26,
-      27,    31,    30,    28,    29,     0,    40,     0,     0,     0,
-      43,     5,    35,     0,    11
+       5,    38,    12,    39,     0,     0,     0,     0,    41,    40,
+       0,     0,     2,     3,     7,     8,    17,     6,     0,    19,
+      14,    15,    16,     0,    43,    12,    34,    19,    16,    35,
+      36,     0,     0,     1,     4,     0,     0,     0,     0,     0,
+       0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
+      13,    44,     0,    18,     0,    22,    23,    20,    21,    25,
+      26,    24,    27,    28,    29,    33,    32,    30,    31,     0,
+      42,     0,     0,     0,    45,     5,    37,     0,    11
   };
 
   const signed char
   parser::yypgoto_[] =
   {
-     -47,   -47,   -46,    -5,   -47,   -47,   -47,   -47,    -2,     0,
-     -47,   -47,     1,   -47
+     -45,   -45,   -44,    -5,   -45,   -45,   -45,   -45,    -2,     0,
+     -45,   -45,     1,   -45
   };
 
   const signed char
   parser::yydefgoto_[] =
   {
       -1,    11,    12,    13,    14,    15,    16,    17,    18,    27,
-      20,    21,    28,    50
+      20,    21,    28,    52
   };
 
   const signed char
   parser::yytable_[] =
   {
-      19,    22,    26,    29,    30,    31,    23,    34,    35,    36,
-      37,    38,    19,    22,    37,    38,    24,    33,    66,    67,
-      71,    48,    49,    32,    24,    73,     0,     0,     0,     0,
-      52,     0,     0,    53,    54,    55,    56,    57,    58,    59,
-      60,    61,    62,    63,    64,    65,    35,    36,    37,    38,
-       0,    39,    40,    41,    42,    43,    44,     0,    45,    46,
-       0,    51,     0,     0,     0,    70,     0,    72,    34,    47,
-       0,    19,    22,    19,    22,     1,     2,     3,     4,     5,
-      35,    36,    37,    38,     0,    39,    40,    41,    42,     6,
-       0,     0,     7,     0,     0,     8,     9,    10,     0,    74,
-      35,    36,    37,    38,     0,    39,    40,    41,    42,    43,
-      44,     0,    45,    46,     0,    68,     0,     0,     0,    35,
-      36,    37,    38,    47,    39,    40,    41,    42,    43,    44,
-       0,    45,    46,     0,     0,     0,     0,     0,     0,     0,
-       0,    69,    47,    35,    36,    37,    38,     0,    39,    40,
-      41,    42,    43,    44,     0,    45,    46,     1,     2,     3,
-       4,     5,     0,     0,     0,     0,    47,     0,     0,     0,
-       0,     6,     0,     0,     7,     0,     0,     8,     9,    10,
-     -19,   -19,     0,   -19,   -19,   -19,   -19,   -19,   -19,     0,
-     -19,   -19,   -16,   -16,     0,   -16,   -16,   -16,   -16,   -16,
-     -16,   -19,   -16,   -16,     1,    25,     3,     4,     5,     0,
-       0,     0,     0,   -16,     0,     0,     0,     0,     6,     0,
-       0,     7,     0,     0,     8,     9,    35,    36,    37,    38,
-       0,    39,    40,    41,    42,    43,     0,     0,    45,    46,
-      35,    36,    37,    38,     0,    39,    40,    41,    42,     0,
-       0,     0,    45,    46
+      19,    22,    26,    29,    30,    31,    23,    34,    70,    71,
+      39,    40,    19,    22,    35,    36,    37,    38,    24,    39,
+      40,    50,    51,    37,    38,    32,    39,    40,    33,    24,
+      54,    77,    75,    55,    56,    57,    58,    59,    60,    61,
+      62,    63,    64,    65,    66,    67,    68,    69,    35,    36,
+      37,    38,     0,    39,    40,    41,    42,    43,    44,     0,
+     -10,     0,     0,   -10,   -10,   -10,   -10,   -10,     0,    74,
+       0,    76,    34,     0,     0,    19,    22,    19,    22,   -10,
+       0,     0,   -10,     0,     0,   -10,   -10,   -10,    -9,   -10,
+       0,    -9,    -9,    -9,    -9,    -9,     0,     0,     0,     0,
+       1,     2,     3,     4,     5,     0,     0,    -9,     0,     0,
+      -9,     0,     0,    -9,    -9,    -9,     6,    -9,     0,     7,
+       0,     0,     8,     9,    10,     0,    78,    35,    36,    37,
+      38,     0,    39,    40,    41,    42,    43,    44,    45,    46,
+       0,    47,    48,     0,    53,     0,     0,     0,    35,    36,
+      37,    38,    49,    39,    40,    41,    42,    43,    44,    45,
+      46,     0,    47,    48,     0,    72,     0,     0,     0,    35,
+      36,    37,    38,    49,    39,    40,    41,    42,    43,    44,
+      45,    46,     0,    47,    48,     0,     0,     0,     0,     0,
+       0,     0,     0,    73,    49,    35,    36,    37,    38,     0,
+      39,    40,    41,    42,    43,    44,    45,    46,     0,    47,
+      48,     1,     2,     3,     4,     5,     0,     0,     0,     0,
+      49,     1,    25,     3,     4,     5,     0,     6,     0,     0,
+       7,     0,     0,     8,     9,    10,     0,     6,     0,     0,
+       7,     0,     0,     8,     9,    35,    36,    37,    38,     0,
+      39,    40,    41,    42,    43,    44,    45,     0,     0,    47,
+      48,    35,    36,    37,    38,     0,    39,    40,    41,    42,
+      43,    44,     0,     0,     0,    47,    48
   };
 
   const signed char
   parser::yycheck_[] =
   {
-       0,     0,     4,     5,     6,     7,    10,    12,     6,     7,
-       8,     9,    12,    12,     8,     9,    20,     0,    21,    22,
-      26,    23,    24,    20,    20,    71,    -1,    -1,    -1,    -1,
-      32,    -1,    -1,    35,    36,    37,    38,    39,    40,    41,
-      42,    43,    44,    45,    46,    47,     6,     7,     8,     9,
-      -1,    11,    12,    13,    14,    15,    16,    -1,    18,    19,
-      -1,    21,    -1,    -1,    -1,    67,    -1,    69,    73,    29,
-      -1,    71,    71,    73,    73,     3,     4,     5,     6,     7,
-       6,     7,     8,     9,    -1,    11,    12,    13,    14,    17,
-      -1,    -1,    20,    -1,    -1,    23,    24,    25,    -1,    27,
-       6,     7,     8,     9,    -1,    11,    12,    13,    14,    15,
-      16,    -1,    18,    19,    -1,    21,    -1,    -1,    -1,     6,
-       7,     8,     9,    29,    11,    12,    13,    14,    15,    16,
-      -1,    18,    19,    -1,    -1,    -1,    -1,    -1,    -1,    -1,
-      -1,    28,    29,     6,     7,     8,     9,    -1,    11,    12,
-      13,    14,    15,    16,    -1,    18,    19,     3,     4,     5,
-       6,     7,    -1,    -1,    -1,    -1,    29,    -1,    -1,    -1,
-      -1,    17,    -1,    -1,    20,    -1,    -1,    23,    24,    25,
+       0,     0,     4,     5,     6,     7,    10,    12,    23,    24,
+      11,    12,    12,    12,     6,     7,     8,     9,    22,    11,
+      12,    23,    24,     8,     9,    22,    11,    12,     0,    22,
+      32,    75,    28,    35,    36,    37,    38,    39,    40,    41,
+      42,    43,    44,    45,    46,    47,    48,    49,     6,     7,
        8,     9,    -1,    11,    12,    13,    14,    15,    16,    -1,
-      18,    19,     8,     9,    -1,    11,    12,    13,    14,    15,
-      16,    29,    18,    19,     3,     4,     5,     6,     7,    -1,
-      -1,    -1,    -1,    29,    -1,    -1,    -1,    -1,    17,    -1,
-      -1,    20,    -1,    -1,    23,    24,     6,     7,     8,     9,
-      -1,    11,    12,    13,    14,    15,    -1,    -1,    18,    19,
-       6,     7,     8,     9,    -1,    11,    12,    13,    14,    -1,
-      -1,    -1,    18,    19
+       0,    -1,    -1,     3,     4,     5,     6,     7,    -1,    71,
+      -1,    73,    77,    -1,    -1,    75,    75,    77,    77,    19,
+      -1,    -1,    22,    -1,    -1,    25,    26,    27,     0,    29,
+      -1,     3,     4,     5,     6,     7,    -1,    -1,    -1,    -1,
+       3,     4,     5,     6,     7,    -1,    -1,    19,    -1,    -1,
+      22,    -1,    -1,    25,    26,    27,    19,    29,    -1,    22,
+      -1,    -1,    25,    26,    27,    -1,    29,     6,     7,     8,
+       9,    -1,    11,    12,    13,    14,    15,    16,    17,    18,
+      -1,    20,    21,    -1,    23,    -1,    -1,    -1,     6,     7,
+       8,     9,    31,    11,    12,    13,    14,    15,    16,    17,
+      18,    -1,    20,    21,    -1,    23,    -1,    -1,    -1,     6,
+       7,     8,     9,    31,    11,    12,    13,    14,    15,    16,
+      17,    18,    -1,    20,    21,    -1,    -1,    -1,    -1,    -1,
+      -1,    -1,    -1,    30,    31,     6,     7,     8,     9,    -1,
+      11,    12,    13,    14,    15,    16,    17,    18,    -1,    20,
+      21,     3,     4,     5,     6,     7,    -1,    -1,    -1,    -1,
+      31,     3,     4,     5,     6,     7,    -1,    19,    -1,    -1,
+      22,    -1,    -1,    25,    26,    27,    -1,    19,    -1,    -1,
+      22,    -1,    -1,    25,    26,     6,     7,     8,     9,    -1,
+      11,    12,    13,    14,    15,    16,    17,    -1,    -1,    20,
+      21,     6,     7,     8,     9,    -1,    11,    12,    13,    14,
+      15,    16,    -1,    -1,    -1,    20,    21
   };
 
   const signed char
   parser::yystos_[] =
   {
-       0,     3,     4,     5,     6,     7,    17,    20,    23,    24,
-      25,    31,    32,    33,    34,    35,    36,    37,    38,    39,
-      40,    41,    42,    10,    20,     4,    38,    39,    42,    38,
-      38,    38,    20,     0,    33,     6,     7,     8,     9,    11,
-      12,    13,    14,    15,    16,    18,    19,    29,    38,    38,
-      43,    21,    38,    38,    38,    38,    38,    38,    38,    38,
-      38,    38,    38,    38,    38,    38,    21,    22,    21,    28,
-      38,    26,    38,    32,    27
+       0,     3,     4,     5,     6,     7,    19,    22,    25,    26,
+      27,    33,    34,    35,    36,    37,    38,    39,    40,    41,
+      42,    43,    44,    10,    22,     4,    40,    41,    44,    40,
+      40,    40,    22,     0,    35,     6,     7,     8,     9,    11,
+      12,    13,    14,    15,    16,    17,    18,    20,    21,    31,
+      40,    40,    45,    23,    40,    40,    40,    40,    40,    40,
+      40,    40,    40,    40,    40,    40,    40,    40,    40,    40,
+      23,    24,    23,    30,    40,    28,    40,    34,    29
   };
 
   const signed char
   parser::yyr1_[] =
   {
-       0,    30,    31,    32,    32,    32,    33,    33,    33,    34,
-      34,    35,    36,    37,    38,    38,    38,    38,    38,    38,
-      38,    38,    38,    38,    38,    38,    38,    38,    38,    38,
-      38,    38,    38,    38,    38,    39,    40,    40,    41,    41,
-      42,    43,    43,    43
+       0,    32,    33,    34,    34,    34,    35,    35,    35,    36,
+      36,    37,    38,    39,    40,    40,    40,    40,    40,    40,
+      40,    40,    40,    40,    40,    40,    40,    40,    40,    40,
+      40,    40,    40,    40,    40,    40,    40,    41,    42,    42,
+      43,    43,    44,    45,    45,    45
   };
 
   const signed char
@@ -1907,8 +1937,8 @@ namespace yy {
        0,     2,     1,     1,     2,     0,     1,     1,     1,     1,
        1,     7,     1,     3,     1,     1,     1,     1,     3,     1,
        3,     3,     3,     3,     3,     3,     3,     3,     3,     3,
-       3,     3,     2,     2,     2,     5,     1,     1,     1,     1,
-       4,     0,     1,     3
+       3,     3,     3,     3,     2,     2,     2,     5,     1,     1,
+       1,     1,     4,     0,     1,     3
   };
 
 
@@ -1920,11 +1950,12 @@ namespace yy {
   {
   "\"end of file\"", "error", "\"invalid token\"", "TNUMBER",
   "TIDENTIFIER", "TFLOAT", "\"+\"", "\"-\"", "\"*\"", "\"/\"", "\"=\"",
-  "\"<\"", "\"<=\"", "\">\"", "\">=\"", "\"&&\"", "\"||\"", "\"!\"",
-  "\"!=\"", "\"==\"", "\"(\"", "\")\"", "\",\"", "\"TRUE\"", "\"FALSE\"",
-  "\"if\"", "\"{\"", "\"}\"", "\":\"", "\"?\"", "$accept", "program",
-  "stmts", "stmt", "exprstmt", "ifstmt", "identifier", "assign", "expr",
-  "ternary", "numeric", "boolean", "method", "call_params", YY_NULLPTR
+  "\"^\"", "\"%\"", "\"<\"", "\"<=\"", "\">\"", "\">=\"", "\"&&\"",
+  "\"||\"", "\"!\"", "\"!=\"", "\"==\"", "\"(\"", "\")\"", "\",\"",
+  "\"TRUE\"", "\"FALSE\"", "\"if\"", "\"{\"", "\"}\"", "\":\"", "\"?\"",
+  "$accept", "program", "stmts", "stmt", "exprstmt", "ifstmt",
+  "identifier", "assign", "expr", "ternary", "numeric", "boolean",
+  "method", "call_params", YY_NULLPTR
   };
 #endif
 
@@ -1936,8 +1967,8 @@ namespace yy {
        0,    79,    79,    84,    85,    86,    89,    90,    91,    94,
       95,    98,   103,   107,   110,   111,   112,   113,   114,   115,
      116,   117,   118,   119,   120,   121,   122,   123,   124,   125,
-     126,   127,   128,   129,   130,   133,   137,   138,   141,   142,
-     145,   148,   149,   150
+     126,   127,   128,   129,   130,   131,   132,   135,   139,   140,
+     143,   144,   147,   150,   151,   152
   };
 
   void
@@ -2004,10 +2035,10 @@ namespace yy {
        2,     2,     2,     2,     2,     2,     1,     2,     3,     4,
        5,     6,     7,     8,     9,    10,    11,    12,    13,    14,
       15,    16,    17,    18,    19,    20,    21,    22,    23,    24,
-      25,    26,    27,    28,    29
+      25,    26,    27,    28,    29,    30,    31
     };
     // Last valid token kind.
-    const int code_max = 284;
+    const int code_max = 286;
 
     if (t <= 0)
       return symbol_kind::S_YYEOF;
@@ -2018,9 +2049,9 @@ namespace yy {
   }
 
 } // yy
-#line 2022 "bison.tab.cpp"
+#line 2053 "bison.tab.cpp"
 
-#line 153 "bison.y"
+#line 155 "bison.y"
 
 void yy::parser::error( const std::string& msg) {
     std::cout << msg << std::endl;

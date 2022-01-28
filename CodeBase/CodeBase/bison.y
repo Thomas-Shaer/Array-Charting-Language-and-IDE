@@ -42,7 +42,7 @@
 
 
 %token <std::string> TNUMBER TIDENTIFIER TFLOAT
-%token <int> TPLUS "+" TMINUS "-" TMUL "*" TDIV "/" TASSIGN "=" 
+%token <int> TPLUS "+" TMINUS "-" TMUL "*" TDIV "/" TASSIGN "=" TPOW "^" TMOD "%" 
 %token <int> TLESS "<" TLESSEQUAL "<=" TGREATER ">" TGREATEREQUAL ">=" TAND "&&" TOR "||" TNOT "!" TNOTEQUAL "!=" TEQUAL "=="
 %token <int> TOPENBRACKET "(" TCLOSEBRACKET ")" TCOMMA ","
 %token <int> TTRUE "TRUE" TFALSE "FALSE"
@@ -118,6 +118,8 @@ expr : numeric { $$ = $1; }
      | expr TPLUS expr {$$ =  new MethodCallNode("operator" + token_name($2), {$1, $3}); }
      | expr TMINUS expr {$$ =  new MethodCallNode("operator" + token_name($2), {$1, $3}); }
      | expr TLESS expr {$$ =  new MethodCallNode("operator" + token_name($2), {$1, $3}); }
+     | expr TPOW expr {$$ =  new MethodCallNode("operator" + token_name($2), {$1, $3}); }
+     | expr TMOD expr {$$ =  new MethodCallNode("operator" + token_name($2), {$1, $3}); }
      | expr TLESSEQUAL expr {$$ =  new MethodCallNode("operator" + token_name($2), {$1, $3}); }
      | expr TGREATER expr {$$ =  new MethodCallNode("operator" + token_name($2), {$1, $3}); }
      | expr TGREATEREQUAL expr {$$ =  new MethodCallNode("operator" + token_name($2), {$1, $3}); }
