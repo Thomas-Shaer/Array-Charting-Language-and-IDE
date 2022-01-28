@@ -523,7 +523,7 @@ ExpressionValue MinimumBars::interpret(const unsigned int tick, std::vector<Expr
 
 
 
-Maximum::Maximum() : MethodSymbol("min",
+Maximum::Maximum() : MethodSymbol("max",
 	"Returns the max value that has ever been passed to it.",
 
 	{

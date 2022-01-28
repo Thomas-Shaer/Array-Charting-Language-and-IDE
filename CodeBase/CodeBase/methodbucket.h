@@ -1,7 +1,21 @@
 #pragma once
 #include "global.h"
 #include <vector>
+#include <map>
 
+
+/*
+Used for classing methods by their type.
+*/
+const enum METHOD_TYPE { OPERATOR, MATHEMATICAL, LOGIC, OUTPUT, STATISTICS, MISC };
+static std::map<METHOD_TYPE, std::string> METHOD_TYPE_TO_STRING{
+	{METHOD_TYPE::OPERATOR, "Operator"},
+	{METHOD_TYPE::MATHEMATICAL, "Mathematical"},
+	{METHOD_TYPE::LOGIC, "Logic"},
+	{METHOD_TYPE::OUTPUT, "Output"},
+	{METHOD_TYPE::STATISTICS, "Statistics"},
+	{METHOD_TYPE::MISC, "Miscellaneous"}
+};
 
 class MethodSymbol;
 class TypeSymbol;
@@ -16,11 +30,18 @@ class ArgumentSymbol;
 class MethodBucket {
 public:
 
+
+	static std::map<METHOD_TYPE, std::vector<MethodBucket*>> methodTypeMappings;
+
+	MethodBucket(const METHOD_TYPE _methodType);
+
 	/*
 	* Get a method given the argument types
 	*/
 	virtual MethodSymbol* getMethodSymbol(std::vector<std::shared_ptr<ArgumentSymbol>> _argumentSymbols) const=0;
 
+
+	METHOD_TYPE methodType;
 
 	/*
 	Used to nicely format the method when drawing onto the GUI
@@ -30,6 +51,8 @@ public:
 	virtual void renderAsDocumentation() const = 0;
 
 	virtual std::string toString() const = 0;
+
+	std::string name;
 };
 
 
@@ -39,7 +62,7 @@ public:
 class OverloadedMethodBucket : public MethodBucket {
 public:
 
-	OverloadedMethodBucket(const std::vector<MethodSymbol*> _overloads) : overloads(_overloads) {}
+	OverloadedMethodBucket(const std::vector<MethodSymbol*> _overloads, const METHOD_TYPE _methodType) : overloads(_overloads), MethodBucket(_methodType){}
 
 	const std::vector<MethodSymbol*> overloads;
 
@@ -59,7 +82,7 @@ public:
 class SingleMethodBucket : public MethodBucket {
 public:
 
-	SingleMethodBucket(MethodSymbol* _methodsymbol) : methodsymbol(_methodsymbol) {}
+	SingleMethodBucket(MethodSymbol* _methodsymbol, const METHOD_TYPE _methodType) : methodsymbol(_methodsymbol), MethodBucket(_methodType) {}
 
 	MethodSymbol* methodsymbol;
 
