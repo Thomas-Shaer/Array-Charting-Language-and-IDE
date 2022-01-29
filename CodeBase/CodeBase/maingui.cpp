@@ -9,7 +9,7 @@
 #include "texteditorwindow.h"
 #include "textoutputwindow.h"
 #include "documentationwindow.h"
-//#include "displayinformation.h"
+//
 #include "datamanagerwindow.h"
 #include "settingswindow.h"
 //#include "jsonsettings.h"
@@ -18,11 +18,15 @@
 #include "maingui.h"
 #include "jsonsettings.h"
 #include "implot.h"
+#include "imgui_internal.h"
+#include "menubar.h"
 //#include "screenshot.h"
 //
 //
 ImFont* Fonts::SMALLFONT;
 ImFont* Fonts::DEFAULTFONT;
+
+
 
 int start()
 {
@@ -55,6 +59,7 @@ int start()
 #endif
 
     // Create window with graphics context
+    std::cout << Settings::settingsFile["windowwidth"].get<float>() << std::endl;
     GLFWwindow* window = glfwCreateWindow(Settings::settingsFile["windowwidth"].get<float>(), Settings::settingsFile["windowheight"].get<float>(), "Dear ImGui GLFW+OpenGL3 example", NULL, NULL);
 
 
@@ -74,7 +79,6 @@ int start()
     // Setup Dear ImGui style
     ImGui::StyleColorsDark();
     //ImGui::StyleColorsClassic();
-
     // Setup Platform/Renderer backends
     ImGui_ImplGlfw_InitForOpenGL(window, true);
     ImGui_ImplOpenGL3_Init(glsl_version);
@@ -99,12 +103,12 @@ int start()
     bool show_another_window = false;
     ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 
-    FileBrowserSingletonDataLoader::init();
-    TextEditorSingleton::initTextEditor();
-    TextEditorSingleton::initFileBrowserSave();
-    TextEditorSingleton::initFileBrowserOpen();
+    DataManagerWindow::init();
+    TextEditorWindow::initTextEditor();
+    TextEditorWindow::initFileBrowserSave();
+    TextEditorWindow::initFileBrowserOpen();
     ChartWindow::initFileBrowserSave();
-    TextOutputWindow::init();
+    OutputWindow::init();
 
     // default chart window instance
     //ChartWindow chartWindow(0);
@@ -119,6 +123,11 @@ int start()
 
     //ScreenshotMaker sm;
 
+    TextEditorWindow texteditorwindow;
+    OutputWindow outputWindow;
+    DocumentationWindow documentationWindow;
+    SettingsWindow settingsWindow;
+    DataManagerWindow datamanagerWindow;
 
     // Main loop
     while (!glfwWindowShouldClose(window))
@@ -134,29 +143,26 @@ int start()
         ImGui_ImplOpenGL3_NewFrame();
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
-        //Settings::settingsFile["windowwidth"] = ImGui::GetWindowWidth();
-                //Settings::settingsFile["windowheight"] = ImGui::GetWindowHeight();
-        //ChartWindow::clearAllWindows();
-        //for (auto window : ChartWindow::allChartWindows) {
-        //    window.second.ShowChartWindow(&show_demo_window);
-        //    //std::cout << window.second.CHART_LINE_DATA.size() << std::endl;
-        //}
+
+
+        
+
         ChartWindow::renderAllWindows();
         ChartWindow::fbSave.Display();
 
         //ChartWindow::getOrCreateChartWindow(0).ShowChartWindow(&show_demo_window);
 
 
-        ShowEditorWindow();
 
-        ShowTextOutputWindow();
+        for (Window* window : Window::windows) {
+            if (window->show) {
+                window->ShowWindow();
+            }
+        }
 
-        ShowDocumentationWindow();
 
-        ShowSettingsWindow();
+        ShowMenuBar();
 
-        ShowDataWindow();
-        //sm.Draw();
 
         Settings::autoSave();
 

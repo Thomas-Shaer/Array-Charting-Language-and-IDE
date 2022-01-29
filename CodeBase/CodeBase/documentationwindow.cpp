@@ -4,7 +4,7 @@
 #include "methodbucket.h"
 #include "maingui.h"
 
-void ShowDocumentationWindow() {
+void DocumentationWindow::ShowWindow() {
 
     ImGui::Begin("Documentation", nullptr, ImGuiWindowFlags_HorizontalScrollbar | ImGuiWindowFlags_MenuBar);
     ImGui::SetWindowSize(ImVec2(500, 600), ImGuiCond_FirstUseEver);

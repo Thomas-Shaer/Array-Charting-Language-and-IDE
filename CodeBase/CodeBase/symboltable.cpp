@@ -41,7 +41,7 @@ std::shared_ptr<SymbolTable> SymbolTable::GLOBAL_SYMBOL_TABLE = std::make_shared
 	//{"average", new SingleMethodBucket(new MethodAverage(), METHOD_TYPE::MATHEMATICAL)),
 	registerMethod("plot", new SingleMethodBucket(new Plot(), METHOD_TYPE::OUTPUT)),
 	registerMethod("tick", new SingleMethodBucket(new GetTick(), METHOD_TYPE::MISC)),
-	registerMethod("mark", new SingleMethodBucket(new Mark(), METHOD_TYPE::MATHEMATICAL)),
+	registerMethod("mark", new SingleMethodBucket(new Mark(), METHOD_TYPE::OUTPUT)),
 
 	registerMethod("nan_f", new SingleMethodBucket(new FloatNAN(), METHOD_TYPE::MATHEMATICAL)),
 	registerMethod("nan_b", new SingleMethodBucket(new BooleanNAN(), METHOD_TYPE::MATHEMATICAL)),

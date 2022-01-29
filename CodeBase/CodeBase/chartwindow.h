@@ -1,11 +1,12 @@
 #pragma once
 #include "imfilebrowser.h"
 #include <map>
+#include "window.h"
 
 class ChartPlot;
 
 
-class ChartWindow {
+class ChartWindow : public Window {
 
 public:
 
@@ -13,12 +14,12 @@ public:
 
 
 	ChartWindow(unsigned int id);
-	ChartWindow() : chart_id(-99) {}
+	ChartWindow() : chart_id(-99), Window("Chart Window (temp)", false) {}
 
 	/*
 	* Window that displays chart
 	*/
-	void ShowChartWindow(bool* p_open);
+	void ShowWindow();
 
 	/*
 	Updates the chart viewpoint.

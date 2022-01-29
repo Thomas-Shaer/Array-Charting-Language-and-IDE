@@ -1,6 +1,6 @@
 #include "textoutputwindow.h"
 #include "imgui.h"
-#include "displayinformation.h"
+
 #include "symboltable.h"
 #include "varsymbol.h"
 #include "typesymbol.h"
@@ -8,10 +8,16 @@
 #include "exportdata.h"
 
 
-ImGui::FileBrowser TextOutputWindow::fb(ImGuiFileBrowserFlags_EnterNewFilename);
+ImGui::FileBrowser OutputWindow::fb(ImGuiFileBrowserFlags_EnterNewFilename);
+ImGuiTabItemFlags_ OutputWindow::outputTabFlags = ImGuiTabItemFlags_None;
+ImGuiTabItemFlags_ OutputWindow::codeReconstructionTabFlags = ImGuiTabItemFlags_None;
+ImGuiTabItemFlags_ OutputWindow::variableTabFlags = ImGuiTabItemFlags_None;
+std::vector<std::shared_ptr<VarSymbol>> OutputWindow::CODE_OUTPUT_VARIABLES = {};
+std::string OutputWindow::CODE_OUTPUT = "No information to display. Please run some code!";
+std::string OutputWindow::CODE_OUTPUT_RECONSTRUCTION = "No information to display. Please run some code!";
 
 
-void TextOutputWindow::init() {
+void OutputWindow::init() {
     fb.SetPwd(std::filesystem::path(Settings::settingsFile["lastDataExportDirectory"].get<std::string>()));
 
 
@@ -20,23 +26,18 @@ void TextOutputWindow::init() {
     fb.SetTypeFilters({ ".csv" });
 }
 
-/*
-Flags to indicate whether tab should be opened or not.
-*/
-static ImGuiTabItemFlags_ outputTabFlags = ImGuiTabItemFlags_None;
-static ImGuiTabItemFlags_ codeReconstructionTabFlags = ImGuiTabItemFlags_None;
-static ImGuiTabItemFlags_ variableTabFlags = ImGuiTabItemFlags_None;
 
-void SnapToOutputTab() {
+
+void OutputWindow::SnapToOutputTab() {
     outputTabFlags = ImGuiTabItemFlags_SetSelected;
 }
 
-void UpdateVariablesTab() {
+void OutputWindow::UpdateVariablesTab() {
     variableTabFlags = ImGuiTabItemFlags_SetSelected;
-    DisplayInformation::CODE_OUTPUT_VARIABLES = SymbolTable::GLOBAL_SYMBOL_TABLE->variablesToVector(true);
+    CODE_OUTPUT_VARIABLES = SymbolTable::GLOBAL_SYMBOL_TABLE->variablesToVector(true);
 }
 
-void ShowTextOutputWindow() {
+void OutputWindow::ShowWindow() {
     ImGui::Begin("Program Output", nullptr, ImGuiWindowFlags_MenuBar);
     ImGui::SetWindowSize(ImVec2(500, 600), ImGuiCond_FirstUseEver);
     ImGui::SetWindowPos(ImVec2(100, 600), ImGuiCond_FirstUseEver);
@@ -50,17 +51,17 @@ void ShowTextOutputWindow() {
         bool open = true; // placeholder
 
         if (ImGui::BeginTabItem("Output", &open, outputTabFlags)) {
-            ImGui::Text(DisplayInformation::CODE_OUTPUT.c_str());
+            ImGui::Text(CODE_OUTPUT.c_str());
             ImGui::EndTabItem();
         }
         if (ImGui::BeginTabItem("Code Reconstruction", &open, codeReconstructionTabFlags)) {
-            ImGui::Text(DisplayInformation::CODE_OUTPUT_RECONSTRUCTION.c_str());
+            ImGui::Text(CODE_OUTPUT_RECONSTRUCTION.c_str());
             ImGui::EndTabItem();
         }
         if (ImGui::BeginTabItem("Variables", &open, variableTabFlags)) {
 
             std::vector<std::shared_ptr<VarSymbol>> outputVariables;
-            for (std::shared_ptr<VarSymbol> var : DisplayInformation::CODE_OUTPUT_VARIABLES) {
+            for (std::shared_ptr<VarSymbol> var : CODE_OUTPUT_VARIABLES) {
                 if (var->exportVariable) {
                     outputVariables.push_back(var);
                 }
@@ -131,7 +132,7 @@ void ShowTextOutputWindow() {
                 
                 ImGui::NewLine();
                 if (ImGui::Button("Export file")) {
-                    TextOutputWindow::fb.Open();
+                    fb.Open();
                 }
                 ImGui::SameLine();
 
@@ -141,21 +142,21 @@ void ShowTextOutputWindow() {
                 }
 
 
-                TextOutputWindow::fb.Display();
-                if (TextOutputWindow::fb.IsOpened()) {
-                    Settings::settingsFile["lastDataExportDirectory"] = TextOutputWindow::fb.GetPwd().root_path().generic_string() + (TextOutputWindow::fb.GetPwd().relative_path()).generic_string();
+                fb.Display();
+                if (fb.IsOpened()) {
+                    Settings::settingsFile["lastDataExportDirectory"] = fb.GetPwd().root_path().generic_string() + (fb.GetPwd().relative_path()).generic_string();
                 }
 
 
-                if (TextOutputWindow::fb.HasSelected())
+                if (fb.HasSelected())
                 {
                     if (exportPolicySelection == ExportPolicy::COLUMN_WISE) {
-                        exportColumnWise(TextOutputWindow::fb.GetSelected().string() + ".csv", outputVariables);
+                        exportColumnWise(fb.GetSelected().string() + ".csv", outputVariables);
                     }
                     else {
-                        exportRowWise(TextOutputWindow::fb.GetSelected().string() + ".csv", outputVariables);
+                        exportRowWise(fb.GetSelected().string() + ".csv", outputVariables);
                     }
-                    TextOutputWindow::fb.ClearSelected();
+                    fb.ClearSelected();
                     showExportPopup = false;
                     ImGui::CloseCurrentPopup();
                 }
@@ -171,13 +172,13 @@ void ShowTextOutputWindow() {
             static int selected = -1;
             static char characters[40];
 
-            if (selected >= DisplayInformation::CODE_OUTPUT_VARIABLES.size()) {
+            if (selected >= CODE_OUTPUT_VARIABLES.size()) {
                 selected = -1;
             }
 
             ImGui::BeginChild("left pane", ImVec2(150, 0), true);
-            for (int i = 0; i < DisplayInformation::CODE_OUTPUT_VARIABLES.size(); i++) {
-                std::shared_ptr<VarSymbol> data = DisplayInformation::CODE_OUTPUT_VARIABLES.at(i);
+            for (int i = 0; i < CODE_OUTPUT_VARIABLES.size(); i++) {
+                std::shared_ptr<VarSymbol> data = CODE_OUTPUT_VARIABLES.at(i);
                
 
                 if (data->exportVariable) {
@@ -201,7 +202,7 @@ void ShowTextOutputWindow() {
             ImGui::BeginGroup();
             if (selected != -1) {
 
-                std::shared_ptr<VarSymbol> data = DisplayInformation::CODE_OUTPUT_VARIABLES.at(selected);
+                std::shared_ptr<VarSymbol> data = CODE_OUTPUT_VARIABLES.at(selected);
 
                 ImGui::Text(std::string("Name: " + data->name).c_str());
                 //ImGui::NewLine();

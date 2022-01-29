@@ -3,7 +3,7 @@
 #include "jsonsettings.h"
 #include <iostream>
 
-void ShowSettingsWindow() {
+void SettingsWindow::ShowWindow() {
     ImGui::Begin("Settings Window", nullptr, ImGuiWindowFlags_HorizontalScrollbar | ImGuiWindowFlags_MenuBar);
     ImGui::SetWindowSize(ImVec2(500, 600), ImGuiCond_FirstUseEver);
     ImGui::SetWindowPos(ImVec2(100, 600), ImGuiCond_FirstUseEver);

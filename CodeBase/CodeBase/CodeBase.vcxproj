@@ -160,7 +160,6 @@
     <ClCompile Include="boolean.cpp" />
     <ClCompile Include="chartplot.cpp" />
     <ClCompile Include="datamanagerwindow.cpp" />
-    <ClCompile Include="displayinformation.cpp" />
     <ClCompile Include="documentationwindow.cpp" />
     <ClCompile Include="exportdata.cpp" />
     <ClCompile Include="float.cpp" />
@@ -176,6 +175,7 @@
     <ClCompile Include="interpretercontext.cpp" />
     <ClCompile Include="jsonsettings.cpp" />
     <ClCompile Include="maingui.cpp" />
+    <ClCompile Include="menubar.cpp" />
     <ClCompile Include="methodsymbol.cpp" />
     <ClCompile Include="methodimplementations.cpp" />
     <ClCompile Include="bison.tab.cpp" />
@@ -197,13 +197,13 @@
     <ClCompile Include="typesymbol.cpp" />
     <ClCompile Include="value.cpp" />
     <ClCompile Include="varsymbol.cpp" />
+    <ClCompile Include="window.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="argumentsymbol.h" />
     <ClInclude Include="chartplot.h" />
     <ClInclude Include="datamanagerwindow.h" />
     <ClInclude Include="dataparseexception.h" />
-    <ClInclude Include="displayinformation.h" />
     <ClInclude Include="documentationwindow.h" />
     <ClInclude Include="exportdata.h" />
     <ClInclude Include="imconfig.h" />
@@ -223,6 +223,7 @@
     <ClInclude Include="interpreteroutput.h" />
     <ClInclude Include="jsonsettings.h" />
     <ClInclude Include="maingui.h" />
+    <ClInclude Include="menubar.h" />
     <ClInclude Include="methodsymbol.h" />
     <ClInclude Include="methodimplementations.h" />
     <ClInclude Include="bison.tab.h" />
@@ -248,6 +249,7 @@
     <ClInclude Include="typesymbol.h" />
     <ClInclude Include="varsymbol.h" />
     <ClInclude Include="visitors.h" />
+    <ClInclude Include="window.h" />
   </ItemGroup>
   <ItemGroup>
     <Flex Include="flex.l">

@@ -3,7 +3,7 @@
 #include "imgui.h"
 #include <math.h>
 #include <limits>
-#include "displayinformation.h"
+
 #include <string>
 #include "chartplot.h"
 #include "screenshot.h"
@@ -17,7 +17,7 @@ int ChartWindow::exportWindowId = 0;
 
 
 
-ChartWindow::ChartWindow(unsigned int id) : chart_id(id) {
+ChartWindow::ChartWindow(unsigned int id) : chart_id(id), Window("Chart Window " + std::to_string(id), false)  {
 
     TITLE = "Chart Screen (" + std::to_string(chart_id) + ")"; 
 }
@@ -35,7 +35,7 @@ void ChartWindow::clearAllWindows() {
 void ChartWindow::renderAllWindows() {
     bool temp = true;
     for (auto& window : ChartWindow::allChartWindows) {
-        window.second.ShowChartWindow(&temp);
+        window.second.ShowWindow();
     }
 }
 
@@ -84,14 +84,14 @@ void ChartWindow::UpdateChart() {
 }
 
 
-void ChartWindow::ShowChartWindow(bool* p_open) {
+void ChartWindow::ShowWindow() {
 
     ImGui::SetNextWindowSize(ImVec2(400, 500), ImGuiCond_FirstUseEver | ImGuiWindowFlags_AlwaysAutoResize);
     //ImGui::SetNextWindowPos(ImVec2(0, 0)), ImGuiCond_FirstUseEver;
 
 
 
-    ImGui::Begin(TITLE.c_str(), p_open, ImGuiWindowFlags_MenuBar);
+    ImGui::Begin(TITLE.c_str(), nullptr, ImGuiWindowFlags_MenuBar);
 
 
 
