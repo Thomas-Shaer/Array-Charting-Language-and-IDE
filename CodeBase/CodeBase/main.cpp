@@ -18,6 +18,9 @@ void newJSON() {
     Settings::settingsFile["defaultTrueImportLiteral"] = "TRUE";
     Settings::settingsFile["defaultFalseImportLiteral"] = "FALSE";
     Settings::settingsFile["defaultNANImportLiteral"] = "NAN";
+    Settings::settingsFile["defaultTrueExportLiteral"] = "TRUE";
+    Settings::settingsFile["defaultFalseExportLiteral"] = "FALSE";
+    Settings::settingsFile["defaultNANExportLiteral"] = "NAN";
     Settings::settingsFile["lastScreenshotExportDirectory"] = "";
     Settings::settingsFile["chartAntiAliasing"] = true;
     Settings::saveSettings();

@@ -41,7 +41,9 @@ void ShowTextOutputWindow() {
     ImGui::SetWindowSize(ImVec2(500, 600), ImGuiCond_FirstUseEver);
     ImGui::SetWindowPos(ImVec2(100, 600), ImGuiCond_FirstUseEver);
     
-    
+    static char defaultTrue[40];
+    static char defaultFalse[40];
+    static char defaultNAN[40];
 
 
     if (ImGui::BeginTabBar("Output Menu")) {
@@ -84,6 +86,9 @@ void ShowTextOutputWindow() {
             if (showExportPopup)
             {
                 ImGui::OpenPopup("Export Data");
+                strncpy_s(defaultTrue, Settings::settingsFile["defaultTrueExportLiteral"].get<std::string>().c_str(), sizeof(defaultTrue));
+                strncpy_s(defaultFalse, Settings::settingsFile["defaultFalseExportLiteral"].get<std::string>().c_str(), sizeof(defaultFalse));
+                strncpy_s(defaultNAN, Settings::settingsFile["defaultNANExportLiteral"].get<std::string>().c_str(), sizeof(defaultNAN));
             }
 
             if (ImGui::BeginPopupModal("Export Data"))
@@ -105,14 +110,23 @@ void ShowTextOutputWindow() {
                     ImGui::EndCombo();
                 }
 
-                ImGui::Text("NaN text (40 char)");
-                ImGui::InputText("##nantext", NaNHelper::NANEXPORTSTRING, sizeof(NaNHelper::NANEXPORTSTRING));
+
 
                 ImGui::Text("True text (40 char)");
-                ImGui::InputText("##truetext", Boolean::TRUEEXPORTSTRING, sizeof(Boolean::TRUEEXPORTSTRING));
+                ImGui::InputText("##truetext", defaultTrue, sizeof(defaultTrue));
 
                 ImGui::Text("False text (40 char)");
-                ImGui::InputText("##falsetext", Boolean::FALSEEXPORTSTRING, sizeof(Boolean::FALSEEXPORTSTRING));
+                ImGui::InputText("##falsetext", defaultFalse, sizeof(defaultFalse));
+
+                ImGui::Text("NaN text (40 char)");
+                ImGui::InputText("##nantext", defaultNAN, sizeof(defaultNAN));
+
+                /*
+                Save values
+                */
+                Settings::settingsFile["defaultTrueExportLiteral"] = std::string(defaultTrue);
+                Settings::settingsFile["defaultFalseExportLiteral"] = std::string(defaultFalse);
+                Settings::settingsFile["defaultNANExportLiteral"] = std::string(defaultNAN);
 
                 
                 ImGui::NewLine();
