@@ -163,7 +163,7 @@ void TextEditorWindow::executeCode(const std::string& code) {
 
 
 void TextEditorWindow::ShowWindow() {
-    ImGui::Begin("Code Input", nullptr, ImGuiWindowFlags_HorizontalScrollbar | ImGuiWindowFlags_MenuBar);
+    ImGui::Begin("Code Input", &show, ImGuiWindowFlags_HorizontalScrollbar | ImGuiWindowFlags_MenuBar);
     ImGui::SetWindowSize(ImVec2(800, 600), ImGuiCond_FirstUseEver);
     ImGui::SetWindowPos(ImVec2(10, 600), ImGuiCond_FirstUseEver);
 

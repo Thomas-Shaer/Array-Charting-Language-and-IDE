@@ -12,12 +12,12 @@
 ImGui::FileBrowser ChartWindow::fbSave(ImGuiFileBrowserFlags_EnterNewFilename);
 bool ChartWindow::exportWithBorder = false;
 bool ChartWindow::exportWithOutBorder = false;
-std::map<int, ChartWindow> ChartWindow::allChartWindows;
+std::map<int, ChartWindow*> ChartWindow::allChartWindows;
 int ChartWindow::exportWindowId = 0;
 
 
 
-ChartWindow::ChartWindow(unsigned int id) : chart_id(id), Window("Chart Window " + std::to_string(id), false)  {
+ChartWindow::ChartWindow(unsigned int id) : chart_id(id), Window("Chart Window " + std::to_string(id))  {
 
     TITLE = "Chart Screen (" + std::to_string(chart_id) + ")"; 
 }
@@ -28,20 +28,15 @@ ChartWindow::ChartWindow(unsigned int id) : chart_id(id), Window("Chart Window "
 void ChartWindow::clearAllWindows() {
     //std::cout << ChartWindow::allChartWindows.size() << std::endl;
     for (auto& window : ChartWindow::allChartWindows) {
-        window.second.reset();
+        window.second->reset();
     }
 }
 
-void ChartWindow::renderAllWindows() {
-    bool temp = true;
-    for (auto& window : ChartWindow::allChartWindows) {
-        window.second.ShowWindow();
-    }
-}
 
 void ChartWindow::updateAllCharts() {
     for (auto& window : ChartWindow::allChartWindows) {
-        window.second.UpdateChart();
+        window.second->show = true;
+        window.second->UpdateChart();
     }
 }
 
@@ -54,9 +49,9 @@ void ChartWindow::reset() {
 ChartWindow* ChartWindow::getOrCreateChartWindow(unsigned int id) {
     auto find = allChartWindows.find(id);
     if (find == allChartWindows.end()) {
-        allChartWindows[id] = ChartWindow(id);
+        allChartWindows[id] = new ChartWindow(id);
     }
-    return &allChartWindows[id];
+    return allChartWindows[id];
 }
 
 
@@ -91,7 +86,19 @@ void ChartWindow::ShowWindow() {
 
 
 
-    ImGui::Begin(TITLE.c_str(), nullptr, ImGuiWindowFlags_MenuBar);
+    ImGui::Begin(TITLE.c_str(), &show, ImGuiWindowFlags_MenuBar);
+    /*
+    If you are not the main chart window, and you are closed:
+    Remove this window from the chartWindows tracker.
+    Remove this window from the global window tracker.
+    Delete this (as we have been turned into a pointer)
+    */
+    if (!show) {
+        if (chart_id != 0) {
+            ChartWindow::allChartWindows.erase(chart_id);
+            deleteWindow();
+        }
+    }
 
 
 

@@ -10,7 +10,7 @@ class TextEditorWindow : public Window {
 public:
 
 
-	TextEditorWindow() : Window("Text Editor Window", true) {}
+	TextEditorWindow() : Window("Text Editor Window") {}
 
 	/*
 	Saves code in text editor to disk.

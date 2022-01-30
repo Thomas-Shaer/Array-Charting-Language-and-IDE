@@ -14,7 +14,7 @@ public:
 
 
 	ChartWindow(unsigned int id);
-	ChartWindow() : chart_id(-99), Window("Chart Window (temp)", false) {}
+	//ChartWindow() : chart_id(-99), Window("Chart Window (temp)", true) {}
 
 	/*
 	* Window that displays chart
@@ -45,9 +45,8 @@ public:
 
 
 	static void clearAllWindows();
-	static void renderAllWindows();
 	static void updateAllCharts();
-	static std::map<int, ChartWindow> allChartWindows;
+	static std::map<int, ChartWindow*> allChartWindows;
 
 
 private:

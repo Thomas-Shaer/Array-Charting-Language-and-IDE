@@ -9,7 +9,7 @@ class SettingsWindow : public Window {
 public:
 
 
-	SettingsWindow() : Window("Settings Window", true) {}
+	SettingsWindow() : Window("Settings Window") {}
 
 	/*
 	Opens the setting window.

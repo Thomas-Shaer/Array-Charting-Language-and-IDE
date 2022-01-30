@@ -111,7 +111,7 @@ std::string DataManagerWindow::makeVariableName(std::string name) {
 
 
 void DataManagerWindow::ShowWindow() {
-    ImGui::Begin("Data Manager", nullptr, /*ImGuiWindowFlags_HorizontalScrollbar | */ImGuiWindowFlags_MenuBar);
+    ImGui::Begin("Data Manager", &show, /*ImGuiWindowFlags_HorizontalScrollbar | */ImGuiWindowFlags_MenuBar);
     ImGui::SetWindowSize(ImVec2(500, 600), ImGuiCond_FirstUseEver);
     ImGui::SetWindowPos(ImVec2(100, 600), ImGuiCond_FirstUseEver);
 

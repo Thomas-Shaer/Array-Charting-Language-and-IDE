@@ -6,7 +6,7 @@
 
 void DocumentationWindow::ShowWindow() {
 
-    ImGui::Begin("Documentation", nullptr, ImGuiWindowFlags_HorizontalScrollbar | ImGuiWindowFlags_MenuBar);
+    ImGui::Begin("Documentation", &show, ImGuiWindowFlags_HorizontalScrollbar | ImGuiWindowFlags_MenuBar);
     ImGui::SetWindowSize(ImVec2(500, 600), ImGuiCond_FirstUseEver);
     ImGui::SetWindowPos(ImVec2(100, 600), ImGuiCond_FirstUseEver);
 

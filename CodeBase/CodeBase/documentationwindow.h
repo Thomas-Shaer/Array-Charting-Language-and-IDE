@@ -8,7 +8,7 @@ class DocumentationWindow : public Window {
 
 public:
 
-	DocumentationWindow() : Window("Documentation Window", true) {}
+	DocumentationWindow() : Window("Documentation Window") {}
 
 
 	/*

@@ -62,15 +62,17 @@ int start()
     std::cout << Settings::settingsFile["windowwidth"].get<float>() << std::endl;
     GLFWwindow* window = glfwCreateWindow(Settings::settingsFile["windowwidth"].get<float>(), Settings::settingsFile["windowheight"].get<float>(), "Dear ImGui GLFW+OpenGL3 example", NULL, NULL);
 
-
     if (window == NULL)
         return 1;
     glfwMakeContextCurrent(window);
     glfwSwapInterval(1); // Enable vsync
+    glfwSetWindowPos(window, Settings::settingsFile["windowX"].get<float>(), Settings::settingsFile["windowY"].get<float>());
 
     // Setup Dear ImGui context
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
+    ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
+
     ImPlot::CreateContext();
     ImGuiIO& io = ImGui::GetIO(); (void)io;
     //io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
@@ -112,7 +114,7 @@ int start()
 
     // default chart window instance
     //ChartWindow chartWindow(0);
-    ChartWindow::allChartWindows[0] = ChartWindow(0);
+    ChartWindow::allChartWindows[0] = new ChartWindow(0);
 
 
     /*
@@ -124,10 +126,20 @@ int start()
     //ScreenshotMaker sm;
 
     TextEditorWindow texteditorwindow;
+    texteditorwindow.windowTab = true;
+
     OutputWindow outputWindow;
+    outputWindow.windowTab = true;
+
     DocumentationWindow documentationWindow;
+    documentationWindow.windowTab = true;
+
     SettingsWindow settingsWindow;
+    settingsWindow.windowTab = true;
+
     DataManagerWindow datamanagerWindow;
+    datamanagerWindow.windowTab = true;
+
 
     // Main loop
     while (!glfwWindowShouldClose(window))
@@ -144,10 +156,8 @@ int start()
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
 
-
         
 
-        ChartWindow::renderAllWindows();
         ChartWindow::fbSave.Display();
 
         //ChartWindow::getOrCreateChartWindow(0).ShowChartWindow(&show_demo_window);
@@ -161,19 +171,41 @@ int start()
         }
 
 
-        ShowMenuBar();
+        Test::ShowMenuBar(window);
+
+
+        Window::manageNewWindows();
 
 
         Settings::autoSave();
 
         // Rendering
         ImGui::Render();
+
+        int windowWidth, windowHeight;
+        glfwGetWindowSize(window, &windowWidth, &windowHeight);
+        Settings::settingsFile["windowwidth"] = windowWidth;
+        Settings::settingsFile["windowheight"] = windowHeight;
+
+        int windowX, windowY;
+        glfwGetWindowPos(window, &windowX, &windowY);
+        Settings::settingsFile["windowX"] = windowX;
+        Settings::settingsFile["windowY"] = windowY;
+
         int display_w, display_h;
         glfwGetFramebufferSize(window, &display_w, &display_h);
         glViewport(0, 0, display_w, display_h);
         glClearColor(clear_color.x * clear_color.w, clear_color.y * clear_color.w, clear_color.z * clear_color.w, clear_color.w);
         glClear(GL_COLOR_BUFFER_BIT);
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+        if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
+        {
+            GLFWwindow* backup_current_context = glfwGetCurrentContext();
+            ImGui::UpdatePlatformWindows();
+            ImGui::RenderPlatformWindowsDefault();
+            glfwMakeContextCurrent(backup_current_context);
+        }
 
         glfwSwapBuffers(window);
     }

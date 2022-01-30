@@ -1,4 +1,7 @@
 #pragma once
 
+struct GLFWwindow;
 
-void ShowMenuBar();
+struct Test {
+	static void ShowMenuBar(GLFWwindow* window);
+};

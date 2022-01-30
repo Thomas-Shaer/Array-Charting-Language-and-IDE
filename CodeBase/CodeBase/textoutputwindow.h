@@ -10,7 +10,7 @@ class OutputWindow : public Window {
 
 public:
 
-	OutputWindow() : Window("Output Window", true) {}
+	OutputWindow() : Window("Output Window") {}
 
 	/*
 	Snaps to the output tab.

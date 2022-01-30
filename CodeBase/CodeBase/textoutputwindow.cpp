@@ -38,7 +38,7 @@ void OutputWindow::UpdateVariablesTab() {
 }
 
 void OutputWindow::ShowWindow() {
-    ImGui::Begin("Program Output", nullptr, ImGuiWindowFlags_MenuBar);
+    ImGui::Begin("Program Output", &show, ImGuiWindowFlags_MenuBar);
     ImGui::SetWindowSize(ImVec2(500, 600), ImGuiCond_FirstUseEver);
     ImGui::SetWindowPos(ImVec2(100, 600), ImGuiCond_FirstUseEver);
     

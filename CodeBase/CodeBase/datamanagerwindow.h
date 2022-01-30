@@ -11,7 +11,7 @@ class DataManagerWindow : public Window {
 public:
 
 
-	DataManagerWindow() : Window("Data Manager Window", true) {}
+	DataManagerWindow() : Window("Data Manager Window") {}
 
 
 	/*
