@@ -59,7 +59,6 @@ int start()
 #endif
 
     // Create window with graphics context
-    std::cout << Settings::settingsFile["windowwidth"].get<float>() << std::endl;
     GLFWwindow* window = glfwCreateWindow(Settings::settingsFile["windowwidth"].get<float>(), Settings::settingsFile["windowheight"].get<float>(), "Dear ImGui GLFW+OpenGL3 example", NULL, NULL);
 
     if (window == NULL)
@@ -115,7 +114,7 @@ int start()
     // default chart window instance
     //ChartWindow chartWindow(0);
     ChartWindow::allChartWindows[0] = new ChartWindow(0);
-
+    ChartWindow::allChartWindows[0]->saveStatus = true;
 
     /*
     The order of these declarations matter. Default first.
@@ -127,18 +126,23 @@ int start()
 
     TextEditorWindow texteditorwindow;
     texteditorwindow.windowTab = true;
+    texteditorwindow.saveStatus = true;
 
     OutputWindow outputWindow;
     outputWindow.windowTab = true;
+    outputWindow.saveStatus = true;
 
     DocumentationWindow documentationWindow;
     documentationWindow.windowTab = true;
+    documentationWindow.saveStatus = true;
 
     SettingsWindow settingsWindow;
     settingsWindow.windowTab = true;
+    settingsWindow.saveStatus = true;
 
     DataManagerWindow datamanagerWindow;
     datamanagerWindow.windowTab = true;
+    datamanagerWindow.saveStatus = true;
 
 
     // Main loop
@@ -167,6 +171,9 @@ int start()
         for (Window* window : Window::windows) {
             if (window->show) {
                 window->ShowWindow();
+            }
+            if (window->saveStatus) {
+                Settings::settingsFile[window->saveJSONName] = window->show;
             }
         }
 

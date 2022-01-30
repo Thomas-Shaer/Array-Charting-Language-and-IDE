@@ -23,6 +23,8 @@ public:
 
 
 	std::string name;
+	std::string saveJSONName;
+	bool saveStatus = false;
 	bool show = true;
 	bool windowTab = false;
 private:

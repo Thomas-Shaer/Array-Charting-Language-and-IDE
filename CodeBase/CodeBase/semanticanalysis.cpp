@@ -104,6 +104,8 @@ const TypeSymbol* TernaryNode::semanticAnalysis(std::shared_ptr<SymbolTable> sym
 	if (condition->semanticAnalysis(symboltable, output) != TypeInstances::GetBooleanInstance()) {
 		throw LanguageException("Ternary condition must be a boolean.");
 	}
+
+
 	const TypeSymbol* lhsType = expression1->semanticAnalysis(symboltable, output);
 	const TypeSymbol* rhstype = expression2->semanticAnalysis(symboltable, output);
 

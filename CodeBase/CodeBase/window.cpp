@@ -1,12 +1,22 @@
 #include "window.h"
+#include "jsonsettings.h"
 
 std::vector<Window*> Window::windows = {};
 std::vector<Window*> Window::toCreate = {};
 std::vector<Window*> Window::toDelete = {};
 
 Window::Window(const std::string _name) : name(_name) {
+	saveJSONName = "isOpen" + _name;
+	saveJSONName.erase(std::remove(saveJSONName.begin(), saveJSONName.end(), ' '), saveJSONName.end());
 
 	toCreate.push_back(this);
+
+	std::cout << saveJSONName << std::endl;
+
+	if (Settings::settingsFile.contains(saveJSONName)) {
+		show = Settings::settingsFile[saveJSONName].get<bool>();
+	}
+
 
 }
 
