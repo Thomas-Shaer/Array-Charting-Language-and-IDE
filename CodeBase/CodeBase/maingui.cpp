@@ -176,6 +176,7 @@ int start()
                 Settings::settingsFile[window->saveJSONName] = window->show;
             }
         }
+        ImGui::GetIO().FontGlobalScale = Settings::settingsFile["zoom"].get<float>();
 
 
         Test::ShowMenuBar(window);

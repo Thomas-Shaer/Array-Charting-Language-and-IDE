@@ -11,8 +11,6 @@ Window::Window(const std::string _name) : name(_name) {
 
 	toCreate.push_back(this);
 
-	std::cout << saveJSONName << std::endl;
-
 	if (Settings::settingsFile.contains(saveJSONName)) {
 		show = Settings::settingsFile[saveJSONName].get<bool>();
 	}

@@ -15,7 +15,6 @@ void SettingsWindow::ShowWindow() {
     if (ImGui::SliderFloat("Text scale", &textScale, 1, 3)) {
         Settings::settingsFile["zoom"] = textScale;
     }
-    ImGui::GetIO().FontGlobalScale = textScale;
 
     ImGui::End();
 
