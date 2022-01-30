@@ -13,24 +13,24 @@ TypeInstances::TypeInstances() {
 	GetVoidInstance();
 }
 
-TypeSymbol*& TypeInstances::GetFloatInstance() {
+TypeSymbol* TypeInstances::GetFloatInstance() {
 	static TypeSymbol* floattemp = new TypeSymbol("float");
 	return floattemp;
 }
 
-TypeSymbol*& TypeInstances::GetFloatConstantInstance() {
+TypeSymbol* TypeInstances::GetFloatConstantInstance() {
 	static TypeSymbol* floatconsttemp = new TypeSymbol("float_constant");
 	return floatconsttemp;
 }
 
 
 
-TypeSymbol*& TypeInstances::GetBooleanInstance() {
+TypeSymbol* TypeInstances::GetBooleanInstance() {
 	static TypeSymbol* boolinstance = new TypeSymbol("boolean");
 	return boolinstance;
 }
 
-TypeSymbol*& TypeInstances::GetVoidInstance() {
+TypeSymbol* TypeInstances::GetVoidInstance() {
 	static TypeSymbol* voidinstance = new TypeSymbol("void");
 	return voidinstance;
 }

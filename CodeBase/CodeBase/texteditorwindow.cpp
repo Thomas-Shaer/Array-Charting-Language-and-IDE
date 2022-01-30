@@ -143,6 +143,7 @@ void TextEditorWindow::executeCode(const std::string& code) {
 
 
     if (!context.output->textOutput.empty()) {
+        OutputWindow::CODE_OUTPUT = "";
         for (auto string : context.output->textOutput) {
             OutputWindow::CODE_OUTPUT += string + "\n";
             

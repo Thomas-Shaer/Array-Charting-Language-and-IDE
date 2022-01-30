@@ -107,8 +107,17 @@ const TypeSymbol* TernaryNode::semanticAnalysis(std::shared_ptr<SymbolTable> sym
 	const TypeSymbol* lhsType = expression1->semanticAnalysis(symboltable, output);
 	const TypeSymbol* rhstype = expression2->semanticAnalysis(symboltable, output);
 
+	if (lhsType == TypeInstances::GetFloatConstantInstance()) {
+		lhsType = TypeInstances::GetFloatInstance();
+	}
+
+	if (rhstype == TypeInstances::GetFloatConstantInstance()) {
+		rhstype = TypeInstances::GetFloatInstance();
+	}
+
 	if (lhsType != rhstype) {
 		throw LanguageException("Ternary expression, returning types must be the same - got " + lhsType->name + " and " + rhstype->name);
 	}
+
 	return lhsType;
 }
