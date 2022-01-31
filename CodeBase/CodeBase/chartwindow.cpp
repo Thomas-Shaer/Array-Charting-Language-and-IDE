@@ -19,7 +19,7 @@ int ChartWindow::exportWindowId = 0;
 
 ChartWindow::ChartWindow(unsigned int id) : chart_id(id), Window("Chart Window " + std::to_string(id))  {
 
-    TITLE = "Chart Screen (" + std::to_string(chart_id) + ")"; 
+    TITLE = "Chart Screen (" + std::to_string(chart_id) + ")###ChartWindow" +std::to_string(chart_id);
 }
 
 
@@ -73,7 +73,7 @@ void ChartWindow::UpdateChart() {
     for (auto line : CHART_LINE_DATA) {
         maxSize = line->data.size() > maxSize ? line->data.size() : maxSize;
     }
-    TITLE = "Chart Screen (" + std::to_string(chart_id) + "): displaying " + std::to_string(CHART_LINE_DATA.size() + CHART_MARK_DATA.size()) + " plot(s) of size " + std::to_string(maxSize);
+    TITLE = "Chart Screen (" + std::to_string(chart_id) + "): displaying " + std::to_string(CHART_LINE_DATA.size() + CHART_MARK_DATA.size()) + " plot(s) of size " + std::to_string(maxSize) + "###ChartWindow" + std::to_string(chart_id);
     ImPlot::SetNextAxisToFit(ImAxis_X1);
     ImPlot::SetNextAxisToFit(ImAxis_Y1);
 }
@@ -82,11 +82,14 @@ void ChartWindow::UpdateChart() {
 void ChartWindow::ShowWindow() {
 
     ImGui::SetNextWindowSize(ImVec2(400, 500), ImGuiCond_FirstUseEver | ImGuiWindowFlags_AlwaysAutoResize);
-    //ImGui::SetNextWindowPos(ImVec2(0, 0)), ImGuiCond_FirstUseEver;
 
+    if (chart_id == 0) {
+        ImGui::Begin(TITLE.c_str(), &show, ImGuiWindowFlags_MenuBar);
 
-
-    ImGui::Begin(TITLE.c_str(), &show, ImGuiWindowFlags_MenuBar);
+    }
+    else {
+        ImGui::Begin(TITLE.c_str(), &show, ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoSavedSettings);
+    }
     /*
     If you are not the main chart window, and you are closed:
     Remove this window from the chartWindows tracker.

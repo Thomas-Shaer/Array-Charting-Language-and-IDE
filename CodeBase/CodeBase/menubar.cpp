@@ -16,26 +16,23 @@ void Test::ShowMenuBar(GLFWwindow* glfwwindow) {
     float height = ImGui::GetFrameHeight();
     if (ImGui::BeginViewportSideBar("##SecondaryMenuBar", ImGui::GetMainViewport(), ImGuiDir_Up, height, window_flags)) {
         if (ImGui::BeginMenuBar()) {
-            
-
+            //ImGui::PushItemFlag(ImGuiItemFlags_SelectableDontClosePopup, true);
             if (ImGui::BeginMenu("Windows")) {
                
                 if (ImGui::BeginMenu("Charts")) {
 
                     for (auto pair : ChartWindow::allChartWindows) {
                         Window* window = pair.second;
-                        if (ImGui::MenuItem(window->name.c_str(), NULL, window->show)) {
-                            window->show = !window->show;
-                        }
+                       
+                        ImGui::MenuItem(window->name.c_str(), NULL, &window->show);
                     }
                     ImGui::EndMenu();
                 }
 
                 for (Window* window : Window::windows) {
                     if (window->windowTab) {
-                        if (ImGui::MenuItem(window->name.c_str(), NULL, window->show)) {
-                            window->show = !window->show;
-                        }
+                    std::string lol = "";
+                        ImGui::MenuItem(window->name.c_str(), NULL, &window->show);
                     }
                 }
                 
@@ -44,17 +41,14 @@ void Test::ShowMenuBar(GLFWwindow* glfwwindow) {
                 ImGui::EndMenu();
             }
 
-            if (ImGui::BeginMenu("Settings")) {
-                /*if (ImGui::MenuItem("Full-screen", NULL, fullScreen)) {
-                    fullScreen = !fullScreen;
-                    GLFWwindow* window = glfwCreateWindow(Settings::settingsFile["windowwidth"].get<float>(), Settings::settingsFile["windowheight"].get<float>(), "Dear ImGui GLFW+OpenGL3 example", glfwGetPrimaryMonitor(), NULL);
-
-                }*/
-                ImGui::EndMenu();
-            }
+            //ImGui::PopItemFlag();
 
             ImGui::EndMenuBar();
         }
+        ImGui::EndMenuBar();
+        ImGuiContext& g = *GImGui;
+        if (g.CurrentWindow == g.NavWindow && g.NavLayer == ImGuiNavLayer_Main && !g.NavAnyRequest)
+            ImGui::FocusTopMostWindowUnderOne(g.NavWindow, NULL);
         ImGui::End();
     }
 }

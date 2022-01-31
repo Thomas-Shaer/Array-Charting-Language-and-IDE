@@ -10,7 +10,6 @@ Window::Window(const std::string _name) : name(_name) {
 	saveJSONName.erase(std::remove(saveJSONName.begin(), saveJSONName.end(), ' '), saveJSONName.end());
 
 	toCreate.push_back(this);
-
 	if (Settings::settingsFile.contains(saveJSONName)) {
 		show = Settings::settingsFile[saveJSONName].get<bool>();
 	}

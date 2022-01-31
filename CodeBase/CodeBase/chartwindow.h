@@ -50,7 +50,7 @@ public:
 
 
 private:
-	std::string TITLE = "Chart Screen";
+	std::string TITLE = "Chart Screen(0)###ChartWindow";
 	bool exportChart = false;
 	bool showName = true;
 
