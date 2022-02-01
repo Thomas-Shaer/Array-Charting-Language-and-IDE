@@ -23,9 +23,15 @@ ExpressionValue BooleanNode::interpret(const unsigned int tick, InterpreterOutpu
 }
 
 
+ExpressionValue StringNode::interpret(const unsigned int tick, InterpreterOutput& output) const {
+	return (ExpressionValue)String(value);
+}
+
+
 ExpressionValue IdentifierNode::interpret(const unsigned int tick, InterpreterOutput& output) const {
 	return varSymbol->getValue(tick);
 }
+
 
 
 void AssignNode::interpret(const unsigned int tick, InterpreterOutput& output) const {

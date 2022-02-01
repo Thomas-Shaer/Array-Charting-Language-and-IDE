@@ -189,6 +189,7 @@
     <ClCompile Include="screenshot.cpp" />
     <ClCompile Include="semanticanalysis.cpp" />
     <ClCompile Include="settingswindow.cpp" />
+    <ClCompile Include="string.cpp" />
     <ClCompile Include="symboltable.cpp" />
     <ClCompile Include="chartwindow.cpp" />
     <ClCompile Include="TextEditor.cpp" />
@@ -240,6 +241,7 @@
     <ClInclude Include="screenshot.h" />
     <ClInclude Include="settingswindow.h" />
     <ClInclude Include="stb_image_write.h" />
+    <ClInclude Include="string.h" />
     <ClInclude Include="TextEditor.h" />
     <ClInclude Include="texteditorwindow.h" />
     <ClInclude Include="textoutputwindow.h" />

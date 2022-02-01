@@ -189,6 +189,9 @@
     <ClCompile Include="window.cpp">
       <Filter>Source Files\GUI\Windows</Filter>
     </ClCompile>
+    <ClCompile Include="string.cpp">
+      <Filter>Source Files\Values</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bison.tab.h">
@@ -340,6 +343,9 @@
     </ClInclude>
     <ClInclude Include="window.h">
       <Filter>Source Files\GUI\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="string.h">
+      <Filter>Source Files\Values</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

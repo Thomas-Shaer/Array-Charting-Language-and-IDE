@@ -116,6 +116,23 @@ public:
 	virtual ExpressionValue interpret(const unsigned int tick, InterpreterOutput& output) const;
 };
 
+
+/*
+String node class, represents a number node e.g. 2
+*/
+class StringNode : public Expression {
+public:
+	const std::string value;
+	StringNode(std::string _value) : value(_value) {}
+
+	virtual std::string toString() const;
+
+	virtual ~StringNode();
+
+	virtual const TypeSymbol* semanticAnalysis(std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
+	virtual ExpressionValue interpret(const unsigned int tick, InterpreterOutput& output) const;
+};
+
 /*
 Identifier node class, represents identifier e.g. foo
 */

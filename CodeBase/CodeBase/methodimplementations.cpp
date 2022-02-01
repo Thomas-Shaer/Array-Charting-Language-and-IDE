@@ -363,13 +363,13 @@ ExpressionValue GetTick::interpret(const unsigned int tick, std::vector<Expressi
 }
 
 
-static int plotNo = 0;
 
 Plot::Plot() : MethodSymbol("plot", 
 	"Plots a series of values onto the chart",
 	{ 
 	ParameterSymbol(TypeInstances::GetFloatInstance(), "value", "The value that will be plotted at the current tick"),
-	ParameterSymbol(TypeInstances::GetFloatConstantInstance(), "chart_id", "The id of the chart to plot too.")
+	ParameterSymbol(TypeInstances::GetStringConstantInstance(), "name", "The name of the plot"),
+	ParameterSymbol(TypeInstances::GetStringConstantInstance(), "chart_id", "The id of the chart to plot too.")
 	
 	}, ReturnSymbol(TypeInstances::GetVoidInstance())) {}
 
@@ -378,9 +378,10 @@ const TypeSymbol* Plot::semanticAnaylsis(std::vector<std::shared_ptr<ArgumentSym
 	const TypeSymbol* typereturn = MethodSymbol::semanticAnaylsis(_argumentSymbols, output);
 
 
-	std::shared_ptr<ChartPlot> newData = std::make_shared<ChartPlot>("Plot" + std::to_string(plotNo), output.amountTicks);
-	plotNo++;
-	int id = static_cast<NumberNode*>(_argumentSymbols.at(1)->expression)->number;
+	std::string name = static_cast<StringNode*>(_argumentSymbols.at(1)->expression)->value;
+
+	std::shared_ptr<ChartPlot> newData = std::make_shared<ChartPlot>(name, output.amountTicks);
+	std::string id = static_cast<StringNode*>(_argumentSymbols.at(2)->expression)->value;
 	ChartWindow::getOrCreateChartWindow(id)->CHART_LINE_DATA.push_back(newData);
 	std::shared_ptr<ChartPlot> first = ChartWindow::getOrCreateChartWindow(id)->CHART_LINE_DATA.back(); //returns reference, not iterator, to the first object in the vector so you had only to write the data type in the generic of your vector, i.e. myObject, and not all the iterator stuff and the vector again and :: of course
 	plotdata = first;
@@ -408,24 +409,25 @@ Mark::Mark() : MethodSymbol("mark",
 	{ 
 	ParameterSymbol(TypeInstances::GetBooleanInstance(), "when", "Mark the current tick or not"),
 	ParameterSymbol(TypeInstances::GetFloatInstance(), "value", "The value to mark if marking this tick"),
-	ParameterSymbol(TypeInstances::GetFloatConstantInstance(), "chart_id", "The id of the chart to plot too.")
+	ParameterSymbol(TypeInstances::GetStringConstantInstance(), "name", "The name of the plot"),
+	ParameterSymbol(TypeInstances::GetStringConstantInstance(), "chart_id", "The id of the chart to plot too.")
 
 
 	
 	}, ReturnSymbol(TypeInstances::GetVoidInstance())) {}
 
 
-static int markNo = 0;
 
 
 const TypeSymbol* Mark::semanticAnaylsis(std::vector<std::shared_ptr<ArgumentSymbol>> _argumentSymbols, InterpreterOutput& output) {
 	const TypeSymbol* typereturn = MethodSymbol::semanticAnaylsis(_argumentSymbols, output);
 
 
-	std::shared_ptr<ChartPlot> newData = std::make_shared<ChartPlot>("Mark" + std::to_string(markNo), output.amountTicks);
-	markNo++;
+	std::string name = static_cast<StringNode*>(_argumentSymbols.at(2)->expression)->value;
 
-	int id = static_cast<NumberNode*>(_argumentSymbols.at(2)->expression)->number;
+	std::shared_ptr<ChartPlot> newData = std::make_shared<ChartPlot>(name, output.amountTicks);
+
+	std::string id = static_cast<StringNode*>(_argumentSymbols.at(3)->expression)->value;
 	ChartWindow::getOrCreateChartWindow(id)->CHART_MARK_DATA.push_back(newData);
 	std::shared_ptr<ChartPlot> first = ChartWindow::getOrCreateChartWindow(id)->CHART_MARK_DATA.back(); //returns reference, not iterator, to the first object in the vector so you had only to write the data type in the generic of your vector, i.e. myObject, and not all the iterator stuff and the vector again and :: of course
 	plotdata = first;

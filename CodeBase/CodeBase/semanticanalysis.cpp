@@ -21,6 +21,11 @@ const TypeSymbol* BooleanNode::semanticAnalysis(std::shared_ptr<SymbolTable> sym
 }
 
 
+const TypeSymbol* StringNode::semanticAnalysis(std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output) {
+	return TypeInstances::GetStringConstantInstance();
+}
+
+
 
 const TypeSymbol* IdentifierNode::semanticAnalysis(std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output) {
 	// need to return item in symbol table
@@ -50,6 +55,13 @@ void AssignNode::semanticAnalysis(std::shared_ptr<SymbolTable> symboltable, Inte
 	// store as float, not float_constant
 	if (rhsType == TypeInstances::GetFloatConstantInstance()) {
 		rhsType = TypeInstances::GetFloatInstance();
+	}
+
+
+	// x = "hello"
+	// store as string, not string_constant
+	if (rhsType == TypeInstances::GetStringConstantInstance()) {
+		rhsType = TypeInstances::GetStringInstance();
 	}
 
 
@@ -116,6 +128,15 @@ const TypeSymbol* TernaryNode::semanticAnalysis(std::shared_ptr<SymbolTable> sym
 	if (rhstype == TypeInstances::GetFloatConstantInstance()) {
 		rhstype = TypeInstances::GetFloatInstance();
 	}
+
+	if (lhsType == TypeInstances::GetStringConstantInstance()) {
+		lhsType = TypeInstances::GetStringInstance();
+	}
+
+	if (rhstype == TypeInstances::GetStringConstantInstance()) {
+		rhstype = TypeInstances::GetStringInstance();
+	}
+
 
 	if (lhsType != rhstype) {
 		throw LanguageException("Ternary expression, returning types must be the same - got " + lhsType->name + " and " + rhstype->name);

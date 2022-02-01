@@ -23,11 +23,21 @@ TypeSymbol* TypeInstances::GetFloatConstantInstance() {
 	return floatconsttemp;
 }
 
-
-
 TypeSymbol* TypeInstances::GetBooleanInstance() {
 	static TypeSymbol* boolinstance = new TypeSymbol("boolean");
 	return boolinstance;
+}
+
+
+
+TypeSymbol* TypeInstances::GetStringConstantInstance() {
+	static TypeSymbol* string_constant = new TypeSymbol("string_constant");
+	return string_constant;
+}
+
+TypeSymbol* TypeInstances::GetStringInstance() {
+	static TypeSymbol* string = new TypeSymbol("string");
+	return string;
 }
 
 TypeSymbol* TypeInstances::GetVoidInstance() {

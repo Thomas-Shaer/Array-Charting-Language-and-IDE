@@ -12,14 +12,14 @@
 ImGui::FileBrowser ChartWindow::fbSave(ImGuiFileBrowserFlags_EnterNewFilename);
 bool ChartWindow::exportWithBorder = false;
 bool ChartWindow::exportWithOutBorder = false;
-std::map<int, ChartWindow*> ChartWindow::allChartWindows;
-int ChartWindow::exportWindowId = 0;
+std::map<std::string, ChartWindow*> ChartWindow::allChartWindows;
+std::string ChartWindow::exportWindowId = DEFAULT_CHART_WINDOW_ID;
 
 
 
-ChartWindow::ChartWindow(unsigned int id) : chart_id(id), Window("Chart Window " + std::to_string(id))  {
+ChartWindow::ChartWindow(const std::string& id) : chart_id(id), Window("Chart Window " + (id))  {
 
-    TITLE = "Chart Screen (" + std::to_string(chart_id) + ")###ChartWindow" +std::to_string(chart_id);
+    TITLE = "Chart Screen (" + (chart_id) + ")###ChartWindow" + (chart_id);
 }
 
 
@@ -46,7 +46,7 @@ void ChartWindow::reset() {
 }
 
 
-ChartWindow* ChartWindow::getOrCreateChartWindow(unsigned int id) {
+ChartWindow* ChartWindow::getOrCreateChartWindow(const std::string& id) {
     auto find = allChartWindows.find(id);
     if (find == allChartWindows.end()) {
         allChartWindows[id] = new ChartWindow(id);
@@ -73,7 +73,7 @@ void ChartWindow::UpdateChart() {
     for (auto line : CHART_LINE_DATA) {
         maxSize = line->data.size() > maxSize ? line->data.size() : maxSize;
     }
-    TITLE = "Chart Screen (" + std::to_string(chart_id) + "): displaying " + std::to_string(CHART_LINE_DATA.size() + CHART_MARK_DATA.size()) + " plot(s) of size " + std::to_string(maxSize) + "###ChartWindow" + std::to_string(chart_id);
+    TITLE = "Chart Screen (" + (chart_id) + "): displaying " + std::to_string(CHART_LINE_DATA.size() + CHART_MARK_DATA.size()) + " plot(s) of size " + std::to_string(maxSize) + "###ChartWindow" + (chart_id);
     ImPlot::SetNextAxisToFit(ImAxis_X1);
     ImPlot::SetNextAxisToFit(ImAxis_Y1);
 }
@@ -83,7 +83,7 @@ void ChartWindow::ShowWindow() {
 
     ImGui::SetNextWindowSize(ImVec2(400, 500), ImGuiCond_FirstUseEver | ImGuiWindowFlags_AlwaysAutoResize);
 
-    if (chart_id == 0) {
+    if (chart_id == DEFAULT_CHART_WINDOW_ID) {
         ImGui::Begin(TITLE.c_str(), &show, ImGuiWindowFlags_MenuBar);
 
     }
@@ -97,7 +97,7 @@ void ChartWindow::ShowWindow() {
     Delete this (as we have been turned into a pointer)
     */
     if (!show) {
-        if (chart_id != 0) {
+        if (chart_id != DEFAULT_CHART_WINDOW_ID) {
             ChartWindow::allChartWindows.erase(chart_id);
             deleteWindow();
         }

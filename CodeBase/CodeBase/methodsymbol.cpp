@@ -20,6 +20,9 @@ const TypeSymbol* MethodSymbol::semanticAnaylsis(std::vector<std::shared_ptr<Arg
 		if (expected == TypeInstances::GetFloatInstance() && received == TypeInstances::GetFloatConstantInstance()) {
 			continue;
 		}
+		if (expected == TypeInstances::GetStringInstance() && received == TypeInstances::GetStringConstantInstance()) {
+			continue;
+		}
 		// else types have to be the same
 		else if (expected == received) {
 			continue;

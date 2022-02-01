@@ -8,6 +8,7 @@
     class Expression;
     class Statement;
     class BooleanNode;
+    class StringNode;
 
     class BlockNode;
     class NumberNode;
@@ -28,19 +29,24 @@
 #include <string>
 #include "node.h"
 
-/*
 
-"=="                    value->emplace<int>(yy::parser::token::TCEQUAL); return yy::parser::token::TCEQUAL;
-"!="                    value->emplace<int>(yy::parser::token::TCNE); return yy::parser::token::TCNE;
-*/
 
 %}
 
  
 
 %x SINGLE_LINE_COMMENT
+%x SINGLE_STRING
 
 %%
+\"                          BEGIN(SINGLE_STRING);
+<SINGLE_STRING>{
+  \n                        {}
+  <<EOF>>                   {}
+  ([^\\\"]|\\.)*            {value->emplace<std::string>(yytext); return yy::parser::token::TSTRING;}
+  \"                        BEGIN(INITIAL);
+  .                         ;
+}
 
 "//"                              { BEGIN(SINGLE_LINE_COMMENT); }
 <SINGLE_LINE_COMMENT>"\n"         { BEGIN(INITIAL); }

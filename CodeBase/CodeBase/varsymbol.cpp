@@ -77,6 +77,9 @@ void VarSymbol::matchGlobalBufferSize() {
 			else if (type == TypeInstances::GetFloatInstance()) {
 				buffer.push_back(Float());
 			}
+			else if (type == TypeInstances::GetStringInstance()) {
+				buffer.push_back(String());
+			}
 		}
 	}
 	/*

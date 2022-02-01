@@ -15,6 +15,7 @@ class Statement;
 class Node;
 class BinaryOpNode;
 class BlockNode;
+class StringNode;
 class AssignNode;
 class IdentifierNode;
 class MethodCallNode;

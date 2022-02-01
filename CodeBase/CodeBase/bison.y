@@ -23,6 +23,7 @@
     class MethodCallNode;
     class ExpressionStatementNode;
     class IfStatementNode;
+    class StringNode;
     class TernaryNode;
 	#include "node.h"
 
@@ -41,8 +42,8 @@
 }
 
 
-%token <std::string> TNUMBER TIDENTIFIER TFLOAT
-%token <int> TPLUS "+" TMINUS "-" TMUL "*" TDIV "/" TASSIGN "=" TPOW "^" TMOD "%" 
+%token <std::string> TNUMBER TIDENTIFIER TFLOAT TSTRING
+%token <int> TPLUS "+" TMINUS "-" TMUL "*" TDIV "/" TASSIGN "=" TPOW "^" TMOD "%"
 %token <int> TLESS "<" TLESSEQUAL "<=" TGREATER ">" TGREATEREQUAL ">=" TAND "&&" TOR "||" TNOT "!" TNOTEQUAL "!=" TEQUAL "=="
 %token <int> TOPENBRACKET "(" TCLOSEBRACKET ")" TCOMMA ","
 %token <int> TTRUE "TRUE" TFALSE "FALSE"
@@ -62,6 +63,7 @@
 %type <MethodCallNode*> method;
 %type <ExpressionStatementNode*> exprstmt;
 %type <TernaryNode*> ternary;
+%type <StringNode*> string;
 %type <std::vector<Expression*>> call_params
 
 
@@ -109,6 +111,7 @@ assign : TIDENTIFIER TASSIGN expr {$$ = new AssignNode($1, $3);}
 
 expr : numeric { $$ = $1; }
      | boolean {$$=$1;}
+     | string {$$=$1;}
      | method {$$=$1;}
      | identifier {$$ = $1; }
      | TOPENBRACKET expr TCLOSEBRACKET {$$ = $2; }
@@ -143,6 +146,9 @@ numeric : TNUMBER { $$ = new NumberNode(atoi($1.c_str())); }
 boolean : TFALSE { $$ = new BooleanNode(false); }
         | TTRUE { $$ = new BooleanNode(true); }
         ;
+
+string : TSTRING { $$ = new StringNode($1.c_str());}
+       ;
 
 method : TIDENTIFIER TOPENBRACKET call_params TCLOSEBRACKET {$$ = new MethodCallNode($1, $3);}
        ;

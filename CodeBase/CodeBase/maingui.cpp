@@ -113,8 +113,8 @@ int start()
 
     // default chart window instance
     //ChartWindow chartWindow(0);
-    ChartWindow::allChartWindows[0] = new ChartWindow(0);
-    ChartWindow::allChartWindows[0]->saveStatus = true;
+    ChartWindow::allChartWindows[DEFAULT_CHART_WINDOW_ID] = new ChartWindow(DEFAULT_CHART_WINDOW_ID);
+    ChartWindow::allChartWindows[DEFAULT_CHART_WINDOW_ID]->saveStatus = true;
 
     /*
     The order of these declarations matter. Default first.

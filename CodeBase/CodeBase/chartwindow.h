@@ -3,6 +3,8 @@
 #include <map>
 #include "window.h"
 
+#define DEFAULT_CHART_WINDOW_ID "main"
+
 class ChartPlot;
 
 
@@ -10,10 +12,10 @@ class ChartWindow : public Window {
 
 public:
 
-	static ChartWindow* getOrCreateChartWindow(unsigned int id);
+	static ChartWindow* getOrCreateChartWindow(const std::string& id);
 
 
-	ChartWindow(unsigned int id);
+	ChartWindow(const std::string& id);
 	//ChartWindow() : chart_id(-99), Window("Chart Window (temp)", true) {}
 
 	/*
@@ -32,10 +34,10 @@ public:
 
 	static bool exportWithBorder;
 	static bool exportWithOutBorder;
-	static int exportWindowId;
+	static std::string exportWindowId;
 
 
-	unsigned int chart_id;
+	std::string chart_id;
 
 	std::vector<std::shared_ptr<ChartPlot>> CHART_LINE_DATA;
 	std::vector<std::shared_ptr<ChartPlot>> CHART_MARK_DATA;
@@ -46,7 +48,7 @@ public:
 
 	static void clearAllWindows();
 	static void updateAllCharts();
-	static std::map<int, ChartWindow*> allChartWindows;
+	static std::map<std::string, ChartWindow*> allChartWindows;
 
 
 private:
