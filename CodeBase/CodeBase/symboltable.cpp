@@ -46,6 +46,7 @@ std::shared_ptr<SymbolTable> SymbolTable::GLOBAL_SYMBOL_TABLE = std::make_shared
 
 	registerMethod("nan_f", new SingleMethodBucket(new FloatNAN(), METHOD_TYPE::MATHEMATICAL)),
 	registerMethod("nan_b", new SingleMethodBucket(new BooleanNAN(), METHOD_TYPE::MATHEMATICAL)),
+	registerMethod("nan_s", new SingleMethodBucket(new StringNAN(), METHOD_TYPE::MATHEMATICAL)),
 	registerMethod("valuewhen", new SingleMethodBucket(new ValueWhen(), METHOD_TYPE::LOGIC)),
 
 	registerMethod("min", new OverloadedMethodBucket(
@@ -117,7 +118,8 @@ std::shared_ptr<SymbolTable> SymbolTable::GLOBAL_SYMBOL_TABLE = std::make_shared
 
 	registerMethod("isnan", new OverloadedMethodBucket(
 		{(new IsNANF()),
-		(new IsNANB())
+		(new IsNANB()),
+		(new IsNANS())
 		}
 	,METHOD_TYPE::LOGIC)),
 

@@ -503,6 +503,15 @@ ExpressionValue BooleanNAN::interpret(const unsigned int tick, std::vector<Expre
 }
 
 
+StringNAN::StringNAN() : MethodSymbol("nan_s",
+	"Get a string NAN.",
+	{ }, ReturnSymbol(TypeInstances::GetStringInstance(), "String value")) {}
+
+ExpressionValue StringNAN::interpret(const unsigned int tick, std::vector<ExpressionValue> _argumentValues, InterpreterOutput& output) {
+	return String();
+}
+
+
 
 Minimum::Minimum() : MethodSymbol("min",
 	"Returns the smallest value that has ever been passed to it.",
@@ -1141,6 +1150,19 @@ IsNANB::IsNANB() : MethodSymbol("isnan",
 
 ExpressionValue IsNANB::interpret(const unsigned int tick, std::vector<ExpressionValue> _argumentValues, InterpreterOutput& output) {
 	return Boolean((bool)!boost::get<Boolean>(_argumentValues.at(0)).value);
+}
+
+
+IsNANS::IsNANS() : MethodSymbol("isnan",
+	"Returns true if string value is NAN",
+
+	{
+		ParameterSymbol(TypeInstances::GetStringInstance(), "value", "The value to test"),
+	}, ReturnSymbol(TypeInstances::GetStringInstance(), "Whether the value is NAN or not")) {}
+
+
+ExpressionValue IsNANS::interpret(const unsigned int tick, std::vector<ExpressionValue> _argumentValues, InterpreterOutput& output) {
+	return Boolean((bool)!boost::get<String>(_argumentValues.at(0)).value);
 }
 
 

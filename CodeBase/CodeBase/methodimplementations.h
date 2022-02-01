@@ -256,6 +256,15 @@ public:
 	}
 };
 
+class StringNAN : public MethodSymbol {
+public:
+	StringNAN();
+	virtual ExpressionValue interpret(const unsigned int tick, std::vector<ExpressionValue> _argumentValues, InterpreterOutput& output);
+	virtual StringNAN* clone() {
+		return new StringNAN();
+	}
+};
+
 
 class ValueWhen : public MethodSymbol {
 public:
@@ -562,6 +571,15 @@ public:
 	virtual ExpressionValue interpret(const unsigned int tick, std::vector<ExpressionValue> _argumentValues, InterpreterOutput& output);
 	virtual IsNANB* clone() {
 		return new IsNANB();
+	}
+};
+
+class IsNANS : public MethodSymbol {
+public:
+	IsNANS();
+	virtual ExpressionValue interpret(const unsigned int tick, std::vector<ExpressionValue> _argumentValues, InterpreterOutput& output);
+	virtual IsNANS* clone() {
+		return new IsNANS();
 	}
 };
 
