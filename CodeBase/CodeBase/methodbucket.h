@@ -20,6 +20,8 @@ static std::map<METHOD_TYPE, std::string> METHOD_TYPE_TO_STRING{
 class MethodSymbol;
 class TypeSymbol;
 class ArgumentSymbol;
+class MethodCallNode;
+class SymbolTable;
 
 /*
 * Acts as an intermediate container for method symbols.
@@ -38,7 +40,7 @@ public:
 	/*
 	* Get a method given the argument types
 	*/
-	virtual MethodSymbol* getMethodSymbol(std::vector<std::shared_ptr<ArgumentSymbol>> _argumentSymbols) const=0;
+	virtual MethodSymbol* getMethodSymbol(MethodCallNode* methodcall, std::shared_ptr<SymbolTable> symbolTable) const=0;
 
 
 	METHOD_TYPE methodType;
@@ -66,7 +68,7 @@ public:
 
 	const std::vector<MethodSymbol*> overloads;
 
-	virtual MethodSymbol* getMethodSymbol(std::vector<std::shared_ptr<ArgumentSymbol>> _argumentSymbols) const;
+	virtual MethodSymbol* getMethodSymbol(MethodCallNode* methodcall, std::shared_ptr<SymbolTable> symbolTable) const;
 
 	virtual std::string toString() const;
 
@@ -86,7 +88,7 @@ public:
 
 	MethodSymbol* methodsymbol;
 
-	virtual MethodSymbol* getMethodSymbol(std::vector<std::shared_ptr<ArgumentSymbol>> _argumentSymbols) const;
+	virtual MethodSymbol* getMethodSymbol(MethodCallNode* methodcall, std::shared_ptr<SymbolTable> symbolTable) const;
 
 	virtual std::string toString() const;
 	virtual void renderAsDocumentation() const;

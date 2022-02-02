@@ -22,11 +22,11 @@ std::string OverloadedMethodBucket::toString() const {
 	return output;
 }
 
-MethodSymbol* OverloadedMethodBucket::getMethodSymbol(std::vector<std::shared_ptr<ArgumentSymbol>> _argumentSymbols) const {
+MethodSymbol* OverloadedMethodBucket::getMethodSymbol(MethodCallNode* methodcall, std::shared_ptr<SymbolTable> symbolTable) const {
 	for (MethodSymbol* overload : overloads) {
 		try {
 			InterpreterOutput temp(0);
-			overload->semanticAnaylsis(_argumentSymbols, temp);
+			overload->semanticAnaylsis(methodcall, symbolTable, temp);
 		}
 		catch (LanguageException langexception) {
 			continue;
@@ -66,7 +66,7 @@ std::string SingleMethodBucket::toString() const {
 	return methodsymbol->getSignature();
 }
 
-MethodSymbol* SingleMethodBucket::getMethodSymbol(std::vector<std::shared_ptr<ArgumentSymbol>> _argumentSymbols) const {
+MethodSymbol* SingleMethodBucket::getMethodSymbol(MethodCallNode* methodcall, std::shared_ptr<SymbolTable> symbolTable) const {
 	return methodsymbol;
 }
 

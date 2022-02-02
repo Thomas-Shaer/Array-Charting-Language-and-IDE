@@ -7,6 +7,8 @@
 #include "returnsymbol.h"
 class TypeSymbol;
 class ArgumentSymbol;
+class MethodCallNode;
+class SymbolTable;
 
 /*
 Contains all information related to a method.
@@ -24,9 +26,11 @@ public:
 
 
 	// should take list of types
-	virtual const TypeSymbol* semanticAnaylsis(std::vector<std::shared_ptr<ArgumentSymbol>> _argumentSymbols, InterpreterOutput& output);
+	virtual const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output) = 0;
 
-	virtual ExpressionValue interpret(const unsigned int tick, std::vector<ExpressionValue> _argumentValues, InterpreterOutput& output) = 0;
+	virtual const TypeSymbol* standardArgumentVerification(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
+
+	virtual ExpressionValue interpret(const unsigned int tick, InterpreterOutput& output) = 0;
 
 	std::string getSignature() const;
 	std::string getDescription() const;

@@ -4,11 +4,13 @@
 #include <vector>
 #include "varsymbol.h"
 #include "interpreteroutput.h"
+#include <map>
 
 class SymbolTable;
 class BinaryOperator;
 class UnaryOperator;
 class MethodSymbol;
+class ArgumentSymbol;
 
 /*
 Base node class
@@ -192,6 +194,7 @@ public:
 	virtual const TypeSymbol* semanticAnalysis(std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
 	virtual ExpressionValue interpret(const unsigned int tick, InterpreterOutput& output) const;
 
+	std::map<std::string, std::shared_ptr<ArgumentSymbol>> expressionToArgList;
 
 private:
 	MethodSymbol* methodsymbol;

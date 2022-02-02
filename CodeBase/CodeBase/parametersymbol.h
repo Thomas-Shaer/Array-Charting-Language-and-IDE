@@ -15,10 +15,9 @@ public:
 	std::string toString() const;
 	std::string getDescription() const;
 	const TypeSymbol* typesymbol;
-
+	const std::string name;
 private:
 
-	const std::string name;
 	const std::string description;
 
 };
