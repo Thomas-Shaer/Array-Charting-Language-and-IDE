@@ -1,10 +1,8 @@
 #include "boolean.h"
 #include <string>
+#include "jsonsettings.h"
 
-char Boolean::TRUEEXPORTSTRING[40] = "true";
-char Boolean::TRUEIMPORTSTRING[40] = "true";
-char Boolean::FALSEEXPORTSTRING[40] = "false";
-char Boolean::FALSEIMPORTSTRING[40] = "false";
+
 
 std::string Boolean::toString() const {
 	return this->value ? (*this->value ? "true" : "false") : "nan";
@@ -13,7 +11,7 @@ std::string Boolean::toString() const {
 
 std::string Boolean::toFileString() const {
 	if (!value) {
-		return NaNHelper::NANEXPORTSTRING;
+		return Settings::settingsFile["defaultNANExportLiteral"].get<std::string>();
 	}
-	return *this->value ? TRUEEXPORTSTRING : FALSEEXPORTSTRING;
+	return *this->value ? Settings::settingsFile["defaultTrueExportLiteral"].get<std::string>() : Settings::settingsFile["defaultFalseExportLiteral"].get<std::string>();
 }

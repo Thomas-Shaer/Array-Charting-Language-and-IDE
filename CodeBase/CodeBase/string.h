@@ -2,15 +2,13 @@
 #include "value.h"
 
 
-
-
-class Boolean : public Value<bool> {
+class String : public Value<std::string> {
 
 public:
 
-	Boolean() : Value() {}
-	Boolean(bool _value) : Value(_value) {}
-	
+	String() : Value() {}
+	String(std::string _value) : Value(_value) {}
+
 	virtual std::string toString() const;
 	virtual std::string toFileString() const;
 

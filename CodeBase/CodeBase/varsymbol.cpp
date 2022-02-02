@@ -3,6 +3,9 @@
 #include "typesymbol.h"
 #include "visitors.h"
 #include "interpretercontext.h"
+#include <regex>
+#include "dataparseexception.h"
+
 
 VarSymbol::VarSymbol(const std::string _name, const TypeSymbol* _type, std::vector<ExpressionValue> _value) : name(_name), type(_type), buffer(_value), modifiable(false), exportName(_name), originalSize(_value.size()){
 }
@@ -11,6 +14,32 @@ VarSymbol::VarSymbol(const std::string _name, const TypeSymbol* _type) : name(_n
 	// for new variables make sure they match the global buffer size
 	matchGlobalBufferSize();
 }
+
+
+std::shared_ptr<VarSymbol> VarSymbol::createVarSymbol(const std::string _name, const TypeSymbol* _type, std::vector<ExpressionValue> _value) {
+	if (!std::regex_match(_name, std::regex("[a-zA-Z_][a-zA-Z0-9_]*"))) {
+		throw DataParseException("Invalid variable name: " + _name);
+	}
+	return std::shared_ptr<VarSymbol>(new VarSymbol(_name, _type, _value));
+}
+
+
+std::shared_ptr<VarSymbol> VarSymbol::createVarSymbol(const std::string _name, const TypeSymbol* _type) {
+	if (!std::regex_match(_name, std::regex("[a-zA-Z_][a-zA-Z0-9_]*"))) {
+		throw DataParseException("Invalid variable name: " + _name);
+	}
+	return std::shared_ptr<VarSymbol>(new VarSymbol(_name, _type));
+}
+
+
+/*
+Returns true/false if the name is valid.
+*/
+bool VarSymbol::isValidName(const std::string _name) {
+	return std::regex_match(_name, std::regex("[a-zA-Z_][a-zA-Z0-9_]*"));
+}
+
+
 
 std::string VarSymbol::toString() {
 	std::string output = "<";
@@ -47,6 +76,9 @@ void VarSymbol::matchGlobalBufferSize() {
 			}
 			else if (type == TypeInstances::GetFloatInstance()) {
 				buffer.push_back(Float());
+			}
+			else if (type == TypeInstances::GetStringInstance()) {
+				buffer.push_back(String());
 			}
 		}
 	}

@@ -47,6 +47,14 @@ std::string NumberNode::toString() const {
 NumberNode::~NumberNode() {}
 
 
+std::string StringNode::toString() const {
+	return "\"" + (value) + "\"";
+}
+
+
+StringNode::~StringNode() {}
+
+
 std::string BooleanNode::toString() const {
 	return value ? "true" : "false";
 }

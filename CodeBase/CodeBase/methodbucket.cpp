@@ -3,6 +3,17 @@
 #include "methodsymbol.h"
 #include "maingui.h"
 
+
+std::map<METHOD_TYPE, std::vector<MethodBucket*>> MethodBucket::methodTypeMappings;
+
+
+MethodBucket::MethodBucket(const METHOD_TYPE _methodType) : methodType(_methodType) {
+	if (methodTypeMappings.find(_methodType) == methodTypeMappings.end()) {
+		methodTypeMappings[_methodType] = std::vector<MethodBucket*>();
+	}
+	methodTypeMappings[_methodType].push_back(this);
+}
+
 std::string OverloadedMethodBucket::toString() const {
 	std::string output = "";
 	for (MethodSymbol* overload : overloads) {

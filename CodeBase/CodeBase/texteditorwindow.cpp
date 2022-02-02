@@ -3,7 +3,7 @@
 #include <iostream>
 #include "interpretercontext.h"
 #include "textoutputwindow.h"
-#include "displayinformation.h"
+
 #include "node.h"
 #include "symboltable.h"
 #include "implot.h"
@@ -13,19 +13,21 @@
 #include <sstream> //std::stringstream
 #include "inputdata.h"
 #include "datamanagerwindow.h"
+#include "dataparseexception.h"
 
-ImGui::FileBrowser TextEditorSingleton::fbSave(ImGuiFileBrowserFlags_EnterNewFilename);
-ImGui::FileBrowser TextEditorSingleton::fbOpen;
-TextEditor TextEditorSingleton::textEditor;
+ImGui::FileBrowser TextEditorWindow::fbSave(ImGuiFileBrowserFlags_EnterNewFilename);
+ImGui::FileBrowser TextEditorWindow::fbOpen;
+TextEditor TextEditorWindow::textEditor;
+
+std::string TextEditorWindow::PLACEHOLDER_CODE = "plot(tick(), 0)\nmark(tick() > 5 && tick() < 20, tick(), 0)";
 
 
-
-static void saveFile(const std::string& filePath) {
+void TextEditorWindow::saveFile(const std::string& filePath) {
     nlohmann::json saveJSON;
-    saveJSON["code"] = TextEditorSingleton::textEditor.GetText();
+    saveJSON["code"] = TextEditorWindow::textEditor.GetText();
     saveJSON["variables"] = nlohmann::json::array();
 
-    for (std::shared_ptr<InputData> data : DisplayInformation::LOADED_IN_DATA) {
+    for (std::shared_ptr<InputData> data : DataManagerWindow::LOADED_IN_DATA) {
         if (data->isVariable) {
             nlohmann::json variableJSON;
             variableJSON["variableName"] = data->variableName;
@@ -46,8 +48,8 @@ static void saveFile(const std::string& filePath) {
 
 
 
-void loadFile(const std::string& filePath) {
-    deleteAllVariables();
+void TextEditorWindow::loadFile(const std::string& filePath) {
+    DataManagerWindow::deleteAllVariables();
     nlohmann::json saveJSON;
     std::ifstream inputjson(filePath);
     inputjson >> saveJSON;
@@ -77,25 +79,30 @@ void loadFile(const std::string& filePath) {
         }
 
         if (!dataLoadedIn) {
-            loadInData(importPolicy, filepath, fileName, trueImport, falseImport, NANImport);
+            DataManagerWindow::loadInData(importPolicy, filepath, fileName, trueImport, falseImport, NANImport);
         }
 
-        for (std::shared_ptr<InputData> data : DisplayInformation::LOADED_IN_DATA) {
+        for (std::shared_ptr<InputData> data : DataManagerWindow::LOADED_IN_DATA) {
             if (data->name == dataName) {
-                createNewVariable(data, variableName);
+                try {
+                    DataManagerWindow::createNewVariable(data, variableName);
+                }
+                catch (DataParseException e) {
+                    std::cout << e.message << std::endl;
+                }
             }
         }
 
    
     }
-    TextEditorSingleton::textEditor.SetText(saveJSON["code"]);
+    TextEditorWindow::textEditor.SetText(saveJSON["code"]);
 
     //InputData::LoadInputData(std::string name, std::string filename)
 }
 
 
 
-void TextEditorSingleton::initFileBrowserSave() {
+void TextEditorWindow::initFileBrowserSave() {
     fbSave.SetPwd(std::filesystem::path(Settings::settingsFile["lastCodeSaveDirectory"].get<std::string>()));
 
 
@@ -105,7 +112,7 @@ void TextEditorSingleton::initFileBrowserSave() {
 }
 
 
-void TextEditorSingleton::initFileBrowserOpen() {
+void TextEditorWindow::initFileBrowserOpen() {
     fbOpen.SetPwd(std::filesystem::path(Settings::settingsFile["lastCodeOpenDirectory"].get<std::string>()));
 
 
@@ -116,10 +123,10 @@ void TextEditorSingleton::initFileBrowserOpen() {
 
 
 
-void TextEditorSingleton::initTextEditor() {
+void TextEditorWindow::initTextEditor() {
     auto lang = TextEditor::LanguageDefinition::CPlusPlus();
     textEditor.SetLanguageDefinition(lang);
-    textEditor.SetText(DisplayInformation::PLACEHOLDER_CODE);
+    textEditor.SetText(PLACEHOLDER_CODE);
 
 
     std::string currentCodeFile = Settings::settingsFile["currentCodeFile"].get<std::string>();
@@ -129,26 +136,26 @@ void TextEditorSingleton::initTextEditor() {
 }
 
 
-void executeCode(const std::string& code) {
-    DisplayInformation::CODE_OUTPUT = "";
-    DisplayInformation::CODE_OUTPUT_RECONSTRUCTION = "";
-    DisplayInformation::CODE_OUTPUT_VARIABLES = {};
+void TextEditorWindow::executeCode(const std::string& code) {
+
     InterpreterContext context;
     context.execute(code);
 
 
     if (!context.output->textOutput.empty()) {
+        OutputWindow::CODE_OUTPUT = "";
         for (auto string : context.output->textOutput) {
-            DisplayInformation::CODE_OUTPUT += string + "\n";
+            OutputWindow::CODE_OUTPUT += string + "\n";
+            
         }
-        SnapToOutputTab();
+        OutputWindow::SnapToOutputTab();
     }
 
     if (context.ast) {
-        DisplayInformation::CODE_OUTPUT_RECONSTRUCTION = context.ast->toString();
+        OutputWindow::CODE_OUTPUT_RECONSTRUCTION = context.ast->toString();
     }
     if (context.symboltable) {
-        DisplayInformation::CODE_OUTPUT_VARIABLES = context.symboltable->variablesToVector(true);
+        OutputWindow::CODE_OUTPUT_VARIABLES = context.symboltable->variablesToVector(true);
     }
     //ChartWindow::getOrCreateChartWindow(0)->CHART_LINE_DATA = context.output->chartData;
     //ChartWindow::getOrCreateChartWindow(0)->CHART_MARK_DATA = context.output->markData;
@@ -156,8 +163,8 @@ void executeCode(const std::string& code) {
 }
 
 
-void ShowEditorWindow() {
-    ImGui::Begin("Code Input", nullptr, ImGuiWindowFlags_HorizontalScrollbar | ImGuiWindowFlags_MenuBar);
+void TextEditorWindow::ShowWindow() {
+    ImGui::Begin("Code Input", &show, ImGuiWindowFlags_HorizontalScrollbar | ImGuiWindowFlags_MenuBar);
     ImGui::SetWindowSize(ImVec2(800, 600), ImGuiCond_FirstUseEver);
     ImGui::SetWindowPos(ImVec2(10, 600), ImGuiCond_FirstUseEver);
 
@@ -183,21 +190,21 @@ void ShowEditorWindow() {
     }
 
     if (openSaveAsFile) {
-        TextEditorSingleton::fbSave.Open();
+        TextEditorWindow::fbSave.Open();
     } else if (openLoadFile) {
-        TextEditorSingleton::fbOpen.Open();
+        TextEditorWindow::fbOpen.Open();
     } else if (openSaveFile) {
         saveFile(currentCodeFile);
     } else if (openNewFile) {
-        TextEditorSingleton::textEditor.SetText("");
+        TextEditorWindow::textEditor.SetText("");
         Settings::settingsFile["currentCodeFile"] = "";
     }
 
     if (ImGui::Button("Execute")) {
-        executeCode(TextEditorSingleton::textEditor.GetText());
+        executeCode(TextEditorWindow::textEditor.GetText());
     }
 
-    TextEditorSingleton::textEditor.Render("TextEditor");
+    TextEditorWindow::textEditor.Render("TextEditor");
 
     ImGui::End();
 
@@ -205,21 +212,21 @@ void ShowEditorWindow() {
     Controls for "save as" dialog.
     */
 
-    TextEditorSingleton::fbSave.Display();
+    TextEditorWindow::fbSave.Display();
 
-    if (TextEditorSingleton::fbSave.IsOpened()) {
-        Settings::settingsFile["lastCodeSaveDirectory"] = TextEditorSingleton::fbSave.GetPwd().root_path().generic_string() + (TextEditorSingleton::fbSave.GetPwd().relative_path()).generic_string();
+    if (TextEditorWindow::fbSave.IsOpened()) {
+        Settings::settingsFile["lastCodeSaveDirectory"] = TextEditorWindow::fbSave.GetPwd().root_path().generic_string() + (TextEditorWindow::fbSave.GetPwd().relative_path()).generic_string();
     }
 
-    if (TextEditorSingleton::fbSave.HasSelected())
+    if (TextEditorWindow::fbSave.HasSelected())
     {
-        std::string fileName = TextEditorSingleton::fbSave.GetSelected().filename().string() + ".al";
-        std::string fullPath = TextEditorSingleton::fbSave.GetSelected().string() + ".al";
+        std::string fileName = TextEditorWindow::fbSave.GetSelected().filename().string() + ".al";
+        std::string fullPath = TextEditorWindow::fbSave.GetSelected().string() + ".al";
         
         saveFile(fullPath);
         Settings::settingsFile["currentCodeFile"] = fullPath;
 
-        TextEditorSingleton::fbSave.ClearSelected();
+        TextEditorWindow::fbSave.ClearSelected();
 
     }
 
@@ -227,18 +234,18 @@ void ShowEditorWindow() {
     Controls for "open" dialog.
     */
 
-    TextEditorSingleton::fbOpen.Display();
+    TextEditorWindow::fbOpen.Display();
 
-    if (TextEditorSingleton::fbOpen.IsOpened()) {
-        Settings::settingsFile["lastCodeOpenDirectory"] = TextEditorSingleton::fbOpen.GetPwd().root_path().generic_string() + (TextEditorSingleton::fbOpen.GetPwd().relative_path()).generic_string();
+    if (TextEditorWindow::fbOpen.IsOpened()) {
+        Settings::settingsFile["lastCodeOpenDirectory"] = TextEditorWindow::fbOpen.GetPwd().root_path().generic_string() + (TextEditorWindow::fbOpen.GetPwd().relative_path()).generic_string();
     }
 
-    if (TextEditorSingleton::fbOpen.HasSelected())
+    if (TextEditorWindow::fbOpen.HasSelected())
     {
-        std::string openFile = (TextEditorSingleton::fbOpen.GetSelected().string());
+        std::string openFile = (TextEditorWindow::fbOpen.GetSelected().string());
         loadFile(openFile);
         Settings::settingsFile["currentCodeFile"] = openFile;
-        TextEditorSingleton::fbOpen.ClearSelected();
+        TextEditorWindow::fbOpen.ClearSelected();
 
     }
 

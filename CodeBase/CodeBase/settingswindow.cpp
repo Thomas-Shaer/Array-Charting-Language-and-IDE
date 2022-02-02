@@ -3,8 +3,8 @@
 #include "jsonsettings.h"
 #include <iostream>
 
-void ShowSettingsWindow() {
-    ImGui::Begin("Settings Window", nullptr, ImGuiWindowFlags_HorizontalScrollbar | ImGuiWindowFlags_MenuBar);
+void SettingsWindow::ShowWindow() {
+    ImGui::Begin("Settings Window", &show, ImGuiWindowFlags_HorizontalScrollbar | ImGuiWindowFlags_MenuBar);
     ImGui::SetWindowSize(ImVec2(500, 600), ImGuiCond_FirstUseEver);
     ImGui::SetWindowPos(ImVec2(100, 600), ImGuiCond_FirstUseEver);
 
@@ -15,7 +15,6 @@ void ShowSettingsWindow() {
     if (ImGui::SliderFloat("Text scale", &textScale, 1, 3)) {
         Settings::settingsFile["zoom"] = textScale;
     }
-    ImGui::GetIO().FontGlobalScale = textScale;
 
     ImGui::End();
 

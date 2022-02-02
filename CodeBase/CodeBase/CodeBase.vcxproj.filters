@@ -141,9 +141,6 @@
     <ClCompile Include="textoutputwindow.cpp">
       <Filter>Source Files\GUI\Windows</Filter>
     </ClCompile>
-    <ClCompile Include="displayinformation.cpp">
-      <Filter>Source Files\GUI</Filter>
-    </ClCompile>
     <ClCompile Include="settingswindow.cpp">
       <Filter>Source Files\GUI\Windows</Filter>
     </ClCompile>
@@ -185,6 +182,15 @@
     </ClCompile>
     <ClCompile Include="argumentsymbol.cpp">
       <Filter>Source Files\Symbol</Filter>
+    </ClCompile>
+    <ClCompile Include="menubar.cpp">
+      <Filter>Source Files\GUI\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="window.cpp">
+      <Filter>Source Files\GUI\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="string.cpp">
+      <Filter>Source Files\Values</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -275,9 +281,6 @@
     <ClInclude Include="textoutputwindow.h">
       <Filter>Source Files\GUI\Windows</Filter>
     </ClInclude>
-    <ClInclude Include="displayinformation.h">
-      <Filter>Source Files\GUI</Filter>
-    </ClInclude>
     <ClInclude Include="interpreteroutput.h">
       <Filter>Source Files\Output</Filter>
     </ClInclude>
@@ -334,6 +337,15 @@
     </ClInclude>
     <ClInclude Include="argumentsymbol.h">
       <Filter>Source Files\Symbol</Filter>
+    </ClInclude>
+    <ClInclude Include="menubar.h">
+      <Filter>Source Files\GUI\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="window.h">
+      <Filter>Source Files\GUI\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="string.h">
+      <Filter>Source Files\Values</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

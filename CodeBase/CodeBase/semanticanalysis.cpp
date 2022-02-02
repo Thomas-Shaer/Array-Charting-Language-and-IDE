@@ -21,6 +21,11 @@ const TypeSymbol* BooleanNode::semanticAnalysis(std::shared_ptr<SymbolTable> sym
 }
 
 
+const TypeSymbol* StringNode::semanticAnalysis(std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output) {
+	return TypeInstances::GetStringConstantInstance();
+}
+
+
 
 const TypeSymbol* IdentifierNode::semanticAnalysis(std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output) {
 	// need to return item in symbol table
@@ -53,6 +58,13 @@ void AssignNode::semanticAnalysis(std::shared_ptr<SymbolTable> symboltable, Inte
 	}
 
 
+	// x = "hello"
+	// store as string, not string_constant
+	if (rhsType == TypeInstances::GetStringConstantInstance()) {
+		rhsType = TypeInstances::GetStringInstance();
+	}
+
+
 	// variable already declared therefore right side type should be same as left side type
 	if (symboltable->isVariableDeclared(name)) {
 		varSymbol = symboltable->getVariable(name);
@@ -67,7 +79,8 @@ void AssignNode::semanticAnalysis(std::shared_ptr<SymbolTable> symboltable, Inte
 	}
 	// variable not declared register new variable
 	else {
-		varSymbol = std::make_shared<VarSymbol>(name, rhsType);
+		varSymbol = VarSymbol::createVarSymbol(name, rhsType);
+
 
 		symboltable->declareVariable(varSymbol);
 	}
@@ -103,11 +116,31 @@ const TypeSymbol* TernaryNode::semanticAnalysis(std::shared_ptr<SymbolTable> sym
 	if (condition->semanticAnalysis(symboltable, output) != TypeInstances::GetBooleanInstance()) {
 		throw LanguageException("Ternary condition must be a boolean.");
 	}
+
+
 	const TypeSymbol* lhsType = expression1->semanticAnalysis(symboltable, output);
 	const TypeSymbol* rhstype = expression2->semanticAnalysis(symboltable, output);
+
+	if (lhsType == TypeInstances::GetFloatConstantInstance()) {
+		lhsType = TypeInstances::GetFloatInstance();
+	}
+
+	if (rhstype == TypeInstances::GetFloatConstantInstance()) {
+		rhstype = TypeInstances::GetFloatInstance();
+	}
+
+	if (lhsType == TypeInstances::GetStringConstantInstance()) {
+		lhsType = TypeInstances::GetStringInstance();
+	}
+
+	if (rhstype == TypeInstances::GetStringConstantInstance()) {
+		rhstype = TypeInstances::GetStringInstance();
+	}
+
 
 	if (lhsType != rhstype) {
 		throw LanguageException("Ternary expression, returning types must be the same - got " + lhsType->name + " and " + rhstype->name);
 	}
+
 	return lhsType;
 }

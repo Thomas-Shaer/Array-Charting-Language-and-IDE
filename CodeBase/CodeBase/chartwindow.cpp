@@ -3,7 +3,7 @@
 #include "imgui.h"
 #include <math.h>
 #include <limits>
-#include "displayinformation.h"
+
 #include <string>
 #include "chartplot.h"
 #include "screenshot.h"
@@ -12,14 +12,14 @@
 ImGui::FileBrowser ChartWindow::fbSave(ImGuiFileBrowserFlags_EnterNewFilename);
 bool ChartWindow::exportWithBorder = false;
 bool ChartWindow::exportWithOutBorder = false;
-std::map<int, ChartWindow> ChartWindow::allChartWindows;
-int ChartWindow::exportWindowId = 0;
+std::map<std::string, ChartWindow*> ChartWindow::allChartWindows;
+std::string ChartWindow::exportWindowId = DEFAULT_CHART_WINDOW_ID;
 
 
 
-ChartWindow::ChartWindow(unsigned int id) : chart_id(id) {
+ChartWindow::ChartWindow(const std::string& id) : chart_id(id), Window("Chart Window " + (id))  {
 
-    TITLE = "Chart Screen (" + std::to_string(chart_id) + ")"; 
+    TITLE = "Chart Screen (" + (chart_id) + ")###ChartWindow" + (chart_id);
 }
 
 
@@ -28,20 +28,15 @@ ChartWindow::ChartWindow(unsigned int id) : chart_id(id) {
 void ChartWindow::clearAllWindows() {
     //std::cout << ChartWindow::allChartWindows.size() << std::endl;
     for (auto& window : ChartWindow::allChartWindows) {
-        window.second.reset();
+        window.second->reset();
     }
 }
 
-void ChartWindow::renderAllWindows() {
-    bool temp = true;
-    for (auto& window : ChartWindow::allChartWindows) {
-        window.second.ShowChartWindow(&temp);
-    }
-}
 
 void ChartWindow::updateAllCharts() {
     for (auto& window : ChartWindow::allChartWindows) {
-        window.second.UpdateChart();
+        window.second->show = true;
+        window.second->UpdateChart();
     }
 }
 
@@ -51,12 +46,12 @@ void ChartWindow::reset() {
 }
 
 
-ChartWindow* ChartWindow::getOrCreateChartWindow(unsigned int id) {
+ChartWindow* ChartWindow::getOrCreateChartWindow(const std::string& id) {
     auto find = allChartWindows.find(id);
     if (find == allChartWindows.end()) {
-        allChartWindows[id] = ChartWindow(id);
+        allChartWindows[id] = new ChartWindow(id);
     }
-    return &allChartWindows[id];
+    return allChartWindows[id];
 }
 
 
@@ -78,20 +73,35 @@ void ChartWindow::UpdateChart() {
     for (auto line : CHART_LINE_DATA) {
         maxSize = line->data.size() > maxSize ? line->data.size() : maxSize;
     }
-    TITLE = "Chart Screen (" + std::to_string(chart_id) + "): displaying " + std::to_string(CHART_LINE_DATA.size() + CHART_MARK_DATA.size()) + " plot(s) of size " + std::to_string(maxSize);
+    TITLE = "Chart Screen (" + (chart_id) + "): displaying " + std::to_string(CHART_LINE_DATA.size() + CHART_MARK_DATA.size()) + " plot(s) of size " + std::to_string(maxSize) + "###ChartWindow" + (chart_id);
     ImPlot::SetNextAxisToFit(ImAxis_X1);
     ImPlot::SetNextAxisToFit(ImAxis_Y1);
 }
 
 
-void ChartWindow::ShowChartWindow(bool* p_open) {
+void ChartWindow::ShowWindow() {
 
     ImGui::SetNextWindowSize(ImVec2(400, 500), ImGuiCond_FirstUseEver | ImGuiWindowFlags_AlwaysAutoResize);
-    //ImGui::SetNextWindowPos(ImVec2(0, 0)), ImGuiCond_FirstUseEver;
 
+    if (chart_id == DEFAULT_CHART_WINDOW_ID) {
+        ImGui::Begin(TITLE.c_str(), &show, ImGuiWindowFlags_MenuBar);
 
-
-    ImGui::Begin(TITLE.c_str(), p_open, ImGuiWindowFlags_MenuBar);
+    }
+    else {
+        ImGui::Begin(TITLE.c_str(), &show, ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoSavedSettings);
+    }
+    /*
+    If you are not the main chart window, and you are closed:
+    Remove this window from the chartWindows tracker.
+    Remove this window from the global window tracker.
+    Delete this (as we have been turned into a pointer)
+    */
+    if (!show) {
+        if (chart_id != DEFAULT_CHART_WINDOW_ID) {
+            ChartWindow::allChartWindows.erase(chart_id);
+            deleteWindow();
+        }
+    }
 
 
 

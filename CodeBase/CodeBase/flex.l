@@ -8,6 +8,7 @@
     class Expression;
     class Statement;
     class BooleanNode;
+    class StringNode;
 
     class BlockNode;
     class NumberNode;
@@ -28,19 +29,24 @@
 #include <string>
 #include "node.h"
 
-/*
 
-"=="                    value->emplace<int>(yy::parser::token::TCEQUAL); return yy::parser::token::TCEQUAL;
-"!="                    value->emplace<int>(yy::parser::token::TCNE); return yy::parser::token::TCNE;
-*/
 
 %}
 
  
 
 %x SINGLE_LINE_COMMENT
+%x SINGLE_STRING
 
 %%
+\"                          BEGIN(SINGLE_STRING);
+<SINGLE_STRING>{
+  \n                        {}
+  <<EOF>>                   {}
+  ([^\\\"]|\\.)*            {value->emplace<std::string>(yytext); return yy::parser::token::TSTRING;}
+  \"                        BEGIN(INITIAL);
+  .                         ;
+}
 
 "//"                              { BEGIN(SINGLE_LINE_COMMENT); }
 <SINGLE_LINE_COMMENT>"\n"         { BEGIN(INITIAL); }
@@ -59,6 +65,8 @@
 [0-9]+\.[0-9]*          value->emplace<std::string>(yytext); return yy::parser::token::TFLOAT;
 "+"                     value->emplace<int>(yy::parser::token::TPLUS); return yy::parser::token::TPLUS;
 "-"                     value->emplace<int>(yy::parser::token::TMINUS); return yy::parser::token::TMINUS;
+"^"                    value->emplace<int>(yy::parser::token::TPOW); return yy::parser::token::TPOW;
+"%"                    value->emplace<int>(yy::parser::token::TMOD); return yy::parser::token::TMOD;
 "*"                     value->emplace<int>(yy::parser::token::TMUL); return yy::parser::token::TMUL;
 "/"                     value->emplace<int>(yy::parser::token::TDIV); return yy::parser::token::TDIV;
 "<"                     value->emplace<int>(yy::parser::token::TLESS); return yy::parser::token::TLESS;

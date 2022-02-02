@@ -13,7 +13,7 @@ public:
 	MethodAverage() : MethodSymbol("avg",
 		"Returns the average of two numbers.",
 		{
-		
+
 			ParameterSymbol(TypeInstances::GetFloatInstance(), "value1", "Argument 1 for average."),
 	ParameterSymbol(TypeInstances::GetFloatInstance(), "value2", "Argument 2 for average.")
 		}, ReturnSymbol(TypeInstances::GetFloatInstance(), "The average")) {}
@@ -93,6 +93,24 @@ public:
 	}
 };
 
+
+class BinaryModOperator : public MethodSymbol {
+public:
+	BinaryModOperator(const std::string& _name);
+	virtual ExpressionValue interpret(const unsigned int tick, std::vector<ExpressionValue> _argumentValues, InterpreterOutput& output);
+	virtual BinaryModOperator* clone() {
+		return new BinaryModOperator(name);
+	}
+};
+
+class BinaryPowOperator : public MethodSymbol {
+public:
+	BinaryPowOperator(const std::string& _name);
+	virtual ExpressionValue interpret(const unsigned int tick, std::vector<ExpressionValue> _argumentValues, InterpreterOutput& output);
+	virtual BinaryPowOperator* clone() {
+		return new BinaryPowOperator(name);
+	}
+};
 
 class BinaryLessOperator : public MethodSymbol {
 public:
@@ -238,6 +256,15 @@ public:
 	}
 };
 
+class StringNAN : public MethodSymbol {
+public:
+	StringNAN();
+	virtual ExpressionValue interpret(const unsigned int tick, std::vector<ExpressionValue> _argumentValues, InterpreterOutput& output);
+	virtual StringNAN* clone() {
+		return new StringNAN();
+	}
+};
+
 
 class ValueWhen : public MethodSymbol {
 public:
@@ -247,7 +274,7 @@ public:
 		return new ValueWhen();
 	}
 private:
-	ExpressionValue currentValue{Float()};
+	ExpressionValue currentValue{ Float() };
 };
 
 class Minimum : public MethodSymbol {
@@ -544,6 +571,15 @@ public:
 	virtual ExpressionValue interpret(const unsigned int tick, std::vector<ExpressionValue> _argumentValues, InterpreterOutput& output);
 	virtual IsNANB* clone() {
 		return new IsNANB();
+	}
+};
+
+class IsNANS : public MethodSymbol {
+public:
+	IsNANS();
+	virtual ExpressionValue interpret(const unsigned int tick, std::vector<ExpressionValue> _argumentValues, InterpreterOutput& output);
+	virtual IsNANS* clone() {
+		return new IsNANS();
 	}
 };
 

@@ -9,7 +9,7 @@
 #include "texteditorwindow.h"
 #include "textoutputwindow.h"
 #include "documentationwindow.h"
-//#include "displayinformation.h"
+//
 #include "datamanagerwindow.h"
 #include "settingswindow.h"
 //#include "jsonsettings.h"
@@ -18,11 +18,15 @@
 #include "maingui.h"
 #include "jsonsettings.h"
 #include "implot.h"
+#include "imgui_internal.h"
+#include "menubar.h"
 //#include "screenshot.h"
 //
 //
 ImFont* Fonts::SMALLFONT;
 ImFont* Fonts::DEFAULTFONT;
+
+
 
 int start()
 {
@@ -57,15 +61,17 @@ int start()
     // Create window with graphics context
     GLFWwindow* window = glfwCreateWindow(Settings::settingsFile["windowwidth"].get<float>(), Settings::settingsFile["windowheight"].get<float>(), "Dear ImGui GLFW+OpenGL3 example", NULL, NULL);
 
-
     if (window == NULL)
         return 1;
     glfwMakeContextCurrent(window);
     glfwSwapInterval(1); // Enable vsync
+    glfwSetWindowPos(window, Settings::settingsFile["windowX"].get<float>(), Settings::settingsFile["windowY"].get<float>());
 
     // Setup Dear ImGui context
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
+    //ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
+
     ImPlot::CreateContext();
     ImGuiIO& io = ImGui::GetIO(); (void)io;
     //io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
@@ -74,7 +80,6 @@ int start()
     // Setup Dear ImGui style
     ImGui::StyleColorsDark();
     //ImGui::StyleColorsClassic();
-
     // Setup Platform/Renderer backends
     ImGui_ImplGlfw_InitForOpenGL(window, true);
     ImGui_ImplOpenGL3_Init(glsl_version);
@@ -99,17 +104,17 @@ int start()
     bool show_another_window = false;
     ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 
-    FileBrowserSingletonDataLoader::init();
-    TextEditorSingleton::initTextEditor();
-    TextEditorSingleton::initFileBrowserSave();
-    TextEditorSingleton::initFileBrowserOpen();
+    DataManagerWindow::init();
+    TextEditorWindow::initTextEditor();
+    TextEditorWindow::initFileBrowserSave();
+    TextEditorWindow::initFileBrowserOpen();
     ChartWindow::initFileBrowserSave();
-    TextOutputWindow::init();
+    OutputWindow::init();
 
     // default chart window instance
     //ChartWindow chartWindow(0);
-    ChartWindow::allChartWindows[0] = ChartWindow(0);
-
+    ChartWindow::allChartWindows[DEFAULT_CHART_WINDOW_ID] = new ChartWindow(DEFAULT_CHART_WINDOW_ID);
+    ChartWindow::allChartWindows[DEFAULT_CHART_WINDOW_ID]->saveStatus = true;
 
     /*
     The order of these declarations matter. Default first.
@@ -118,6 +123,26 @@ int start()
     Fonts::SMALLFONT = io.Fonts->AddFontFromFileTTF("misc\\fonts\\ProggyClean.ttf", 10);
 
     //ScreenshotMaker sm;
+
+    TextEditorWindow texteditorwindow;
+    texteditorwindow.windowTab = true;
+    texteditorwindow.saveStatus = true;
+
+    OutputWindow outputWindow;
+    outputWindow.windowTab = true;
+    outputWindow.saveStatus = true;
+
+    DocumentationWindow documentationWindow;
+    documentationWindow.windowTab = true;
+    documentationWindow.saveStatus = true;
+
+    SettingsWindow settingsWindow;
+    settingsWindow.windowTab = true;
+    settingsWindow.saveStatus = true;
+
+    DataManagerWindow datamanagerWindow;
+    datamanagerWindow.windowTab = true;
+    datamanagerWindow.saveStatus = true;
 
 
     // Main loop
@@ -135,40 +160,60 @@ int start()
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
 
-        //Settings::settingsFile["windowwidth"] = ImGui::GetWindowWidth();
-                //Settings::settingsFile["windowheight"] = ImGui::GetWindowHeight();
-        //ChartWindow::clearAllWindows();
-        //for (auto window : ChartWindow::allChartWindows) {
-        //    window.second.ShowChartWindow(&show_demo_window);
-        //    //std::cout << window.second.CHART_LINE_DATA.size() << std::endl;
-        //}
-        ChartWindow::renderAllWindows();
+        
+
         ChartWindow::fbSave.Display();
 
         //ChartWindow::getOrCreateChartWindow(0).ShowChartWindow(&show_demo_window);
 
 
-        ShowEditorWindow();
 
-        ShowTextOutputWindow();
+        for (Window* window : Window::windows) {
+            if (window->show) {
+                window->ShowWindow();
+            }
+            if (window->saveStatus) {
+                Settings::settingsFile[window->saveJSONName] = window->show;
+            }
+        }
+        ImGui::GetIO().FontGlobalScale = Settings::settingsFile["zoom"].get<float>();
 
-        ShowDocumentationWindow();
 
-        ShowSettingsWindow();
+        Test::ShowMenuBar(window);
 
-        ShowDataWindow();
-        //sm.Draw();
+
+        Window::manageNewWindows();
+
 
         Settings::autoSave();
 
         // Rendering
         ImGui::Render();
+
+        int windowWidth, windowHeight;
+        glfwGetWindowSize(window, &windowWidth, &windowHeight);
+        Settings::settingsFile["windowwidth"] = windowWidth;
+        Settings::settingsFile["windowheight"] = windowHeight;
+
+        int windowX, windowY;
+        glfwGetWindowPos(window, &windowX, &windowY);
+        Settings::settingsFile["windowX"] = windowX;
+        Settings::settingsFile["windowY"] = windowY;
+
         int display_w, display_h;
         glfwGetFramebufferSize(window, &display_w, &display_h);
         glViewport(0, 0, display_w, display_h);
         glClearColor(clear_color.x * clear_color.w, clear_color.y * clear_color.w, clear_color.z * clear_color.w, clear_color.w);
         glClear(GL_COLOR_BUFFER_BIT);
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+        /*if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
+        {
+            GLFWwindow* backup_current_context = glfwGetCurrentContext();
+            ImGui::UpdatePlatformWindows();
+            ImGui::RenderPlatformWindowsDefault();
+            glfwMakeContextCurrent(backup_current_context);
+        }*/
 
         glfwSwapBuffers(window);
     }

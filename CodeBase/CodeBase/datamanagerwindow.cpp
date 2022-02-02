@@ -2,7 +2,7 @@
 #include "imgui.h"
 #include <iostream>
 #include "jsonsettings.h"
-#include "displayinformation.h"
+
 #include "symboltable.h"
 #include "typesymbol.h"
 #include "inputdata.h"
@@ -15,15 +15,16 @@
 #include "dataparseexception.h"
 
 
-ImGui::FileBrowser FileBrowserSingletonDataLoader::fb;
+ImGui::FileBrowser DataManagerWindow::fb;
+std::vector<std::shared_ptr<InputData>> DataManagerWindow::LOADED_IN_DATA = { };
 
 
-void FileBrowserSingletonDataLoader::init() {
+void DataManagerWindow::init() {
     fb.SetPwd(std::filesystem::path(Settings::settingsFile["lastDataImportDirectory"].get<std::string>()));
 
     for (nlohmann::json path : Settings::settingsFile["loadedInData"].get<std::vector<nlohmann::json>>()) {
         auto newData = InputData::LoadInputData(StringToImportPolicy(path["policy"]), path["path"], path["name"], path["trueImportString"], path["falseImportString"], path["NANImportString"]);
-        DisplayInformation::LOADED_IN_DATA.insert(DisplayInformation::LOADED_IN_DATA.end(), newData.begin(), newData.end());
+        LOADED_IN_DATA.insert(LOADED_IN_DATA.end(), newData.begin(), newData.end());
     }
 
     // (optional) set browser properties
@@ -31,9 +32,9 @@ void FileBrowserSingletonDataLoader::init() {
     fb.SetTypeFilters({ ".csv" });
 }
 
-void loadInData(const ImportPolicy importPolicy, const std::string& pathName, const std::string& fileName, const std::string& TrueString, const std::string& FalseString, const std::string& NANString) {
+void DataManagerWindow::loadInData(const ImportPolicy importPolicy, const std::string& pathName, const std::string& fileName, const std::string& TrueString, const std::string& FalseString, const std::string& NANString) {
     auto newData = InputData::LoadInputData(importPolicy, pathName, fileName, TrueString, FalseString, NANString);
-    DisplayInformation::LOADED_IN_DATA.insert(DisplayInformation::LOADED_IN_DATA.end(), newData.begin(), newData.end());
+    LOADED_IN_DATA.insert(LOADED_IN_DATA.end(), newData.begin(), newData.end());
     
     /*
     Saves data
@@ -49,48 +50,58 @@ void loadInData(const ImportPolicy importPolicy, const std::string& pathName, co
 }
 
 
-void createNewVariable(std::shared_ptr<InputData> data, const std::string& variableName) {
+void DataManagerWindow::createNewVariable(std::shared_ptr<InputData> data, const std::string& variableName) {
     data->isVariable = true;
     data->variableName = variableName;
-    std::shared_ptr<VarSymbol> varSymbol = std::make_shared<VarSymbol>(data->variableName, TypeInstances::GetFloatInstance(), data->data);
+    std::shared_ptr<VarSymbol> varSymbol = VarSymbol::createVarSymbol(data->variableName, TypeInstances::GetFloatInstance(), data->data);
     SymbolTable::GLOBAL_SYMBOL_TABLE->variableTable[data->variableName] = varSymbol;
-    UpdateVariablesTab();
+    OutputWindow::UpdateVariablesTab();
+    
 }
 
-void deleteVariable(std::shared_ptr<InputData> data) {
+void DataManagerWindow::renameVariable(std::shared_ptr<InputData> data, const std::string& variableName) {
+    std::shared_ptr<VarSymbol> oldSymbol = SymbolTable::GLOBAL_SYMBOL_TABLE->variableTable[data->variableName];
+    SymbolTable::GLOBAL_SYMBOL_TABLE->variableTable.erase(SymbolTable::GLOBAL_SYMBOL_TABLE->variableTable.find(data->variableName));
+    data->variableName = variableName;
+    std::shared_ptr<VarSymbol> varSymbol = VarSymbol::createVarSymbol(data->variableName, TypeInstances::GetFloatInstance(), oldSymbol->getValues());
+    SymbolTable::GLOBAL_SYMBOL_TABLE->variableTable[data->variableName] = varSymbol;
+    OutputWindow::UpdateVariablesTab();
+}
+
+void DataManagerWindow::deleteVariable(std::shared_ptr<InputData> data) {
     SymbolTable::GLOBAL_SYMBOL_TABLE->variableTable.erase(SymbolTable::GLOBAL_SYMBOL_TABLE->variableTable.find(data->variableName));
     data->isVariable = false;
-    UpdateVariablesTab();
+    OutputWindow::UpdateVariablesTab();
 
 }
 
 
-void deleteAllVariables() {
+void DataManagerWindow::deleteAllVariables() {
     SymbolTable::GLOBAL_SYMBOL_TABLE->variableTable.clear();
-    for (std::shared_ptr<InputData> inputdata : DisplayInformation::LOADED_IN_DATA) {
+    for (std::shared_ptr<InputData> inputdata : LOADED_IN_DATA) {
         inputdata->isVariable = false;
     }
-    UpdateVariablesTab();
+    OutputWindow::UpdateVariablesTab();
 
 }
 
-void removeFile(const std::string& fileName) {
-    DisplayInformation::LOADED_IN_DATA.erase(std::remove_if(DisplayInformation::LOADED_IN_DATA.begin(),
-        DisplayInformation::LOADED_IN_DATA.end(),
+void DataManagerWindow::removeFile(const std::string& fileName) {
+    LOADED_IN_DATA.erase(std::remove_if(LOADED_IN_DATA.begin(),
+        LOADED_IN_DATA.end(),
         [fileName](std::shared_ptr<InputData> input) {return input->fileName == fileName; }),
-        DisplayInformation::LOADED_IN_DATA.end());
+        LOADED_IN_DATA.end());
     Settings::settingsFile["loadedInData"].erase(std::remove_if(Settings::settingsFile["loadedInData"].begin(),
         Settings::settingsFile["loadedInData"].end(),
         [fileName](nlohmann::json json) {return json["name"] == fileName; }),
         Settings::settingsFile["loadedInData"].end());
 }
 
-void removeAllFiles() {
-    DisplayInformation::LOADED_IN_DATA.clear();
+void DataManagerWindow::removeAllFiles() {
+    LOADED_IN_DATA.clear();
     Settings::settingsFile["loadedInData"] = nlohmann::json::array();
 }
 
-std::string makeVariableName(std::string name) {
+std::string DataManagerWindow::makeVariableName(std::string name) {
     boost::algorithm::to_lower(name);
     std::replace_if(std::begin(name), std::end(name),
         [](std::string::value_type v) { return v == ' '; },
@@ -99,8 +110,8 @@ std::string makeVariableName(std::string name) {
 }
 
 
-void ShowDataWindow() {
-    ImGui::Begin("Data Manager", nullptr, /*ImGuiWindowFlags_HorizontalScrollbar | */ImGuiWindowFlags_MenuBar);
+void DataManagerWindow::ShowWindow() {
+    ImGui::Begin("Data Manager", &show, /*ImGuiWindowFlags_HorizontalScrollbar | */ImGuiWindowFlags_MenuBar);
     ImGui::SetWindowSize(ImVec2(500, 600), ImGuiCond_FirstUseEver);
     ImGui::SetWindowPos(ImVec2(100, 600), ImGuiCond_FirstUseEver);
 
@@ -111,6 +122,7 @@ void ShowDataWindow() {
     static char defaultTrue[40];
     static char defaultFalse[40];
     static char defaultNAN[40];
+    static std::string variableNameMessage = "";
 
     if (ImGui::BeginMenuBar()) {
 
@@ -193,7 +205,7 @@ void ShowDataWindow() {
 
 
         if (ImGui::Button("Select File")) {
-            FileBrowserSingletonDataLoader::fb.Open();
+            fb.Open();
         }
         ImGui::Text(std::string("File: " + fileName).c_str());
 
@@ -231,17 +243,17 @@ void ShowDataWindow() {
 
 
 
-        FileBrowserSingletonDataLoader::fb.Display();
-        if (FileBrowserSingletonDataLoader::fb.IsOpened()) {
-            Settings::settingsFile["lastDataImportDirectory"] = FileBrowserSingletonDataLoader::fb.GetPwd().root_path().generic_string() + (FileBrowserSingletonDataLoader::fb.GetPwd().relative_path()).generic_string();
+        fb.Display();
+        if (fb.IsOpened()) {
+            Settings::settingsFile["lastDataImportDirectory"] = fb.GetPwd().root_path().generic_string() + (fb.GetPwd().relative_path()).generic_string();
         }
 
 
-        if (FileBrowserSingletonDataLoader::fb.HasSelected())
+        if (fb.HasSelected())
         {
-            fileName = FileBrowserSingletonDataLoader::fb.GetSelected().filename().string();
-            filePath = FileBrowserSingletonDataLoader::fb.GetSelected().string();
-            FileBrowserSingletonDataLoader::fb.ClearSelected();
+            fileName = fb.GetSelected().filename().string();
+            filePath = fb.GetSelected().string();
+            fb.ClearSelected();
         }
 
         ImGui::EndPopup();
@@ -282,8 +294,8 @@ void ShowDataWindow() {
     Load all data input names on the left hand side of the pane scroller.
     */
     ImGui::BeginChild("left pane", ImVec2(150, 0), true);
-    for (int i = 0; i < DisplayInformation::LOADED_IN_DATA.size(); i ++) {
-        std::shared_ptr<InputData> data = DisplayInformation::LOADED_IN_DATA.at(i);
+    for (int i = 0; i < LOADED_IN_DATA.size(); i ++) {
+        std::shared_ptr<InputData> data = LOADED_IN_DATA.at(i);
 
         /*
         Give it a slight different colour if variable has been made.
@@ -293,8 +305,7 @@ void ShowDataWindow() {
         }
 
 
-        if (ImGui::Selectable(std::string(std::to_string(i + 1) + ") " + DisplayInformation::LOADED_IN_DATA.at(i)->name).c_str())) {
-            std::cout << i << std::endl;
+        if (ImGui::Selectable(std::string(std::to_string(i + 1) + ") " + LOADED_IN_DATA.at(i)->name).c_str())) {
             selected = i;
             std::string name = makeVariableName(data->name);
             strncpy_s(characters, name.c_str(), sizeof(characters));
@@ -310,7 +321,7 @@ void ShowDataWindow() {
     ImGui::SameLine();
     ImGui::BeginGroup();
     if (selected != -1) {
-        std::shared_ptr<InputData> data = DisplayInformation::LOADED_IN_DATA.at(selected);
+        std::shared_ptr<InputData> data = LOADED_IN_DATA.at(selected);
 
         ImGui::Text(data->name.c_str());
 
@@ -356,6 +367,8 @@ void ShowDataWindow() {
         ImGui::NewLine();
         ImGui::Text((std::string("Size: ") + std::to_string(data->data.size())).c_str());
         ImGui::NewLine();
+        ImGui::Text(variableNameMessage.c_str());
+
         ImGui::PushItemWidth(200);
         ImGui::Text("Variable name (40 char)");
         ImGui::InputText("##variablename", characters, sizeof(characters));
@@ -373,7 +386,14 @@ void ShowDataWindow() {
             ImGui::EndDisabled();
         }
         if (createVariable) {
-            createNewVariable(data, std::string(characters));
+
+            if (VarSymbol::isValidName(std::string(characters))) {
+                createNewVariable(data, std::string(characters));
+                variableNameMessage = "";
+            }
+            else {
+                variableNameMessage = "Not a valid variable name " + std::string(characters);
+            }
         }
 
         if (data->isVariable) {
@@ -381,12 +401,14 @@ void ShowDataWindow() {
             Could be optimised, recreates entire variable symbol rather then just changing the symbol name.
             */
             if (ImGui::Button("Rename Variable")) {
-                std::shared_ptr<VarSymbol> oldSymbol = SymbolTable::GLOBAL_SYMBOL_TABLE->variableTable[data->variableName];
-                SymbolTable::GLOBAL_SYMBOL_TABLE->variableTable.erase(SymbolTable::GLOBAL_SYMBOL_TABLE->variableTable.find(data->variableName));
-                data->variableName = std::string(characters);
-                std::shared_ptr<VarSymbol> varSymbol = std::make_shared<VarSymbol>(data->variableName, TypeInstances::GetFloatInstance(), oldSymbol->getValues());
-                SymbolTable::GLOBAL_SYMBOL_TABLE->variableTable[data->variableName] = varSymbol;
-                UpdateVariablesTab();
+
+                if (VarSymbol::isValidName(std::string(characters))) {
+                    renameVariable(data, std::string(characters));
+                    variableNameMessage = "";
+                }
+                else {
+                    variableNameMessage = "Not a valid variable name " + std::string(characters);
+                }
             }
 
 

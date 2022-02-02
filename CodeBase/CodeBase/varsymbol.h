@@ -1,6 +1,7 @@
 #pragma once
 #include "global.h"
 #include <vector>
+#include <regex>
 
 
 class TypeSymbol;
@@ -19,14 +20,29 @@ public:
 	const unsigned int originalSize;
 
 	/*
-	User defined in code
+	Constructor for variables created outside of the script.
+	Verifies name is valid since not achieved through parser.
+	Will throw a error if name not valid.
+	Returns the new VarSymbol if valid.
 	*/
-	VarSymbol(const std::string _name, const TypeSymbol* _type);
+	static std::shared_ptr<VarSymbol> createVarSymbol(const std::string _name, const TypeSymbol* _type, std::vector<ExpressionValue> _value);
 
 	/*
-	Imported code.
+	Constructor for variables created in code.
+
+	FOR SYMMETRY PURPOSE - name is verified by parser anyway.
+	Will throw a error if name not valid.
+	Returns the new VarSymbol if valid.
 	*/
-	VarSymbol(const std::string _name, const TypeSymbol* _type, std::vector<ExpressionValue> _value);
+	static std::shared_ptr<VarSymbol> createVarSymbol(const std::string _name, const TypeSymbol* _type);
+
+
+	/*
+	Returns true/false if the name is valid.
+	*/
+	static bool isValidName(const std::string _name);
+
+
 
 
 	std::string toString();
@@ -47,5 +63,23 @@ public:
 	std::string exportName;
 
 	std::vector<ExpressionValue> buffer;
+
+
+private:
+
+
+	/*
+	Imported code.
+	Private because we want the name to be verified first prior to creation of VarSymbol.
+	*/
+	VarSymbol(const std::string _name, const TypeSymbol* _type, std::vector<ExpressionValue> _value);
+
+
+	/*
+	Constructor for a user defined variables.
+	Private for symmetry to imported code constructor.
+	The name is verified by the parser anyway.
+	*/
+	VarSymbol(const std::string _name, const TypeSymbol* _type);
 
 };

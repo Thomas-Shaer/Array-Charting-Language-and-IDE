@@ -224,6 +224,7 @@ void yyfree ( void * , yyscan_t yyscanner );
 #ifdef YY_HEADER_EXPORT_START_CONDITIONS
 #define INITIAL 0
 #define SINGLE_LINE_COMMENT 1
+#define SINGLE_STRING 2
 
 #endif
 
@@ -482,9 +483,9 @@ extern int yylex (yyscan_t yyscanner);
 #undef yyTABLES_NAME
 #endif
 
-#line 86 "flex.l"
+#line 94 "flex.l"
 
 
-#line 488 "flex.flex.h"
+#line 489 "flex.flex.h"
 #undef yyIN_HEADER
 #endif /* yyHEADER_H */

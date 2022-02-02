@@ -45,7 +45,7 @@
 #ifndef YY_YY_BISON_TAB_H_INCLUDED
 # define YY_YY_BISON_TAB_H_INCLUDED
 // "%code requires" blocks.
-#line 31 "bison.y"
+#line 32 "bison.y"
 
   typedef void* yyscan_t;
 
@@ -399,14 +399,19 @@ namespace yy {
       // stmt
       char dummy10[sizeof (Statement*)];
 
+      // string
+      char dummy11[sizeof (StringNode*)];
+
       // ternary
-      char dummy11[sizeof (TernaryNode*)];
+      char dummy12[sizeof (TernaryNode*)];
 
       // "+"
       // "-"
       // "*"
       // "/"
       // "="
+      // "^"
+      // "%"
       // "<"
       // "<="
       // ">"
@@ -426,15 +431,16 @@ namespace yy {
       // "}"
       // ":"
       // "?"
-      char dummy12[sizeof (int)];
+      char dummy13[sizeof (int)];
 
       // TNUMBER
       // TIDENTIFIER
       // TFLOAT
-      char dummy13[sizeof (std::string)];
+      // TSTRING
+      char dummy14[sizeof (std::string)];
 
       // call_params
-      char dummy14[sizeof (std::vector<Expression*>)];
+      char dummy15[sizeof (std::vector<Expression*>)];
     };
 
     /// The size of the largest semantic type.
@@ -480,30 +486,33 @@ namespace yy {
     TNUMBER = 258,                 // TNUMBER
     TIDENTIFIER = 259,             // TIDENTIFIER
     TFLOAT = 260,                  // TFLOAT
-    TPLUS = 261,                   // "+"
-    TMINUS = 262,                  // "-"
-    TMUL = 263,                    // "*"
-    TDIV = 264,                    // "/"
-    TASSIGN = 265,                 // "="
-    TLESS = 266,                   // "<"
-    TLESSEQUAL = 267,              // "<="
-    TGREATER = 268,                // ">"
-    TGREATEREQUAL = 269,           // ">="
-    TAND = 270,                    // "&&"
-    TOR = 271,                     // "||"
-    TNOT = 272,                    // "!"
-    TNOTEQUAL = 273,               // "!="
-    TEQUAL = 274,                  // "=="
-    TOPENBRACKET = 275,            // "("
-    TCLOSEBRACKET = 276,           // ")"
-    TCOMMA = 277,                  // ","
-    TTRUE = 278,                   // "TRUE"
-    TFALSE = 279,                  // "FALSE"
-    TIF = 280,                     // "if"
-    TOPENBLOCK = 281,              // "{"
-    TCLOSEBLOCK = 282,             // "}"
-    TCOLON = 283,                  // ":"
-    TQUESTIONMARK = 284            // "?"
+    TSTRING = 261,                 // TSTRING
+    TPLUS = 262,                   // "+"
+    TMINUS = 263,                  // "-"
+    TMUL = 264,                    // "*"
+    TDIV = 265,                    // "/"
+    TASSIGN = 266,                 // "="
+    TPOW = 267,                    // "^"
+    TMOD = 268,                    // "%"
+    TLESS = 269,                   // "<"
+    TLESSEQUAL = 270,              // "<="
+    TGREATER = 271,                // ">"
+    TGREATEREQUAL = 272,           // ">="
+    TAND = 273,                    // "&&"
+    TOR = 274,                     // "||"
+    TNOT = 275,                    // "!"
+    TNOTEQUAL = 276,               // "!="
+    TEQUAL = 277,                  // "=="
+    TOPENBRACKET = 278,            // "("
+    TCLOSEBRACKET = 279,           // ")"
+    TCOMMA = 280,                  // ","
+    TTRUE = 281,                   // "TRUE"
+    TFALSE = 282,                  // "FALSE"
+    TIF = 283,                     // "if"
+    TOPENBLOCK = 284,              // "{"
+    TCLOSEBLOCK = 285,             // "}"
+    TCOLON = 286,                  // ":"
+    TQUESTIONMARK = 287            // "?"
       };
       /// Backward compatibility alias (Bison 3.6).
       typedef token_kind_type yytokentype;
@@ -520,7 +529,7 @@ namespace yy {
     {
       enum symbol_kind_type
       {
-        YYNTOKENS = 30, ///< Number of tokens.
+        YYNTOKENS = 33, ///< Number of tokens.
         S_YYEMPTY = -2,
         S_YYEOF = 0,                             // "end of file"
         S_YYerror = 1,                           // error
@@ -528,44 +537,48 @@ namespace yy {
         S_TNUMBER = 3,                           // TNUMBER
         S_TIDENTIFIER = 4,                       // TIDENTIFIER
         S_TFLOAT = 5,                            // TFLOAT
-        S_TPLUS = 6,                             // "+"
-        S_TMINUS = 7,                            // "-"
-        S_TMUL = 8,                              // "*"
-        S_TDIV = 9,                              // "/"
-        S_TASSIGN = 10,                          // "="
-        S_TLESS = 11,                            // "<"
-        S_TLESSEQUAL = 12,                       // "<="
-        S_TGREATER = 13,                         // ">"
-        S_TGREATEREQUAL = 14,                    // ">="
-        S_TAND = 15,                             // "&&"
-        S_TOR = 16,                              // "||"
-        S_TNOT = 17,                             // "!"
-        S_TNOTEQUAL = 18,                        // "!="
-        S_TEQUAL = 19,                           // "=="
-        S_TOPENBRACKET = 20,                     // "("
-        S_TCLOSEBRACKET = 21,                    // ")"
-        S_TCOMMA = 22,                           // ","
-        S_TTRUE = 23,                            // "TRUE"
-        S_TFALSE = 24,                           // "FALSE"
-        S_TIF = 25,                              // "if"
-        S_TOPENBLOCK = 26,                       // "{"
-        S_TCLOSEBLOCK = 27,                      // "}"
-        S_TCOLON = 28,                           // ":"
-        S_TQUESTIONMARK = 29,                    // "?"
-        S_YYACCEPT = 30,                         // $accept
-        S_program = 31,                          // program
-        S_stmts = 32,                            // stmts
-        S_stmt = 33,                             // stmt
-        S_exprstmt = 34,                         // exprstmt
-        S_ifstmt = 35,                           // ifstmt
-        S_identifier = 36,                       // identifier
-        S_assign = 37,                           // assign
-        S_expr = 38,                             // expr
-        S_ternary = 39,                          // ternary
-        S_numeric = 40,                          // numeric
-        S_boolean = 41,                          // boolean
-        S_method = 42,                           // method
-        S_call_params = 43                       // call_params
+        S_TSTRING = 6,                           // TSTRING
+        S_TPLUS = 7,                             // "+"
+        S_TMINUS = 8,                            // "-"
+        S_TMUL = 9,                              // "*"
+        S_TDIV = 10,                             // "/"
+        S_TASSIGN = 11,                          // "="
+        S_TPOW = 12,                             // "^"
+        S_TMOD = 13,                             // "%"
+        S_TLESS = 14,                            // "<"
+        S_TLESSEQUAL = 15,                       // "<="
+        S_TGREATER = 16,                         // ">"
+        S_TGREATEREQUAL = 17,                    // ">="
+        S_TAND = 18,                             // "&&"
+        S_TOR = 19,                              // "||"
+        S_TNOT = 20,                             // "!"
+        S_TNOTEQUAL = 21,                        // "!="
+        S_TEQUAL = 22,                           // "=="
+        S_TOPENBRACKET = 23,                     // "("
+        S_TCLOSEBRACKET = 24,                    // ")"
+        S_TCOMMA = 25,                           // ","
+        S_TTRUE = 26,                            // "TRUE"
+        S_TFALSE = 27,                           // "FALSE"
+        S_TIF = 28,                              // "if"
+        S_TOPENBLOCK = 29,                       // "{"
+        S_TCLOSEBLOCK = 30,                      // "}"
+        S_TCOLON = 31,                           // ":"
+        S_TQUESTIONMARK = 32,                    // "?"
+        S_YYACCEPT = 33,                         // $accept
+        S_program = 34,                          // program
+        S_stmts = 35,                            // stmts
+        S_stmt = 36,                             // stmt
+        S_exprstmt = 37,                         // exprstmt
+        S_ifstmt = 38,                           // ifstmt
+        S_identifier = 39,                       // identifier
+        S_assign = 40,                           // assign
+        S_expr = 41,                             // expr
+        S_ternary = 42,                          // ternary
+        S_numeric = 43,                          // numeric
+        S_boolean = 44,                          // boolean
+        S_string = 45,                           // string
+        S_method = 46,                           // method
+        S_call_params = 47                       // call_params
       };
     };
 
@@ -640,6 +653,10 @@ namespace yy {
         value.move< Statement* > (std::move (that.value));
         break;
 
+      case symbol_kind::S_string: // string
+        value.move< StringNode* > (std::move (that.value));
+        break;
+
       case symbol_kind::S_ternary: // ternary
         value.move< TernaryNode* > (std::move (that.value));
         break;
@@ -649,6 +666,8 @@ namespace yy {
       case symbol_kind::S_TMUL: // "*"
       case symbol_kind::S_TDIV: // "/"
       case symbol_kind::S_TASSIGN: // "="
+      case symbol_kind::S_TPOW: // "^"
+      case symbol_kind::S_TMOD: // "%"
       case symbol_kind::S_TLESS: // "<"
       case symbol_kind::S_TLESSEQUAL: // "<="
       case symbol_kind::S_TGREATER: // ">"
@@ -674,6 +693,7 @@ namespace yy {
       case symbol_kind::S_TNUMBER: // TNUMBER
       case symbol_kind::S_TIDENTIFIER: // TIDENTIFIER
       case symbol_kind::S_TFLOAT: // TFLOAT
+      case symbol_kind::S_TSTRING: // TSTRING
         value.move< std::string > (std::move (that.value));
         break;
 
@@ -823,6 +843,18 @@ namespace yy {
 #endif
 
 #if 201103L <= YY_CPLUSPLUS
+      basic_symbol (typename Base::kind_type t, StringNode*&& v)
+        : Base (t)
+        , value (std::move (v))
+      {}
+#else
+      basic_symbol (typename Base::kind_type t, const StringNode*& v)
+        : Base (t)
+        , value (v)
+      {}
+#endif
+
+#if 201103L <= YY_CPLUSPLUS
       basic_symbol (typename Base::kind_type t, TernaryNode*&& v)
         : Base (t)
         , value (std::move (v))
@@ -932,6 +964,10 @@ switch (yykind)
         value.template destroy< Statement* > ();
         break;
 
+      case symbol_kind::S_string: // string
+        value.template destroy< StringNode* > ();
+        break;
+
       case symbol_kind::S_ternary: // ternary
         value.template destroy< TernaryNode* > ();
         break;
@@ -941,6 +977,8 @@ switch (yykind)
       case symbol_kind::S_TMUL: // "*"
       case symbol_kind::S_TDIV: // "/"
       case symbol_kind::S_TASSIGN: // "="
+      case symbol_kind::S_TPOW: // "^"
+      case symbol_kind::S_TMOD: // "%"
       case symbol_kind::S_TLESS: // "<"
       case symbol_kind::S_TLESSEQUAL: // "<="
       case symbol_kind::S_TGREATER: // ">"
@@ -966,6 +1004,7 @@ switch (yykind)
       case symbol_kind::S_TNUMBER: // TNUMBER
       case symbol_kind::S_TIDENTIFIER: // TIDENTIFIER
       case symbol_kind::S_TFLOAT: // TFLOAT
+      case symbol_kind::S_TSTRING: // TSTRING
         value.template destroy< std::string > ();
         break;
 
@@ -1220,6 +1259,21 @@ switch (yykind)
 #if 201103L <= YY_CPLUSPLUS
       static
       symbol_type
+      make_TSTRING (std::string v)
+      {
+        return symbol_type (token::TSTRING, std::move (v));
+      }
+#else
+      static
+      symbol_type
+      make_TSTRING (const std::string& v)
+      {
+        return symbol_type (token::TSTRING, v);
+      }
+#endif
+#if 201103L <= YY_CPLUSPLUS
+      static
+      symbol_type
       make_TPLUS (int v)
       {
         return symbol_type (token::TPLUS, std::move (v));
@@ -1290,6 +1344,36 @@ switch (yykind)
       make_TASSIGN (const int& v)
       {
         return symbol_type (token::TASSIGN, v);
+      }
+#endif
+#if 201103L <= YY_CPLUSPLUS
+      static
+      symbol_type
+      make_TPOW (int v)
+      {
+        return symbol_type (token::TPOW, std::move (v));
+      }
+#else
+      static
+      symbol_type
+      make_TPOW (const int& v)
+      {
+        return symbol_type (token::TPOW, v);
+      }
+#endif
+#if 201103L <= YY_CPLUSPLUS
+      static
+      symbol_type
+      make_TMOD (int v)
+      {
+        return symbol_type (token::TMOD, std::move (v));
+      }
+#else
+      static
+      symbol_type
+      make_TMOD (const int& v)
+      {
+        return symbol_type (token::TMOD, v);
       }
 #endif
 #if 201103L <= YY_CPLUSPLUS
@@ -1905,9 +1989,9 @@ switch (yykind)
     /// Constants.
     enum
     {
-      yylast_ = 253,     ///< Last index in yytable_.
-      yynnts_ = 14,  ///< Number of nonterminal symbols.
-      yyfinal_ = 33 ///< Termination state number.
+      yylast_ = 282,     ///< Last index in yytable_.
+      yynnts_ = 15,  ///< Number of nonterminal symbols.
+      yyfinal_ = 35 ///< Termination state number.
     };
 
 
@@ -1919,11 +2003,11 @@ switch (yykind)
 
 
 } // yy
-#line 1923 "bison.tab.h"
+#line 2007 "bison.tab.h"
 
 
 // "%code provides" blocks.
-#line 35 "bison.y"
+#line 36 "bison.y"
 
       #define YY_DECL \
         int yylex(yy::parser::semantic_type* value, yyscan_t yyscanner)
@@ -1931,7 +2015,7 @@ switch (yykind)
     std::string token_name(int t);
  
 
-#line 1935 "bison.tab.h"
+#line 2019 "bison.tab.h"
 
 
 #endif // !YY_YY_BISON_TAB_H_INCLUDED
