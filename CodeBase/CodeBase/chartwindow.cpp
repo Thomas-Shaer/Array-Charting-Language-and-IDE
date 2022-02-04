@@ -51,7 +51,6 @@ void ChartWindow::reset() {
 ChartWindow* ChartWindow::getOrCreateChartWindow(const std::string& id) {
     auto find = allChartWindows.find(id);
     if (find == allChartWindows.end()) {
-        std::cout << "haty " << std::endl;
         allChartWindows[id] = new ChartWindow(id);
     }
     return allChartWindows[id];
@@ -75,6 +74,9 @@ void ChartWindow::UpdateChart() {
     TITLE = "Chart Screen (" + (chart_id) + "): displaying " + std::to_string(CHART_LINE_DATA.size() + CHART_MARK_DATA.size()) + " plot(s) of size " + std::to_string(InterpreterContext::ticks) + "###ChartWindow" + (chart_id);
     ImPlot::SetNextAxisToFit(ImAxis_X1);
     ImPlot::SetNextAxisToFit(ImAxis_Y1);
+    if (show) {
+        ShowWindow();
+    }
 }
 
 
