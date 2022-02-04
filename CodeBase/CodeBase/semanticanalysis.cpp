@@ -98,6 +98,13 @@ const TypeSymbol* MethodCallNode::semanticAnalysis(std::shared_ptr<SymbolTable> 
 	return methodsymbol->semanticAnaylsis(this, symboltable, output);
 }
 
+
+const TypeSymbol* KeywordNode::semanticAnalysis(std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output) {
+	return rhs->semanticAnalysis(symboltable, output);
+}
+
+
+
 void IfStatementNode::semanticAnalysis(std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output) {
 	if (condition->semanticAnalysis(symboltable, output) != TypeInstances::GetBooleanInstance()) {
 		throw LanguageException("If statement condition must be a boolean.");

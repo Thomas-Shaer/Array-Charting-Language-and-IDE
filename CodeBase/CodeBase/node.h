@@ -157,6 +157,23 @@ private:
 
 
 /*
+Keyword node class, represents parameter keyword e.g. plot(level=2)
+*/
+class KeywordNode : public Expression {
+public:
+	const std::string name;
+	Expression* rhs;
+	KeywordNode(std::string _name, Expression* _rhs) : name(_name), rhs(_rhs) {}
+
+	virtual std::string toString() const;
+	virtual ~KeywordNode();
+
+	virtual const TypeSymbol* semanticAnalysis(std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
+	virtual ExpressionValue interpret(const unsigned int tick, InterpreterOutput& output) const;
+};
+
+
+/*
 Assign node, used for assign statements, e.g. x = 2 + 3
 */
 class AssignNode : public Statement {

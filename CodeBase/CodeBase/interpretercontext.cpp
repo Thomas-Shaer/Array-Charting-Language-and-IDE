@@ -18,6 +18,8 @@ void InterpreterContext::execute(const std::string& code) {
 
 
 	try {
+		output = std::make_shared<InterpreterOutput>();
+
 		yyscan_t scanner;
 
 		yylex_init(&scanner);
@@ -51,7 +53,6 @@ void InterpreterContext::execute(const std::string& code) {
 			variable->matchGlobalBufferSize();
 		}
 
-		output = std::make_shared<InterpreterOutput>(ticks);
 
 
 		ChartWindow::clearAllWindows();
@@ -87,7 +88,10 @@ void InterpreterContext::execute(std::ifstream& myfile) {
 
 	std::shared_ptr<SymbolTable> symboltable = nullptr;
 	try {
+		output = std::make_shared<InterpreterOutput>();
+
 		yyscan_t scanner;
+
 
 		yylex_init(&scanner);
 		yy_scan_string(code.c_str(), scanner);
@@ -104,7 +108,6 @@ void InterpreterContext::execute(std::ifstream& myfile) {
 
 
 		symboltable = std::make_shared<SymbolTable>(SymbolTable::GLOBAL_SYMBOL_TABLE);
-		output = std::make_shared<InterpreterOutput>(ticks);
 
 		ChartWindow::clearAllWindows();
 		ast->semanticAnalysis(symboltable, *output);

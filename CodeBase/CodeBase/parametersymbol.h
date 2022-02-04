@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+#include "global.h"
 
 class TypeSymbol;
 
@@ -19,5 +20,18 @@ public:
 private:
 
 	const std::string description;
+
+};
+
+
+
+class OptionalParameterSymbol : public ParameterSymbol {
+public:
+
+	OptionalParameterSymbol(const TypeSymbol* _typesymbol, ExpressionValue _defaultValue, const std::string& _name, const std::string& _description);
+	OptionalParameterSymbol();
+
+	std::string toString() const;
+	const ExpressionValue defaultValue;
 
 };

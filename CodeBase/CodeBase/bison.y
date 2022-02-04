@@ -18,6 +18,7 @@
     class Node;
     class BinaryOpNode;
     class BlockNode;
+    class KeywordNode;
     class AssignNode;
     class IdentifierNode;
     class MethodCallNode;
@@ -60,20 +61,23 @@
 %type <BlockNode*> block;
 %type <AssignNode*> assign;
 %type <IdentifierNode*> identifier;
+%type <KeywordNode*> keyword;
 %type <MethodCallNode*> method;
 %type <ExpressionStatementNode*> exprstmt;
 %type <TernaryNode*> ternary;
 %type <StringNode*> string;
 %type <std::vector<Expression*>> call_params
+%type <std::vector<Expression*>> call_params_keywords
 
 
-%right TQUESTIONMARK
+%left TQUESTIONMARK
 %left TOR
 %left TAND
 %left TEQUAL TNOTEQUAL
 %left TLESS TLESSEQUAL TGREATER TGREATEREQUAL
 %left TPLUS TMINUS
 %left TMUL TDIV
+%left TNOT
 %left TOPENBRACKET TCLOSEBRACKET
 
 %%
@@ -135,6 +139,9 @@ expr : numeric { $$ = $1; }
      | TNOT expr {$$ =  new MethodCallNode("operator" + token_name($1), {$2}); }
      ;
 
+keyword : TIDENTIFIER TASSIGN expr {$$ = new KeywordNode($1, $3);}
+       ;
+
 ternary : expr TQUESTIONMARK expr TCOLON expr { $$ = new TernaryNode($1, $3, $5); }
         ;
 
@@ -150,13 +157,30 @@ boolean : TFALSE { $$ = new BooleanNode(false); }
 string : TSTRING { $$ = new StringNode($1.c_str());}
        ;
 
+
 method : TIDENTIFIER TOPENBRACKET call_params TCLOSEBRACKET {$$ = new MethodCallNode($1, $3);}
+       | TIDENTIFIER TOPENBRACKET call_params_keywords TCLOSEBRACKET {$$ = new MethodCallNode($1, $3);}
        ;
+
+
 
 call_params : /*blank*/  { $$ = std::vector<Expression*>(); }
           | expr { $$ = std::vector<Expression*>(); $$.push_back($1); }
           | call_params TCOMMA expr { $1.push_back($3); $$ = $1; }
+          | call_params TCOMMA call_params_keywords { 
+            std::vector<Expression*> combinedParamList = $1;
+            std::vector<Expression*> newParamList = $3;
+            combinedParamList.insert(combinedParamList.end(), newParamList.begin(), newParamList.end());
+            $$ = combinedParamList;
+          }
           ;
+
+call_params_keywords : /*blank*/  { $$ = std::vector<Expression*>(); }
+          | keyword { $$ = std::vector<Expression*>(); $$.push_back($1); }
+          | call_params_keywords TCOMMA keyword { $1.push_back($3); $$ = $1; }
+          ;
+
+
 
 %%
 void yy::parser::error( const std::string& msg) {

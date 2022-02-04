@@ -45,11 +45,23 @@ ExpressionValue MethodCallNode::interpret(const unsigned int tick, InterpreterOu
 
 	for (auto item : expressionToArgList) {
 		std::shared_ptr<ArgumentSymbol> arg = item.second;
-		arg->expressionValue = arg->expression->interpret(tick, output);
+		Expression* expr = arg->expression;
+		/*
+		Only execute if the ArgumentSymbol has a expression node,
+		and therefore is a argument we provided (optional args)
+		*/
+		if (expr) {
+			arg->expressionValue = expr->interpret(tick, output);
+		}
 	}
 
 
 	return methodsymbol->interpret(tick, output);
+}
+
+
+ExpressionValue KeywordNode::interpret(const unsigned int tick, InterpreterOutput& output) const {
+	return rhs->interpret(tick, output);
 }
 
 

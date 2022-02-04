@@ -7,7 +7,7 @@
 #include <deque>
 
 // method named "avg" takes two float parameters and returns a float
-class  MethodAverage : public MethodSymbol {
+class  MethodAverage : public PositionalMethodSymbol {
 public:
 
 	MethodAverage();
@@ -23,7 +23,7 @@ private:
 };
 
 
-class UnaryPlusOperator : public MethodSymbol {
+class UnaryPlusOperator : public PositionalMethodSymbol {
 public:
 	const std::string name;
 	UnaryPlusOperator(const std::string& _name);
@@ -38,7 +38,7 @@ private:
 	Float* value;
 };
 
-class UnaryMinusOperator : public MethodSymbol {
+class UnaryMinusOperator : public PositionalMethodSymbol {
 public:
 	const std::string name;
 	UnaryMinusOperator(const std::string& _name);
@@ -53,7 +53,7 @@ private:
 };
 
 
-class UnaryNotOperator : public MethodSymbol {
+class UnaryNotOperator : public PositionalMethodSymbol {
 public:
 	UnaryNotOperator(const std::string& _name);
 	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
@@ -67,7 +67,7 @@ private:
 };
 
 
-class BinaryPlusOperator : public MethodSymbol {
+class BinaryPlusOperator : public PositionalMethodSymbol {
 public:
 	BinaryPlusOperator(const std::string& _name);
 	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
@@ -81,7 +81,7 @@ private:
 	Float* rhsValue;
 };
 
-class BinaryMinusOperator : public MethodSymbol {
+class BinaryMinusOperator : public PositionalMethodSymbol {
 public:
 	BinaryMinusOperator(const std::string& _name);
 	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
@@ -95,7 +95,7 @@ private:
 	Float* rhsValue;
 };
 
-class BinaryDivideOperator : public MethodSymbol {
+class BinaryDivideOperator : public PositionalMethodSymbol {
 public:
 	BinaryDivideOperator(const std::string& _name);
 	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
@@ -109,7 +109,7 @@ private:
 	Float* rhsValue;
 };
 
-class BinaryMultiplyOperator : public MethodSymbol {
+class BinaryMultiplyOperator : public PositionalMethodSymbol {
 public:
 	BinaryMultiplyOperator(const std::string& _name);
 	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
@@ -124,7 +124,7 @@ private:
 };
 
 
-class BinaryModOperator : public MethodSymbol {
+class BinaryModOperator : public PositionalMethodSymbol {
 public:
 	BinaryModOperator(const std::string& _name);
 	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
@@ -138,7 +138,7 @@ private:
 	Float* rhsValue;
 };
 
-class BinaryPowOperator : public MethodSymbol {
+class BinaryPowOperator : public PositionalMethodSymbol {
 public:
 	BinaryPowOperator(const std::string& _name);
 	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
@@ -152,7 +152,7 @@ private:
 	Float* rhsValue;
 };
 
-class BinaryLessOperator : public MethodSymbol {
+class BinaryLessOperator : public PositionalMethodSymbol {
 public:
 	BinaryLessOperator(const std::string& _name);
 	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
@@ -166,7 +166,7 @@ private:
 	Float* rhsValue;
 };
 
-class BinaryLessEqualOperator : public MethodSymbol {
+class BinaryLessEqualOperator : public PositionalMethodSymbol {
 public:
 	BinaryLessEqualOperator(const std::string& _name);
 	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
@@ -180,7 +180,7 @@ private:
 	Float* rhsValue;
 };
 
-class BinaryGreaterOperator : public MethodSymbol {
+class BinaryGreaterOperator : public PositionalMethodSymbol {
 public:
 	BinaryGreaterOperator(const std::string& _name);
 	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
@@ -194,7 +194,7 @@ private:
 	Float* rhsValue;
 };
 
-class BinaryGreaterEqualOperator : public MethodSymbol {
+class BinaryGreaterEqualOperator : public PositionalMethodSymbol {
 public:
 	BinaryGreaterEqualOperator(const std::string& _name);
 	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
@@ -208,7 +208,7 @@ private:
 	Float* rhsValue;
 };
 
-class BinaryAndOperator : public MethodSymbol {
+class BinaryAndOperator : public PositionalMethodSymbol {
 public:
 	BinaryAndOperator(const std::string& _name);
 	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
@@ -222,7 +222,7 @@ private:
 	Boolean* rhsValue;
 };
 
-class BinaryOrOperator : public MethodSymbol {
+class BinaryOrOperator : public PositionalMethodSymbol {
 public:
 	BinaryOrOperator(const std::string& _name);
 	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
@@ -236,7 +236,7 @@ private:
 	Boolean* rhsValue;
 };
 
-class BinaryBooleanEqualOperator : public MethodSymbol {
+class BinaryBooleanEqualOperator : public PositionalMethodSymbol {
 public:
 	BinaryBooleanEqualOperator(const std::string& _name);
 	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
@@ -250,7 +250,7 @@ private:
 	Boolean* rhsValue;
 };
 
-class BinaryFloatEqualOperator : public MethodSymbol {
+class BinaryFloatEqualOperator : public PositionalMethodSymbol {
 public:
 	BinaryFloatEqualOperator(const std::string& _name);
 	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
@@ -264,7 +264,7 @@ private:
 	Float* rhsValue;
 };
 
-class BinaryBooleanNotEqualOperator : public MethodSymbol {
+class BinaryBooleanNotEqualOperator : public PositionalMethodSymbol {
 public:
 	BinaryBooleanNotEqualOperator(const std::string& _name);
 	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
@@ -279,7 +279,7 @@ private:
 };
 
 
-class BinaryFloatNotEqualOperator : public MethodSymbol {
+class BinaryFloatNotEqualOperator : public PositionalMethodSymbol {
 public:
 	BinaryFloatNotEqualOperator(const std::string& _name);
 	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
@@ -295,7 +295,7 @@ private:
 
 
 
-class GetTick : public MethodSymbol {
+class GetTick : public PositionalMethodSymbol {
 public:
 	GetTick();
 	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
@@ -306,7 +306,7 @@ public:
 	}
 };
 
-class Plot : public MethodSymbol {
+class Plot : public KeywordMethodSymbol {
 public:
 	Plot();
 
@@ -323,7 +323,7 @@ private:
 	String* chartId;
 };
 
-class Mark : public MethodSymbol {
+class Mark : public PositionalMethodSymbol {
 public:
 	Mark();
 	virtual ExpressionValue interpret(const unsigned int tick, InterpreterOutput& output);
@@ -341,7 +341,7 @@ private:
 };
 
 
-class FloatNAN : public MethodSymbol {
+class FloatNAN : public PositionalMethodSymbol {
 public:
 	FloatNAN();
 	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
@@ -352,7 +352,7 @@ public:
 	}
 };
 
-class BooleanNAN : public MethodSymbol {
+class BooleanNAN : public PositionalMethodSymbol {
 public:
 	BooleanNAN();
 	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
@@ -363,7 +363,7 @@ public:
 	}
 };
 
-class StringNAN : public MethodSymbol {
+class StringNAN : public PositionalMethodSymbol {
 public:
 	StringNAN();
 	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
@@ -375,7 +375,7 @@ public:
 };
 
 
-class ValueWhen : public MethodSymbol {
+class ValueWhen : public PositionalMethodSymbol {
 public:
 	ValueWhen();
 	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
@@ -390,7 +390,7 @@ private:
 	Float* value;
 };
 
-class Minimum : public MethodSymbol {
+class Minimum : public PositionalMethodSymbol {
 public:
 	Minimum();
 	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
@@ -407,7 +407,7 @@ private:
 
 
 
-class MinimumBars : public MethodSymbol {
+class MinimumBars : public PositionalMethodSymbol {
 public:
 	MinimumBars();
 	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
@@ -426,7 +426,7 @@ private:
 
 
 
-class Maximum : public MethodSymbol {
+class Maximum : public PositionalMethodSymbol {
 public:
 	Maximum();
 	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
@@ -440,7 +440,7 @@ private:
 	Float* value;
 };
 
-class MaximumBars : public MethodSymbol {
+class MaximumBars : public PositionalMethodSymbol {
 public:
 	MaximumBars();
 	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
@@ -457,7 +457,7 @@ private:
 };
 
 
-class Sum : public MethodSymbol {
+class Sum : public PositionalMethodSymbol {
 public:
 	Sum();
 	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
@@ -473,7 +473,7 @@ private:
 };
 
 
-class SumBars : public MethodSymbol {
+class SumBars : public PositionalMethodSymbol {
 public:
 	SumBars();
 	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
@@ -491,7 +491,7 @@ private:
 };
 
 
-class Mean : public MethodSymbol {
+class Mean : public PositionalMethodSymbol {
 public:
 	Mean();
 	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
@@ -507,7 +507,7 @@ private:
 
 };
 
-class GetPi : public MethodSymbol {
+class GetPi : public PositionalMethodSymbol {
 public:
 	GetPi();
 	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
@@ -518,7 +518,7 @@ public:
 	}
 };
 
-class GetE : public MethodSymbol {
+class GetE : public PositionalMethodSymbol {
 public:
 	GetE();
 	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
@@ -530,7 +530,7 @@ public:
 };
 
 
-class Round : public MethodSymbol {
+class Round : public PositionalMethodSymbol {
 public:
 	Round();
 	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
@@ -544,7 +544,7 @@ private:
 };
 
 
-class Floor : public MethodSymbol {
+class Floor : public PositionalMethodSymbol {
 public:
 	Floor();
 	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
@@ -557,7 +557,7 @@ private:
 	Float* value;
 };
 
-class Ceil : public MethodSymbol {
+class Ceil : public PositionalMethodSymbol {
 public:
 	Ceil();
 	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
@@ -570,7 +570,7 @@ private:
 	Float* value;
 };
 
-class FloatMax : public MethodSymbol {
+class FloatMax : public PositionalMethodSymbol {
 public:
 	FloatMax();
 	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
@@ -581,7 +581,7 @@ public:
 	}
 };
 
-class FloatMin : public MethodSymbol {
+class FloatMin : public PositionalMethodSymbol {
 public:
 	FloatMin();
 	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
@@ -592,7 +592,7 @@ public:
 	}
 };
 
-class Count : public MethodSymbol {
+class Count : public PositionalMethodSymbol {
 public:
 	Count();
 	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
@@ -608,7 +608,7 @@ private:
 };
 
 
-class FloatCast : public MethodSymbol {
+class FloatCast : public PositionalMethodSymbol {
 public:
 	FloatCast();
 	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
@@ -621,7 +621,7 @@ private:
 	Boolean* value;
 };
 
-class BooleanCast : public MethodSymbol {
+class BooleanCast : public PositionalMethodSymbol {
 public:
 	BooleanCast();
 	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
@@ -635,7 +635,7 @@ private:
 };
 
 
-class Absolute : public MethodSymbol {
+class Absolute : public PositionalMethodSymbol {
 public:
 	Absolute();
 	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
@@ -649,7 +649,7 @@ private:
 };
 
 
-class LogE : public MethodSymbol {
+class LogE : public PositionalMethodSymbol {
 public:
 	LogE();
 	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
@@ -662,7 +662,7 @@ private:
 	Float* value;
 };
 
-class LogBase : public MethodSymbol {
+class LogBase : public PositionalMethodSymbol {
 public:
 	LogBase();
 	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
@@ -677,7 +677,7 @@ private:
 };
 
 
-class SquareRoot : public MethodSymbol {
+class SquareRoot : public PositionalMethodSymbol {
 public:
 	SquareRoot();
 	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
@@ -691,7 +691,7 @@ private:
 };
 
 
-class LCM : public MethodSymbol {
+class LCM : public PositionalMethodSymbol {
 public:
 	LCM();
 	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
@@ -706,7 +706,7 @@ private:
 };
 
 
-class GCD : public MethodSymbol {
+class GCD : public PositionalMethodSymbol {
 public:
 	GCD();
 	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
@@ -722,7 +722,7 @@ private:
 
 
 
-class Variance : public MethodSymbol {
+class Variance : public PositionalMethodSymbol {
 public:
 	Variance();
 	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
@@ -737,7 +737,7 @@ private:
 	Float* amount;
 };
 
-class STD : public MethodSymbol {
+class STD : public PositionalMethodSymbol {
 public:
 	STD();
 	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
@@ -753,7 +753,7 @@ private:
 };
 
 
-class MA : public MethodSymbol {
+class MA : public PositionalMethodSymbol {
 public:
 	MA();
 	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
@@ -769,7 +769,7 @@ private:
 };
 
 
-class IsNANF : public MethodSymbol {
+class IsNANF : public PositionalMethodSymbol {
 public:
 	IsNANF();
 	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
@@ -784,7 +784,7 @@ private:
 
 
 
-class IsNANB : public MethodSymbol {
+class IsNANB : public PositionalMethodSymbol {
 public:
 	IsNANB();
 	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
@@ -797,7 +797,7 @@ private:
 	Boolean* value;
 };
 
-class IsNANS : public MethodSymbol {
+class IsNANS : public PositionalMethodSymbol {
 public:
 	IsNANS();
 	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
@@ -811,7 +811,7 @@ private:
 };
 
 
-class Random : public MethodSymbol {
+class Random : public PositionalMethodSymbol {
 public:
 	Random();
 	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
@@ -827,7 +827,7 @@ private:
 
 
 
-class Falling : public MethodSymbol {
+class Falling : public PositionalMethodSymbol {
 public:
 	Falling();
 	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
@@ -843,7 +843,7 @@ private:
 	Float* amount;
 };
 
-class Rising : public MethodSymbol {
+class Rising : public PositionalMethodSymbol {
 public:
 	Rising();
 	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
@@ -860,7 +860,7 @@ private:
 };
 
 
-class Cosine : public MethodSymbol {
+class Cosine : public PositionalMethodSymbol {
 public:
 	Cosine();
 	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
@@ -876,7 +876,7 @@ private:
 
 
 
-class Tangent : public MethodSymbol {
+class Tangent : public PositionalMethodSymbol {
 public:
 	Tangent();
 	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
@@ -890,7 +890,7 @@ private:
 };
 
 
-class Sine : public MethodSymbol {
+class Sine : public PositionalMethodSymbol {
 public:
 	Sine();
 	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
@@ -903,7 +903,7 @@ private:
 	Float* radians;
 };
 
-class ArcCosine : public MethodSymbol {
+class ArcCosine : public PositionalMethodSymbol {
 public:
 	ArcCosine();
 	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
@@ -917,7 +917,7 @@ private:
 };
 
 
-class ArcTan : public MethodSymbol {
+class ArcTan : public PositionalMethodSymbol {
 public:
 	ArcTan();
 	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
@@ -931,7 +931,7 @@ private:
 };
 
 
-class ArcSine : public MethodSymbol {
+class ArcSine : public PositionalMethodSymbol {
 public:
 	ArcSine();
 	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
@@ -945,7 +945,7 @@ private:
 };
 
 
-class LinearRegression : public MethodSymbol {
+class LinearRegression : public PositionalMethodSymbol {
 public:
 	LinearRegression();
 	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
@@ -961,7 +961,7 @@ private:
 	Float* bars;
 };
 
-class Correlation : public MethodSymbol {
+class Correlation : public PositionalMethodSymbol {
 public:
 	Correlation();
 	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
@@ -979,7 +979,7 @@ private:
 
 };
 
-class PreviousValue : public MethodSymbol {
+class PreviousValue : public PositionalMethodSymbol {
 public:
 	PreviousValue();
 	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
@@ -997,7 +997,7 @@ private:
 };
 
 
-class Median : public MethodSymbol {
+class Median : public PositionalMethodSymbol {
 public:
 	Median();
 	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
@@ -1015,7 +1015,7 @@ private:
 };
 
 
-class MedianBars : public MethodSymbol {
+class MedianBars : public PositionalMethodSymbol {
 public:
 	MedianBars();
 	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
@@ -1034,7 +1034,7 @@ private:
 };
 
 
-class IsPrime : public MethodSymbol {
+class IsPrime : public PositionalMethodSymbol {
 public:
 	IsPrime();
 	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
@@ -1049,7 +1049,7 @@ private:
 };
 
 
-class IsTriangle : public MethodSymbol {
+class IsTriangle : public PositionalMethodSymbol {
 public:
 	IsTriangle();
 	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);

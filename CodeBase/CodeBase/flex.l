@@ -9,6 +9,7 @@
     class Statement;
     class BooleanNode;
     class StringNode;
+    class KeywordNode;
 
     class BlockNode;
     class NumberNode;

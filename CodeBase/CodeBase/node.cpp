@@ -59,6 +59,16 @@ std::string BooleanNode::toString() const {
 	return value ? "true" : "false";
 }
 
+
+KeywordNode::~KeywordNode() {
+	delete rhs;
+}
+
+
+std::string KeywordNode::toString() const {
+	return name + " = " + rhs->toString();
+}
+
 BooleanNode::~BooleanNode() {}
 
 

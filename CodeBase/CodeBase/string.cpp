@@ -3,7 +3,7 @@
 #include "jsonsettings.h"
 
 std::string String::toString() const {
-	return this->value ? (*this->value) : "nan";
+	return this->value ? "\"" + (*this->value) + "\"" : "nan";
 }
 
 std::string String::toFileString() const {

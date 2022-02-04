@@ -3,6 +3,7 @@
 #include "imgui.h"
 #include <math.h>
 #include <limits>
+#include "interpretercontext.h"
 
 #include <string>
 #include "chartplot.h"
@@ -35,6 +36,7 @@ void ChartWindow::clearAllWindows() {
 
 void ChartWindow::updateAllCharts() {
     for (auto& window : ChartWindow::allChartWindows) {
+        std::cout << "updating : " << window.second->chart_id << std::endl;
         window.second->show = true;
         window.second->UpdateChart();
     }
@@ -49,6 +51,7 @@ void ChartWindow::reset() {
 ChartWindow* ChartWindow::getOrCreateChartWindow(const std::string& id) {
     auto find = allChartWindows.find(id);
     if (find == allChartWindows.end()) {
+        std::cout << "haty " << std::endl;
         allChartWindows[id] = new ChartWindow(id);
     }
     return allChartWindows[id];
@@ -69,11 +72,7 @@ void ChartWindow::initFileBrowserSave() {
 
 
 void ChartWindow::UpdateChart() {
-    unsigned int maxSize = 0;
-    for (auto line : CHART_LINE_DATA) {
-        maxSize = line->data.size() > maxSize ? line->data.size() : maxSize;
-    }
-    TITLE = "Chart Screen (" + (chart_id) + "): displaying " + std::to_string(CHART_LINE_DATA.size() + CHART_MARK_DATA.size()) + " plot(s) of size " + std::to_string(maxSize) + "###ChartWindow" + (chart_id);
+    TITLE = "Chart Screen (" + (chart_id) + "): displaying " + std::to_string(CHART_LINE_DATA.size() + CHART_MARK_DATA.size()) + " plot(s) of size " + std::to_string(InterpreterContext::ticks) + "###ChartWindow" + (chart_id);
     ImPlot::SetNextAxisToFit(ImAxis_X1);
     ImPlot::SetNextAxisToFit(ImAxis_Y1);
 }
@@ -132,6 +131,9 @@ void ChartWindow::ShowWindow() {
         if (ImGui::BeginMenu("Chart")) {
             if (ImGui::MenuItem("Clear")) {
                 reset();
+                UpdateChart();
+            }
+            if (ImGui::MenuItem("Fit to data")) {
                 UpdateChart();
             }
             if (ImGui::MenuItem("Show Key", NULL, showName)) {
