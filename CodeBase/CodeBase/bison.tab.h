@@ -45,7 +45,7 @@
 #ifndef YY_YY_BISON_TAB_H_INCLUDED
 # define YY_YY_BISON_TAB_H_INCLUDED
 // "%code requires" blocks.
-#line 32 "bison.y"
+#line 33 "bison.y"
 
   typedef void* yyscan_t;
 
@@ -390,20 +390,23 @@ namespace yy {
       // ifstmt
       char dummy7[sizeof (IfStatementNode*)];
 
+      // keyword
+      char dummy8[sizeof (KeywordNode*)];
+
       // method
-      char dummy8[sizeof (MethodCallNode*)];
+      char dummy9[sizeof (MethodCallNode*)];
 
       // numeric
-      char dummy9[sizeof (NumberNode*)];
+      char dummy10[sizeof (NumberNode*)];
 
       // stmt
-      char dummy10[sizeof (Statement*)];
+      char dummy11[sizeof (Statement*)];
 
       // string
-      char dummy11[sizeof (StringNode*)];
+      char dummy12[sizeof (StringNode*)];
 
       // ternary
-      char dummy12[sizeof (TernaryNode*)];
+      char dummy13[sizeof (TernaryNode*)];
 
       // "+"
       // "-"
@@ -431,16 +434,17 @@ namespace yy {
       // "}"
       // ":"
       // "?"
-      char dummy13[sizeof (int)];
+      char dummy14[sizeof (int)];
 
       // TNUMBER
       // TIDENTIFIER
       // TFLOAT
       // TSTRING
-      char dummy14[sizeof (std::string)];
+      char dummy15[sizeof (std::string)];
 
       // call_params
-      char dummy15[sizeof (std::vector<Expression*>)];
+      // call_params_keywords
+      char dummy16[sizeof (std::vector<Expression*>)];
     };
 
     /// The size of the largest semantic type.
@@ -573,12 +577,14 @@ namespace yy {
         S_identifier = 39,                       // identifier
         S_assign = 40,                           // assign
         S_expr = 41,                             // expr
-        S_ternary = 42,                          // ternary
-        S_numeric = 43,                          // numeric
-        S_boolean = 44,                          // boolean
-        S_string = 45,                           // string
-        S_method = 46,                           // method
-        S_call_params = 47                       // call_params
+        S_keyword = 42,                          // keyword
+        S_ternary = 43,                          // ternary
+        S_numeric = 44,                          // numeric
+        S_boolean = 45,                          // boolean
+        S_string = 46,                           // string
+        S_method = 47,                           // method
+        S_call_params = 48,                      // call_params
+        S_call_params_keywords = 49              // call_params_keywords
       };
     };
 
@@ -641,6 +647,10 @@ namespace yy {
         value.move< IfStatementNode* > (std::move (that.value));
         break;
 
+      case symbol_kind::S_keyword: // keyword
+        value.move< KeywordNode* > (std::move (that.value));
+        break;
+
       case symbol_kind::S_method: // method
         value.move< MethodCallNode* > (std::move (that.value));
         break;
@@ -698,6 +708,7 @@ namespace yy {
         break;
 
       case symbol_kind::S_call_params: // call_params
+      case symbol_kind::S_call_params_keywords: // call_params_keywords
         value.move< std::vector<Expression*> > (std::move (that.value));
         break;
 
@@ -801,6 +812,18 @@ namespace yy {
       {}
 #else
       basic_symbol (typename Base::kind_type t, const IfStatementNode*& v)
+        : Base (t)
+        , value (v)
+      {}
+#endif
+
+#if 201103L <= YY_CPLUSPLUS
+      basic_symbol (typename Base::kind_type t, KeywordNode*&& v)
+        : Base (t)
+        , value (std::move (v))
+      {}
+#else
+      basic_symbol (typename Base::kind_type t, const KeywordNode*& v)
         : Base (t)
         , value (v)
       {}
@@ -952,6 +975,10 @@ switch (yykind)
         value.template destroy< IfStatementNode* > ();
         break;
 
+      case symbol_kind::S_keyword: // keyword
+        value.template destroy< KeywordNode* > ();
+        break;
+
       case symbol_kind::S_method: // method
         value.template destroy< MethodCallNode* > ();
         break;
@@ -1009,6 +1036,7 @@ switch (yykind)
         break;
 
       case symbol_kind::S_call_params: // call_params
+      case symbol_kind::S_call_params_keywords: // call_params_keywords
         value.template destroy< std::vector<Expression*> > ();
         break;
 
@@ -1989,8 +2017,8 @@ switch (yykind)
     /// Constants.
     enum
     {
-      yylast_ = 282,     ///< Last index in yytable_.
-      yynnts_ = 15,  ///< Number of nonterminal symbols.
+      yylast_ = 306,     ///< Last index in yytable_.
+      yynnts_ = 17,  ///< Number of nonterminal symbols.
       yyfinal_ = 35 ///< Termination state number.
     };
 
@@ -2003,11 +2031,11 @@ switch (yykind)
 
 
 } // yy
-#line 2007 "bison.tab.h"
+#line 2035 "bison.tab.h"
 
 
 // "%code provides" blocks.
-#line 36 "bison.y"
+#line 37 "bison.y"
 
       #define YY_DECL \
         int yylex(yy::parser::semantic_type* value, yyscan_t yyscanner)
@@ -2015,7 +2043,7 @@ switch (yykind)
     std::string token_name(int t);
  
 
-#line 2019 "bison.tab.h"
+#line 2047 "bison.tab.h"
 
 
 #endif // !YY_YY_BISON_TAB_H_INCLUDED

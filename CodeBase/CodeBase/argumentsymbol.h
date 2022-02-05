@@ -1,5 +1,5 @@
 #pragma once
-
+#include "global.h"
 
 class Expression;
 class TypeSymbol;
@@ -15,6 +15,8 @@ public:
 
 	const TypeSymbol* type;
 	Expression* expression;
+	
+	ExpressionValue expressionValue;
 
 
 private:

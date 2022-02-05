@@ -108,7 +108,6 @@ int start()
     TextEditorWindow::initTextEditor();
     TextEditorWindow::initFileBrowserSave();
     TextEditorWindow::initFileBrowserOpen();
-    ChartWindow::initFileBrowserSave();
     OutputWindow::init();
 
     // default chart window instance
@@ -162,7 +161,6 @@ int start()
 
         
 
-        ChartWindow::fbSave.Display();
 
         //ChartWindow::getOrCreateChartWindow(0).ShowChartWindow(&show_demo_window);
 
@@ -183,7 +181,6 @@ int start()
 
 
         Window::manageNewWindows();
-
 
         Settings::autoSave();
 

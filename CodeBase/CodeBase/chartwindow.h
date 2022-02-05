@@ -29,12 +29,10 @@ public:
 	void UpdateChart();
 
 
-	static void initFileBrowserSave();
-	static ImGui::FileBrowser fbSave;
+	ImGui::FileBrowser fbSave{ ImGuiFileBrowserFlags_EnterNewFilename };
 
-	static bool exportWithBorder;
-	static bool exportWithOutBorder;
-	static std::string exportWindowId;
+	bool exportWithBorder = false;
+	bool exportWithOutBorder = false;
 
 
 	std::string chart_id;
@@ -55,5 +53,6 @@ private:
 	std::string TITLE = "Chart Screen(0)###ChartWindow";
 	bool exportChart = false;
 	bool showName = true;
+	bool updateChart = false;
 
 };

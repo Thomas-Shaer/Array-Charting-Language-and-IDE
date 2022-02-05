@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+#include "global.h"
 
 class TypeSymbol {
 public:
@@ -10,7 +11,7 @@ public:
 		return true;
 	}
 
-
+	ExpressionValue nanValue;
 };
 
 struct TypeInstances {

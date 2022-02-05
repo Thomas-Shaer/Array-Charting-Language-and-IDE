@@ -72,9 +72,6 @@
     <ClCompile Include="flex.flex.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="semanticanalysis.cpp">
-      <Filter>Source Files\Visitor</Filter>
-    </ClCompile>
     <ClCompile Include="interpreter.cpp">
       <Filter>Source Files\Visitor</Filter>
     </ClCompile>
@@ -191,6 +188,9 @@
     </ClCompile>
     <ClCompile Include="string.cpp">
       <Filter>Source Files\Values</Filter>
+    </ClCompile>
+    <ClCompile Include="semanticanalysis.cpp">
+      <Filter>Source Files\Visitor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

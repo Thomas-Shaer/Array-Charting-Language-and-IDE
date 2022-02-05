@@ -22,11 +22,11 @@ std::string OverloadedMethodBucket::toString() const {
 	return output;
 }
 
-MethodSymbol* OverloadedMethodBucket::getMethodSymbol(std::vector<std::shared_ptr<ArgumentSymbol>> _argumentSymbols) const {
+MethodSymbol* OverloadedMethodBucket::getMethodSymbol(MethodCallNode* methodcall, std::shared_ptr<SymbolTable> symbolTable) const {
 	for (MethodSymbol* overload : overloads) {
 		try {
-			InterpreterOutput temp(0);
-			overload->semanticAnaylsis(_argumentSymbols, temp);
+			InterpreterOutput temp;
+			overload->semanticAnaylsis(methodcall, symbolTable, temp);
 		}
 		catch (LanguageException langexception) {
 			continue;
@@ -47,14 +47,15 @@ MethodSymbol* OverloadedMethodBucket::getMethodSymbol(std::vector<std::shared_pt
 void OverloadedMethodBucket::renderAsDocumentation() const {
 
 	for (MethodSymbol* overload : overloads) {
+		ImGui::Text(std::string(overload->getSignature()).c_str());
+		ImGui::Text(std::string("\n").c_str());
 		ImGui::PushFont(Fonts::SMALLFONT);
 		ImGui::Text(std::string(overload->description).c_str());
 		ImGui::Text(std::string(overload->getDescription()).c_str());
 		ImGui::Text(std::string(overload->returnType.toString()).c_str());
 		ImGui::Text(std::string("\n").c_str());
 		ImGui::PopFont();
-		ImGui::Text(std::string(overload->getSignature()).c_str());
-		ImGui::Text(std::string("\n").c_str());
+
 
 
 	}
@@ -66,17 +67,18 @@ std::string SingleMethodBucket::toString() const {
 	return methodsymbol->getSignature();
 }
 
-MethodSymbol* SingleMethodBucket::getMethodSymbol(std::vector<std::shared_ptr<ArgumentSymbol>> _argumentSymbols) const {
+MethodSymbol* SingleMethodBucket::getMethodSymbol(MethodCallNode* methodcall, std::shared_ptr<SymbolTable> symbolTable) const {
 	return methodsymbol;
 }
 
 void SingleMethodBucket::renderAsDocumentation() const {
 
+	ImGui::Text(std::string(methodsymbol->getSignature()).c_str());
+	ImGui::Text(std::string("\n").c_str());
 	ImGui::PushFont(Fonts::SMALLFONT);
 	ImGui::Text(std::string(methodsymbol->description).c_str());
 	ImGui::Text(std::string(methodsymbol->getDescription()).c_str());
 	ImGui::Text(std::string(methodsymbol->returnType.toString()).c_str());
 	ImGui::Text(std::string("\n").c_str());
 	ImGui::PopFont();
-	ImGui::Text(toString().c_str());
 }

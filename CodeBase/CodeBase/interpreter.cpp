@@ -1,7 +1,7 @@
 #include "node.h"
 #include "symboltable.h"
 #include "methodsymbol.h"
-
+#include "argumentsymbol.h"
 
 void BlockNode::interpret(const unsigned int tick, InterpreterOutput& output) const {
 	for (Statement* statement : statementNodes) {
@@ -42,12 +42,26 @@ void AssignNode::interpret(const unsigned int tick, InterpreterOutput& output) c
 
 ExpressionValue MethodCallNode::interpret(const unsigned int tick, InterpreterOutput& output) const {
 
-	std::vector<ExpressionValue> argValues;
-	for (Expression* expr : arguments) {
-		argValues.push_back(expr->interpret(tick, output));
+
+	for (auto item : expressionToArgList) {
+		std::shared_ptr<ArgumentSymbol> arg = item.second;
+		Expression* expr = arg->expression;
+		/*
+		Only execute if the ArgumentSymbol has a expression node,
+		and therefore is a argument we provided (optional args)
+		*/
+		if (expr) {
+			arg->expressionValue = expr->interpret(tick, output);
+		}
 	}
 
-	return methodsymbol->interpret(tick, argValues, output);
+
+	return methodsymbol->interpret(tick, output);
+}
+
+
+ExpressionValue KeywordNode::interpret(const unsigned int tick, InterpreterOutput& output) const {
+	return rhs->interpret(tick, output);
 }
 
 

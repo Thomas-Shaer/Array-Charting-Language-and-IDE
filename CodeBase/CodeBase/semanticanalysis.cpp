@@ -94,14 +94,16 @@ const TypeSymbol* MethodCallNode::semanticAnalysis(std::shared_ptr<SymbolTable> 
 		throw LanguageException("No method called " + name);
 	}
 
-	std::vector<std::shared_ptr<ArgumentSymbol>> argTypes;
-	for (Expression* expr : arguments) {
-		argTypes.push_back(std::make_shared<ArgumentSymbol>(expr->semanticAnalysis(symboltable, output), expr));
-	}
-
-	this->methodsymbol = symboltable->getMethod(name)->getMethodSymbol(argTypes)->clone();
-	return methodsymbol->semanticAnaylsis(argTypes, output);
+	this->methodsymbol = symboltable->getMethod(name)->getMethodSymbol(this, symboltable)->clone();
+	return methodsymbol->semanticAnaylsis(this, symboltable, output);
 }
+
+
+const TypeSymbol* KeywordNode::semanticAnalysis(std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output) {
+	return rhs->semanticAnalysis(symboltable, output);
+}
+
+
 
 void IfStatementNode::semanticAnalysis(std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output) {
 	if (condition->semanticAnalysis(symboltable, output) != TypeInstances::GetBooleanInstance()) {

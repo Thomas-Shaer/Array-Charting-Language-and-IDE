@@ -18,6 +18,7 @@ class BlockNode;
 class StringNode;
 class AssignNode;
 class IdentifierNode;
+class KeywordNode;
 class MethodCallNode;
 class ExpressionStatementNode;
 class IfStatementNode;
