@@ -1518,67 +1518,61 @@ namespace yy {
 #line 1519 "bison.tab.cpp"
     break;
 
-  case 45: // method: TIDENTIFIER "(" call_params ")"
+  case 45: // method: TIDENTIFIER "(" ")"
 #line 161 "bison.y"
-                                                            {yylhs.value.as < MethodCallNode* > () = new MethodCallNode(yystack_[3].value.as < std::string > (), yystack_[1].value.as < std::vector<Expression*> > ());}
+                                                          {yylhs.value.as < MethodCallNode* > () = new MethodCallNode(yystack_[2].value.as < std::string > (), std::vector<Expression*>());}
 #line 1525 "bison.tab.cpp"
     break;
 
-  case 46: // method: TIDENTIFIER "(" call_params_keywords ")"
+  case 46: // method: TIDENTIFIER "(" call_params ")"
 #line 162 "bison.y"
-                                                                     {yylhs.value.as < MethodCallNode* > () = new MethodCallNode(yystack_[3].value.as < std::string > (), yystack_[1].value.as < std::vector<Expression*> > ());}
+                                                            {yylhs.value.as < MethodCallNode* > () = new MethodCallNode(yystack_[3].value.as < std::string > (), yystack_[1].value.as < std::vector<Expression*> > ());}
 #line 1531 "bison.tab.cpp"
     break;
 
-  case 47: // call_params: %empty
-#line 167 "bison.y"
-                         { yylhs.value.as < std::vector<Expression*> > () = std::vector<Expression*>(); }
+  case 47: // method: TIDENTIFIER "(" call_params_keywords ")"
+#line 163 "bison.y"
+                                                                     {yylhs.value.as < MethodCallNode* > () = new MethodCallNode(yystack_[3].value.as < std::string > (), yystack_[1].value.as < std::vector<Expression*> > ());}
 #line 1537 "bison.tab.cpp"
     break;
 
   case 48: // call_params: expr
 #line 168 "bison.y"
-                 { yylhs.value.as < std::vector<Expression*> > () = std::vector<Expression*>(); yylhs.value.as < std::vector<Expression*> > ().push_back(yystack_[0].value.as < Expression* > ()); }
+                   { yylhs.value.as < std::vector<Expression*> > () = std::vector<Expression*>(); yylhs.value.as < std::vector<Expression*> > ().push_back(yystack_[0].value.as < Expression* > ()); }
 #line 1543 "bison.tab.cpp"
     break;
 
   case 49: // call_params: call_params "," expr
 #line 169 "bison.y"
-                                    { yystack_[2].value.as < std::vector<Expression*> > ().push_back(yystack_[0].value.as < Expression* > ()); yylhs.value.as < std::vector<Expression*> > () = yystack_[2].value.as < std::vector<Expression*> > (); }
+                                      { yystack_[2].value.as < std::vector<Expression*> > ().push_back(yystack_[0].value.as < Expression* > ()); yylhs.value.as < std::vector<Expression*> > () = yystack_[2].value.as < std::vector<Expression*> > (); }
 #line 1549 "bison.tab.cpp"
     break;
 
   case 50: // call_params: call_params "," call_params_keywords
 #line 170 "bison.y"
-                                                    { 
-            std::vector<Expression*> combinedParamList = yystack_[2].value.as < std::vector<Expression*> > ();
-            std::vector<Expression*> newParamList = yystack_[0].value.as < std::vector<Expression*> > ();
-            combinedParamList.insert(combinedParamList.end(), newParamList.begin(), newParamList.end());
-            yylhs.value.as < std::vector<Expression*> > () = combinedParamList;
-          }
+                                                      { 
+                std::vector<Expression*> combinedParamList = yystack_[2].value.as < std::vector<Expression*> > ();
+                std::vector<Expression*> newParamList = yystack_[0].value.as < std::vector<Expression*> > ();
+                combinedParamList.insert(combinedParamList.end(), newParamList.begin(), newParamList.end());
+                yylhs.value.as < std::vector<Expression*> > () = combinedParamList;
+              }
 #line 1560 "bison.tab.cpp"
     break;
 
-  case 51: // call_params_keywords: %empty
+  case 51: // call_params_keywords: keyword
 #line 178 "bison.y"
-                                  { yylhs.value.as < std::vector<Expression*> > () = std::vector<Expression*>(); }
+                               { yylhs.value.as < std::vector<Expression*> > () = std::vector<Expression*>(); yylhs.value.as < std::vector<Expression*> > ().push_back(yystack_[0].value.as < KeywordNode* > ()); }
 #line 1566 "bison.tab.cpp"
     break;
 
-  case 52: // call_params_keywords: keyword
+  case 52: // call_params_keywords: call_params_keywords "," keyword
 #line 179 "bison.y"
-                    { yylhs.value.as < std::vector<Expression*> > () = std::vector<Expression*>(); yylhs.value.as < std::vector<Expression*> > ().push_back(yystack_[0].value.as < KeywordNode* > ()); }
+                                                           { yystack_[2].value.as < std::vector<Expression*> > ().push_back(yystack_[0].value.as < KeywordNode* > ()); yylhs.value.as < std::vector<Expression*> > () = yystack_[2].value.as < std::vector<Expression*> > (); }
 #line 1572 "bison.tab.cpp"
     break;
 
-  case 53: // call_params_keywords: call_params_keywords "," keyword
-#line 180 "bison.y"
-                                                { yystack_[2].value.as < std::vector<Expression*> > ().push_back(yystack_[0].value.as < KeywordNode* > ()); yylhs.value.as < std::vector<Expression*> > () = yystack_[2].value.as < std::vector<Expression*> > (); }
-#line 1578 "bison.tab.cpp"
-    break;
 
-
-#line 1582 "bison.tab.cpp"
+#line 1576 "bison.tab.cpp"
 
             default:
               break;
@@ -1923,23 +1917,23 @@ namespace yy {
   }
 
 
-  const signed char parser::yypact_ninf_ = -60;
+  const signed char parser::yypact_ninf_ = -61;
 
   const signed char parser::yytable_ninf_ = -21;
 
   const short
   parser::yypact_[] =
   {
-     172,   -60,    -4,   -60,   -60,   182,   182,   182,   182,   -60,
-     -60,   -15,    10,   172,   -60,   -60,   -60,   -60,   -60,   152,
-     226,   -60,   -60,   -60,   247,   182,   207,    -6,    40,   -60,
-     -60,    40,    -1,    84,   182,   -60,   -60,   182,   182,   182,
-     182,   182,   182,   182,   182,   182,   182,   182,   182,   182,
-     182,   182,   152,    -2,   152,   -60,    -9,     8,   -60,   105,
-      40,    40,    -1,    -1,   152,   152,    17,    17,    17,    17,
-     284,   268,   209,   209,   126,   182,   -60,   207,   -60,    14,
-      22,   182,   152,   152,    -5,    43,   -60,   172,   152,    53,
-     -60
+     173,   -61,    -4,   -61,   -61,   208,   208,   208,   208,   -61,
+     -61,   -15,    10,   173,   -61,   -61,   -61,   -61,   -61,   153,
+     235,   -61,   -61,   -61,   256,   208,   183,    -6,    40,   -61,
+     -61,    40,    -1,    85,   208,   -61,   -61,   208,   208,   208,
+     208,   208,   208,   208,   208,   208,   208,   208,   208,   208,
+     208,   208,   153,    -2,   -61,   153,   -61,    -9,     8,   -61,
+     106,    40,    40,    -1,    -1,   153,   153,    17,    17,    17,
+      17,   293,   277,   309,   309,   127,   208,   -61,   216,   -61,
+      14,    22,   208,   153,   153,    -5,    43,   -61,   173,   153,
+      54,   -61
   };
 
   const signed char
@@ -1947,64 +1941,66 @@ namespace yy {
   {
        5,    40,    12,    41,    44,     0,     0,     0,     0,    43,
       42,     0,     0,     2,     3,     7,     8,    18,     6,     0,
-      10,    14,    15,    16,     9,     0,    47,    12,    35,    20,
+      10,    14,    15,    16,     9,     0,     0,    12,    35,    20,
       17,    36,    37,     0,     0,     1,     4,     0,     0,     0,
        0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
-       0,     0,    13,    12,    48,    52,     0,     0,    19,     0,
-      23,    24,    21,    22,    26,    27,    25,    28,    29,    30,
-      34,    33,    31,    32,     0,     0,    45,    51,    46,     0,
-       0,     0,    38,    49,    50,     0,    53,     5,    39,     0,
-      11
+       0,     0,    13,    12,    45,    48,    51,     0,     0,    19,
+       0,    23,    24,    21,    22,    26,    27,    25,    28,    29,
+      30,    34,    33,    31,    32,     0,     0,    46,     0,    47,
+       0,     0,     0,    38,    49,    50,     0,    52,     5,    39,
+       0,    11
   };
 
   const signed char
   parser::yypgoto_[] =
   {
-     -60,   -60,   -59,    -7,   -60,   -60,   -60,   -60,    -3,   -24,
-       0,   -60,   -60,   -60,     1,   -60,   -14
+     -61,   -61,   -60,    -7,   -61,   -61,   -61,   -61,    -3,   -25,
+       0,   -61,   -61,   -61,     1,   -61,   -22
   };
 
   const signed char
   parser::yydefgoto_[] =
   {
-      -1,    12,    13,    14,    15,    16,    17,    18,    19,    55,
-      29,    21,    22,    23,    30,    56,    57
+      -1,    12,    13,    14,    15,    16,    17,    18,    19,    56,
+      29,    21,    22,    23,    30,    57,    58
   };
 
   const signed char
   parser::yytable_[] =
   {
-      20,    24,    28,    31,    32,    33,    36,    25,    34,    75,
-      35,    41,    42,    20,    24,    76,    77,    26,    85,    26,
-      79,    26,    52,    54,    37,    38,    39,    40,    89,    41,
-      42,    59,    78,    79,    60,    61,    62,    63,    64,    65,
-      66,    67,    68,    69,    70,    71,    72,    73,    74,    39,
-      40,    87,    41,    42,    75,    86,     1,     2,     3,     4,
-       5,     6,     0,    84,     0,     0,     0,     0,     0,     0,
-       0,     0,    82,     7,    83,     0,     8,     0,    88,     9,
-      10,    11,    36,    90,     0,     0,     0,    20,    24,    20,
-      24,    37,    38,    39,    40,     0,    41,    42,    43,    44,
-      45,    46,    47,    48,     0,    49,    50,     0,    58,     0,
-       0,     0,    37,    38,    39,    40,    51,    41,    42,    43,
-      44,    45,    46,    47,    48,     0,    49,    50,     0,    80,
+      20,    24,    28,    31,    32,    33,    36,    25,    34,    76,
+      35,    41,    42,    20,    24,    77,    78,    26,    86,    26,
+      80,    26,    52,    55,    37,    38,    39,    40,    90,    41,
+      42,    60,    79,    80,    61,    62,    63,    64,    65,    66,
+      67,    68,    69,    70,    71,    72,    73,    74,    75,    39,
+      40,    88,    41,    42,    76,    87,    85,     1,     2,     3,
+       4,     5,     6,     0,     0,     0,     0,     0,     0,     0,
+       0,     0,     0,    83,     7,    84,     0,     8,     0,    89,
+       9,    10,    11,    36,    91,     0,     0,     0,    20,    24,
+      20,    24,    37,    38,    39,    40,     0,    41,    42,    43,
+      44,    45,    46,    47,    48,     0,    49,    50,     0,    59,
        0,     0,     0,    37,    38,    39,    40,    51,    41,    42,
       43,    44,    45,    46,    47,    48,     0,    49,    50,     0,
-       0,     0,     0,     0,     0,     0,     0,    81,    51,    37,
-      38,    39,    40,     0,    41,    42,    43,    44,    45,    46,
-      47,    48,     0,    49,    50,     1,     2,     3,     4,     5,
-       6,     0,     0,     0,    51,     1,    27,     3,     4,     5,
-       6,     0,     7,     0,     0,     8,     0,     0,     9,    10,
-      11,     0,     7,     0,     0,     8,     0,     0,     9,    10,
-       1,    53,     3,     4,     5,     6,    37,    38,    39,    40,
-       0,    41,    42,    43,    44,    45,    46,     7,     0,     0,
-       8,     0,     0,     9,    10,   -20,   -20,     0,   -20,   -20,
-     -20,   -20,   -20,   -20,   -20,   -20,     0,   -20,   -20,     0,
-       0,     0,     0,     0,     0,     0,   -17,   -17,   -20,   -17,
-     -17,   -17,   -17,   -17,   -17,   -17,   -17,     0,   -17,   -17,
-       0,     0,     0,     0,     0,    37,    38,    39,    40,   -17,
-      41,    42,    43,    44,    45,    46,    47,     0,     0,    49,
-      50,    37,    38,    39,    40,     0,    41,    42,    43,    44,
-      45,    46,     0,     0,     0,    49,    50
+      81,     0,     0,     0,    37,    38,    39,    40,    51,    41,
+      42,    43,    44,    45,    46,    47,    48,     0,    49,    50,
+       0,     0,     0,     0,     0,     0,     0,     0,    82,    51,
+      37,    38,    39,    40,     0,    41,    42,    43,    44,    45,
+      46,    47,    48,     0,    49,    50,     1,     2,     3,     4,
+       5,     6,     0,     0,     0,    51,     1,    53,     3,     4,
+       5,     6,     0,     7,     0,     0,     8,     0,     0,     9,
+      10,    11,     0,     7,     0,     0,     8,    54,     0,     9,
+      10,     1,    27,     3,     4,     5,     6,     0,     0,     1,
+      53,     3,     4,     5,     6,     0,     0,     0,     7,     0,
+       0,     8,     0,     0,     9,    10,     7,     0,     0,     8,
+       0,     0,     9,    10,   -20,   -20,     0,   -20,   -20,   -20,
+     -20,   -20,   -20,   -20,   -20,     0,   -20,   -20,     0,     0,
+       0,     0,     0,     0,     0,   -17,   -17,   -20,   -17,   -17,
+     -17,   -17,   -17,   -17,   -17,   -17,     0,   -17,   -17,     0,
+       0,     0,     0,     0,    37,    38,    39,    40,   -17,    41,
+      42,    43,    44,    45,    46,    47,     0,     0,    49,    50,
+      37,    38,    39,    40,     0,    41,    42,    43,    44,    45,
+      46,     0,     0,     0,    49,    50,    37,    38,    39,    40,
+       0,    41,    42,    43,    44,    45,    46
   };
 
   const signed char
@@ -2012,35 +2008,37 @@ namespace yy {
   {
        0,     0,     5,     6,     7,     8,    13,    11,    23,    11,
        0,    12,    13,    13,    13,    24,    25,    23,     4,    23,
-      25,    23,    25,    26,     7,     8,     9,    10,    87,    12,
+      25,    23,    25,    26,     7,     8,     9,    10,    88,    12,
       13,    34,    24,    25,    37,    38,    39,    40,    41,    42,
       43,    44,    45,    46,    47,    48,    49,    50,    51,     9,
-      10,    29,    12,    13,    11,    79,     3,     4,     5,     6,
-       7,     8,    -1,    77,    -1,    -1,    -1,    -1,    -1,    -1,
-      -1,    -1,    75,    20,    77,    -1,    23,    -1,    81,    26,
-      27,    28,    89,    30,    -1,    -1,    -1,    87,    87,    89,
-      89,     7,     8,     9,    10,    -1,    12,    13,    14,    15,
-      16,    17,    18,    19,    -1,    21,    22,    -1,    24,    -1,
-      -1,    -1,     7,     8,     9,    10,    32,    12,    13,    14,
+      10,    29,    12,    13,    11,    80,    78,     3,     4,     5,
+       6,     7,     8,    -1,    -1,    -1,    -1,    -1,    -1,    -1,
+      -1,    -1,    -1,    76,    20,    78,    -1,    23,    -1,    82,
+      26,    27,    28,    90,    30,    -1,    -1,    -1,    88,    88,
+      90,    90,     7,     8,     9,    10,    -1,    12,    13,    14,
       15,    16,    17,    18,    19,    -1,    21,    22,    -1,    24,
       -1,    -1,    -1,     7,     8,     9,    10,    32,    12,    13,
       14,    15,    16,    17,    18,    19,    -1,    21,    22,    -1,
-      -1,    -1,    -1,    -1,    -1,    -1,    -1,    31,    32,     7,
-       8,     9,    10,    -1,    12,    13,    14,    15,    16,    17,
-      18,    19,    -1,    21,    22,     3,     4,     5,     6,     7,
-       8,    -1,    -1,    -1,    32,     3,     4,     5,     6,     7,
-       8,    -1,    20,    -1,    -1,    23,    -1,    -1,    26,    27,
-      28,    -1,    20,    -1,    -1,    23,    -1,    -1,    26,    27,
-       3,     4,     5,     6,     7,     8,     7,     8,     9,    10,
-      -1,    12,    13,    14,    15,    16,    17,    20,    -1,    -1,
-      23,    -1,    -1,    26,    27,     9,    10,    -1,    12,    13,
-      14,    15,    16,    17,    18,    19,    -1,    21,    22,    -1,
-      -1,    -1,    -1,    -1,    -1,    -1,     9,    10,    32,    12,
+      24,    -1,    -1,    -1,     7,     8,     9,    10,    32,    12,
       13,    14,    15,    16,    17,    18,    19,    -1,    21,    22,
-      -1,    -1,    -1,    -1,    -1,     7,     8,     9,    10,    32,
-      12,    13,    14,    15,    16,    17,    18,    -1,    -1,    21,
-      22,     7,     8,     9,    10,    -1,    12,    13,    14,    15,
-      16,    17,    -1,    -1,    -1,    21,    22
+      -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    31,    32,
+       7,     8,     9,    10,    -1,    12,    13,    14,    15,    16,
+      17,    18,    19,    -1,    21,    22,     3,     4,     5,     6,
+       7,     8,    -1,    -1,    -1,    32,     3,     4,     5,     6,
+       7,     8,    -1,    20,    -1,    -1,    23,    -1,    -1,    26,
+      27,    28,    -1,    20,    -1,    -1,    23,    24,    -1,    26,
+      27,     3,     4,     5,     6,     7,     8,    -1,    -1,     3,
+       4,     5,     6,     7,     8,    -1,    -1,    -1,    20,    -1,
+      -1,    23,    -1,    -1,    26,    27,    20,    -1,    -1,    23,
+      -1,    -1,    26,    27,     9,    10,    -1,    12,    13,    14,
+      15,    16,    17,    18,    19,    -1,    21,    22,    -1,    -1,
+      -1,    -1,    -1,    -1,    -1,     9,    10,    32,    12,    13,
+      14,    15,    16,    17,    18,    19,    -1,    21,    22,    -1,
+      -1,    -1,    -1,    -1,     7,     8,     9,    10,    32,    12,
+      13,    14,    15,    16,    17,    18,    -1,    -1,    21,    22,
+       7,     8,     9,    10,    -1,    12,    13,    14,    15,    16,
+      17,    -1,    -1,    -1,    21,    22,     7,     8,     9,    10,
+      -1,    12,    13,    14,    15,    16,    17
   };
 
   const signed char
@@ -2051,11 +2049,11 @@ namespace yy {
       43,    44,    45,    46,    47,    11,    23,     4,    41,    43,
       47,    41,    41,    41,    23,     0,    36,     7,     8,     9,
       10,    12,    13,    14,    15,    16,    17,    18,    19,    21,
-      22,    32,    41,     4,    41,    42,    48,    49,    24,    41,
+      22,    32,    41,     4,    24,    41,    42,    48,    49,    24,
       41,    41,    41,    41,    41,    41,    41,    41,    41,    41,
-      41,    41,    41,    41,    41,    11,    24,    25,    24,    25,
-      24,    31,    41,    41,    49,     4,    42,    29,    41,    35,
-      30
+      41,    41,    41,    41,    41,    41,    11,    24,    25,    24,
+      25,    24,    31,    41,    41,    49,     4,    42,    29,    41,
+      35,    30
   };
 
   const signed char
@@ -2065,8 +2063,8 @@ namespace yy {
       37,    38,    39,    40,    41,    41,    41,    41,    41,    41,
       41,    41,    41,    41,    41,    41,    41,    41,    41,    41,
       41,    41,    41,    41,    41,    41,    41,    41,    42,    43,
-      44,    44,    45,    45,    46,    47,    47,    48,    48,    48,
-      48,    49,    49,    49
+      44,    44,    45,    45,    46,    47,    47,    47,    48,    48,
+      48,    49,    49
   };
 
   const signed char
@@ -2076,8 +2074,8 @@ namespace yy {
        1,     7,     1,     3,     1,     1,     1,     1,     1,     3,
        1,     3,     3,     3,     3,     3,     3,     3,     3,     3,
        3,     3,     3,     3,     3,     2,     2,     2,     3,     5,
-       1,     1,     1,     1,     1,     4,     4,     0,     1,     3,
-       3,     0,     1,     3
+       1,     1,     1,     1,     1,     3,     4,     4,     1,     3,
+       3,     1,     3
   };
 
 
@@ -2107,8 +2105,8 @@ namespace yy {
      101,   104,   109,   113,   116,   117,   118,   119,   120,   121,
      122,   123,   124,   125,   126,   127,   128,   129,   130,   131,
      132,   133,   134,   135,   136,   137,   138,   139,   142,   145,
-     149,   150,   153,   154,   157,   161,   162,   167,   168,   169,
-     170,   178,   179,   180
+     149,   150,   153,   154,   157,   161,   162,   163,   168,   169,
+     170,   178,   179
   };
 
   void
@@ -2189,9 +2187,9 @@ namespace yy {
   }
 
 } // yy
-#line 2193 "bison.tab.cpp"
+#line 2191 "bison.tab.cpp"
 
-#line 185 "bison.y"
+#line 184 "bison.y"
 
 void yy::parser::error( const std::string& msg) {
     std::cout << msg << std::endl;

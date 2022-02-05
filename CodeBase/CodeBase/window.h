@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include <vector>
+#include "imgui_internal.h"
 
 class Window {
 public:
@@ -30,5 +31,7 @@ public:
 private:
 	static std::vector<Window*> toCreate;
 	static std::vector<Window*> toDelete;
+protected:
+	ImGuiWindow* guiwindow;
 
 };

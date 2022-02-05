@@ -12,6 +12,8 @@ ImGui::FileBrowser OutputWindow::fb(ImGuiFileBrowserFlags_EnterNewFilename);
 ImGuiTabItemFlags_ OutputWindow::outputTabFlags = ImGuiTabItemFlags_None;
 ImGuiTabItemFlags_ OutputWindow::codeReconstructionTabFlags = ImGuiTabItemFlags_None;
 ImGuiTabItemFlags_ OutputWindow::variableTabFlags = ImGuiTabItemFlags_None;
+bool OutputWindow::bringToFront = false;
+
 std::vector<std::shared_ptr<VarSymbol>> OutputWindow::CODE_OUTPUT_VARIABLES = {};
 std::string OutputWindow::CODE_OUTPUT = "No information to display. Please run some code!";
 std::string OutputWindow::CODE_OUTPUT_RECONSTRUCTION = "No information to display. Please run some code!";
@@ -30,6 +32,7 @@ void OutputWindow::init() {
 
 void OutputWindow::SnapToOutputTab() {
     outputTabFlags = ImGuiTabItemFlags_SetSelected;
+    OutputWindow::bringToFront = true;
 }
 
 void OutputWindow::UpdateVariablesTab() {
@@ -39,9 +42,12 @@ void OutputWindow::UpdateVariablesTab() {
 
 void OutputWindow::ShowWindow() {
     ImGui::Begin("Program Output", &show, ImGuiWindowFlags_MenuBar);
+    if (bringToFront) {
+        ImGui::SetWindowFocus();
+        bringToFront = false;
+    }
     ImGui::SetWindowSize(ImVec2(500, 600), ImGuiCond_FirstUseEver);
     ImGui::SetWindowPos(ImVec2(100, 600), ImGuiCond_FirstUseEver);
-    
     static char defaultTrue[40];
     static char defaultFalse[40];
     static char defaultNAN[40];

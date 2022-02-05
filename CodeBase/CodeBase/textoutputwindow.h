@@ -44,7 +44,7 @@ public:
 	static ImGuiTabItemFlags_ variableTabFlags;
 
 private:
-
+	static bool bringToFront;
 
 
 };

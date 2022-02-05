@@ -26,7 +26,6 @@ void DocumentationWindow::ShowWindow() {
                     }
                 }
             }
-                
             ImGui::EndChild();
             ImGui::EndTabItem();
         }

@@ -158,27 +158,26 @@ string : TSTRING { $$ = new StringNode($1.c_str());}
        ;
 
 
-method : TIDENTIFIER TOPENBRACKET call_params TCLOSEBRACKET {$$ = new MethodCallNode($1, $3);}
+method : TIDENTIFIER TOPENBRACKET /*blank*/ TCLOSEBRACKET {$$ = new MethodCallNode($1, std::vector<Expression*>());}
+       | TIDENTIFIER TOPENBRACKET call_params TCLOSEBRACKET {$$ = new MethodCallNode($1, $3);}
        | TIDENTIFIER TOPENBRACKET call_params_keywords TCLOSEBRACKET {$$ = new MethodCallNode($1, $3);}
        ;
 
 
 
-call_params : /*blank*/  { $$ = std::vector<Expression*>(); }
-          | expr { $$ = std::vector<Expression*>(); $$.push_back($1); }
-          | call_params TCOMMA expr { $1.push_back($3); $$ = $1; }
-          | call_params TCOMMA call_params_keywords { 
-            std::vector<Expression*> combinedParamList = $1;
-            std::vector<Expression*> newParamList = $3;
-            combinedParamList.insert(combinedParamList.end(), newParamList.begin(), newParamList.end());
-            $$ = combinedParamList;
-          }
-          ;
+call_params : expr { $$ = std::vector<Expression*>(); $$.push_back($1); }
+            | call_params TCOMMA expr { $1.push_back($3); $$ = $1; }
+            | call_params TCOMMA call_params_keywords { 
+                std::vector<Expression*> combinedParamList = $1;
+                std::vector<Expression*> newParamList = $3;
+                combinedParamList.insert(combinedParamList.end(), newParamList.begin(), newParamList.end());
+                $$ = combinedParamList;
+              }
+            ;
 
-call_params_keywords : /*blank*/  { $$ = std::vector<Expression*>(); }
-          | keyword { $$ = std::vector<Expression*>(); $$.push_back($1); }
-          | call_params_keywords TCOMMA keyword { $1.push_back($3); $$ = $1; }
-          ;
+call_params_keywords : keyword { $$ = std::vector<Expression*>(); $$.push_back($1); }
+                     | call_params_keywords TCOMMA keyword { $1.push_back($3); $$ = $1; }
+                     ;
 
 
 
