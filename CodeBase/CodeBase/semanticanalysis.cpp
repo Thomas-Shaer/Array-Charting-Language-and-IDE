@@ -6,28 +6,28 @@
 #include "typesymbol.h"
 #include "argumentsymbol.h"
 
-void BlockNode::semanticAnalysis(std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output) {
+void BlockNode::semanticAnalysis(std::shared_ptr<SymbolTable> symboltable) {
 	for (Statement* statement : statementNodes) {
-		statement->semanticAnalysis(symboltable, output);
+		statement->semanticAnalysis(symboltable);
 	}
 }
 
-const TypeSymbol* NumberNode::semanticAnalysis(std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output) {
+const TypeSymbol* NumberNode::semanticAnalysis(std::shared_ptr<SymbolTable> symboltable) {
 	return TypeInstances::GetFloatConstantInstance();
 }
 
-const TypeSymbol* BooleanNode::semanticAnalysis(std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output) {
+const TypeSymbol* BooleanNode::semanticAnalysis(std::shared_ptr<SymbolTable> symboltable) {
 	return TypeInstances::GetBooleanInstance();
 }
 
 
-const TypeSymbol* StringNode::semanticAnalysis(std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output) {
+const TypeSymbol* StringNode::semanticAnalysis(std::shared_ptr<SymbolTable> symboltable) {
 	return TypeInstances::GetStringConstantInstance();
 }
 
 
 
-const TypeSymbol* IdentifierNode::semanticAnalysis(std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output) {
+const TypeSymbol* IdentifierNode::semanticAnalysis(std::shared_ptr<SymbolTable> symboltable) {
 	// need to return item in symbol table
 	if (symboltable->isVariableDeclared(name)) {
 		varSymbol = symboltable->getVariable(name);
@@ -38,13 +38,13 @@ const TypeSymbol* IdentifierNode::semanticAnalysis(std::shared_ptr<SymbolTable> 
 
 
 
-void ExpressionStatementNode::semanticAnalysis(std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output) {
-	expressionNode->semanticAnalysis(symboltable, output);
+void ExpressionStatementNode::semanticAnalysis(std::shared_ptr<SymbolTable> symboltable) {
+	expressionNode->semanticAnalysis(symboltable);
 }
 
 
-void AssignNode::semanticAnalysis(std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output) {
-	const TypeSymbol* rhsType = rhs->semanticAnalysis(symboltable, output);
+void AssignNode::semanticAnalysis(std::shared_ptr<SymbolTable> symboltable) {
+	const TypeSymbol* rhsType = rhs->semanticAnalysis(symboltable);
 
 	// x = void
 	if (rhsType == TypeInstances::GetVoidInstance()) {
@@ -87,7 +87,7 @@ void AssignNode::semanticAnalysis(std::shared_ptr<SymbolTable> symboltable, Inte
 	// need to store value in symbol table at lhs name
 }
 
-const TypeSymbol* MethodCallNode::semanticAnalysis(std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output) {
+const TypeSymbol* MethodCallNode::semanticAnalysis(std::shared_ptr<SymbolTable> symboltable) {
 
 	// check to see if method exists first
 	if (!symboltable->isMethodDeclared(name)) {
@@ -95,33 +95,33 @@ const TypeSymbol* MethodCallNode::semanticAnalysis(std::shared_ptr<SymbolTable> 
 	}
 
 	this->methodsymbol = symboltable->getMethod(name)->getMethodSymbol(this, symboltable)->clone();
-	return methodsymbol->semanticAnaylsis(this, symboltable, output);
+	return methodsymbol->semanticAnaylsis(this, symboltable);
 }
 
 
-const TypeSymbol* KeywordNode::semanticAnalysis(std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output) {
-	return rhs->semanticAnalysis(symboltable, output);
+const TypeSymbol* KeywordNode::semanticAnalysis(std::shared_ptr<SymbolTable> symboltable) {
+	return rhs->semanticAnalysis(symboltable);
 }
 
 
 
-void IfStatementNode::semanticAnalysis(std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output) {
-	if (condition->semanticAnalysis(symboltable, output) != TypeInstances::GetBooleanInstance()) {
+void IfStatementNode::semanticAnalysis(std::shared_ptr<SymbolTable> symboltable) {
+	if (condition->semanticAnalysis(symboltable) != TypeInstances::GetBooleanInstance()) {
 		throw LanguageException("If statement condition must be a boolean.");
 	}
 	// create new symbol table
 	std::shared_ptr<SymbolTable> ifStatementSymbolTable = std::make_shared<SymbolTable>(symboltable);
-	block->semanticAnalysis(ifStatementSymbolTable, output);
+	block->semanticAnalysis(ifStatementSymbolTable);
 }
 
-const TypeSymbol* TernaryNode::semanticAnalysis(std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output) {
-	if (condition->semanticAnalysis(symboltable, output) != TypeInstances::GetBooleanInstance()) {
+const TypeSymbol* TernaryNode::semanticAnalysis(std::shared_ptr<SymbolTable> symboltable) {
+	if (condition->semanticAnalysis(symboltable) != TypeInstances::GetBooleanInstance()) {
 		throw LanguageException("Ternary condition must be a boolean.");
 	}
 
 
-	const TypeSymbol* lhsType = expression1->semanticAnalysis(symboltable, output);
-	const TypeSymbol* rhstype = expression2->semanticAnalysis(symboltable, output);
+	const TypeSymbol* lhsType = expression1->semanticAnalysis(symboltable);
+	const TypeSymbol* rhstype = expression2->semanticAnalysis(symboltable);
 
 	if (lhsType == TypeInstances::GetFloatConstantInstance()) {
 		lhsType = TypeInstances::GetFloatInstance();

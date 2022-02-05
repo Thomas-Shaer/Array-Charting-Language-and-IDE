@@ -21,11 +21,11 @@ bool matchType(const TypeSymbol* expected, const TypeSymbol* received) {
 
 
 
-const TypeSymbol* PositionalMethodSymbol::semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output) {
+const TypeSymbol* PositionalMethodSymbol::semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable) {
 	methodCallNode->expressionToArgList.clear();
 	std::vector<std::shared_ptr<ArgumentSymbol>> _argumentSymbols;
 	for (Expression* expr : methodCallNode->arguments) {
-		_argumentSymbols.push_back(std::make_shared<ArgumentSymbol>(expr->semanticAnalysis(symboltable, output), expr));
+		_argumentSymbols.push_back(std::make_shared<ArgumentSymbol>(expr->semanticAnalysis(symboltable), expr));
 	}
 
 	// if recieved wrong amount of parameters throw error
@@ -81,22 +81,22 @@ KeywordMethodSymbol::KeywordMethodSymbol(const std::string& _name, const std::st
 
 
 
-const TypeSymbol* KeywordMethodSymbol::semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output) {
+const TypeSymbol* KeywordMethodSymbol::semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable) {
 	methodCallNode->expressionToArgList.clear();
 	std::vector<std::shared_ptr<ArgumentSymbol>> positionalSymbols;
 	std::map<std::string, std::shared_ptr<ArgumentSymbol>> keywordSymbols;
 	for (Expression* expr : methodCallNode->arguments) {
-		//std::shared_ptr<ArgumentSymbol> argSymbol = std::make_shared<ArgumentSymbol>(expr->semanticAnalysis(symboltable, output), expr);
+		//std::shared_ptr<ArgumentSymbol> argSymbol = std::make_shared<ArgumentSymbol>(expr->semanticAnalysis(symboltable), expr);
 
 		KeywordNode* keyword;
 		if ((keyword = dynamic_cast<KeywordNode*>(expr))) {
 			if (keywordSymbols.find(keyword->name) != keywordSymbols.end()) {
 				throw LanguageException("Already specified keyword argument " + keyword->name);
 			}
-			keywordSymbols[keyword->name] = std::make_shared<ArgumentSymbol>(expr->semanticAnalysis(symboltable, output), keyword->rhs);
+			keywordSymbols[keyword->name] = std::make_shared<ArgumentSymbol>(expr->semanticAnalysis(symboltable), keyword->rhs);
 			continue;
 		}
-		positionalSymbols.push_back(std::make_shared<ArgumentSymbol>(expr->semanticAnalysis(symboltable, output), expr));
+		positionalSymbols.push_back(std::make_shared<ArgumentSymbol>(expr->semanticAnalysis(symboltable), expr));
 	}
 
 	// (must do bound checking for positional arguments)

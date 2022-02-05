@@ -25,8 +25,7 @@ std::string OverloadedMethodBucket::toString() const {
 MethodSymbol* OverloadedMethodBucket::getMethodSymbol(MethodCallNode* methodcall, std::shared_ptr<SymbolTable> symbolTable) const {
 	for (MethodSymbol* overload : overloads) {
 		try {
-			InterpreterOutput temp;
-			overload->semanticAnaylsis(methodcall, symbolTable, temp);
+			overload->semanticAnaylsis(methodcall, symbolTable);
 		}
 		catch (LanguageException langexception) {
 			continue;

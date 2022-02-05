@@ -26,8 +26,8 @@ public:
 
 
 	// should take list of types
-	virtual const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output) = 0;
-	virtual ExpressionValue interpret(const unsigned int tick, InterpreterOutput& output) = 0;
+	virtual const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable) = 0;
+	virtual ExpressionValue interpret(const unsigned int tick) = 0;
 
 	virtual std::string getSignature() const = 0;
 	virtual std::string getDescription() const = 0;
@@ -49,7 +49,7 @@ public:
 		: MethodSymbol(_name, _description, _returnType), parameterSymbols(_parameterSymbols) {}
 
 	// should take list of types
-	virtual const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
+	virtual const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable);
 
 	virtual std::string getSignature() const;
 	virtual std::string getDescription() const;
@@ -71,7 +71,7 @@ public:
 		const std::vector<ParameterSymbol> _requiredParameterSymbols, const std::vector<OptionalParameterSymbol> _optionalParameterSymbols, const ReturnSymbol _returnType);
 
 	// should take list of types
-	virtual const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
+	virtual const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable);
 
 	virtual std::string getSignature() const;
 	virtual std::string getDescription() const;

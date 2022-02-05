@@ -11,8 +11,8 @@ class  MethodAverage : public PositionalMethodSymbol {
 public:
 
 	MethodAverage();
-	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
-	ExpressionValue interpret(const unsigned int tick, InterpreterOutput& output);
+	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable);
+	ExpressionValue interpret(const unsigned int tick);
 	virtual MethodAverage* clone() {
 		return new MethodAverage();
 	}
@@ -27,9 +27,9 @@ class UnaryPlusOperator : public PositionalMethodSymbol {
 public:
 	const std::string name;
 	UnaryPlusOperator(const std::string& _name);
-	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
+	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable);
 
-	virtual ExpressionValue interpret(const unsigned int tick, InterpreterOutput& output);
+	virtual ExpressionValue interpret(const unsigned int tick);
 	virtual UnaryPlusOperator* clone() {
 		return new UnaryPlusOperator(name);
 	}
@@ -42,9 +42,9 @@ class UnaryMinusOperator : public PositionalMethodSymbol {
 public:
 	const std::string name;
 	UnaryMinusOperator(const std::string& _name);
-	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
+	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable);
 
-	virtual ExpressionValue interpret(const unsigned int tick, InterpreterOutput& output);
+	virtual ExpressionValue interpret(const unsigned int tick);
 	virtual UnaryMinusOperator* clone() {
 		return new UnaryMinusOperator(name);
 	}
@@ -56,9 +56,9 @@ private:
 class UnaryNotOperator : public PositionalMethodSymbol {
 public:
 	UnaryNotOperator(const std::string& _name);
-	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
+	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable);
 
-	virtual ExpressionValue interpret(const unsigned int tick, InterpreterOutput& output);
+	virtual ExpressionValue interpret(const unsigned int tick);
 	virtual UnaryNotOperator* clone() {
 		return new UnaryNotOperator(name);
 	}
@@ -70,9 +70,9 @@ private:
 class BinaryPlusOperator : public PositionalMethodSymbol {
 public:
 	BinaryPlusOperator(const std::string& _name);
-	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
+	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable);
 
-	virtual ExpressionValue interpret(const unsigned int tick, InterpreterOutput& output);
+	virtual ExpressionValue interpret(const unsigned int tick);
 	virtual BinaryPlusOperator* clone() {
 		return new BinaryPlusOperator(name);
 	}
@@ -84,9 +84,9 @@ private:
 class BinaryMinusOperator : public PositionalMethodSymbol {
 public:
 	BinaryMinusOperator(const std::string& _name);
-	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
+	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable);
 
-	virtual ExpressionValue interpret(const unsigned int tick, InterpreterOutput& output);
+	virtual ExpressionValue interpret(const unsigned int tick);
 	virtual BinaryMinusOperator* clone() {
 		return new BinaryMinusOperator(name);
 	}
@@ -98,9 +98,9 @@ private:
 class BinaryDivideOperator : public PositionalMethodSymbol {
 public:
 	BinaryDivideOperator(const std::string& _name);
-	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
+	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable);
 
-	virtual ExpressionValue interpret(const unsigned int tick, InterpreterOutput& output);
+	virtual ExpressionValue interpret(const unsigned int tick);
 	virtual BinaryDivideOperator* clone() {
 		return new BinaryDivideOperator(name);
 	}
@@ -112,9 +112,9 @@ private:
 class BinaryMultiplyOperator : public PositionalMethodSymbol {
 public:
 	BinaryMultiplyOperator(const std::string& _name);
-	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
+	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable);
 
-	virtual ExpressionValue interpret(const unsigned int tick, InterpreterOutput& output);
+	virtual ExpressionValue interpret(const unsigned int tick);
 	virtual BinaryMultiplyOperator* clone() {
 		return new BinaryMultiplyOperator(name);
 	}
@@ -127,9 +127,9 @@ private:
 class BinaryModOperator : public PositionalMethodSymbol {
 public:
 	BinaryModOperator(const std::string& _name);
-	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
+	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable);
 
-	virtual ExpressionValue interpret(const unsigned int tick, InterpreterOutput& output);
+	virtual ExpressionValue interpret(const unsigned int tick);
 	virtual BinaryModOperator* clone() {
 		return new BinaryModOperator(name);
 	}
@@ -141,9 +141,9 @@ private:
 class BinaryPowOperator : public PositionalMethodSymbol {
 public:
 	BinaryPowOperator(const std::string& _name);
-	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
+	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable);
 
-	virtual ExpressionValue interpret(const unsigned int tick, InterpreterOutput& output);
+	virtual ExpressionValue interpret(const unsigned int tick);
 	virtual BinaryPowOperator* clone() {
 		return new BinaryPowOperator(name);
 	}
@@ -155,9 +155,9 @@ private:
 class BinaryLessOperator : public PositionalMethodSymbol {
 public:
 	BinaryLessOperator(const std::string& _name);
-	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
+	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable);
 
-	virtual ExpressionValue interpret(const unsigned int tick, InterpreterOutput& output);
+	virtual ExpressionValue interpret(const unsigned int tick);
 	virtual BinaryLessOperator* clone() {
 		return new BinaryLessOperator(name);
 	}
@@ -169,9 +169,9 @@ private:
 class BinaryLessEqualOperator : public PositionalMethodSymbol {
 public:
 	BinaryLessEqualOperator(const std::string& _name);
-	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
+	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable);
 
-	virtual ExpressionValue interpret(const unsigned int tick, InterpreterOutput& output);
+	virtual ExpressionValue interpret(const unsigned int tick);
 	virtual BinaryLessEqualOperator* clone() {
 		return new BinaryLessEqualOperator(name);
 	}
@@ -183,9 +183,9 @@ private:
 class BinaryGreaterOperator : public PositionalMethodSymbol {
 public:
 	BinaryGreaterOperator(const std::string& _name);
-	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
+	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable);
 
-	virtual ExpressionValue interpret(const unsigned int tick, InterpreterOutput& output);
+	virtual ExpressionValue interpret(const unsigned int tick);
 	virtual BinaryGreaterOperator* clone() {
 		return new BinaryGreaterOperator(name);
 	}
@@ -197,9 +197,9 @@ private:
 class BinaryGreaterEqualOperator : public PositionalMethodSymbol {
 public:
 	BinaryGreaterEqualOperator(const std::string& _name);
-	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
+	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable);
 
-	virtual ExpressionValue interpret(const unsigned int tick, InterpreterOutput& output);
+	virtual ExpressionValue interpret(const unsigned int tick);
 	virtual BinaryGreaterEqualOperator* clone() {
 		return new BinaryGreaterEqualOperator(name);
 	}
@@ -211,9 +211,9 @@ private:
 class BinaryAndOperator : public PositionalMethodSymbol {
 public:
 	BinaryAndOperator(const std::string& _name);
-	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
+	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable);
 
-	virtual ExpressionValue interpret(const unsigned int tick, InterpreterOutput& output);
+	virtual ExpressionValue interpret(const unsigned int tick);
 	virtual BinaryAndOperator* clone() {
 		return new BinaryAndOperator(name);
 	}
@@ -225,9 +225,9 @@ private:
 class BinaryOrOperator : public PositionalMethodSymbol {
 public:
 	BinaryOrOperator(const std::string& _name);
-	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
+	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable);
 
-	virtual ExpressionValue interpret(const unsigned int tick, InterpreterOutput& output);
+	virtual ExpressionValue interpret(const unsigned int tick);
 	virtual BinaryOrOperator* clone() {
 		return new BinaryOrOperator(name);
 	}
@@ -239,9 +239,9 @@ private:
 class BinaryBooleanEqualOperator : public PositionalMethodSymbol {
 public:
 	BinaryBooleanEqualOperator(const std::string& _name);
-	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
+	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable);
 
-	virtual ExpressionValue interpret(const unsigned int tick, InterpreterOutput& output);
+	virtual ExpressionValue interpret(const unsigned int tick);
 	virtual BinaryBooleanEqualOperator* clone() {
 		return new BinaryBooleanEqualOperator(name);
 	}
@@ -253,9 +253,9 @@ private:
 class BinaryFloatEqualOperator : public PositionalMethodSymbol {
 public:
 	BinaryFloatEqualOperator(const std::string& _name);
-	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
+	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable);
 
-	virtual ExpressionValue interpret(const unsigned int tick, InterpreterOutput& output);
+	virtual ExpressionValue interpret(const unsigned int tick);
 	virtual BinaryFloatEqualOperator* clone() {
 		return new BinaryFloatEqualOperator(name);
 	}
@@ -267,9 +267,9 @@ private:
 class BinaryBooleanNotEqualOperator : public PositionalMethodSymbol {
 public:
 	BinaryBooleanNotEqualOperator(const std::string& _name);
-	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
+	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable);
 
-	virtual ExpressionValue interpret(const unsigned int tick, InterpreterOutput& output);
+	virtual ExpressionValue interpret(const unsigned int tick);
 	virtual BinaryBooleanNotEqualOperator* clone() {
 		return new BinaryBooleanNotEqualOperator(name);
 	}
@@ -282,9 +282,9 @@ private:
 class BinaryFloatNotEqualOperator : public PositionalMethodSymbol {
 public:
 	BinaryFloatNotEqualOperator(const std::string& _name);
-	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
+	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable);
 
-	virtual ExpressionValue interpret(const unsigned int tick, InterpreterOutput& output);
+	virtual ExpressionValue interpret(const unsigned int tick);
 	virtual BinaryFloatNotEqualOperator* clone() {
 		return new BinaryFloatNotEqualOperator(name);
 	}
@@ -298,9 +298,9 @@ private:
 class GetTick : public PositionalMethodSymbol {
 public:
 	GetTick();
-	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
+	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable);
 
-	virtual ExpressionValue interpret(const unsigned int tick, InterpreterOutput& output);
+	virtual ExpressionValue interpret(const unsigned int tick);
 	virtual GetTick* clone() {
 		return new GetTick();
 	}
@@ -310,8 +310,8 @@ class Plot : public KeywordMethodSymbol {
 public:
 	Plot();
 
-	virtual ExpressionValue interpret(const unsigned int tick, InterpreterOutput& output);
-	virtual const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
+	virtual ExpressionValue interpret(const unsigned int tick);
+	virtual const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable);
 
 	virtual Plot* clone() {
 		return new Plot();
@@ -326,8 +326,8 @@ private:
 class Mark : public KeywordMethodSymbol {
 public:
 	Mark();
-	virtual ExpressionValue interpret(const unsigned int tick, InterpreterOutput& output);
-	virtual const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
+	virtual ExpressionValue interpret(const unsigned int tick);
+	virtual const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable);
 	virtual Mark* clone() {
 		return new Mark();
 	}
@@ -344,9 +344,9 @@ private:
 class FloatNAN : public PositionalMethodSymbol {
 public:
 	FloatNAN();
-	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
+	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable);
 
-	virtual ExpressionValue interpret(const unsigned int tick, InterpreterOutput& output);
+	virtual ExpressionValue interpret(const unsigned int tick);
 	virtual FloatNAN* clone() {
 		return new FloatNAN();
 	}
@@ -355,9 +355,9 @@ public:
 class BooleanNAN : public PositionalMethodSymbol {
 public:
 	BooleanNAN();
-	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
+	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable);
 
-	virtual ExpressionValue interpret(const unsigned int tick, InterpreterOutput& output);
+	virtual ExpressionValue interpret(const unsigned int tick);
 	virtual BooleanNAN* clone() {
 		return new BooleanNAN();
 	}
@@ -366,9 +366,9 @@ public:
 class StringNAN : public PositionalMethodSymbol {
 public:
 	StringNAN();
-	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
+	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable);
 
-	virtual ExpressionValue interpret(const unsigned int tick, InterpreterOutput& output);
+	virtual ExpressionValue interpret(const unsigned int tick);
 	virtual StringNAN* clone() {
 		return new StringNAN();
 	}
@@ -378,9 +378,9 @@ public:
 class ValueWhen : public PositionalMethodSymbol {
 public:
 	ValueWhen();
-	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
+	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable);
 
-	virtual ExpressionValue interpret(const unsigned int tick, InterpreterOutput& output);
+	virtual ExpressionValue interpret(const unsigned int tick);
 	virtual ValueWhen* clone() {
 		return new ValueWhen();
 	}
@@ -393,9 +393,9 @@ private:
 class Minimum : public PositionalMethodSymbol {
 public:
 	Minimum();
-	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
+	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable);
 
-	virtual ExpressionValue interpret(const unsigned int tick, InterpreterOutput& output);
+	virtual ExpressionValue interpret(const unsigned int tick);
 	virtual Minimum* clone() {
 		return new Minimum();
 	}
@@ -410,9 +410,9 @@ private:
 class MinimumBars : public PositionalMethodSymbol {
 public:
 	MinimumBars();
-	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
+	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable);
 	
-	virtual ExpressionValue interpret(const unsigned int tick, InterpreterOutput& output);
+	virtual ExpressionValue interpret(const unsigned int tick);
 	virtual MinimumBars* clone() {
 		return new MinimumBars();
 	}
@@ -429,9 +429,9 @@ private:
 class Maximum : public PositionalMethodSymbol {
 public:
 	Maximum();
-	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
+	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable);
 
-	virtual ExpressionValue interpret(const unsigned int tick, InterpreterOutput& output);
+	virtual ExpressionValue interpret(const unsigned int tick);
 	virtual Maximum* clone() {
 		return new Maximum();
 	}
@@ -443,9 +443,9 @@ private:
 class MaximumBars : public PositionalMethodSymbol {
 public:
 	MaximumBars();
-	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
+	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable);
 
-	virtual ExpressionValue interpret(const unsigned int tick, InterpreterOutput& output);
+	virtual ExpressionValue interpret(const unsigned int tick);
 	virtual MaximumBars* clone() {
 		return new MaximumBars();
 	}
@@ -460,9 +460,9 @@ private:
 class Sum : public PositionalMethodSymbol {
 public:
 	Sum();
-	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
+	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable);
 
-	virtual ExpressionValue interpret(const unsigned int tick, InterpreterOutput& output);
+	virtual ExpressionValue interpret(const unsigned int tick);
 	virtual Sum* clone() {
 		return new Sum();
 	}
@@ -476,9 +476,9 @@ private:
 class SumBars : public PositionalMethodSymbol {
 public:
 	SumBars();
-	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
+	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable);
 
-	virtual ExpressionValue interpret(const unsigned int tick, InterpreterOutput& output);
+	virtual ExpressionValue interpret(const unsigned int tick);
 	virtual SumBars* clone() {
 		return new SumBars();
 	}
@@ -494,9 +494,9 @@ private:
 class Mean : public PositionalMethodSymbol {
 public:
 	Mean();
-	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
+	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable);
 
-	virtual ExpressionValue interpret(const unsigned int tick, InterpreterOutput& output);
+	virtual ExpressionValue interpret(const unsigned int tick);
 	virtual Mean* clone() {
 		return new Mean();
 	}
@@ -510,9 +510,9 @@ private:
 class GetPi : public PositionalMethodSymbol {
 public:
 	GetPi();
-	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
+	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable);
 
-	virtual ExpressionValue interpret(const unsigned int tick, InterpreterOutput& output);
+	virtual ExpressionValue interpret(const unsigned int tick);
 	virtual GetPi* clone() {
 		return new GetPi();
 	}
@@ -521,9 +521,9 @@ public:
 class GetE : public PositionalMethodSymbol {
 public:
 	GetE();
-	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
+	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable);
 
-	virtual ExpressionValue interpret(const unsigned int tick, InterpreterOutput& output);
+	virtual ExpressionValue interpret(const unsigned int tick);
 	virtual GetE* clone() {
 		return new GetE();
 	}
@@ -533,9 +533,9 @@ public:
 class Round : public PositionalMethodSymbol {
 public:
 	Round();
-	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
+	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable);
 
-	virtual ExpressionValue interpret(const unsigned int tick, InterpreterOutput& output);
+	virtual ExpressionValue interpret(const unsigned int tick);
 	virtual Round* clone() {
 		return new Round();
 	}
@@ -547,9 +547,9 @@ private:
 class Floor : public PositionalMethodSymbol {
 public:
 	Floor();
-	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
+	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable);
 
-	virtual ExpressionValue interpret(const unsigned int tick, InterpreterOutput& output);
+	virtual ExpressionValue interpret(const unsigned int tick);
 	virtual Floor* clone() {
 		return new Floor();
 	}
@@ -560,9 +560,9 @@ private:
 class Ceil : public PositionalMethodSymbol {
 public:
 	Ceil();
-	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
+	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable);
 
-	virtual ExpressionValue interpret(const unsigned int tick, InterpreterOutput& output);
+	virtual ExpressionValue interpret(const unsigned int tick);
 	virtual Ceil* clone() {
 		return new Ceil();
 	}
@@ -573,9 +573,9 @@ private:
 class FloatMax : public PositionalMethodSymbol {
 public:
 	FloatMax();
-	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
+	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable);
 
-	virtual ExpressionValue interpret(const unsigned int tick, InterpreterOutput& output);
+	virtual ExpressionValue interpret(const unsigned int tick);
 	virtual FloatMax* clone() {
 		return new FloatMax();
 	}
@@ -584,9 +584,9 @@ public:
 class FloatMin : public PositionalMethodSymbol {
 public:
 	FloatMin();
-	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
+	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable);
 
-	virtual ExpressionValue interpret(const unsigned int tick, InterpreterOutput& output);
+	virtual ExpressionValue interpret(const unsigned int tick);
 	virtual FloatMin* clone() {
 		return new FloatMin();
 	}
@@ -595,9 +595,9 @@ public:
 class Count : public PositionalMethodSymbol {
 public:
 	Count();
-	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
+	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable);
 
-	virtual ExpressionValue interpret(const unsigned int tick, InterpreterOutput& output);
+	virtual ExpressionValue interpret(const unsigned int tick);
 	virtual Count* clone() {
 		return new Count();
 	}
@@ -611,9 +611,9 @@ private:
 class FloatCast : public PositionalMethodSymbol {
 public:
 	FloatCast();
-	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
+	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable);
 
-	virtual ExpressionValue interpret(const unsigned int tick, InterpreterOutput& output);
+	virtual ExpressionValue interpret(const unsigned int tick);
 	virtual FloatCast* clone() {
 		return new FloatCast();
 	}
@@ -624,9 +624,9 @@ private:
 class BooleanCast : public PositionalMethodSymbol {
 public:
 	BooleanCast();
-	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
+	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable);
 
-	virtual ExpressionValue interpret(const unsigned int tick, InterpreterOutput& output);
+	virtual ExpressionValue interpret(const unsigned int tick);
 	virtual BooleanCast* clone() {
 		return new BooleanCast();
 	}
@@ -638,9 +638,9 @@ private:
 class Absolute : public PositionalMethodSymbol {
 public:
 	Absolute();
-	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
+	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable);
 
-	virtual ExpressionValue interpret(const unsigned int tick, InterpreterOutput& output);
+	virtual ExpressionValue interpret(const unsigned int tick);
 	virtual Absolute* clone() {
 		return new Absolute();
 	}
@@ -652,9 +652,9 @@ private:
 class LogE : public PositionalMethodSymbol {
 public:
 	LogE();
-	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
+	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable);
 
-	virtual ExpressionValue interpret(const unsigned int tick, InterpreterOutput& output);
+	virtual ExpressionValue interpret(const unsigned int tick);
 	virtual LogE* clone() {
 		return new LogE();
 	}
@@ -665,9 +665,9 @@ private:
 class LogBase : public PositionalMethodSymbol {
 public:
 	LogBase();
-	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
+	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable);
 
-	virtual ExpressionValue interpret(const unsigned int tick, InterpreterOutput& output);
+	virtual ExpressionValue interpret(const unsigned int tick);
 	virtual LogBase* clone() {
 		return new LogBase();
 	}
@@ -680,9 +680,9 @@ private:
 class SquareRoot : public PositionalMethodSymbol {
 public:
 	SquareRoot();
-	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
+	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable);
 
-	virtual ExpressionValue interpret(const unsigned int tick, InterpreterOutput& output);
+	virtual ExpressionValue interpret(const unsigned int tick);
 	virtual SquareRoot* clone() {
 		return new SquareRoot();
 	}
@@ -694,9 +694,9 @@ private:
 class LCM : public PositionalMethodSymbol {
 public:
 	LCM();
-	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
+	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable);
 
-	virtual ExpressionValue interpret(const unsigned int tick, InterpreterOutput& output);
+	virtual ExpressionValue interpret(const unsigned int tick);
 	virtual LCM* clone() {
 		return new LCM();
 	}
@@ -709,9 +709,9 @@ private:
 class GCD : public PositionalMethodSymbol {
 public:
 	GCD();
-	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
+	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable);
 
-	virtual ExpressionValue interpret(const unsigned int tick, InterpreterOutput& output);
+	virtual ExpressionValue interpret(const unsigned int tick);
 	virtual GCD* clone() {
 		return new GCD();
 	}
@@ -725,9 +725,9 @@ private:
 class Variance : public PositionalMethodSymbol {
 public:
 	Variance();
-	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
+	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable);
 
-	virtual ExpressionValue interpret(const unsigned int tick, InterpreterOutput& output);
+	virtual ExpressionValue interpret(const unsigned int tick);
 	virtual Variance* clone() {
 		return new Variance();
 	}
@@ -740,9 +740,9 @@ private:
 class STD : public PositionalMethodSymbol {
 public:
 	STD();
-	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
+	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable);
 
-	virtual ExpressionValue interpret(const unsigned int tick, InterpreterOutput& output);
+	virtual ExpressionValue interpret(const unsigned int tick);
 	virtual STD* clone() {
 		return new STD();
 	}
@@ -756,9 +756,9 @@ private:
 class MA : public PositionalMethodSymbol {
 public:
 	MA();
-	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
+	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable);
 
-	virtual ExpressionValue interpret(const unsigned int tick, InterpreterOutput& output);
+	virtual ExpressionValue interpret(const unsigned int tick);
 	virtual MA* clone() {
 		return new MA();
 	}
@@ -772,9 +772,9 @@ private:
 class IsNANF : public PositionalMethodSymbol {
 public:
 	IsNANF();
-	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
+	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable);
 
-	virtual ExpressionValue interpret(const unsigned int tick, InterpreterOutput& output);
+	virtual ExpressionValue interpret(const unsigned int tick);
 	virtual IsNANF* clone() {
 		return new IsNANF();
 	}
@@ -787,9 +787,9 @@ private:
 class IsNANB : public PositionalMethodSymbol {
 public:
 	IsNANB();
-	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
+	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable);
 
-	virtual ExpressionValue interpret(const unsigned int tick, InterpreterOutput& output);
+	virtual ExpressionValue interpret(const unsigned int tick);
 	virtual IsNANB* clone() {
 		return new IsNANB();
 	}
@@ -800,9 +800,9 @@ private:
 class IsNANS : public PositionalMethodSymbol {
 public:
 	IsNANS();
-	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
+	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable);
 
-	virtual ExpressionValue interpret(const unsigned int tick, InterpreterOutput& output);
+	virtual ExpressionValue interpret(const unsigned int tick);
 	virtual IsNANS* clone() {
 		return new IsNANS();
 	}
@@ -814,9 +814,9 @@ private:
 class Random : public PositionalMethodSymbol {
 public:
 	Random();
-	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
+	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable);
 
-	virtual ExpressionValue interpret(const unsigned int tick, InterpreterOutput& output);
+	virtual ExpressionValue interpret(const unsigned int tick);
 	virtual Random* clone() {
 		return new Random();
 	}
@@ -830,9 +830,9 @@ private:
 class Falling : public PositionalMethodSymbol {
 public:
 	Falling();
-	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
+	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable);
 
-	virtual ExpressionValue interpret(const unsigned int tick, InterpreterOutput& output);
+	virtual ExpressionValue interpret(const unsigned int tick);
 	virtual Falling* clone() {
 		return new Falling();
 	}
@@ -846,9 +846,9 @@ private:
 class Rising : public PositionalMethodSymbol {
 public:
 	Rising();
-	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
+	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable);
 
-	virtual ExpressionValue interpret(const unsigned int tick, InterpreterOutput& output);
+	virtual ExpressionValue interpret(const unsigned int tick);
 	virtual Rising* clone() {
 		return new Rising();
 	}
@@ -863,9 +863,9 @@ private:
 class Cosine : public PositionalMethodSymbol {
 public:
 	Cosine();
-	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
+	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable);
 
-	virtual ExpressionValue interpret(const unsigned int tick, InterpreterOutput& output);
+	virtual ExpressionValue interpret(const unsigned int tick);
 	virtual Cosine* clone() {
 		return new Cosine();
 	}
@@ -879,9 +879,9 @@ private:
 class Tangent : public PositionalMethodSymbol {
 public:
 	Tangent();
-	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
+	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable);
 
-	virtual ExpressionValue interpret(const unsigned int tick, InterpreterOutput& output);
+	virtual ExpressionValue interpret(const unsigned int tick);
 	virtual Tangent* clone() {
 		return new Tangent();
 	}
@@ -893,9 +893,9 @@ private:
 class Sine : public PositionalMethodSymbol {
 public:
 	Sine();
-	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
+	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable);
 
-	virtual ExpressionValue interpret(const unsigned int tick, InterpreterOutput& output);
+	virtual ExpressionValue interpret(const unsigned int tick);
 	virtual Sine* clone() {
 		return new Sine();
 	}
@@ -906,9 +906,9 @@ private:
 class ArcCosine : public PositionalMethodSymbol {
 public:
 	ArcCosine();
-	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
+	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable);
 
-	virtual ExpressionValue interpret(const unsigned int tick, InterpreterOutput& output);
+	virtual ExpressionValue interpret(const unsigned int tick);
 	virtual ArcCosine* clone() {
 		return new ArcCosine();
 	}
@@ -920,9 +920,9 @@ private:
 class ArcTan : public PositionalMethodSymbol {
 public:
 	ArcTan();
-	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
+	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable);
 
-	virtual ExpressionValue interpret(const unsigned int tick, InterpreterOutput& output);
+	virtual ExpressionValue interpret(const unsigned int tick);
 	virtual ArcTan* clone() {
 		return new ArcTan();
 	}
@@ -934,9 +934,9 @@ private:
 class ArcSine : public PositionalMethodSymbol {
 public:
 	ArcSine();
-	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
+	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable);
 
-	virtual ExpressionValue interpret(const unsigned int tick, InterpreterOutput& output);
+	virtual ExpressionValue interpret(const unsigned int tick);
 	virtual ArcSine* clone() {
 		return new ArcSine();
 	}
@@ -948,9 +948,9 @@ private:
 class LinearRegression : public PositionalMethodSymbol {
 public:
 	LinearRegression();
-	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
+	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable);
 
-	virtual ExpressionValue interpret(const unsigned int tick, InterpreterOutput& output);
+	virtual ExpressionValue interpret(const unsigned int tick);
 	virtual LinearRegression* clone() {
 		return new LinearRegression();
 	}
@@ -964,9 +964,9 @@ private:
 class Correlation : public PositionalMethodSymbol {
 public:
 	Correlation();
-	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
+	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable);
 
-	virtual ExpressionValue interpret(const unsigned int tick, InterpreterOutput& output);
+	virtual ExpressionValue interpret(const unsigned int tick);
 	virtual Correlation* clone() {
 		return new Correlation();
 	}
@@ -982,9 +982,9 @@ private:
 class PreviousValue : public PositionalMethodSymbol {
 public:
 	PreviousValue();
-	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
+	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable);
 
-	virtual ExpressionValue interpret(const unsigned int tick, InterpreterOutput& output);
+	virtual ExpressionValue interpret(const unsigned int tick);
 
 	virtual PreviousValue* clone() {
 		return new PreviousValue();
@@ -1000,9 +1000,9 @@ private:
 class Median : public PositionalMethodSymbol {
 public:
 	Median();
-	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
+	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable);
 
-	virtual ExpressionValue interpret(const unsigned int tick, InterpreterOutput& output);
+	virtual ExpressionValue interpret(const unsigned int tick);
 
 	virtual Median* clone() {
 		return new Median();
@@ -1018,9 +1018,9 @@ private:
 class MedianBars : public PositionalMethodSymbol {
 public:
 	MedianBars();
-	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
+	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable);
 
-	virtual ExpressionValue interpret(const unsigned int tick, InterpreterOutput& output);
+	virtual ExpressionValue interpret(const unsigned int tick);
 
 	virtual MedianBars* clone() {
 		return new MedianBars();
@@ -1037,9 +1037,9 @@ private:
 class IsPrime : public PositionalMethodSymbol {
 public:
 	IsPrime();
-	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
+	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable);
 
-	virtual ExpressionValue interpret(const unsigned int tick, InterpreterOutput& output);
+	virtual ExpressionValue interpret(const unsigned int tick);
 
 	virtual IsPrime* clone() {
 		return new IsPrime();
@@ -1052,9 +1052,9 @@ private:
 class IsTriangle : public PositionalMethodSymbol {
 public:
 	IsTriangle();
-	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
+	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable);
 
-	virtual ExpressionValue interpret(const unsigned int tick, InterpreterOutput& output);
+	virtual ExpressionValue interpret(const unsigned int tick);
 
 	virtual IsTriangle* clone() {
 		return new IsTriangle();

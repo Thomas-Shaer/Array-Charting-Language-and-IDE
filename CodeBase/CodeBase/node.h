@@ -36,8 +36,8 @@ public:
 */
 class Expression : public Node {
 public:
-	virtual const TypeSymbol* semanticAnalysis(std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output) = 0;
-	virtual ExpressionValue interpret(const unsigned int tick, InterpreterOutput& output) const = 0;
+	virtual const TypeSymbol* semanticAnalysis(std::shared_ptr<SymbolTable> symboltable) = 0;
+	virtual ExpressionValue interpret(const unsigned int tick) const = 0;
 };
 
 /*
@@ -45,8 +45,8 @@ public:
 */
 class Statement : public Node {
 public:
-	virtual void semanticAnalysis(std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output) = 0;
-	virtual void interpret(const unsigned int tick, InterpreterOutput& output) const = 0;
+	virtual void semanticAnalysis(std::shared_ptr<SymbolTable> symboltable) = 0;
+	virtual void interpret(const unsigned int tick) const = 0;
 };
 
 /*
@@ -64,8 +64,8 @@ public:
 
 	virtual ~ExpressionStatementNode();
 
-	virtual void semanticAnalysis(std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
-	virtual void interpret(const unsigned int tick, InterpreterOutput& output) const;
+	virtual void semanticAnalysis(std::shared_ptr<SymbolTable> symboltable);
+	virtual void interpret(const unsigned int tick) const;
 };
 
 /*
@@ -80,8 +80,8 @@ public:
 
 	virtual ~BlockNode();
 
-	virtual void semanticAnalysis(std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
-	virtual void interpret(const unsigned int tick, InterpreterOutput& output) const;
+	virtual void semanticAnalysis(std::shared_ptr<SymbolTable> symboltable);
+	virtual void interpret(const unsigned int tick) const;
 };
 
 
@@ -97,8 +97,8 @@ public:
 
 	virtual ~NumberNode();
 
-	virtual const TypeSymbol* semanticAnalysis(std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
-	virtual ExpressionValue interpret(const unsigned int tick, InterpreterOutput& output) const;
+	virtual const TypeSymbol* semanticAnalysis(std::shared_ptr<SymbolTable> symboltable);
+	virtual ExpressionValue interpret(const unsigned int tick) const;
 };
 
 
@@ -114,8 +114,8 @@ public:
 
 	virtual ~BooleanNode();
 
-	virtual const TypeSymbol* semanticAnalysis(std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
-	virtual ExpressionValue interpret(const unsigned int tick, InterpreterOutput& output) const;
+	virtual const TypeSymbol* semanticAnalysis(std::shared_ptr<SymbolTable> symboltable);
+	virtual ExpressionValue interpret(const unsigned int tick) const;
 };
 
 
@@ -131,8 +131,8 @@ public:
 
 	virtual ~StringNode();
 
-	virtual const TypeSymbol* semanticAnalysis(std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
-	virtual ExpressionValue interpret(const unsigned int tick, InterpreterOutput& output) const;
+	virtual const TypeSymbol* semanticAnalysis(std::shared_ptr<SymbolTable> symboltable);
+	virtual ExpressionValue interpret(const unsigned int tick) const;
 };
 
 /*
@@ -146,8 +146,8 @@ public:
 	virtual std::string toString() const;
 	virtual ~IdentifierNode();
 
-	virtual const TypeSymbol* semanticAnalysis(std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
-	virtual ExpressionValue interpret(const unsigned int tick, InterpreterOutput& output) const;
+	virtual const TypeSymbol* semanticAnalysis(std::shared_ptr<SymbolTable> symboltable);
+	virtual ExpressionValue interpret(const unsigned int tick) const;
 
 private:
 	// set in the semantic phase
@@ -168,8 +168,8 @@ public:
 	virtual std::string toString() const;
 	virtual ~KeywordNode();
 
-	virtual const TypeSymbol* semanticAnalysis(std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
-	virtual ExpressionValue interpret(const unsigned int tick, InterpreterOutput& output) const;
+	virtual const TypeSymbol* semanticAnalysis(std::shared_ptr<SymbolTable> symboltable);
+	virtual ExpressionValue interpret(const unsigned int tick) const;
 };
 
 
@@ -186,8 +186,8 @@ public:
 
 	virtual ~AssignNode();
 
-	virtual void semanticAnalysis(std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
-	virtual void interpret(const unsigned int tick, InterpreterOutput& output) const;
+	virtual void semanticAnalysis(std::shared_ptr<SymbolTable> symboltable);
+	virtual void interpret(const unsigned int tick) const;
 
 private:
 	// set in the semantic phase
@@ -208,8 +208,8 @@ public:
 
 	virtual ~MethodCallNode();
 
-	virtual const TypeSymbol* semanticAnalysis(std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
-	virtual ExpressionValue interpret(const unsigned int tick, InterpreterOutput& output) const;
+	virtual const TypeSymbol* semanticAnalysis(std::shared_ptr<SymbolTable> symboltable);
+	virtual ExpressionValue interpret(const unsigned int tick) const;
 
 	std::map<std::string, std::shared_ptr<ArgumentSymbol>> expressionToArgList;
 
@@ -232,8 +232,8 @@ public:
 
 	virtual ~IfStatementNode();
 
-	virtual void semanticAnalysis(std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
-	virtual void interpret(const unsigned int tick, InterpreterOutput& output) const;
+	virtual void semanticAnalysis(std::shared_ptr<SymbolTable> symboltable);
+	virtual void interpret(const unsigned int tick) const;
 
 };
 
@@ -253,7 +253,7 @@ public:
 
 	virtual ~TernaryNode();
 
-	virtual const TypeSymbol* semanticAnalysis(std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output);
-	virtual ExpressionValue interpret(const unsigned int tick, InterpreterOutput& output) const;
+	virtual const TypeSymbol* semanticAnalysis(std::shared_ptr<SymbolTable> symboltable);
+	virtual ExpressionValue interpret(const unsigned int tick) const;
 
 };

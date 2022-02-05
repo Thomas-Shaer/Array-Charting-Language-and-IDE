@@ -56,9 +56,9 @@ void InterpreterContext::execute(const std::string& code) {
 
 
 		ChartWindow::clearAllWindows();
-		ast->semanticAnalysis(symboltable, *output);
+		ast->semanticAnalysis(symboltable);
 		for (int i = 0; i < ticks; i++) {
-			ast->interpret(i, *output);
+			ast->interpret(i);
 		}		//std::cout << symboltable->toString() << std::endl;
 
 
@@ -110,9 +110,9 @@ void InterpreterContext::execute(std::ifstream& myfile) {
 		symboltable = std::make_shared<SymbolTable>(SymbolTable::GLOBAL_SYMBOL_TABLE);
 
 		ChartWindow::clearAllWindows();
-		ast->semanticAnalysis(symboltable, *output);
+		ast->semanticAnalysis(symboltable);
 		for (int i = 0; i < ticks; i++) {
-			ast->interpret(i, *output);
+			ast->interpret(i);
 		}
 
 
