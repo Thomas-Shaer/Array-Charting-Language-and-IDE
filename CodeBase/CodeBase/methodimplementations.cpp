@@ -589,37 +589,34 @@ ExpressionValue Plot::interpret(const unsigned int tick, InterpreterOutput& outp
 
 
 
-Mark::Mark() : PositionalMethodSymbol("mark", 
+Mark::Mark() : KeywordMethodSymbol("mark",
 	"Conditionally marks points on the chart when a condition is true.",
 
 	{ 
 	ParameterSymbol(TypeInstances::GetBooleanInstance(), "when", "Mark the current tick or not"),
 	ParameterSymbol(TypeInstances::GetFloatInstance(), "value", "The value to mark if marking this tick"),
-	ParameterSymbol(TypeInstances::GetStringConstantInstance(), "name", "The name of the plot"),
-	ParameterSymbol(TypeInstances::GetStringConstantInstance(), "chart_id", "The id of the chart to plot too.")
-
-
-	
-	}, ReturnSymbol(TypeInstances::GetVoidInstance())) {}
+	},
+	{
+	OptionalParameterSymbol(TypeInstances::GetStringConstantInstance(), String(""), "name", "The name of the plot"),
+	OptionalParameterSymbol(TypeInstances::GetStringConstantInstance(), String(DEFAULT_CHART_WINDOW_ID), "chart_id", "The id of the chart to plot too.")
+	},
+	ReturnSymbol(TypeInstances::GetVoidInstance())) {}
 
 
 
 
 const TypeSymbol* Mark::semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable, InterpreterOutput& output) {
-	const TypeSymbol* returnType = PositionalMethodSymbol::semanticAnaylsis(methodCallNode, symboltable, output);
+	const TypeSymbol* returnType = KeywordMethodSymbol::semanticAnaylsis(methodCallNode, symboltable, output);
 	when = boost::get<Boolean>(&methodCallNode->expressionToArgList["when"]->expressionValue);
 	value = boost::get<Float>(&methodCallNode->expressionToArgList["value"]->expressionValue);
 	lineName = boost::get<String>(&methodCallNode->expressionToArgList["name"]->expressionValue);
 	chartId = boost::get<String>(&methodCallNode->expressionToArgList["chart_id"]->expressionValue);
 
 
-	std::string name = static_cast<StringNode*>(methodCallNode->expressionToArgList["name"]->expression)->value;
-
 	std::shared_ptr<ChartPlot> newData = std::make_shared<ChartPlot>(name, InterpreterContext::ticks);
 
-	std::string id = static_cast<StringNode*>(methodCallNode->expressionToArgList["chart_id"]->expression)->value;
-	ChartWindow::getOrCreateChartWindow(id)->CHART_MARK_DATA.push_back(newData);
-	std::shared_ptr<ChartPlot> first = ChartWindow::getOrCreateChartWindow(id)->CHART_MARK_DATA.back(); //returns reference, not iterator, to the first object in the vector so you had only to write the data type in the generic of your vector, i.e. myObject, and not all the iterator stuff and the vector again and :: of course
+	ChartWindow::getOrCreateChartWindow(*chartId->value)->CHART_MARK_DATA.push_back(newData);
+	std::shared_ptr<ChartPlot> first = ChartWindow::getOrCreateChartWindow(*chartId->value)->CHART_MARK_DATA.back(); //returns reference, not iterator, to the first object in the vector so you had only to write the data type in the generic of your vector, i.e. myObject, and not all the iterator stuff and the vector again and :: of course
 	plotdata = first;
 	return returnType;
 }

@@ -323,7 +323,7 @@ private:
 	String* chartId;
 };
 
-class Mark : public PositionalMethodSymbol {
+class Mark : public KeywordMethodSymbol {
 public:
 	Mark();
 	virtual ExpressionValue interpret(const unsigned int tick, InterpreterOutput& output);
