@@ -37,7 +37,6 @@ void ChartWindow::clearAllWindows() {
 
 void ChartWindow::updateAllCharts() {
     for (auto& window : ChartWindow::allChartWindows) {
-        std::cout << "updating : " << window.second->chart_id << std::endl;
         window.second->show = true;
         window.second->UpdateChart();
     }
@@ -133,7 +132,6 @@ void ChartWindow::ShowWindow() {
 
         if (ImGui::BeginMenu("Settings")) {
             if (ImGui::MenuItem("Anti-Aliasing", NULL, antiAliasing)) {
-                antiAliasing = !antiAliasing;
                 Settings::settingsFile["chartAntiAliasing"] = antiAliasing;
             }
             ImGui::EndMenu();

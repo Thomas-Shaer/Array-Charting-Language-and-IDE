@@ -2,6 +2,7 @@
 #include "languageexception.h"
 #include "methodsymbol.h"
 #include "maingui.h"
+#include "node.h"
 
 
 std::map<METHOD_TYPE, std::vector<MethodBucket*>> MethodBucket::methodTypeMappings;
@@ -38,7 +39,7 @@ MethodSymbol* OverloadedMethodBucket::getMethodSymbol(MethodCallNode* methodcall
 		errorOverloads += overload->getSignature() + "\n";
 	}
 	
-	throw LanguageException(errorOverloads);
+	throw LanguageException(errorOverloads, methodcall);
 	return nullptr;
 }
 
@@ -54,12 +55,17 @@ void OverloadedMethodBucket::renderAsDocumentation() const {
 		ImGui::Text(std::string(overload->returnType.toString()).c_str());
 		ImGui::Text(std::string("\n").c_str());
 		ImGui::PopFont();
-
-
-
 	}
 
 	
+}
+
+std::string OverloadedMethodBucket::asDocumentation() const {
+	std::string text;
+	for (MethodSymbol* methodsymbol : overloads) {
+		text += methodsymbol->getSignature() + "\n\n" + methodsymbol->description + "\n" + methodsymbol->getDescription() + "\n" + methodsymbol->returnType.toString() + "\n";
+	}
+	return text;
 }
 
 std::string SingleMethodBucket::toString() const {
@@ -80,4 +86,8 @@ void SingleMethodBucket::renderAsDocumentation() const {
 	ImGui::Text(std::string(methodsymbol->returnType.toString()).c_str());
 	ImGui::Text(std::string("\n").c_str());
 	ImGui::PopFont();
+}
+
+std::string SingleMethodBucket::asDocumentation() const {
+	return methodsymbol->getSignature() + "\n\n" + methodsymbol->description + "\n" + methodsymbol->getDescription() + "\n" + methodsymbol->returnType.toString();
 }

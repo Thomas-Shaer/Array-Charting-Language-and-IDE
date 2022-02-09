@@ -157,6 +157,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="argumentsymbol.cpp" />
+    <ClCompile Include="bison.tab.cpp" />
     <ClCompile Include="boolean.cpp" />
     <ClCompile Include="chartplot.cpp" />
     <ClCompile Include="datamanagerwindow.cpp" />
@@ -174,11 +175,11 @@
     <ClCompile Include="inputdata.cpp" />
     <ClCompile Include="interpretercontext.cpp" />
     <ClCompile Include="jsonsettings.cpp" />
+    <ClCompile Include="languageexception.cpp" />
     <ClCompile Include="maingui.cpp" />
     <ClCompile Include="menubar.cpp" />
     <ClCompile Include="methodsymbol.cpp" />
     <ClCompile Include="methodimplementations.cpp" />
-    <ClCompile Include="bison.tab.cpp" />
     <ClCompile Include="flex.flex.cpp" />
     <ClCompile Include="interpreter.cpp" />
     <ClCompile Include="main.cpp" />
@@ -189,6 +190,7 @@
     <ClCompile Include="screenshot.cpp" />
     <ClCompile Include="semanticanalysis.cpp" />
     <ClCompile Include="settingswindow.cpp" />
+    <ClCompile Include="sourcelocation.cpp" />
     <ClCompile Include="string.cpp" />
     <ClCompile Include="symboltable.cpp" />
     <ClCompile Include="chartwindow.cpp" />
@@ -202,6 +204,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="argumentsymbol.h" />
+    <ClInclude Include="bison.tab.h" />
     <ClInclude Include="chartplot.h" />
     <ClInclude Include="datamanagerwindow.h" />
     <ClInclude Include="dataparseexception.h" />
@@ -227,7 +230,6 @@
     <ClInclude Include="menubar.h" />
     <ClInclude Include="methodsymbol.h" />
     <ClInclude Include="methodimplementations.h" />
-    <ClInclude Include="bison.tab.h" />
     <ClInclude Include="boolean.h" />
     <ClInclude Include="flex.flex.h" />
     <ClInclude Include="float.h" />
@@ -240,6 +242,7 @@
     <ClInclude Include="returnsymbol.h" />
     <ClInclude Include="screenshot.h" />
     <ClInclude Include="settingswindow.h" />
+    <ClInclude Include="sourcelocation.h" />
     <ClInclude Include="stb_image_write.h" />
     <ClInclude Include="string.h" />
     <ClInclude Include="TextEditor.h" />
@@ -262,7 +265,12 @@
     </Flex>
   </ItemGroup>
   <ItemGroup>
-    <Bison Include="bison.y" />
+    <Bison Include="bison.y">
+      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">--debug -t %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">--debug -t %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">--debug -t %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">--debug -t %(AdditionalOptions)</AdditionalOptions>
+    </Bison>
   </ItemGroup>
   <ItemGroup>
     <Text Include="examplecode.txt" />

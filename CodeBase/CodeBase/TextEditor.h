@@ -173,6 +173,7 @@ public:
 		{
 		}
 
+		static const LanguageDefinition& CUSTOM();
 		static const LanguageDefinition& CPlusPlus();
 		static const LanguageDefinition& HLSL();
 		static const LanguageDefinition& GLSL();
@@ -345,6 +346,10 @@ private:
 	ImU32 GetGlyphColor(const Glyph& aGlyph) const;
 
 	void HandleKeyboardInputs();
+	/*
+	Added to register any key press for the keyboard
+	*/
+	void AnyKeyPressed();
 	void HandleMouseInputs();
 	void Render();
 

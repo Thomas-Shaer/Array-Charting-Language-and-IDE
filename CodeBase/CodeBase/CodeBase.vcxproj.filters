@@ -66,9 +66,6 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="bison.tab.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="flex.flex.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -192,11 +189,17 @@
     <ClCompile Include="semanticanalysis.cpp">
       <Filter>Source Files\Visitor</Filter>
     </ClCompile>
+    <ClCompile Include="sourcelocation.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="bison.tab.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="languageexception.cpp">
+      <Filter>Source Files\Exceptions</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="bison.tab.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="flex.flex.h">
       <Filter>Source Files</Filter>
     </ClInclude>
@@ -346,6 +349,12 @@
     </ClInclude>
     <ClInclude Include="string.h">
       <Filter>Source Files\Values</Filter>
+    </ClInclude>
+    <ClInclude Include="sourcelocation.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="bison.tab.h">
+      <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

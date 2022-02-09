@@ -1,11 +1,15 @@
 %require "3.2"
 %define parse.error verbose 
 %param { yyscan_t scanner }
+%parse-param { std::string* errorReturn}
 %parse-param { BlockNode** inputnode}
 %language "c++"
 %define api.value.type variant
-%define parse.trace
+%parse-param { yy::SourceLocation** errorLocation}
+%define api.location.type {yy::SourceLocation}
+
 %token-table
+
 
 %{
 
@@ -26,17 +30,19 @@
     class IfStatementNode;
     class StringNode;
     class TernaryNode;
+
 	#include "node.h"
 
 %}
 
 %code requires {
+  #include "sourcelocation.h"
   typedef void* yyscan_t;
 }
 
 %code provides {
       #define YY_DECL \
-        int yylex(yy::parser::semantic_type* value, yyscan_t yyscanner)
+        int yylex(yy::parser::semantic_type* value, yy::parser::location_type* location,  yyscan_t yyscanner)
 	YY_DECL;
     std::string token_name(int t);
  
@@ -80,6 +86,7 @@
 %left TNOT
 %left TOPENBRACKET TCLOSEBRACKET
 
+
 %%
 
 program : stmts { 
@@ -87,9 +94,9 @@ program : stmts {
 				}
         ;
 
-stmts : stmt { $$ = new BlockNode(); $$->statementNodes.push_back($1); }
+stmts : stmt { $$ = new BlockNode(yy::SourceLocation()); $$->statementNodes.push_back($1); }
       | stmts stmt { $1->statementNodes.push_back($2); $$ = $1; }
-	  | /*blank*/ { $$ = new BlockNode(); }
+	  | /*blank*/ { $$ = new BlockNode(yy::SourceLocation()); }
       ;
 
 stmt : assign {$$ = $1;}
@@ -97,20 +104,20 @@ stmt : assign {$$ = $1;}
      | ifstmt {$$ = $1;}
      ;
 
-exprstmt : method {$$ = new ExpressionStatementNode($1);}
-         | ternary {$$ = new ExpressionStatementNode($1);}
+exprstmt : method {$$ = new ExpressionStatementNode($1, $1->sourceLocation);}
+         | ternary {$$ = new ExpressionStatementNode($1, $1->sourceLocation);}
          ;
 
 ifstmt : TIF TOPENBRACKET expr TCLOSEBRACKET TOPENBLOCK stmts TCLOSEBLOCK { 
-										$$ = new IfStatementNode($3, $6);
+										$$ = new IfStatementNode($3, $6, @1 + @7);
 									  }
        ;
 
-identifier : TIDENTIFIER {$$ = new IdentifierNode($1);}
+identifier : TIDENTIFIER {$$ = new IdentifierNode($1, @1);}
            ;
 
 
-assign : TIDENTIFIER TASSIGN expr {$$ = new AssignNode($1, $3);}
+assign : TIDENTIFIER TASSIGN expr {$$ = new AssignNode($1, $3, @1 + $3->sourceLocation);}
        ;
 
 expr : numeric { $$ = $1; }
@@ -120,47 +127,47 @@ expr : numeric { $$ = $1; }
      | identifier {$$ = $1; }
      | TOPENBRACKET expr TCLOSEBRACKET {$$ = $2; }
      | ternary {$$ =  $1; }
-     | expr TMUL expr {$$ =  new MethodCallNode("operator" + token_name($2), {$1, $3}); }
-     | expr TDIV expr {$$ =  new MethodCallNode("operator" + token_name($2), {$1, $3}); }
-     | expr TPLUS expr {$$ =  new MethodCallNode("operator" + token_name($2), {$1, $3}); }
-     | expr TMINUS expr {$$ =  new MethodCallNode("operator" + token_name($2), {$1, $3}); }
-     | expr TLESS expr {$$ =  new MethodCallNode("operator" + token_name($2), {$1, $3}); }
-     | expr TPOW expr {$$ =  new MethodCallNode("operator" + token_name($2), {$1, $3}); }
-     | expr TMOD expr {$$ =  new MethodCallNode("operator" + token_name($2), {$1, $3}); }
-     | expr TLESSEQUAL expr {$$ =  new MethodCallNode("operator" + token_name($2), {$1, $3}); }
-     | expr TGREATER expr {$$ =  new MethodCallNode("operator" + token_name($2), {$1, $3}); }
-     | expr TGREATEREQUAL expr {$$ =  new MethodCallNode("operator" + token_name($2), {$1, $3}); }
-     | expr TNOTEQUAL expr {$$ =  new MethodCallNode("operator" + token_name($2), {$1, $3}); }
-     | expr TEQUAL expr {$$ =  new MethodCallNode("operator" + token_name($2), {$1, $3}); }
-     | expr TOR expr {$$ =  new MethodCallNode("operator" + token_name($2), {$1, $3}); }
-     | expr TAND expr {$$ =  new MethodCallNode("operator" + token_name($2), {$1, $3}); }
-     | TPLUS expr {$$ =  new MethodCallNode("operator" + token_name($1), {$2}); }
-     | TMINUS expr {$$ =  new MethodCallNode("operator" + token_name($1), {$2}); }
-     | TNOT expr {$$ =  new MethodCallNode("operator" + token_name($1), {$2}); }
+     | expr TMUL expr {$$ =  new MethodCallNode("operator" + token_name($2), {$1, $3},  $1->sourceLocation + $3->sourceLocation); }
+     | expr TDIV expr {$$ =  new MethodCallNode("operator" + token_name($2), {$1, $3}, $1->sourceLocation + $3->sourceLocation); }
+     | expr TPLUS expr {$$ =  new MethodCallNode("operator" + token_name($2), {$1, $3}, $1->sourceLocation + $3->sourceLocation); }
+     | expr TMINUS expr {$$ =  new MethodCallNode("operator" + token_name($2), {$1, $3}, $1->sourceLocation + $3->sourceLocation); }
+     | expr TLESS expr {$$ =  new MethodCallNode("operator" + token_name($2), {$1, $3}, $1->sourceLocation + $3->sourceLocation); }
+     | expr TPOW expr {$$ =  new MethodCallNode("operator" + token_name($2), {$1, $3}, $1->sourceLocation + $3->sourceLocation); }
+     | expr TMOD expr {$$ =  new MethodCallNode("operator" + token_name($2), {$1, $3}, $1->sourceLocation + $3->sourceLocation); }
+     | expr TLESSEQUAL expr {$$ =  new MethodCallNode("operator" + token_name($2), {$1, $3}, $1->sourceLocation + $3->sourceLocation); }
+     | expr TGREATER expr {$$ =  new MethodCallNode("operator" + token_name($2), {$1, $3}, $1->sourceLocation + $3->sourceLocation); }
+     | expr TGREATEREQUAL expr {$$ =  new MethodCallNode("operator" + token_name($2), {$1, $3}, $1->sourceLocation + $3->sourceLocation); }
+     | expr TNOTEQUAL expr {$$ =  new MethodCallNode("operator" + token_name($2), {$1, $3}, $1->sourceLocation + $3->sourceLocation); }
+     | expr TEQUAL expr {$$ =  new MethodCallNode("operator" + token_name($2), {$1, $3}, $1->sourceLocation + $3->sourceLocation); }
+     | expr TOR expr {$$ =  new MethodCallNode("operator" + token_name($2), {$1, $3}, $1->sourceLocation + $3->sourceLocation); }
+     | expr TAND expr {$$ =  new MethodCallNode("operator" + token_name($2), {$1, $3}, $1->sourceLocation + $3->sourceLocation); }
+     | TPLUS expr {$$ =  new MethodCallNode("operator" + token_name($1), {$2}, @1 + $2->sourceLocation); }
+     | TMINUS expr {$$ =  new MethodCallNode("operator" + token_name($1), {$2}, @1 + $2->sourceLocation); }
+     | TNOT expr {$$ =  new MethodCallNode("operator" + token_name($1), {$2}, @1 + $2->sourceLocation); }
      ;
 
-keyword : TIDENTIFIER TASSIGN expr {$$ = new KeywordNode($1, $3);}
+keyword : TIDENTIFIER TASSIGN expr {$$ = new KeywordNode($1, $3, @1 + $3->sourceLocation);}
        ;
 
-ternary : expr TQUESTIONMARK expr TCOLON expr { $$ = new TernaryNode($1, $3, $5); }
+ternary : expr TQUESTIONMARK expr TCOLON expr { $$ = new TernaryNode($1, $3, $5, $1->sourceLocation + $3->sourceLocation); }
         ;
 
 
-numeric : TNUMBER { $$ = new NumberNode(atoi($1.c_str())); }
-        | TFLOAT { $$ = new NumberNode(atof($1.c_str())); }
+numeric : TNUMBER { $$ = new NumberNode(atoi($1.c_str()), @1); }
+        | TFLOAT { $$ = new NumberNode(atof($1.c_str()), @1); }
         ;
 
-boolean : TFALSE { $$ = new BooleanNode(false); }
-        | TTRUE { $$ = new BooleanNode(true); }
+boolean : TFALSE { $$ = new BooleanNode(false, @1); }
+        | TTRUE { $$ = new BooleanNode(true, @1); }
         ;
 
-string : TSTRING { $$ = new StringNode($1.c_str());}
+string : TSTRING { $$ = new StringNode($1.c_str(), @1);}
        ;
 
 
-method : TIDENTIFIER TOPENBRACKET /*blank*/ TCLOSEBRACKET {$$ = new MethodCallNode($1, std::vector<Expression*>());}
-       | TIDENTIFIER TOPENBRACKET call_params TCLOSEBRACKET {$$ = new MethodCallNode($1, $3);}
-       | TIDENTIFIER TOPENBRACKET call_params_keywords TCLOSEBRACKET {$$ = new MethodCallNode($1, $3);}
+method : TIDENTIFIER TOPENBRACKET /*blank*/ TCLOSEBRACKET {$$ = new MethodCallNode($1, std::vector<Expression*>(), @1 + @3);}
+       | TIDENTIFIER TOPENBRACKET call_params TCLOSEBRACKET {$$ = new MethodCallNode($1, $3, @1 + @4);}
+       | TIDENTIFIER TOPENBRACKET call_params_keywords TCLOSEBRACKET {$$ = new MethodCallNode($1, $3, @1 + @4);}
        ;
 
 
@@ -182,8 +189,9 @@ call_params_keywords : keyword { $$ = std::vector<Expression*>(); $$.push_back($
 
 
 %%
-void yy::parser::error( const std::string& msg) {
-    std::cout << msg << std::endl;
+void yy::parser::error(const location_type &l,  const std::string& msg) {
+    **errorLocation = l;
+    *errorReturn = msg;
 }
 
 

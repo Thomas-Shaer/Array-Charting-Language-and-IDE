@@ -4,6 +4,7 @@
 #include <vector>
 #include "varsymbol.h"
 #include "interpreteroutput.h"
+#include "sourcelocation.h"
 #include <map>
 
 class SymbolTable;
@@ -18,7 +19,8 @@ Base node class
 */
 class Node {
 public:
-
+	Node(yy::SourceLocation csourceLocation);
+	
 	/*
 	* String representation of AST - must be overloaded
 	*/
@@ -29,6 +31,11 @@ public:
 	*/
 	virtual ~Node() {}
 
+
+	std::string getNodeSourceCode(const std::string& sourceCode) const;
+
+
+	yy::SourceLocation sourceLocation;
 };
 
 /*
@@ -36,6 +43,7 @@ public:
 */
 class Expression : public Node {
 public:
+	Expression(yy::SourceLocation csourceLocation) : Node(csourceLocation) {}
 	virtual const TypeSymbol* semanticAnalysis(std::shared_ptr<SymbolTable> symboltable) = 0;
 	virtual ExpressionValue interpret(const unsigned int tick) const = 0;
 };
@@ -45,6 +53,7 @@ public:
 */
 class Statement : public Node {
 public:
+	Statement(yy::SourceLocation csourceLocation) : Node(csourceLocation) {}
 	virtual void semanticAnalysis(std::shared_ptr<SymbolTable> symboltable) = 0;
 	virtual void interpret(const unsigned int tick) const = 0;
 };
@@ -58,7 +67,7 @@ public:
 
 	Expression* expressionNode;
 
-	ExpressionStatementNode(Expression* _expressionNode) : expressionNode(_expressionNode) {}
+	ExpressionStatementNode(Expression* _expressionNode, yy::SourceLocation csourceLocation) : expressionNode(_expressionNode), Statement(csourceLocation){}
 
 	virtual std::string toString() const;
 
@@ -73,6 +82,8 @@ Block node class, represents a scope i.e. a collection of statements
 */
 class BlockNode : public Statement {
 public:
+
+	BlockNode(yy::SourceLocation csourceLocation) : Statement(csourceLocation) {}
 
 	std::vector<Statement*> statementNodes;
 
@@ -91,7 +102,7 @@ Number node class, represents a number node e.g. 2
 class NumberNode : public Expression {
 public:
 	const float number;
-	NumberNode(float _number) : number(_number) {}
+	NumberNode(float _number, yy::SourceLocation csourceLocation) : number(_number), Expression(csourceLocation) {}
 
 	virtual std::string toString() const;
 
@@ -108,7 +119,7 @@ Number node class, represents a number node e.g. 2
 class BooleanNode : public Expression {
 public:
 	const bool value;
-	BooleanNode(bool _value) : value(_value) {}
+	BooleanNode(bool _value, yy::SourceLocation csourceLocation) : value(_value), Expression(csourceLocation) {}
 
 	virtual std::string toString() const;
 
@@ -125,7 +136,7 @@ String node class, represents a number node e.g. 2
 class StringNode : public Expression {
 public:
 	const std::string value;
-	StringNode(std::string _value) : value(_value) {}
+	StringNode(std::string _value, yy::SourceLocation csourceLocation) : value(_value), Expression(csourceLocation) {}
 
 	virtual std::string toString() const;
 
@@ -141,7 +152,7 @@ Identifier node class, represents identifier e.g. foo
 class IdentifierNode : public Expression {
 public:
 	const std::string name;
-	IdentifierNode(std::string _name) : name(_name) {}
+	IdentifierNode(std::string _name, yy::SourceLocation csourceLocation) : name(_name), Expression(csourceLocation) {}
 
 	virtual std::string toString() const;
 	virtual ~IdentifierNode();
@@ -163,7 +174,7 @@ class KeywordNode : public Expression {
 public:
 	const std::string name;
 	Expression* rhs;
-	KeywordNode(std::string _name, Expression* _rhs) : name(_name), rhs(_rhs) {}
+	KeywordNode(std::string _name, Expression* _rhs, yy::SourceLocation csourceLocation) : name(_name), rhs(_rhs), Expression(csourceLocation) {}
 
 	virtual std::string toString() const;
 	virtual ~KeywordNode();
@@ -180,7 +191,7 @@ class AssignNode : public Statement {
 public:
 	const std::string name;
 	Expression* rhs;
-	AssignNode(std::string _name, Expression* _rhs) : name(_name), rhs(_rhs) {}
+	AssignNode(std::string _name, Expression* _rhs, yy::SourceLocation csourceLocation) : name(_name), rhs(_rhs), Statement(csourceLocation) {}
 
 	virtual std::string toString() const;
 
@@ -202,7 +213,7 @@ class MethodCallNode : public Expression {
 public:
 	const std::string name;
 	const std::vector<Expression*> arguments;
-	MethodCallNode(std::string _name, std::vector<Expression*> _arguments) : name(_name), arguments(_arguments) {}
+	MethodCallNode(std::string _name, std::vector<Expression*> _arguments, yy::SourceLocation csourceLocation) : name(_name), arguments(_arguments), Expression(csourceLocation) {}
 
 	virtual std::string toString() const;
 
@@ -226,7 +237,7 @@ class IfStatementNode : public Statement {
 public:
 	Expression* condition;
 	BlockNode* block;
-	IfStatementNode(Expression* _condition, BlockNode* _block) : condition(_condition), block(_block) {}
+	IfStatementNode(Expression* _condition, BlockNode* _block, yy::SourceLocation csourceLocation) : condition(_condition), block(_block), Statement(csourceLocation){}
 
 	virtual std::string toString() const;
 
@@ -246,8 +257,8 @@ public:
 	Expression* condition;
 	Expression* expression1;
 	Expression* expression2;
-	TernaryNode(Expression* _condition, Expression* _expression1, Expression* _expression2) 
-		: condition(_condition), expression1(_expression1), expression2(_expression2) {}
+	TernaryNode(Expression* _condition, Expression* _expression1, Expression* _expression2, yy::SourceLocation csourceLocation)
+		: condition(_condition), expression1(_expression1), expression2(_expression2), Expression(csourceLocation) {}
 
 	virtual std::string toString() const;
 

@@ -6,6 +6,9 @@
 #include <queue>
 #include <deque>
 
+class Expression;
+
+
 // method named "avg" takes two float parameters and returns a float
 class  MethodAverage : public PositionalMethodSymbol {
 public:
@@ -420,6 +423,7 @@ private:
 	std::deque<float> buffer;
 	Float* value;
 	Float* bars_back;
+	Expression* barsBackNode;
 
 };
 
@@ -454,6 +458,8 @@ private:
 
 	Float* value;
 	Float* bars_back;
+	Expression* barsBackNode;
+
 };
 
 
@@ -488,6 +494,8 @@ private:
 
 	Float* value;
 	Float* bars_back;
+	Expression* barsBackNode;
+
 };
 
 
@@ -660,6 +668,7 @@ public:
 	}
 private:
 	Float* value;
+	Expression* valueNode;
 };
 
 class LogBase : public PositionalMethodSymbol {
@@ -674,6 +683,8 @@ public:
 private:
 	Float* value;
 	Float* base;
+	Expression* valueNode;
+	Expression* baseNode;
 };
 
 
@@ -688,6 +699,7 @@ public:
 	}
 private:
 	Float* value;
+	Expression* valueNode;
 };
 
 
@@ -735,6 +747,7 @@ private:
 	std::deque<float> buffer;
 	Float* value;
 	Float* amount;
+	Expression* amountNode;
 };
 
 class STD : public PositionalMethodSymbol {
@@ -750,6 +763,7 @@ private:
 	std::deque<float> buffer;
 	Float* value;
 	Float* amount;
+	Expression* amountNode;
 };
 
 
@@ -766,6 +780,7 @@ private:
 	std::deque<float> buffer;
 	Float* value;
 	Float* amount;
+	Expression* amountNode;
 };
 
 
@@ -841,6 +856,7 @@ private:
 	int inRow = 0;
 	Float* value;
 	Float* amount;
+	Expression* amountNode;
 };
 
 class Rising : public PositionalMethodSymbol {
@@ -857,6 +873,7 @@ private:
 	int inRow = 0;
 	Float* value;
 	Float* amount;
+	Expression* amountNode;
 };
 
 
@@ -959,6 +976,7 @@ private:
 	std::deque<float> bufferY;
 	Float* data;
 	Float* bars;
+	Expression* barsNode;
 };
 
 class Correlation : public PositionalMethodSymbol {
@@ -976,6 +994,7 @@ private:
 	Float* data1;
 	Float* data2;
 	Float* length;
+	Expression* lengthNode;
 
 };
 
@@ -994,6 +1013,7 @@ private:
 	std::vector<Float> values;
 	Float* data;
 	Float* barsback;
+	Expression* barsbackNode;
 };
 
 

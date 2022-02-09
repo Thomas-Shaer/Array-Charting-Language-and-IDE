@@ -31,6 +31,21 @@
 #include "node.h"
 
 
+#define YY_USER_ACTION \
+    location->begin.line = location->end.line; \
+    location->begin.column = location->end.column; \
+    for(int i = 0; yytext[i] != '\0'; i++) { \
+        if(yytext[i] == '\n') { \
+            location->end.line++; \
+            location->end.column = 0; \
+        } \
+        else if(yytext[i] == '\t') { \
+            location->end.column += 4; \
+        } \
+        else { \
+            location->end.column++; \
+        } \
+    }
 
 %}
 
@@ -43,7 +58,7 @@
 \"                          BEGIN(SINGLE_STRING);
 <SINGLE_STRING>{
   \n                        {}
-  <<EOF>>                   {}
+  <<EOF>>                   {return yytext[0];}
   ([^\\\"]|\\.)*            {value->emplace<std::string>(yytext); return yy::parser::token::TSTRING;}
   \"                        BEGIN(INITIAL);
   .                         ;

@@ -30,7 +30,7 @@ const TypeSymbol* PositionalMethodSymbol::semanticAnaylsis(MethodCallNode* metho
 
 	// if recieved wrong amount of parameters throw error
 	if (parameterSymbols.size() != _argumentSymbols.size()) {
-		throw LanguageException("Method " + name + " takes " + std::to_string(parameterSymbols.size()) + " parameters not " + std::to_string(_argumentSymbols.size()) + " parameters");
+		throw LanguageException("Method " + name + " takes " + std::to_string(parameterSymbols.size()) + " parameters not " + std::to_string(_argumentSymbols.size()) + " parameters", methodCallNode);
 	}
 
 	// the input types must be what was expected
@@ -44,7 +44,7 @@ const TypeSymbol* PositionalMethodSymbol::semanticAnaylsis(MethodCallNode* metho
 			continue;
 		}
 
-		throw LanguageException("Method " + name + " expected parameter no. " + std::to_string(i) + " to be " + expected->name + " but recieved " + received->name);
+		throw LanguageException("Method " + name + " expected parameter no. " + std::to_string(i) + " to be " + expected->name + " but recieved " + received->name, _argumentSymbols[i]->expression);
 
 	}
 	return returnType.typesymbol;
@@ -55,7 +55,7 @@ const TypeSymbol* PositionalMethodSymbol::semanticAnaylsis(MethodCallNode* metho
 std::string PositionalMethodSymbol::getDescription() const {
 	std::string description = "";
 	for (const ParameterSymbol arg : parameterSymbols) {
-		description += arg.getDescription();
+		description += arg.getDescription() + "\n";
 	}
 	return description;
 }
@@ -91,7 +91,7 @@ const TypeSymbol* KeywordMethodSymbol::semanticAnaylsis(MethodCallNode* methodCa
 		KeywordNode* keyword;
 		if ((keyword = dynamic_cast<KeywordNode*>(expr))) {
 			if (keywordSymbols.find(keyword->name) != keywordSymbols.end()) {
-				throw LanguageException("Already specified keyword argument " + keyword->name);
+				throw LanguageException("Already specified keyword argument " + keyword->name, keyword);
 			}
 			keywordSymbols[keyword->name] = std::make_shared<ArgumentSymbol>(expr->semanticAnalysis(symboltable), keyword->rhs);
 			continue;
@@ -103,12 +103,12 @@ const TypeSymbol* KeywordMethodSymbol::semanticAnaylsis(MethodCallNode* methodCa
 
 	// must supply at least the amount of non optional params
 	if (positionalSymbols.size() < requiredParameterSymbols.size()) {
-		throw LanguageException("Method " + name + " takes at least " + std::to_string(requiredParameterSymbols.size()) + " non optional parameters not " + std::to_string(positionalSymbols.size()) + " non optional parameters");
+		throw LanguageException("Method " + name + " takes at least " + std::to_string(requiredParameterSymbols.size()) + " non optional parameters not " + std::to_string(positionalSymbols.size()) + " non optional parameters", methodCallNode);
 	}
 
 	// must supply at least the amount of non optional params
 	if (positionalSymbols.size() > (requiredParameterSymbols.size() + optionalParameterSymbols.size())) {
-		throw LanguageException("Method " + name + " takes at most " + std::to_string(requiredParameterSymbols.size() + optionalParameterSymbols.size()) + " parameters not " + std::to_string(positionalSymbols.size()) + " parameters");
+		throw LanguageException("Method " + name + " takes at most " + std::to_string(requiredParameterSymbols.size() + optionalParameterSymbols.size()) + " parameters not " + std::to_string(positionalSymbols.size()) + " parameters", methodCallNode);
 	}
 
 
@@ -119,8 +119,6 @@ const TypeSymbol* KeywordMethodSymbol::semanticAnaylsis(MethodCallNode* methodCa
 		std::string expectedName;
 		// if we have satisifed all required params, start eating away at optional ones
 		if (i > requiredParameterSymbols.size() - 1) {
-			std::cout << "what fuck" << std::endl;
-			std::cout << i - requiredParameterSymbols.size() << std::endl;
 			auto optionalParamSymbol = optionalParameterSymbols[i - requiredParameterSymbols.size()];
 			expected = optionalParamSymbol.typesymbol;
 			expectedName = optionalParamSymbol.name;
@@ -134,7 +132,6 @@ const TypeSymbol* KeywordMethodSymbol::semanticAnaylsis(MethodCallNode* methodCa
 
 		}
 		std::shared_ptr<ArgumentSymbol> received = positionalSymbols[i];
-		std::cout << expectedName << std::endl;
 		methodCallNode->expressionToArgList[expectedName] = received;
 
 
@@ -143,7 +140,7 @@ const TypeSymbol* KeywordMethodSymbol::semanticAnaylsis(MethodCallNode* methodCa
 			continue;
 		}
 
-		throw LanguageException("Method " + name + " expected parameter no. " + std::to_string(i) + " to be " + expectedName + " but recieved " + received->type->name);
+		throw LanguageException("Method " + name + " expected parameter no. " + std::to_string(i) + " to be " + expectedName + " but recieved " + received->type->name, received->expression);
 	}
 
 	// Then we match the keyword args
@@ -154,7 +151,7 @@ const TypeSymbol* KeywordMethodSymbol::semanticAnaylsis(MethodCallNode* methodCa
 
 		// if keyword arg not specified throw error
 		if (optionalParamsMap.find(name) == optionalParamsMap.end()) {
-			throw LanguageException("No keyword argument with name " + name);
+			throw LanguageException("No keyword argument with name " + name, received->expression);
 		}
 
 		ParameterSymbol expected = optionalParamsMap[name];
@@ -168,7 +165,7 @@ const TypeSymbol* KeywordMethodSymbol::semanticAnaylsis(MethodCallNode* methodCa
 			continue;
 		}
 
-		throw LanguageException("Method " + name + " expected parameter " + name + " to be " + expected.typesymbol->name + " but recieved " + received->type->name);
+		throw LanguageException("Method " + name + " expected parameter " + name + " to be " + expected.typesymbol->name + " but recieved " + received->type->name, received->expression);
 
 	}
 	// rest of keyword args just declare them
@@ -192,10 +189,10 @@ const TypeSymbol* KeywordMethodSymbol::semanticAnaylsis(MethodCallNode* methodCa
 std::string KeywordMethodSymbol::getDescription() const {
 	std::string description = "";
 	for (const ParameterSymbol arg : requiredParameterSymbols) {
-		description += arg.getDescription();
+		description += arg.getDescription() + "\n";
 	}
 	for (const OptionalParameterSymbol arg : optionalParameterSymbols) {
-		description += arg.getDescription();
+		description += arg.getDescription() + "\n";
 	}
 	return description;
 }

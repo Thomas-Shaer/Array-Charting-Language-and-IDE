@@ -21,7 +21,8 @@ public:
 
 	void execute(const std::string& code);
 	void execute(std::ifstream& myfile);
-
+	void intellisense(const std::string& code);
+	static bool isIntellisense;
 	~InterpreterContext();
 private:
 

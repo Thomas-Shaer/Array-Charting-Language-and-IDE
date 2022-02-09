@@ -52,6 +52,7 @@ public:
 	case this is the cleanest way to nicely format and draw the information.
 	*/
 	virtual void renderAsDocumentation() const = 0;
+	virtual std::string asDocumentation() const = 0;
 
 	virtual std::string toString() const = 0;
 
@@ -75,7 +76,8 @@ public:
 	virtual std::string toString() const;
 
 	virtual void renderAsDocumentation() const;
-	
+	virtual std::string asDocumentation() const;
+
 
 };
 
@@ -94,6 +96,6 @@ public:
 
 	virtual std::string toString() const;
 	virtual void renderAsDocumentation() const;
-
+	virtual std::string asDocumentation() const;
 
 };

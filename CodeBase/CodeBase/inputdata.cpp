@@ -24,7 +24,6 @@ std::pair<std::vector<ExpressionValue>, TypeSymbol*> parse(std::vector<std::stri
 
 
     for (const std::string& cell : rawValues) {
-        //std::cout << cell << std::endl;
         TypeSymbol* celltype = nullptr;
         /*
         Record NaN type.
@@ -36,8 +35,6 @@ std::pair<std::vector<ExpressionValue>, TypeSymbol*> parse(std::vector<std::stri
                 continue;
             }
             values.push_back(nanType);
-            //std::cout << "leading" << std::endl;
-
         }
         /*
         Record boolean.
@@ -45,7 +42,6 @@ std::pair<std::vector<ExpressionValue>, TypeSymbol*> parse(std::vector<std::stri
         else if (cell == FalseString || cell == TrueString) {
             celltype = TypeInstances::GetBooleanInstance();
             values.push_back(Boolean(cell == TrueString));
-            //std::cout << "what" << std::endl;
         }
         /*
         Record float
@@ -53,8 +49,6 @@ std::pair<std::vector<ExpressionValue>, TypeSymbol*> parse(std::vector<std::stri
         else if (boost::regex_match(cell, boost::regex("-?[0-9]+([\.][0-9]+)?"))) {
             celltype = TypeInstances::GetFloatInstance();
             values.push_back(Float(std::stof(cell)));
-            //std::cout << "what3" << std::endl;
-
         }
         /*
         Any other we can't recognise is a error.

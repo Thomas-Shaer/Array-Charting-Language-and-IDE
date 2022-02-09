@@ -25,6 +25,7 @@ void newJSON() {
     Settings::settingsFile["defaultNANExportLiteral"] = "NAN";
     Settings::settingsFile["lastScreenshotExportDirectory"] = "";
     Settings::settingsFile["chartAntiAliasing"] = true;
+    Settings::settingsFile["intellisense"] = true;
     Settings::saveSettings();
 }
 

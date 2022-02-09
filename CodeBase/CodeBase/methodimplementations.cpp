@@ -11,6 +11,7 @@
 #include "chartwindow.h"
 #include "node.h"
 
+
 MethodAverage::MethodAverage() : PositionalMethodSymbol("avg",
 	"Returns the average of two numbers.",
 	{
@@ -97,8 +98,6 @@ UnaryNotOperator::UnaryNotOperator(const std::string& _name) : PositionalMethodS
 const TypeSymbol* UnaryNotOperator::semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable) {
 	const TypeSymbol* returnType = PositionalMethodSymbol::semanticAnaylsis(methodCallNode, symboltable);
 	value = boost::get<Boolean>(&methodCallNode->expressionToArgList["expr"]->expressionValue);
-	//std::cout << boost::get<Boolean>(&methodCallNode->expressionToArgList["expr"]->expressionValue) << std::endl;
-	//std::cout << boost::apply_visitor(ToString(), methodCallNode->expressionToArgList["expr"]->expressionValue) << std::endl;
 	return returnType;
 
 }
@@ -567,11 +566,12 @@ const TypeSymbol* Plot::semanticAnaylsis(MethodCallNode* methodCallNode, std::sh
 	chartId = boost::get<String>(&methodCallNode->expressionToArgList["chart_id"]->expressionValue);
 
 
-	std::shared_ptr<ChartPlot> newData = std::make_shared<ChartPlot>(*lineName->value, InterpreterContext::ticks);
-	ChartWindow::getOrCreateChartWindow(*chartId->value)->CHART_LINE_DATA.push_back(newData);
-	std::shared_ptr<ChartPlot> first = ChartWindow::getOrCreateChartWindow(*chartId->value)->CHART_LINE_DATA.back(); //returns reference, not iterator, to the first object in the vector so you had only to write the data type in the generic of your vector, i.e. myObject, and not all the iterator stuff and the vector again and :: of course
-	plotdata = first;
-
+	if (!InterpreterContext::isIntellisense) {
+		std::shared_ptr<ChartPlot> newData = std::make_shared<ChartPlot>(*lineName->value, InterpreterContext::ticks);
+		ChartWindow::getOrCreateChartWindow(*chartId->value)->CHART_LINE_DATA.push_back(newData);
+		std::shared_ptr<ChartPlot> first = ChartWindow::getOrCreateChartWindow(*chartId->value)->CHART_LINE_DATA.back(); //returns reference, not iterator, to the first object in the vector so you had only to write the data type in the generic of your vector, i.e. myObject, and not all the iterator stuff and the vector again and :: of course
+		plotdata = first;
+	}
 	return returnType;
 
 }
@@ -613,11 +613,14 @@ const TypeSymbol* Mark::semanticAnaylsis(MethodCallNode* methodCallNode, std::sh
 	chartId = boost::get<String>(&methodCallNode->expressionToArgList["chart_id"]->expressionValue);
 
 
-	std::shared_ptr<ChartPlot> newData = std::make_shared<ChartPlot>(*lineName->value, InterpreterContext::ticks);
+	if (!InterpreterContext::isIntellisense) {
+		std::shared_ptr<ChartPlot> newData = std::make_shared<ChartPlot>(*lineName->value, InterpreterContext::ticks);
 
-	ChartWindow::getOrCreateChartWindow(*chartId->value)->CHART_MARK_DATA.push_back(newData);
-	std::shared_ptr<ChartPlot> first = ChartWindow::getOrCreateChartWindow(*chartId->value)->CHART_MARK_DATA.back(); //returns reference, not iterator, to the first object in the vector so you had only to write the data type in the generic of your vector, i.e. myObject, and not all the iterator stuff and the vector again and :: of course
-	plotdata = first;
+		ChartWindow::getOrCreateChartWindow(*chartId->value)->CHART_MARK_DATA.push_back(newData);
+		std::shared_ptr<ChartPlot> first = ChartWindow::getOrCreateChartWindow(*chartId->value)->CHART_MARK_DATA.back(); //returns reference, not iterator, to the first object in the vector so you had only to write the data type in the generic of your vector, i.e. myObject, and not all the iterator stuff and the vector again and :: of course
+		plotdata = first;
+	}
+	
 	return returnType;
 }
 
@@ -764,6 +767,7 @@ const TypeSymbol* MinimumBars::semanticAnaylsis(MethodCallNode* methodCallNode, 
 	const TypeSymbol* returnType = PositionalMethodSymbol::semanticAnaylsis(methodCallNode, symboltable);
 	value = boost::get<Float>(&methodCallNode->expressionToArgList["value"]->expressionValue);
 	bars_back = boost::get<Float>(&methodCallNode->expressionToArgList["bars_back"]->expressionValue);
+	barsBackNode = methodCallNode->expressionToArgList["bars_back"]->expression;
 	return returnType;
 }
 
@@ -772,7 +776,7 @@ ExpressionValue MinimumBars::interpret(const unsigned int tick) {
 	if (bars_back->value) {
 		int lookback = (int)*bars_back->value;
 		if (lookback <= 0) {
-			throw LanguageException("Run time error at tick " + std::to_string(tick) + ", moving minimum function must use positive non zero amount.");
+			throw LanguageException("Run time error at tick " + std::to_string(tick) + ", moving minimum function must use positive non zero amount.", barsBackNode);
 		}
 
 		if (value->value) {
@@ -839,6 +843,8 @@ const TypeSymbol* MaximumBars::semanticAnaylsis(MethodCallNode* methodCallNode, 
 	const TypeSymbol* returnType = PositionalMethodSymbol::semanticAnaylsis(methodCallNode, symboltable);
 	value = boost::get<Float>(&methodCallNode->expressionToArgList["value"]->expressionValue);
 	bars_back = boost::get<Float>(&methodCallNode->expressionToArgList["bars_back"]->expressionValue);
+	barsBackNode = methodCallNode->expressionToArgList["bars_back"]->expression;
+
 	return returnType;
 }
 
@@ -847,7 +853,7 @@ ExpressionValue MaximumBars::interpret(const unsigned int tick) {
 	if (bars_back->value) {
 		int lookback = (int)*bars_back->value;
 		if (lookback <= 0) {
-			throw LanguageException("Run time error at tick " + std::to_string(tick) + ", moving maximum function must use positive non zero amount.");
+			throw LanguageException("Run time error at tick " + std::to_string(tick) + ", moving maximum function must use positive non zero amount.", barsBackNode);
 		}
 
 		if (value->value) {
@@ -913,6 +919,8 @@ const TypeSymbol* SumBars::semanticAnaylsis(MethodCallNode* methodCallNode, std:
 	const TypeSymbol* returnType = PositionalMethodSymbol::semanticAnaylsis(methodCallNode, symboltable);
 	value = boost::get<Float>(&methodCallNode->expressionToArgList["value"]->expressionValue);
 	bars_back = boost::get<Float>(&methodCallNode->expressionToArgList["bars_back"]->expressionValue);
+	barsBackNode = methodCallNode->expressionToArgList["bars_back"]->expression;
+
 	return returnType;
 }
 
@@ -921,7 +929,7 @@ ExpressionValue SumBars::interpret(const unsigned int tick) {
 	if (bars_back->value) {
 		int lookback = (int)*bars_back->value;
 		if (lookback <= 0) {
-			throw LanguageException("Run time error at tick " + std::to_string(tick) + ", moving sum function must use positive non zero amount.");
+			throw LanguageException("Run time error at tick " + std::to_string(tick) + ", moving sum function must use positive non zero amount.", barsBackNode);
 		}
 
 		if (value->value) {
@@ -1235,6 +1243,7 @@ LogE::LogE() : PositionalMethodSymbol("log",
 const TypeSymbol* LogE::semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable) {
 	const TypeSymbol* returnType = PositionalMethodSymbol::semanticAnaylsis(methodCallNode, symboltable);
 	value = boost::get<Float>(&methodCallNode->expressionToArgList["value"]->expressionValue);
+	valueNode = methodCallNode->expressionToArgList["value"]->expression;
 	return returnType;
 }
 
@@ -1242,7 +1251,7 @@ ExpressionValue LogE::interpret(const unsigned int tick) {
 
 	if (value->value) {
 		if (*value->value <= 0) {
-			throw LanguageException("Run time error at tick " + std::to_string(tick) + ", log function must use positive non zero value.");
+			throw LanguageException("Run time error at tick " + std::to_string(tick) + ", log function must use positive non zero value.", valueNode);
 		}
 		return Float(std::log(*value->value));
 	}
@@ -1265,6 +1274,9 @@ const TypeSymbol* LogBase::semanticAnaylsis(MethodCallNode* methodCallNode, std:
 	const TypeSymbol* returnType = PositionalMethodSymbol::semanticAnaylsis(methodCallNode, symboltable);
 	value = boost::get<Float>(&methodCallNode->expressionToArgList["value"]->expressionValue);
 	base = boost::get<Float>(&methodCallNode->expressionToArgList["base"]->expressionValue);
+	valueNode = methodCallNode->expressionToArgList["value"]->expression;
+	baseNode = methodCallNode->expressionToArgList["base"]->expression;
+
 	return returnType;
 }
 
@@ -1272,12 +1284,12 @@ ExpressionValue LogBase::interpret(const unsigned int tick) {
 
 	if (value->value) {
 		if (*value->value <= 0) {
-			throw LanguageException("Run time error at tick " + std::to_string(tick) + ", log function must use positive non zero value.");
+			throw LanguageException("Run time error at tick " + std::to_string(tick) + ", log function must use positive non zero value.", valueNode);
 		}
 	}
 	if (base->value) {
 		if (*base->value <= 0) {
-			throw LanguageException("Run time error at tick " + std::to_string(tick) + ", log function must use positive non zero base.");
+			throw LanguageException("Run time error at tick " + std::to_string(tick) + ", log function must use positive non zero base.", baseNode);
 		}
 		return Float(log(*value->value) / log(*base->value));
 	}
@@ -1298,6 +1310,7 @@ SquareRoot::SquareRoot() : PositionalMethodSymbol("sqrt",
 const TypeSymbol* SquareRoot::semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable) {
 	const TypeSymbol* returnType = PositionalMethodSymbol::semanticAnaylsis(methodCallNode, symboltable);
 	value = boost::get<Float>(&methodCallNode->expressionToArgList["value"]->expressionValue);
+	valueNode = methodCallNode->expressionToArgList["value"]->expression;
 	return returnType;
 }
 
@@ -1305,7 +1318,7 @@ ExpressionValue SquareRoot::interpret(const unsigned int tick) {
 
 	if (value->value) {
 		if (*value->value < 0) {
-			throw LanguageException("Run time error at tick " + std::to_string(tick) + ", log function must use positive zero value.");
+			throw LanguageException("Run time error at tick " + std::to_string(tick) + ", log function must use positive zero value.", valueNode);
 		}
 
 		return Float(std::sqrt(*value->value));
@@ -1385,6 +1398,8 @@ const TypeSymbol* Variance::semanticAnaylsis(MethodCallNode* methodCallNode, std
 	const TypeSymbol* returnType = PositionalMethodSymbol::semanticAnaylsis(methodCallNode, symboltable);
 	value = boost::get<Float>(&methodCallNode->expressionToArgList["value"]->expressionValue);
 	amount = boost::get<Float>(&methodCallNode->expressionToArgList["amount"]->expressionValue);
+	amountNode = methodCallNode->expressionToArgList["amount"]->expression;
+
 	return returnType;
 }
 
@@ -1392,7 +1407,7 @@ ExpressionValue Variance::interpret(const unsigned int tick) {
 	if (amount->value) {
 		int lookback = (int)*amount->value;
 		if (lookback <= 0) {
-			throw LanguageException("Run time error at tick " + std::to_string(tick) + ", variance function must use positive non zero amount.");
+			throw LanguageException("Run time error at tick " + std::to_string(tick) + ", variance function must use positive non zero amount.", amountNode);
 		}
 
 		if (value->value) {
@@ -1433,6 +1448,8 @@ const TypeSymbol* STD::semanticAnaylsis(MethodCallNode* methodCallNode, std::sha
 	const TypeSymbol* returnType = PositionalMethodSymbol::semanticAnaylsis(methodCallNode, symboltable);
 	value = boost::get<Float>(&methodCallNode->expressionToArgList["value"]->expressionValue);
 	amount = boost::get<Float>(&methodCallNode->expressionToArgList["amount"]->expressionValue);
+	amountNode = methodCallNode->expressionToArgList["amount"]->expression;
+
 	return returnType;
 }
 
@@ -1443,7 +1460,7 @@ ExpressionValue STD::interpret(const unsigned int tick) {
 	if (amount->value) {
 		int lookback = (int)*amount->value;
 		if (lookback <= 0) {
-			throw LanguageException("Run time error at tick " + std::to_string(tick) + ", variance function must use positive non zero amount.");
+			throw LanguageException("Run time error at tick " + std::to_string(tick) + ", variance function must use positive non zero amount.", amountNode);
 		}
 
 		if (value->value) {
@@ -1485,6 +1502,8 @@ const TypeSymbol* MA::semanticAnaylsis(MethodCallNode* methodCallNode, std::shar
 	const TypeSymbol* returnType = PositionalMethodSymbol::semanticAnaylsis(methodCallNode, symboltable);
 	value = boost::get<Float>(&methodCallNode->expressionToArgList["value"]->expressionValue);
 	amount = boost::get<Float>(&methodCallNode->expressionToArgList["amount"]->expressionValue);
+	amountNode = methodCallNode->expressionToArgList["amount"]->expression;
+
 	return returnType;
 }
 
@@ -1492,7 +1511,7 @@ ExpressionValue MA::interpret(const unsigned int tick) {
 	if (amount->value) {
 		int lookback = (int)*amount->value;
 		if (lookback <= 0) {
-			throw LanguageException("Run time error at tick " + std::to_string(tick) + ", moving average function must use positive non zero amount.");
+			throw LanguageException("Run time error at tick " + std::to_string(tick) + ", moving average function must use positive non zero amount.", amountNode);
 		}
 
 		if (value->value) {
@@ -1626,6 +1645,8 @@ const TypeSymbol* Falling::semanticAnaylsis(MethodCallNode* methodCallNode, std:
 	const TypeSymbol* returnType = PositionalMethodSymbol::semanticAnaylsis(methodCallNode, symboltable);
 	value = boost::get<Float>(&methodCallNode->expressionToArgList["value"]->expressionValue);
 	amount = boost::get<Float>(&methodCallNode->expressionToArgList["amount"]->expressionValue);
+	amountNode = methodCallNode->expressionToArgList["amount"]->expression;
+
 	return returnType;
 }
 
@@ -1633,7 +1654,7 @@ ExpressionValue Falling::interpret(const unsigned int tick) {
 	if (amount->value) {
 		int lookback = (int)*amount->value;
 		if (lookback <= 0) {
-			throw LanguageException("Run time error at tick " + std::to_string(tick) + ", falling function must use positive non zero amount.");
+			throw LanguageException("Run time error at tick " + std::to_string(tick) + ", falling function must use positive non zero amount.", amountNode);
 		}
 
 		if (value->value) {
@@ -1671,6 +1692,8 @@ const TypeSymbol* Rising::semanticAnaylsis(MethodCallNode* methodCallNode, std::
 	const TypeSymbol* returnType = PositionalMethodSymbol::semanticAnaylsis(methodCallNode, symboltable);
 	value = boost::get<Float>(&methodCallNode->expressionToArgList["value"]->expressionValue);
 	amount = boost::get<Float>(&methodCallNode->expressionToArgList["amount"]->expressionValue);
+	amountNode = methodCallNode->expressionToArgList["amount"]->expression;
+
 	return returnType;
 }
 
@@ -1678,7 +1701,7 @@ ExpressionValue Rising::interpret(const unsigned int tick) {
 	if (amount->value) {
 		int lookback = (int)*amount->value;
 		if (lookback <= 0) {
-			throw LanguageException("Run time error at tick " + std::to_string(tick) + ", rising function must use positive non zero amount.");
+			throw LanguageException("Run time error at tick " + std::to_string(tick) + ", rising function must use positive non zero amount.", amountNode);
 		}
 
 		if (value->value) {
@@ -1862,6 +1885,8 @@ const TypeSymbol* LinearRegression::semanticAnaylsis(MethodCallNode* methodCallN
 	const TypeSymbol* returnType = PositionalMethodSymbol::semanticAnaylsis(methodCallNode, symboltable);
 	data = boost::get<Float>(&methodCallNode->expressionToArgList["data"]->expressionValue);
 	bars = boost::get<Float>(&methodCallNode->expressionToArgList["bars"]->expressionValue);
+	barsNode = methodCallNode->expressionToArgList["bars"]->expression;
+
 	return returnType;
 }
 
@@ -1872,7 +1897,7 @@ ExpressionValue LinearRegression::interpret(const unsigned int tick) {
 	if (bars->value) {
 		int lookback = (int)*bars->value;
 		if (lookback <= 0) {
-			throw LanguageException("Run time error at tick " + std::to_string(tick) + ", linear regression function must use positive non zero amount.");
+			throw LanguageException("Run time error at tick " + std::to_string(tick) + ", linear regression function must use positive non zero amount.", barsNode);
 		}
 
 
@@ -1927,6 +1952,7 @@ const TypeSymbol* Correlation::semanticAnaylsis(MethodCallNode* methodCallNode, 
 	data1 = boost::get<Float>(&methodCallNode->expressionToArgList["data1"]->expressionValue);
 	data2 = boost::get<Float>(&methodCallNode->expressionToArgList["data2"]->expressionValue);
 	length = boost::get<Float>(&methodCallNode->expressionToArgList["length"]->expressionValue);
+	lengthNode = methodCallNode->expressionToArgList["length"]->expression;
 	return returnType;
 }
 
@@ -1938,7 +1964,7 @@ ExpressionValue Correlation::interpret(const unsigned int tick) {
 	if (length->value) {
 		float lookback = (int)*length->value;
 		if (lookback <= 0) {
-			throw LanguageException("Run time error at tick " + std::to_string(tick) + ", linear regression function must use positive non zero amount.");
+			throw LanguageException("Run time error at tick " + std::to_string(tick) + ", linear regression function must use positive non zero amount.", lengthNode);
 		}
 
 
@@ -2005,6 +2031,7 @@ const TypeSymbol* PreviousValue::semanticAnaylsis(MethodCallNode* methodCallNode
 	const TypeSymbol* returnType = PositionalMethodSymbol::semanticAnaylsis(methodCallNode, symboltable);
 	data = boost::get<Float>(&methodCallNode->expressionToArgList["data"]->expressionValue);
 	barsback = boost::get<Float>(&methodCallNode->expressionToArgList["barsback"]->expressionValue);
+	barsbackNode = methodCallNode->expressionToArgList["barsback"]->expression;
 	return returnType;
 }
 
@@ -2018,7 +2045,7 @@ ExpressionValue PreviousValue::interpret(const unsigned int tick) {
 	if (barsback->value) {
 		int lookback = (int)*barsback->value;
 		if (lookback <= 0) {
-			throw LanguageException("Run time error at tick " + std::to_string(tick) + ", previous function must use positive non zero amount.");
+			throw LanguageException("Run time error at tick " + std::to_string(tick) + ", previous function must use positive non zero amount.", barsbackNode);
 		}
 
 

@@ -8,7 +8,6 @@
 
 #define IMGUI_DEFINE_MATH_OPERATORS
 #include "imgui.h" // for imGui::GetCurrentWindow()
-
 // TODO
 // - multiline comments vs single-line: latter is blocking start of a ML
 
@@ -701,11 +700,19 @@ void TextEditor::HandleKeyboardInputs()
 	auto shift = io.KeyShift;
 	auto ctrl = io.ConfigMacOSXBehaviors ? io.KeySuper : io.KeyCtrl;
 	auto alt = io.ConfigMacOSXBehaviors ? io.KeyCtrl : io.KeyAlt;
+	if (!io.InputQueueCharacters.empty() ||
+		ImGui::IsKeyPressed(ImGui::GetKeyIndex(ImGuiKey_Delete)) ||
+		ImGui::IsKeyPressed(ImGui::GetKeyIndex(ImGuiKey_Enter)) ||
+		ImGui::IsKeyPressed(ImGui::GetKeyIndex(ImGuiKey_Tab)) ||
+		ImGui::IsKeyPressed(ImGui::GetKeyIndex(ImGuiKey_Backspace))) {
+		AnyKeyPressed();
+	}
 
 	if (ImGui::IsWindowFocused())
 	{
 		if (ImGui::IsWindowHovered())
 			ImGui::SetMouseCursor(ImGuiMouseCursor_TextInput);
+		
 		//ImGui::CaptureKeyboardFromApp(true);
 
 		io.WantCaptureKeyboard = true;
@@ -764,6 +771,7 @@ void TextEditor::HandleKeyboardInputs()
 
 		if (!IsReadOnly() && !io.InputQueueCharacters.empty())
 		{
+
 			for (int i = 0; i < io.InputQueueCharacters.Size; i++)
 			{
 				auto c = io.InputQueueCharacters[i];
@@ -941,8 +949,13 @@ void TextEditor::Render()
 				auto end = ImVec2(lineStartScreenPos.x + contentSize.x + 2.0f * scrollX, lineStartScreenPos.y + mCharAdvance.y);
 				drawList->AddRectFilled(start, end, mPalette[(int)PaletteIndex::ErrorMarker]);
 
-				if (ImGui::IsMouseHoveringRect(lineStartScreenPos, end))
-				{
+				/*
+				Always open no need to hover
+				*/
+					ImVec2 m = ImGui::GetIO().MousePos;
+					//Set Mouse Position
+					ImGui::GetIO().MousePos.x = lineStartScreenPos.x;
+					ImGui::GetIO().MousePos.y = lineStartScreenPos.y + mCharAdvance.y;
 					ImGui::BeginTooltip();
 					ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 0.2f, 0.2f, 1.0f));
 					ImGui::Text("Error at line %d:", errorIt->first);
@@ -952,7 +965,7 @@ void TextEditor::Render()
 					ImGui::Text("%s", errorIt->second.c_str());
 					ImGui::PopStyleColor();
 					ImGui::EndTooltip();
-				}
+					ImGui::GetIO().MousePos = m;
 			}
 
 			// Draw line number (right aligned)
@@ -2798,6 +2811,69 @@ const TextEditor::LanguageDefinition& TextEditor::LanguageDefinition::CPlusPlus(
 		langDef.mAutoIndentation = true;
 
 		langDef.mName = "C++";
+
+		inited = true;
+	}
+	return langDef;
+}
+#include "symboltable.h"
+#include "methodbucket.h"
+const TextEditor::LanguageDefinition& TextEditor::LanguageDefinition::CUSTOM()
+{
+	static bool inited = false;
+	static LanguageDefinition langDef;
+	if (!inited)
+	{
+		static const char* const cppKeywords[] = {
+			"false", "true",
+			"if"};
+		for (auto& k : cppKeywords)
+			langDef.mKeywords.insert(k);
+
+		
+		for (auto& k : SymbolTable::GLOBAL_SYMBOL_TABLE->methodTable)
+		{
+			Identifier id;
+			id.mDeclaration = k.second->asDocumentation().c_str();
+
+			langDef.mIdentifiers.insert(std::make_pair(std::string(k.first), id));
+		}
+
+		langDef.mTokenize = [](const char* in_begin, const char* in_end, const char*& out_begin, const char*& out_end, PaletteIndex& paletteIndex) -> bool
+		{
+			paletteIndex = PaletteIndex::Max;
+
+			while (in_begin < in_end && isascii(*in_begin) && isblank(*in_begin))
+				in_begin++;
+
+			if (in_begin == in_end)
+			{
+				out_begin = in_end;
+				out_end = in_end;
+				paletteIndex = PaletteIndex::Default;
+			}
+			else if (TokenizeCStyleString(in_begin, in_end, out_begin, out_end))
+				paletteIndex = PaletteIndex::String;
+			else if (TokenizeCStyleCharacterLiteral(in_begin, in_end, out_begin, out_end))
+				paletteIndex = PaletteIndex::CharLiteral;
+			else if (TokenizeCStyleIdentifier(in_begin, in_end, out_begin, out_end))
+				paletteIndex = PaletteIndex::Identifier;
+			else if (TokenizeCStyleNumber(in_begin, in_end, out_begin, out_end))
+				paletteIndex = PaletteIndex::Number;
+			else if (TokenizeCStylePunctuation(in_begin, in_end, out_begin, out_end))
+				paletteIndex = PaletteIndex::Punctuation;
+
+			return paletteIndex != PaletteIndex::Max;
+		};
+
+		langDef.mCommentStart = "//";
+		langDef.mCommentEnd = "\n";
+		langDef.mSingleLineComment = "//";
+
+		langDef.mCaseSensitive = true;
+		langDef.mAutoIndentation = true;
+
+		langDef.mName = "CUSTOM";
 
 		inited = true;
 	}

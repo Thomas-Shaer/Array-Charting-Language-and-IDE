@@ -14,17 +14,24 @@
 #include "inputdata.h"
 #include "datamanagerwindow.h"
 #include "dataparseexception.h"
+#include "languageexception.h"
 
-ImGui::FileBrowser TextEditorWindow::fbSave(ImGuiFileBrowserFlags_EnterNewFilename);
-ImGui::FileBrowser TextEditorWindow::fbOpen;
-TextEditor TextEditorWindow::textEditor;
+
+
 
 std::string TextEditorWindow::PLACEHOLDER_CODE = "plot(tick(), 0)\nmark(tick() > 5 && tick() < 20, tick(), 0)";
+bool TextEditorWindow::intellisenseSignal = false;
 
+
+TextEditorWindow::TextEditorWindow() : Window("Text Editor Window") {
+    initTextEditor();
+    initFileBrowserSave();
+    initFileBrowserOpen();
+}
 
 void TextEditorWindow::saveFile(const std::string& filePath) {
     nlohmann::json saveJSON;
-    saveJSON["code"] = TextEditorWindow::textEditor.GetText();
+    saveJSON["code"] = textEditor.GetText();
     saveJSON["variables"] = nlohmann::json::array();
 
     for (std::shared_ptr<InputData> data : DataManagerWindow::LOADED_IN_DATA) {
@@ -88,7 +95,6 @@ void TextEditorWindow::loadFile(const std::string& filePath) {
                     DataManagerWindow::createNewVariable(data, variableName);
                 }
                 catch (DataParseException e) {
-                    std::cout << e.message << std::endl;
                 }
             }
         }
@@ -124,10 +130,9 @@ void TextEditorWindow::initFileBrowserOpen() {
 
 
 void TextEditorWindow::initTextEditor() {
-    auto lang = TextEditor::LanguageDefinition::CPlusPlus();
+    auto lang = TextEditor::LanguageDefinition::CUSTOM();
     textEditor.SetLanguageDefinition(lang);
     textEditor.SetText(PLACEHOLDER_CODE);
-
 
     std::string currentCodeFile = Settings::settingsFile["currentCodeFile"].get<std::string>();
     if (currentCodeFile != "") {
@@ -141,15 +146,17 @@ void TextEditorWindow::executeCode(const std::string& code) {
     InterpreterContext context;
     context.execute(code);
 
-
-    if (!context.output->textOutput.empty()) {
-        OutputWindow::CODE_OUTPUT = "";
-        for (auto string : context.output->textOutput) {
-            OutputWindow::CODE_OUTPUT += string + "\n";
-            
-        }
+    textEditor.SetErrorMarkers({});
+    OutputWindow::CODE_OUTPUT = "";
+    if (context.output->langExcept) {
+        OutputWindow::CODE_OUTPUT += context.output->langExcept->toString(code);
+        TextEditor::ErrorMarkers markers;
+        markers.insert(std::make_pair<int, std::string>(static_cast<int>(context.output->langExcept->sourceLocation.begin.line) + 1, context.output->langExcept->message.c_str()));
+        textEditor.SetErrorMarkers(markers);
         OutputWindow::SnapToOutputTab();
+
     }
+
 
     if (context.ast) {
         OutputWindow::CODE_OUTPUT_RECONSTRUCTION = context.ast->toString();
@@ -163,13 +170,49 @@ void TextEditorWindow::executeCode(const std::string& code) {
 }
 
 
+
+void TextEditorWindow::executeIntellisense(const std::string& code) {
+
+    InterpreterContext context;
+
+    context.intellisense(code);
+
+    textEditor.SetErrorMarkers({});
+    OutputWindow::CODE_OUTPUT = "";
+    if (context.output->langExcept) {
+        OutputWindow::CODE_OUTPUT += context.output->langExcept->toString(code);
+        TextEditor::ErrorMarkers markers;
+        markers.insert(std::make_pair<int, std::string>(static_cast<int>(context.output->langExcept->sourceLocation.begin.line) + 1, context.output->langExcept->message.c_str()));
+        textEditor.SetErrorMarkers(markers);
+    }
+
+    if (context.ast) {
+        OutputWindow::CODE_OUTPUT_RECONSTRUCTION = context.ast->toString();
+    }
+    if (context.symboltable) {
+        OutputWindow::CODE_OUTPUT_VARIABLES = context.symboltable->variablesToVector(true);
+    }
+    //ChartWindow::getOrCreateChartWindow(0)->CHART_LINE_DATA = context.output->chartData;
+    //ChartWindow::getOrCreateChartWindow(0)->CHART_MARK_DATA = context.output->markData;
+}
+
+void TextEditor::AnyKeyPressed() {
+    TextEditorWindow::intellisenseSignal = true;
+}
+
+
+
 void TextEditorWindow::ShowWindow() {
+    
     ImGui::Begin("Code Input", &show, ImGuiWindowFlags_HorizontalScrollbar | ImGuiWindowFlags_MenuBar);
+    
+    
     ImGui::SetWindowSize(ImVec2(800, 600), ImGuiCond_FirstUseEver);
     ImGui::SetWindowPos(ImVec2(10, 600), ImGuiCond_FirstUseEver);
 
     std::string currentCodeFile = Settings::settingsFile["currentCodeFile"].get<std::string>();
 
+    static bool intellisense = Settings::settingsFile["intellisense"].get<bool>();
 
     bool openNewFile = false;
     bool openLoadFile = false;
@@ -177,6 +220,7 @@ void TextEditorWindow::ShowWindow() {
     bool openSaveAsFile = false;
 
     bool noFile = currentCodeFile == "";
+    
 
     if (ImGui::BeginMenuBar()) {
         if (ImGui::BeginMenu("File")) {
@@ -186,7 +230,22 @@ void TextEditorWindow::ShowWindow() {
             ImGui::MenuItem("Save as...", NULL, &openSaveAsFile);
             ImGui::EndMenu();
         }
+        if (ImGui::BeginMenu("Options")) {
+            if(ImGui::MenuItem("Intellisense", NULL, &intellisense)) {
+                textEditor.SetErrorMarkers({});
+                Settings::settingsFile["intellisense"] = intellisense;
+            }
+            ImGui::EndMenu();
+        }
         ImGui::EndMenuBar();
+    }
+
+
+    if (intellisense) {
+        if (intellisenseSignal) {
+            executeIntellisense(TextEditorWindow::textEditor.GetText());
+            intellisenseSignal = false;
+        }
     }
 
     if (openSaveAsFile) {
