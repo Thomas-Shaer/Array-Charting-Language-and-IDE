@@ -7158,7 +7158,7 @@ bool ImGui::MenuItem(const char* label, const char* shortcut, bool* p_selected, 
 
 struct ImGuiTabBarSection
 {
-    int                 TabCount;               // Number of tabs in this section.
+    int                 TabCount;               // NullableValueNumber of tabs in this section.
     float               Width;                  // Sum of width of tabs in this section (after shrinking down)
     float               Spacing;                // Horizontal spacing at the end of the section.
 

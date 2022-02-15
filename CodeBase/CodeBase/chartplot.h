@@ -1,7 +1,7 @@
 #pragma once
 #include <vector>
 #include <string>
-#include "float.h"
+#include "nullablevaluenumber.h"
 
 /*
 Container for a series to be plotted on the chart.
@@ -15,7 +15,7 @@ public:
 	ChartPlot(std::string _plotName, unsigned int amountTicks);
 	
 	static std::vector<float> createEmptyVector(unsigned int amountTicks);
-	static std::vector<Float> createEmptyVectorNAFloat(unsigned int amountTicks);
+	static std::vector<NullableValueNumber> createEmptyVectorNAFloat(unsigned int amountTicks);
 	// plot data
 	std::vector<float> data;
 	

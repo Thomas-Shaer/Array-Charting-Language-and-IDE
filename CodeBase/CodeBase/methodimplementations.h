@@ -21,8 +21,8 @@ public:
 	}
 
 private:
-	Float* value1;
-	Float* value2;
+	NullableValueNumber* value1;
+	NullableValueNumber* value2;
 };
 
 
@@ -38,7 +38,7 @@ public:
 	}
 
 private:
-	Float* value;
+	NullableValueNumber* value;
 };
 
 class UnaryMinusOperator : public PositionalMethodSymbol {
@@ -52,7 +52,7 @@ public:
 		return new UnaryMinusOperator(name);
 	}
 private:
-	Float* value;
+	NullableValueNumber* value;
 };
 
 
@@ -66,7 +66,7 @@ public:
 		return new UnaryNotOperator(name);
 	}
 private:
-	Boolean* value;
+	NullableValueBoolean* value;
 };
 
 
@@ -80,8 +80,8 @@ public:
 		return new BinaryPlusOperator(name);
 	}
 private:
-	Float* lhsValue;
-	Float* rhsValue;
+	NullableValueNumber* lhsValue;
+	NullableValueNumber* rhsValue;
 };
 
 class BinaryMinusOperator : public PositionalMethodSymbol {
@@ -94,8 +94,8 @@ public:
 		return new BinaryMinusOperator(name);
 	}
 private:
-	Float* lhsValue;
-	Float* rhsValue;
+	NullableValueNumber* lhsValue;
+	NullableValueNumber* rhsValue;
 };
 
 class BinaryDivideOperator : public PositionalMethodSymbol {
@@ -108,8 +108,8 @@ public:
 		return new BinaryDivideOperator(name);
 	}
 private:
-	Float* lhsValue;
-	Float* rhsValue;
+	NullableValueNumber* lhsValue;
+	NullableValueNumber* rhsValue;
 };
 
 class BinaryMultiplyOperator : public PositionalMethodSymbol {
@@ -122,8 +122,8 @@ public:
 		return new BinaryMultiplyOperator(name);
 	}
 private:
-	Float* lhsValue;
-	Float* rhsValue;
+	NullableValueNumber* lhsValue;
+	NullableValueNumber* rhsValue;
 };
 
 
@@ -137,8 +137,8 @@ public:
 		return new BinaryModOperator(name);
 	}
 private:
-	Float* lhsValue;
-	Float* rhsValue;
+	NullableValueNumber* lhsValue;
+	NullableValueNumber* rhsValue;
 };
 
 class BinaryPowOperator : public PositionalMethodSymbol {
@@ -151,8 +151,8 @@ public:
 		return new BinaryPowOperator(name);
 	}
 private:
-	Float* lhsValue;
-	Float* rhsValue;
+	NullableValueNumber* lhsValue;
+	NullableValueNumber* rhsValue;
 };
 
 class BinaryLessOperator : public PositionalMethodSymbol {
@@ -165,8 +165,8 @@ public:
 		return new BinaryLessOperator(name);
 	}
 private:
-	Float* lhsValue;
-	Float* rhsValue;
+	NullableValueNumber* lhsValue;
+	NullableValueNumber* rhsValue;
 };
 
 class BinaryLessEqualOperator : public PositionalMethodSymbol {
@@ -179,8 +179,8 @@ public:
 		return new BinaryLessEqualOperator(name);
 	}
 private:
-	Float* lhsValue;
-	Float* rhsValue;
+	NullableValueNumber* lhsValue;
+	NullableValueNumber* rhsValue;
 };
 
 class BinaryGreaterOperator : public PositionalMethodSymbol {
@@ -193,8 +193,8 @@ public:
 		return new BinaryGreaterOperator(name);
 	}
 private:
-	Float* lhsValue;
-	Float* rhsValue;
+	NullableValueNumber* lhsValue;
+	NullableValueNumber* rhsValue;
 };
 
 class BinaryGreaterEqualOperator : public PositionalMethodSymbol {
@@ -207,8 +207,8 @@ public:
 		return new BinaryGreaterEqualOperator(name);
 	}
 private:
-	Float* lhsValue;
-	Float* rhsValue;
+	NullableValueNumber* lhsValue;
+	NullableValueNumber* rhsValue;
 };
 
 class BinaryAndOperator : public PositionalMethodSymbol {
@@ -221,8 +221,8 @@ public:
 		return new BinaryAndOperator(name);
 	}
 private:
-	Boolean* lhsValue;
-	Boolean* rhsValue;
+	NullableValueBoolean* lhsValue;
+	NullableValueBoolean* rhsValue;
 };
 
 class BinaryOrOperator : public PositionalMethodSymbol {
@@ -235,8 +235,8 @@ public:
 		return new BinaryOrOperator(name);
 	}
 private:
-	Boolean* lhsValue;
-	Boolean* rhsValue;
+	NullableValueBoolean* lhsValue;
+	NullableValueBoolean* rhsValue;
 };
 
 class BinaryBooleanEqualOperator : public PositionalMethodSymbol {
@@ -249,8 +249,8 @@ public:
 		return new BinaryBooleanEqualOperator(name);
 	}
 private:
-	Boolean* lhsValue;
-	Boolean* rhsValue;
+	NullableValueBoolean* lhsValue;
+	NullableValueBoolean* rhsValue;
 };
 
 class BinaryFloatEqualOperator : public PositionalMethodSymbol {
@@ -263,8 +263,8 @@ public:
 		return new BinaryFloatEqualOperator(name);
 	}
 private:
-	Float* lhsValue;
-	Float* rhsValue;
+	NullableValueNumber* lhsValue;
+	NullableValueNumber* rhsValue;
 };
 
 class BinaryBooleanNotEqualOperator : public PositionalMethodSymbol {
@@ -277,8 +277,8 @@ public:
 		return new BinaryBooleanNotEqualOperator(name);
 	}
 private:
-	Boolean* lhsValue;
-	Boolean* rhsValue;
+	NullableValueBoolean* lhsValue;
+	NullableValueBoolean* rhsValue;
 };
 
 
@@ -292,8 +292,8 @@ public:
 		return new BinaryFloatNotEqualOperator(name);
 	}
 private:
-	Float* lhsValue;
-	Float* rhsValue;
+	NullableValueNumber* lhsValue;
+	NullableValueNumber* rhsValue;
 };
 
 
@@ -321,9 +321,9 @@ public:
 	}
 private:
 	std::shared_ptr<ChartPlot> plotdata;
-	Float* value;
-	String* lineName;
-	String* chartId;
+	NullableValueNumber* value;
+	NullableValueString* lineName;
+	NullableValueString* chartId;
 };
 
 class Mark : public KeywordMethodSymbol {
@@ -337,10 +337,10 @@ public:
 private:
 	std::shared_ptr<ChartPlot> plotdata;
 
-	Boolean* when;
-	Float* value;
-	String* lineName;
-	String* chartId;
+	NullableValueBoolean* when;
+	NullableValueNumber* value;
+	NullableValueString* lineName;
+	NullableValueString* chartId;
 };
 
 
@@ -388,9 +388,9 @@ public:
 		return new ValueWhen();
 	}
 private:
-	ExpressionValue currentValue{ Float() };
-	Boolean* when;
-	Float* value;
+	ExpressionValue currentValue{ NullableValueNumber() };
+	NullableValueBoolean* when;
+	NullableValueNumber* value;
 };
 
 class Minimum : public PositionalMethodSymbol {
@@ -403,8 +403,8 @@ public:
 		return new Minimum();
 	}
 private:
-	ExpressionValue minimumValue{ Float(std::numeric_limits<float>::max()) };
-	Float* value;
+	ExpressionValue minimumValue{ NullableValueNumber(std::numeric_limits<float>::max()) };
+	NullableValueNumber* value;
 
 };
 
@@ -421,8 +421,8 @@ public:
 	}
 private:
 	std::deque<float> buffer;
-	Float* value;
-	Float* bars_back;
+	NullableValueNumber* value;
+	NullableValueNumber* bars_back;
 	Expression* barsBackNode;
 
 };
@@ -440,8 +440,8 @@ public:
 		return new Maximum();
 	}
 private:
-	ExpressionValue maximumValue{ Float(std::numeric_limits<float>::min()) };
-	Float* value;
+	ExpressionValue maximumValue{ NullableValueNumber(std::numeric_limits<float>::min()) };
+	NullableValueNumber* value;
 };
 
 class MaximumBars : public PositionalMethodSymbol {
@@ -456,8 +456,8 @@ public:
 private:
 	std::deque<float> buffer;
 
-	Float* value;
-	Float* bars_back;
+	NullableValueNumber* value;
+	NullableValueNumber* bars_back;
 	Expression* barsBackNode;
 
 };
@@ -474,7 +474,7 @@ public:
 	}
 private:
 	float sum = 0;
-	Float* value;
+	NullableValueNumber* value;
 
 };
 
@@ -492,8 +492,8 @@ private:
 	std::deque<float> buffer;
 
 
-	Float* value;
-	Float* bars_back;
+	NullableValueNumber* value;
+	NullableValueNumber* bars_back;
 	Expression* barsBackNode;
 
 };
@@ -511,7 +511,7 @@ public:
 private:
 	float amountSoFar = 0;
 	float sum = 0;
-	Float* value;
+	NullableValueNumber* value;
 
 };
 
@@ -548,7 +548,7 @@ public:
 		return new Round();
 	}
 private:
-	Float* value;
+	NullableValueNumber* value;
 };
 
 
@@ -562,7 +562,7 @@ public:
 		return new Floor();
 	}
 private:
-	Float* value;
+	NullableValueNumber* value;
 };
 
 class Ceil : public PositionalMethodSymbol {
@@ -575,7 +575,7 @@ public:
 		return new Ceil();
 	}
 private:
-	Float* value;
+	NullableValueNumber* value;
 };
 
 class FloatMax : public PositionalMethodSymbol {
@@ -612,7 +612,7 @@ public:
 
 private:
 	int count = 0;
-	Boolean* value;
+	NullableValueBoolean* value;
 };
 
 
@@ -626,7 +626,7 @@ public:
 		return new FloatCast();
 	}
 private:
-	Boolean* value;
+	NullableValueBoolean* value;
 };
 
 class BooleanCast : public PositionalMethodSymbol {
@@ -639,7 +639,7 @@ public:
 		return new BooleanCast();
 	}
 private:
-	Float* value;
+	NullableValueNumber* value;
 };
 
 
@@ -653,7 +653,7 @@ public:
 		return new Absolute();
 	}
 private:
-	Float* value;
+	NullableValueNumber* value;
 };
 
 
@@ -667,7 +667,7 @@ public:
 		return new LogE();
 	}
 private:
-	Float* value;
+	NullableValueNumber* value;
 	Expression* valueNode;
 };
 
@@ -681,8 +681,8 @@ public:
 		return new LogBase();
 	}
 private:
-	Float* value;
-	Float* base;
+	NullableValueNumber* value;
+	NullableValueNumber* base;
 	Expression* valueNode;
 	Expression* baseNode;
 };
@@ -698,7 +698,7 @@ public:
 		return new SquareRoot();
 	}
 private:
-	Float* value;
+	NullableValueNumber* value;
 	Expression* valueNode;
 };
 
@@ -713,8 +713,8 @@ public:
 		return new LCM();
 	}
 private:
-	Float* value1;
-	Float* value2;
+	NullableValueNumber* value1;
+	NullableValueNumber* value2;
 };
 
 
@@ -728,8 +728,8 @@ public:
 		return new GCD();
 	}
 private:
-	Float* value1;
-	Float* value2;
+	NullableValueNumber* value1;
+	NullableValueNumber* value2;
 };
 
 
@@ -745,8 +745,8 @@ public:
 	}
 private:
 	std::deque<float> buffer;
-	Float* value;
-	Float* amount;
+	NullableValueNumber* value;
+	NullableValueNumber* amount;
 	Expression* amountNode;
 };
 
@@ -761,8 +761,8 @@ public:
 	}
 private:
 	std::deque<float> buffer;
-	Float* value;
-	Float* amount;
+	NullableValueNumber* value;
+	NullableValueNumber* amount;
 	Expression* amountNode;
 };
 
@@ -778,8 +778,8 @@ public:
 	}
 private:
 	std::deque<float> buffer;
-	Float* value;
-	Float* amount;
+	NullableValueNumber* value;
+	NullableValueNumber* amount;
 	Expression* amountNode;
 };
 
@@ -794,7 +794,7 @@ public:
 		return new IsNANF();
 	}
 private:
-	Float* value;
+	NullableValueNumber* value;
 };
 
 
@@ -809,7 +809,7 @@ public:
 		return new IsNANB();
 	}
 private:
-	Boolean* value;
+	NullableValueBoolean* value;
 };
 
 class IsNANS : public PositionalMethodSymbol {
@@ -822,7 +822,7 @@ public:
 		return new IsNANS();
 	}
 private:
-	String* value;
+	NullableValueString* value;
 };
 
 
@@ -836,8 +836,8 @@ public:
 		return new Random();
 	}
 private:
-	Float* minvalue;
-	Float* maxvalue;
+	NullableValueNumber* minvalue;
+	NullableValueNumber* maxvalue;
 };
 
 
@@ -854,8 +854,8 @@ public:
 private:
 	float currentMin = std::numeric_limits<float>::max();
 	int inRow = 0;
-	Float* value;
-	Float* amount;
+	NullableValueNumber* value;
+	NullableValueNumber* amount;
 	Expression* amountNode;
 };
 
@@ -871,8 +871,8 @@ public:
 private:
 	float currentMax = std::numeric_limits<float>::min();
 	int inRow = 0;
-	Float* value;
-	Float* amount;
+	NullableValueNumber* value;
+	NullableValueNumber* amount;
 	Expression* amountNode;
 };
 
@@ -887,7 +887,7 @@ public:
 		return new Cosine();
 	}
 private:
-	Float* radians;
+	NullableValueNumber* radians;
 
 };
 
@@ -903,7 +903,7 @@ public:
 		return new Tangent();
 	}
 private:
-	Float* radians;
+	NullableValueNumber* radians;
 };
 
 
@@ -917,7 +917,7 @@ public:
 		return new Sine();
 	}
 private:
-	Float* radians;
+	NullableValueNumber* radians;
 };
 
 class ArcCosine : public PositionalMethodSymbol {
@@ -930,7 +930,7 @@ public:
 		return new ArcCosine();
 	}
 private:
-	Float* radians;
+	NullableValueNumber* radians;
 };
 
 
@@ -944,7 +944,7 @@ public:
 		return new ArcTan();
 	}
 private:
-	Float* radians;
+	NullableValueNumber* radians;
 };
 
 
@@ -958,7 +958,7 @@ public:
 		return new ArcSine();
 	}
 private:
-	Float* radians;
+	NullableValueNumber* radians;
 };
 
 
@@ -974,8 +974,8 @@ public:
 private:
 	std::deque<float> bufferX;
 	std::deque<float> bufferY;
-	Float* data;
-	Float* bars;
+	NullableValueNumber* data;
+	NullableValueNumber* bars;
 	Expression* barsNode;
 };
 
@@ -991,9 +991,9 @@ public:
 private:
 	std::deque<float> values1;
 	std::deque<float> values2;
-	Float* data1;
-	Float* data2;
-	Float* length;
+	NullableValueNumber* data1;
+	NullableValueNumber* data2;
+	NullableValueNumber* length;
 	Expression* lengthNode;
 
 };
@@ -1010,9 +1010,9 @@ public:
 	}
 private:
 
-	std::vector<Float> values;
-	Float* data;
-	Float* barsback;
+	std::vector<NullableValueNumber> values;
+	NullableValueNumber* data;
+	NullableValueNumber* barsback;
 	Expression* barsbackNode;
 };
 
@@ -1030,7 +1030,7 @@ public:
 private:
 
 	std::vector<float> values;
-	Float* data;
+	NullableValueNumber* data;
 
 };
 
@@ -1048,8 +1048,8 @@ public:
 private:
 
 	std::vector<float> values;
-	Float* data;
-	Float* barsback;
+	NullableValueNumber* data;
+	NullableValueNumber* barsback;
 
 };
 
@@ -1065,7 +1065,7 @@ public:
 		return new IsPrime();
 	}
 private:
-	Float* data;
+	NullableValueNumber* data;
 };
 
 
@@ -1080,5 +1080,5 @@ public:
 		return new IsTriangle();
 	}
 private:
-	Float* data;
+	NullableValueNumber* data;
 };

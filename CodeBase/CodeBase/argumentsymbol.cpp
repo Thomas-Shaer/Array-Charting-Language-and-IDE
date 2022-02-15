@@ -14,8 +14,8 @@ ArgumentSymbol::ArgumentSymbol(const TypeSymbol* _type, Expression* _expression)
 		if (_type == TypeInstances::GetStringConstantInstance()) {
 			expressionValue = static_cast<StringNode*>(expression)->value;
 		}
-		if (_type == TypeInstances::GetFloatConstantInstance()) {
-			expressionValue = Float(static_cast<NumberNode*>(expression)->number);
+		if (_type == TypeInstances::GetNumberConstantInstance()) {
+			expressionValue = NullableValueNumber(static_cast<NumberNode*>(expression)->number);
 		}
 	}
 }

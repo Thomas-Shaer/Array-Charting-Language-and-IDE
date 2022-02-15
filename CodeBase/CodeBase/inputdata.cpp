@@ -6,13 +6,13 @@
 #include <boost/regex.hpp>
 #include "dataparseexception.h"
 #include "typesymbol.h"
+
+
+
+
 //https://stackoverflow.com/questions/4654636/how-to-determine-if-a-string-is-a-number-with-c
 
-/*
-Returns a ExpressionValue vector and TypeSymbol given a vector of strings.
-Will throw a DataParseException if the parsed strings are incompatible
-*/
-std::pair<std::vector<ExpressionValue>, TypeSymbol*> parse(std::vector<std::string> rawValues, const std::string& TrueString, const std::string& FalseString, const std::string& NANString) {
+std::pair<std::vector<ExpressionValue>, TypeSymbol*> InputData::parse(std::vector<std::string> rawValues, const std::string& TrueString, const std::string& FalseString, const std::string& NANString) {
     // type of series
     TypeSymbol* seriesType = nullptr;
     // list because we can add to back and front
@@ -41,14 +41,14 @@ std::pair<std::vector<ExpressionValue>, TypeSymbol*> parse(std::vector<std::stri
         */
         else if (cell == FalseString || cell == TrueString) {
             celltype = TypeInstances::GetBooleanInstance();
-            values.push_back(Boolean(cell == TrueString));
+            values.push_back(NullableValueBoolean(cell == TrueString));
         }
         /*
         Record float
         */
         else if (boost::regex_match(cell, boost::regex("-?[0-9]+([\.][0-9]+)?"))) {
-            celltype = TypeInstances::GetFloatInstance();
-            values.push_back(Float(std::stof(cell)));
+            celltype = TypeInstances::GetNumberInstance();
+            values.push_back(NullableValueNumber(std::stof(cell)));
         }
         /*
         Any other we can't recognise is a error.
@@ -62,7 +62,7 @@ std::pair<std::vector<ExpressionValue>, TypeSymbol*> parse(std::vector<std::stri
             */
             if (!seriesType) {
                 seriesType = celltype;
-                nanType = seriesType == TypeInstances::GetBooleanInstance() ? ExpressionValue(Boolean()) : ExpressionValue(Float());
+                nanType = seriesType == TypeInstances::GetBooleanInstance() ? ExpressionValue(NullableValueBoolean()) : ExpressionValue(NullableValueNumber());
             }
             /*
             If the current cells type is not the same as the first seen type, throw a error.
@@ -98,8 +98,19 @@ std::pair<std::vector<ExpressionValue>, TypeSymbol*> parse(std::vector<std::stri
 }
 
 
+std::string InputData::ImportPolicyToString(const ImportPolicy ip) {
+    return ip == ImportPolicy::COLUMN_WISE ? "column-wise" : "row-wise";
+}
+
+ImportPolicy InputData::StringToImportPolicy(const std::string& name) {
+    return name == "column-wise" ? ImportPolicy::COLUMN_WISE : ImportPolicy::ROW_WISE;
+}
+
 std::vector<std::shared_ptr<InputData>> InputData::LoadInputData(const ImportPolicy importPolicy, std::string name, std::string filename, const std::string& TrueString, const std::string& FalseString, const std::string& NANString) {
     
+    /*
+    Row wise parsing of data.
+    */
     std::vector<std::shared_ptr<InputData>> series;
     if (importPolicy == ImportPolicy::ROW_WISE) {
         std::ifstream fin(name);
@@ -117,22 +128,15 @@ std::vector<std::shared_ptr<InputData>> InputData::LoadInputData(const ImportPol
             }
            
             std::pair<std::vector<ExpressionValue>, TypeSymbol*> parsedResults = parse(row_data, TrueString, FalseString, NANString);
-            std::shared_ptr<InputData> newdata = std::make_shared<InputData>();
-            
-            newdata->name = firstWord;
-            newdata->path = name;
-            newdata->fileName = filename;
-            newdata->type = parsedResults.second;
-            newdata->data = parsedResults.first;
-            newdata->importPolicy = ImportPolicy::ROW_WISE;
-            newdata->trueLiteral = TrueString;
-            newdata->falseLiteral = FalseString;
-            newdata->nanLiteral = NANString;
+            std::shared_ptr<InputData> newdata = std::make_shared<InputData>(firstWord, filename, name, TrueString, FalseString, NANString, parsedResults.first, parsedResults.second, ImportPolicy::ROW_WISE);
+
 
             series.push_back(newdata);
         }
     }
-
+    /*
+    Column wise parsing of data.
+    */
     else {
         unsigned int row = 0;
         std::map<std::string, std::vector<std::string>> columnData;
@@ -166,16 +170,7 @@ std::vector<std::shared_ptr<InputData>> InputData::LoadInputData(const ImportPol
         // loop through all series and register them
         for (const auto& it : columnData) {
             std::pair<std::vector<ExpressionValue>, TypeSymbol*> parsedResults = parse(it.second, TrueString, FalseString, NANString);
-            std::shared_ptr<InputData> newdata = std::make_shared<InputData>();
-            newdata->name = it.first;
-            newdata->path = name;
-            newdata->fileName = filename;
-            newdata->type = parsedResults.second;
-            newdata->data = parsedResults.first;
-            newdata->importPolicy = ImportPolicy::COLUMN_WISE;
-            newdata->trueLiteral = TrueString;
-            newdata->falseLiteral = FalseString;
-            newdata->nanLiteral = NANString;
+            std::shared_ptr<InputData> newdata = std::make_shared<InputData>(it.first, filename, name, TrueString, FalseString, NANString, parsedResults.first, parsedResults.second, ImportPolicy::COLUMN_WISE);
             series.push_back(newdata);
         }
 

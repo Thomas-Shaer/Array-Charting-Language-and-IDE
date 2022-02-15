@@ -23,6 +23,9 @@ std::string TextEditorWindow::PLACEHOLDER_CODE = "plot(tick(), 0)\nmark(tick() >
 bool TextEditorWindow::intellisenseSignal = false;
 
 
+
+
+
 TextEditorWindow::TextEditorWindow() : Window("Text Editor Window") {
     initTextEditor();
     initFileBrowserSave();
@@ -41,7 +44,7 @@ void TextEditorWindow::saveFile(const std::string& filePath) {
             variableJSON["fileName"] = data->fileName;
             variableJSON["path"] = data->path;
             variableJSON["dataName"] = data->name;
-            variableJSON["policy"] = ImportPolicyToString(data->importPolicy);
+            variableJSON["policy"] = InputData::ImportPolicyToString(data->importPolicy);
             variableJSON["trueImportString"] = data->trueLiteral;
             variableJSON["falseImportString"] = data->falseLiteral;
             variableJSON["NANImportString"] = data->nanLiteral;
@@ -78,7 +81,7 @@ void TextEditorWindow::loadFile(const std::string& filePath) {
         */
         ImportPolicy importPolicy;
         for (nlohmann::json path : Settings::settingsFile["loadedInData"].get<std::vector<nlohmann::json>>()) {
-            importPolicy = StringToImportPolicy(path["policy"]);
+            importPolicy = InputData::StringToImportPolicy(path["policy"]);
             if (path["path"] == filepath) {
                 dataLoadedIn = true;
                 break;

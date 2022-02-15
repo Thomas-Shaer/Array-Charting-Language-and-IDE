@@ -16,14 +16,14 @@ MethodAverage::MethodAverage() : PositionalMethodSymbol("avg",
 	"Returns the average of two numbers.",
 	{
 
-		ParameterSymbol(TypeInstances::GetFloatInstance(), "value1", "Argument 1 for average."),
-ParameterSymbol(TypeInstances::GetFloatInstance(), "value2", "Argument 2 for average.")
-	}, ReturnSymbol(TypeInstances::GetFloatInstance(), "The average")) {}
+		ParameterSymbol(TypeInstances::GetNumberInstance(), "value1", "Argument 1 for average."),
+ParameterSymbol(TypeInstances::GetNumberInstance(), "value2", "Argument 2 for average.")
+	}, ReturnSymbol(TypeInstances::GetNumberInstance(), "The average")) {}
 
 const TypeSymbol* MethodAverage::semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable) {
 	const TypeSymbol* returnType = PositionalMethodSymbol::semanticAnaylsis(methodCallNode, symboltable);
-	value1 = boost::get<Float>(&methodCallNode->expressionToArgList["value1"]->expressionValue);
-	value2 = boost::get<Float>(&methodCallNode->expressionToArgList["value2"]->expressionValue);
+	value1 = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["value1"]->expressionValue);
+	value2 = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["value2"]->expressionValue);
 	return returnType;
 }
 
@@ -32,31 +32,31 @@ ExpressionValue MethodAverage::interpret(const unsigned int tick) {
 
 	// if any argument is a NAN return NAN
 	if (!value1->value || !value2->value) {
-		return Float();
+		return NullableValueNumber();
 	}
-	return Float((*value1->value + *value2->value) / 2);
+	return NullableValueNumber((*value1->value + *value2->value) / 2);
 }
 
 
 UnaryPlusOperator::UnaryPlusOperator(const std::string& _name) : PositionalMethodSymbol(_name,
 	"Propagates a expression.",
 	{
-	ParameterSymbol(TypeInstances::GetFloatInstance(), "expr", "The expression to progate.")
-	}, ReturnSymbol(TypeInstances::GetFloatInstance(), "Result of the propogation")) {}
+	ParameterSymbol(TypeInstances::GetNumberInstance(), "expr", "The expression to progate.")
+	}, ReturnSymbol(TypeInstances::GetNumberInstance(), "Result of the propogation")) {}
 
 
 const TypeSymbol* UnaryPlusOperator::semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable) {
 	const TypeSymbol* returnType = PositionalMethodSymbol::semanticAnaylsis(methodCallNode, symboltable);
-	value = boost::get<Float>(&methodCallNode->expressionToArgList["expr"]->expressionValue);
+	value = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["expr"]->expressionValue);
 	return returnType;
 }
 
 ExpressionValue UnaryPlusOperator::interpret(const unsigned int tick) {
 	// if arg is nan return a nan
 	if (!value->value) {
-		return Float();
+		return NullableValueNumber();
 	}
-	return Float(+*value->value);
+	return NullableValueNumber(+*value->value);
 }
 
 
@@ -65,14 +65,14 @@ UnaryMinusOperator::UnaryMinusOperator(const std::string& _name) : PositionalMet
 	"Negates a expression.",
 
 	{
-	ParameterSymbol(TypeInstances::GetFloatInstance(), "expr", "The expression to negate.")
+	ParameterSymbol(TypeInstances::GetNumberInstance(), "expr", "The expression to negate.")
 
-	}, ReturnSymbol(TypeInstances::GetFloatInstance(), "Result of the negation")) {}
+	}, ReturnSymbol(TypeInstances::GetNumberInstance(), "Result of the negation")) {}
 
 
 const TypeSymbol* UnaryMinusOperator::semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable) {
 	const TypeSymbol* returnType = PositionalMethodSymbol::semanticAnaylsis(methodCallNode, symboltable);
-	value = boost::get<Float>(&methodCallNode->expressionToArgList["expr"]->expressionValue);
+	value = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["expr"]->expressionValue);
 
 	return returnType;
 
@@ -82,9 +82,9 @@ const TypeSymbol* UnaryMinusOperator::semanticAnaylsis(MethodCallNode* methodCal
 ExpressionValue UnaryMinusOperator::interpret(const unsigned int tick) {
 	// if arg is nan return a nan
 	if (!value->value) {
-		return Float();
+		return NullableValueNumber();
 	}
-	return Float(-*value->value);
+	return NullableValueNumber(-*value->value);
 }
 
 UnaryNotOperator::UnaryNotOperator(const std::string& _name) : PositionalMethodSymbol(_name,
@@ -97,7 +97,7 @@ UnaryNotOperator::UnaryNotOperator(const std::string& _name) : PositionalMethodS
 
 const TypeSymbol* UnaryNotOperator::semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable) {
 	const TypeSymbol* returnType = PositionalMethodSymbol::semanticAnaylsis(methodCallNode, symboltable);
-	value = boost::get<Boolean>(&methodCallNode->expressionToArgList["expr"]->expressionValue);
+	value = boost::get<NullableValueBoolean>(&methodCallNode->expressionToArgList["expr"]->expressionValue);
 	return returnType;
 
 }
@@ -105,24 +105,24 @@ const TypeSymbol* UnaryNotOperator::semanticAnaylsis(MethodCallNode* methodCallN
 ExpressionValue UnaryNotOperator::interpret(const unsigned int tick) {
 	// if arg is nan return a nan
 	if (!value->value) {
-		return Boolean();
+		return NullableValueBoolean();
 	}
-	return Boolean(!*value->value);
+	return NullableValueBoolean(!*value->value);
 }
 
 
 BinaryPlusOperator::BinaryPlusOperator(const std::string& _name) : PositionalMethodSymbol(_name,
 	"Adds together two numbers.",
 	{
-	ParameterSymbol(TypeInstances::GetFloatInstance(), "lhs", "The left hand side of the addition operation."),
-	ParameterSymbol(TypeInstances::GetFloatInstance(), "rhs", "The rhs hand side of the addition operation.")
-	}, ReturnSymbol(TypeInstances::GetFloatInstance(), "Result of the addition")) {}
+	ParameterSymbol(TypeInstances::GetNumberInstance(), "lhs", "The left hand side of the addition operation."),
+	ParameterSymbol(TypeInstances::GetNumberInstance(), "rhs", "The rhs hand side of the addition operation.")
+	}, ReturnSymbol(TypeInstances::GetNumberInstance(), "Result of the addition")) {}
 
 
 const TypeSymbol* BinaryPlusOperator::semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable) {
 	const TypeSymbol* returnType = PositionalMethodSymbol::semanticAnaylsis(methodCallNode, symboltable);
-	lhsValue = boost::get<Float>(&methodCallNode->expressionToArgList["lhs"]->expressionValue);
-	rhsValue = boost::get<Float>(&methodCallNode->expressionToArgList["rhs"]->expressionValue);
+	lhsValue = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["lhs"]->expressionValue);
+	rhsValue = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["rhs"]->expressionValue);
 	return returnType;
 
 }
@@ -130,75 +130,75 @@ const TypeSymbol* BinaryPlusOperator::semanticAnaylsis(MethodCallNode* methodCal
 ExpressionValue BinaryPlusOperator::interpret(const unsigned int tick) {
 	// if any argument is a NAN return NAN
 	if (!lhsValue->value || !rhsValue->value) {
-		return Float();
+		return NullableValueNumber();
 	}
-	return Float(*lhsValue->value + *rhsValue->value);
+	return NullableValueNumber(*lhsValue->value + *rhsValue->value);
 }
 
 BinaryMinusOperator::BinaryMinusOperator(const std::string& _name) : PositionalMethodSymbol(_name,
 	"Minuses two numbers.",
 	{
 
-	ParameterSymbol(TypeInstances::GetFloatInstance(), "lhs", "The left hand side of the minus operation."),
-	ParameterSymbol(TypeInstances::GetFloatInstance(), "rhs", "The rhs hand side of the minus operation.")
+	ParameterSymbol(TypeInstances::GetNumberInstance(), "lhs", "The left hand side of the minus operation."),
+	ParameterSymbol(TypeInstances::GetNumberInstance(), "rhs", "The rhs hand side of the minus operation.")
 
 
-	}, ReturnSymbol(TypeInstances::GetFloatInstance(), "Result of the negation")) {}
+	}, ReturnSymbol(TypeInstances::GetNumberInstance(), "Result of the negation")) {}
 
 
 const TypeSymbol* BinaryMinusOperator::semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable) {
 	const TypeSymbol* returnType = PositionalMethodSymbol::semanticAnaylsis(methodCallNode, symboltable);
-	lhsValue = boost::get<Float>(&methodCallNode->expressionToArgList["lhs"]->expressionValue);
-	rhsValue = boost::get<Float>(&methodCallNode->expressionToArgList["rhs"]->expressionValue);
+	lhsValue = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["lhs"]->expressionValue);
+	rhsValue = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["rhs"]->expressionValue);
 	return returnType;
 }
 
 ExpressionValue BinaryMinusOperator::interpret(const unsigned int tick) {
 	// if any argument is a NAN return NAN
 	if (!lhsValue->value || !rhsValue->value) {
-		return Float();
+		return NullableValueNumber();
 	}
-	return Float(*lhsValue->value - *rhsValue->value);
+	return NullableValueNumber(*lhsValue->value - *rhsValue->value);
 }
 
 BinaryDivideOperator::BinaryDivideOperator(const std::string& _name) : PositionalMethodSymbol(_name,
 	"Divides two numbers.",
 	{
-		ParameterSymbol(TypeInstances::GetFloatInstance(), "lhs", "The left hand side of the division operation."),
-	ParameterSymbol(TypeInstances::GetFloatInstance(), "rhs", "The rhs hand side of the division operation.")
+		ParameterSymbol(TypeInstances::GetNumberInstance(), "lhs", "The left hand side of the division operation."),
+	ParameterSymbol(TypeInstances::GetNumberInstance(), "rhs", "The rhs hand side of the division operation.")
 
-	}, ReturnSymbol(TypeInstances::GetFloatInstance(), "Result of the division")) {}
+	}, ReturnSymbol(TypeInstances::GetNumberInstance(), "Result of the division")) {}
 
 
 const TypeSymbol* BinaryDivideOperator::semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable) {
 	const TypeSymbol* returnType = PositionalMethodSymbol::semanticAnaylsis(methodCallNode, symboltable);
-	lhsValue = boost::get<Float>(&methodCallNode->expressionToArgList["lhs"]->expressionValue);
-	rhsValue = boost::get<Float>(&methodCallNode->expressionToArgList["rhs"]->expressionValue);
+	lhsValue = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["lhs"]->expressionValue);
+	rhsValue = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["rhs"]->expressionValue);
 	return returnType;
 }
 
 ExpressionValue BinaryDivideOperator::interpret(const unsigned int tick) {
 	// if any argument is a NAN return NAN
 	if (!lhsValue->value || !rhsValue->value) {
-		return Float();
+		return NullableValueNumber();
 	}
-	return Float(*lhsValue->value / *rhsValue->value);
+	return NullableValueNumber(*lhsValue->value / *rhsValue->value);
 }
 
 BinaryMultiplyOperator::BinaryMultiplyOperator(const std::string& _name) : PositionalMethodSymbol(_name,
 	"Multiplies two numbers.",
 	{
-	ParameterSymbol(TypeInstances::GetFloatInstance(), "lhs", "The left hand side of the multiply operation."),
-	ParameterSymbol(TypeInstances::GetFloatInstance(), "rhs", "The rhs hand side of the multiply operation.")
+	ParameterSymbol(TypeInstances::GetNumberInstance(), "lhs", "The left hand side of the multiply operation."),
+	ParameterSymbol(TypeInstances::GetNumberInstance(), "rhs", "The rhs hand side of the multiply operation.")
 
 
-	}, ReturnSymbol(TypeInstances::GetFloatInstance(), "Result of the multiplication")) {}
+	}, ReturnSymbol(TypeInstances::GetNumberInstance(), "Result of the multiplication")) {}
 
 
 const TypeSymbol* BinaryMultiplyOperator::semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable) {
 	const TypeSymbol* returnType = PositionalMethodSymbol::semanticAnaylsis(methodCallNode, symboltable);
-	lhsValue = boost::get<Float>(&methodCallNode->expressionToArgList["lhs"]->expressionValue);
-	rhsValue = boost::get<Float>(&methodCallNode->expressionToArgList["rhs"]->expressionValue);
+	lhsValue = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["lhs"]->expressionValue);
+	rhsValue = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["rhs"]->expressionValue);
 	return returnType;
 }
 
@@ -206,9 +206,9 @@ const TypeSymbol* BinaryMultiplyOperator::semanticAnaylsis(MethodCallNode* metho
 ExpressionValue BinaryMultiplyOperator::interpret(const unsigned int tick) {
 	// if any argument is a NAN return NAN
 	if (!lhsValue->value || !rhsValue->value) {
-		return Float();
+		return NullableValueNumber();
 	}
-	return Float(*lhsValue->value * *rhsValue->value);
+	return NullableValueNumber(*lhsValue->value * *rhsValue->value);
 }
 
 
@@ -217,26 +217,26 @@ ExpressionValue BinaryMultiplyOperator::interpret(const unsigned int tick) {
 BinaryPowOperator::BinaryPowOperator(const std::string& _name) : PositionalMethodSymbol(_name,
 	"Raises number by power of another.",
 	{
-	ParameterSymbol(TypeInstances::GetFloatInstance(), "lhs", "The left hand side of the power operation."),
-	ParameterSymbol(TypeInstances::GetFloatInstance(), "rhs", "The rhs hand side of the power operation.")
+	ParameterSymbol(TypeInstances::GetNumberInstance(), "lhs", "The left hand side of the power operation."),
+	ParameterSymbol(TypeInstances::GetNumberInstance(), "rhs", "The rhs hand side of the power operation.")
 
 
-	}, ReturnSymbol(TypeInstances::GetFloatInstance(), "Result of the power operator")) {}
+	}, ReturnSymbol(TypeInstances::GetNumberInstance(), "Result of the power operator")) {}
 
 
 const TypeSymbol* BinaryPowOperator::semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable) {
 	const TypeSymbol* returnType = PositionalMethodSymbol::semanticAnaylsis(methodCallNode, symboltable);
-	lhsValue = boost::get<Float>(&methodCallNode->expressionToArgList["lhs"]->expressionValue);
-	rhsValue = boost::get<Float>(&methodCallNode->expressionToArgList["rhs"]->expressionValue);
+	lhsValue = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["lhs"]->expressionValue);
+	rhsValue = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["rhs"]->expressionValue);
 	return returnType;
 }
 
 ExpressionValue BinaryPowOperator::interpret(const unsigned int tick) {
 	// if any argument is a NAN return NAN
 	if (!lhsValue->value || !rhsValue->value) {
-		return Float();
+		return NullableValueNumber();
 	}
-	return Float(std::powf(*lhsValue->value, *rhsValue->value));
+	return NullableValueNumber(std::powf(*lhsValue->value, *rhsValue->value));
 }
 
 
@@ -244,26 +244,26 @@ ExpressionValue BinaryPowOperator::interpret(const unsigned int tick) {
 BinaryModOperator::BinaryModOperator(const std::string& _name) : PositionalMethodSymbol(_name,
 	"Applies modulus operator to number",
 	{
-	ParameterSymbol(TypeInstances::GetFloatInstance(), "lhs", "The left hand side of the modulus operation."),
-	ParameterSymbol(TypeInstances::GetFloatInstance(), "rhs", "The rhs hand side of the modulus operation.")
+	ParameterSymbol(TypeInstances::GetNumberInstance(), "lhs", "The left hand side of the modulus operation."),
+	ParameterSymbol(TypeInstances::GetNumberInstance(), "rhs", "The rhs hand side of the modulus operation.")
 
 
-	}, ReturnSymbol(TypeInstances::GetFloatInstance(), "Result of the modulus operator")) {}
+	}, ReturnSymbol(TypeInstances::GetNumberInstance(), "Result of the modulus operator")) {}
 
 
 const TypeSymbol* BinaryModOperator::semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable) {
 	const TypeSymbol* returnType = PositionalMethodSymbol::semanticAnaylsis(methodCallNode, symboltable);
-	lhsValue = boost::get<Float>(&methodCallNode->expressionToArgList["lhs"]->expressionValue);
-	rhsValue = boost::get<Float>(&methodCallNode->expressionToArgList["rhs"]->expressionValue);
+	lhsValue = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["lhs"]->expressionValue);
+	rhsValue = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["rhs"]->expressionValue);
 	return returnType;
 }
 
 ExpressionValue BinaryModOperator::interpret(const unsigned int tick) {
 	// if any argument is a NAN return NAN
 	if (!lhsValue->value || !rhsValue->value) {
-		return Float();
+		return NullableValueNumber();
 	}
-	return Float(std::fmod(*lhsValue->value, *rhsValue->value));
+	return NullableValueNumber(std::fmod(*lhsValue->value, *rhsValue->value));
 }
 
 
@@ -274,25 +274,25 @@ BinaryLessOperator::BinaryLessOperator(const std::string& _name) : PositionalMet
 	"Performs less than operator on two numbers.",
 	{
 
-	ParameterSymbol(TypeInstances::GetFloatInstance(), "lhs", "The left hand side of the less than operation."),
-	ParameterSymbol(TypeInstances::GetFloatInstance(), "rhs", "The rhs hand side of the less than operation.")
+	ParameterSymbol(TypeInstances::GetNumberInstance(), "lhs", "The left hand side of the less than operation."),
+	ParameterSymbol(TypeInstances::GetNumberInstance(), "rhs", "The rhs hand side of the less than operation.")
 
 	}, ReturnSymbol(TypeInstances::GetBooleanInstance(), "Result of the less then operation")) {}
 
 
 const TypeSymbol* BinaryLessOperator::semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable) {
 	const TypeSymbol* returnType = PositionalMethodSymbol::semanticAnaylsis(methodCallNode, symboltable);
-	lhsValue = boost::get<Float>(&methodCallNode->expressionToArgList["lhs"]->expressionValue);
-	rhsValue = boost::get<Float>(&methodCallNode->expressionToArgList["rhs"]->expressionValue);
+	lhsValue = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["lhs"]->expressionValue);
+	rhsValue = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["rhs"]->expressionValue);
 	return returnType;
 }
 
 ExpressionValue BinaryLessOperator::interpret(const unsigned int tick) {
 	// if any argument is a NAN return NAN
 	if (!lhsValue->value || !rhsValue->value) {
-		return Boolean();
+		return NullableValueBoolean();
 	}
-	return Boolean(*lhsValue->value < *rhsValue->value);
+	return NullableValueBoolean(*lhsValue->value < *rhsValue->value);
 }
 
 BinaryLessEqualOperator::BinaryLessEqualOperator(const std::string& _name) : PositionalMethodSymbol(_name,
@@ -300,50 +300,50 @@ BinaryLessEqualOperator::BinaryLessEqualOperator(const std::string& _name) : Pos
 
 	{
 
-	ParameterSymbol(TypeInstances::GetFloatInstance(), "lhs", "The left hand side of the less than or equal operation."),
-	ParameterSymbol(TypeInstances::GetFloatInstance(), "rhs", "The rhs hand side of the less than or equal operation.")
+	ParameterSymbol(TypeInstances::GetNumberInstance(), "lhs", "The left hand side of the less than or equal operation."),
+	ParameterSymbol(TypeInstances::GetNumberInstance(), "rhs", "The rhs hand side of the less than or equal operation.")
 
 	}, ReturnSymbol(TypeInstances::GetBooleanInstance(), "Result of the less then or equal operation")) {}
 
 
 const TypeSymbol* BinaryLessEqualOperator::semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable) {
 	const TypeSymbol* returnType = PositionalMethodSymbol::semanticAnaylsis(methodCallNode, symboltable);
-	lhsValue = boost::get<Float>(&methodCallNode->expressionToArgList["lhs"]->expressionValue);
-	rhsValue = boost::get<Float>(&methodCallNode->expressionToArgList["rhs"]->expressionValue);
+	lhsValue = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["lhs"]->expressionValue);
+	rhsValue = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["rhs"]->expressionValue);
 	return returnType;
 }
 
 ExpressionValue BinaryLessEqualOperator::interpret(const unsigned int tick) {
 	// if any argument is a NAN return NAN
 	if (!lhsValue->value || !rhsValue->value) {
-		return Boolean();
+		return NullableValueBoolean();
 	}
-	return Boolean(*lhsValue->value <= *rhsValue->value);
+	return NullableValueBoolean(*lhsValue->value <= *rhsValue->value);
 }
 
 
 BinaryGreaterOperator::BinaryGreaterOperator(const std::string& _name) : PositionalMethodSymbol(_name,
 	"Performs greater than operator on two numbers.",
 	{
-	ParameterSymbol(TypeInstances::GetFloatInstance(), "lhs", "The left hand side of the greater than operation."),
-	ParameterSymbol(TypeInstances::GetFloatInstance(), "rhs", "The rhs hand side of the greater than operation.")
+	ParameterSymbol(TypeInstances::GetNumberInstance(), "lhs", "The left hand side of the greater than operation."),
+	ParameterSymbol(TypeInstances::GetNumberInstance(), "rhs", "The rhs hand side of the greater than operation.")
 
 	}, ReturnSymbol(TypeInstances::GetBooleanInstance(), "Result of the greater then operation")) {}
 
 
 const TypeSymbol* BinaryGreaterOperator::semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable) {
 	const TypeSymbol* returnType = PositionalMethodSymbol::semanticAnaylsis(methodCallNode, symboltable);
-	lhsValue = boost::get<Float>(&methodCallNode->expressionToArgList["lhs"]->expressionValue);
-	rhsValue = boost::get<Float>(&methodCallNode->expressionToArgList["rhs"]->expressionValue);
+	lhsValue = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["lhs"]->expressionValue);
+	rhsValue = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["rhs"]->expressionValue);
 	return returnType;
 }
 
 ExpressionValue BinaryGreaterOperator::interpret(const unsigned int tick) {
 	// if any argument is a NAN return NAN
 	if (!lhsValue->value || !rhsValue->value) {
-		return Boolean();
+		return NullableValueBoolean();
 	}
-	return Boolean(*lhsValue->value > *rhsValue->value);
+	return NullableValueBoolean(*lhsValue->value > *rhsValue->value);
 }
 
 BinaryGreaterEqualOperator::BinaryGreaterEqualOperator(const std::string& _name) : PositionalMethodSymbol(_name,
@@ -351,24 +351,24 @@ BinaryGreaterEqualOperator::BinaryGreaterEqualOperator(const std::string& _name)
 	"Performs greater than or equal operator on two numbers.",
 	{
 
-	ParameterSymbol(TypeInstances::GetFloatInstance(), "lhs", "The left hand side of the greater than or equal operation."),
-	ParameterSymbol(TypeInstances::GetFloatInstance(), "rhs", "The rhs hand side of the greater than or equal operation.")
+	ParameterSymbol(TypeInstances::GetNumberInstance(), "lhs", "The left hand side of the greater than or equal operation."),
+	ParameterSymbol(TypeInstances::GetNumberInstance(), "rhs", "The rhs hand side of the greater than or equal operation.")
 
 	}, ReturnSymbol(TypeInstances::GetBooleanInstance(), "Result of the greater then or equal operation")) {}
 
 const TypeSymbol* BinaryGreaterEqualOperator::semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable) {
 	const TypeSymbol* returnType = PositionalMethodSymbol::semanticAnaylsis(methodCallNode, symboltable);
-	lhsValue = boost::get<Float>(&methodCallNode->expressionToArgList["lhs"]->expressionValue);
-	rhsValue = boost::get<Float>(&methodCallNode->expressionToArgList["rhs"]->expressionValue);
+	lhsValue = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["lhs"]->expressionValue);
+	rhsValue = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["rhs"]->expressionValue);
 	return returnType;
 }
 
 ExpressionValue BinaryGreaterEqualOperator::interpret(const unsigned int tick) {
 	// if any argument is a NAN return NAN
 	if (!lhsValue->value || !rhsValue->value) {
-		return Boolean();
+		return NullableValueBoolean();
 	}
-	return Boolean(*lhsValue->value >= *rhsValue->value);
+	return NullableValueBoolean(*lhsValue->value >= *rhsValue->value);
 }
 
 
@@ -386,17 +386,17 @@ BinaryAndOperator::BinaryAndOperator(const std::string& _name) : PositionalMetho
 
 const TypeSymbol* BinaryAndOperator::semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable) {
 	const TypeSymbol* returnType = PositionalMethodSymbol::semanticAnaylsis(methodCallNode, symboltable);
-	lhsValue = boost::get<Boolean>(&methodCallNode->expressionToArgList["lhs"]->expressionValue);
-	rhsValue = boost::get<Boolean>(&methodCallNode->expressionToArgList["rhs"]->expressionValue);
+	lhsValue = boost::get<NullableValueBoolean>(&methodCallNode->expressionToArgList["lhs"]->expressionValue);
+	rhsValue = boost::get<NullableValueBoolean>(&methodCallNode->expressionToArgList["rhs"]->expressionValue);
 	return returnType;
 }
 
 ExpressionValue BinaryAndOperator::interpret(const unsigned int tick) {
 	// if any argument is a NAN return NAN
 	if (!lhsValue->value || !rhsValue->value) {
-		return Boolean();
+		return NullableValueBoolean();
 	}
-	return Boolean(*lhsValue->value && *rhsValue->value);
+	return NullableValueBoolean(*lhsValue->value && *rhsValue->value);
 }
 
 
@@ -410,8 +410,8 @@ BinaryOrOperator::BinaryOrOperator(const std::string& _name) : PositionalMethodS
 
 const TypeSymbol* BinaryOrOperator::semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable) {
 	const TypeSymbol* returnType = PositionalMethodSymbol::semanticAnaylsis(methodCallNode, symboltable);
-	lhsValue = boost::get<Boolean>(&methodCallNode->expressionToArgList["lhs"]->expressionValue);
-	rhsValue = boost::get<Boolean>(&methodCallNode->expressionToArgList["rhs"]->expressionValue);
+	lhsValue = boost::get<NullableValueBoolean>(&methodCallNode->expressionToArgList["lhs"]->expressionValue);
+	rhsValue = boost::get<NullableValueBoolean>(&methodCallNode->expressionToArgList["rhs"]->expressionValue);
 	return returnType;
 }
 
@@ -419,9 +419,9 @@ const TypeSymbol* BinaryOrOperator::semanticAnaylsis(MethodCallNode* methodCallN
 ExpressionValue BinaryOrOperator::interpret(const unsigned int tick) {
 	// if any argument is a NAN return NAN
 	if (!lhsValue->value || !rhsValue->value) {
-		return Boolean();
+		return NullableValueBoolean();
 	}
-	return Boolean(*lhsValue->value || *rhsValue->value);
+	return NullableValueBoolean(*lhsValue->value || *rhsValue->value);
 }
 
 
@@ -436,41 +436,41 @@ BinaryBooleanEqualOperator::BinaryBooleanEqualOperator(const std::string& _name)
 
 const TypeSymbol* BinaryBooleanEqualOperator::semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable) {
 	const TypeSymbol* returnType = PositionalMethodSymbol::semanticAnaylsis(methodCallNode, symboltable);
-	lhsValue = boost::get<Boolean>(&methodCallNode->expressionToArgList["lhs"]->expressionValue);
-	rhsValue = boost::get<Boolean>(&methodCallNode->expressionToArgList["rhs"]->expressionValue);
+	lhsValue = boost::get<NullableValueBoolean>(&methodCallNode->expressionToArgList["lhs"]->expressionValue);
+	rhsValue = boost::get<NullableValueBoolean>(&methodCallNode->expressionToArgList["rhs"]->expressionValue);
 	return returnType;
 }
 
 ExpressionValue BinaryBooleanEqualOperator::interpret(const unsigned int tick) {
 	// if any argument is a NAN return NAN
 	if (!lhsValue->value || !rhsValue->value) {
-		return Boolean();
+		return NullableValueBoolean();
 	}
-	return Boolean(*lhsValue->value == *rhsValue->value);
+	return NullableValueBoolean(*lhsValue->value == *rhsValue->value);
 }
 
 BinaryFloatEqualOperator::BinaryFloatEqualOperator(const std::string& _name) : PositionalMethodSymbol(_name,
 	"Performs equal operator on two floats.",
 	{
-	ParameterSymbol(TypeInstances::GetFloatInstance(), "lhs", "The left hand side of the equal operation."),
-	ParameterSymbol(TypeInstances::GetFloatInstance(), "rhs", "The rhs hand side of the equal operation.")
+	ParameterSymbol(TypeInstances::GetNumberInstance(), "lhs", "The left hand side of the equal operation."),
+	ParameterSymbol(TypeInstances::GetNumberInstance(), "rhs", "The rhs hand side of the equal operation.")
 
 	}, ReturnSymbol(TypeInstances::GetBooleanInstance(), "Are the two operands equal")) {}
 
 
 const TypeSymbol* BinaryFloatEqualOperator::semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable) {
 	const TypeSymbol* returnType = PositionalMethodSymbol::semanticAnaylsis(methodCallNode, symboltable);
-	lhsValue = boost::get<Float>(&methodCallNode->expressionToArgList["lhs"]->expressionValue);
-	rhsValue = boost::get<Float>(&methodCallNode->expressionToArgList["rhs"]->expressionValue);
+	lhsValue = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["lhs"]->expressionValue);
+	rhsValue = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["rhs"]->expressionValue);
 	return returnType;
 }
 
 ExpressionValue BinaryFloatEqualOperator::interpret(const unsigned int tick) {
 	// if any argument is a NAN return NAN
 	if (!lhsValue->value || !rhsValue->value) {
-		return Boolean();
+		return NullableValueBoolean();
 	}
-	return Boolean(*lhsValue->value == *rhsValue->value);
+	return NullableValueBoolean(*lhsValue->value == *rhsValue->value);
 }
 
 
@@ -486,17 +486,17 @@ BinaryBooleanNotEqualOperator::BinaryBooleanNotEqualOperator(const std::string& 
 
 const TypeSymbol* BinaryBooleanNotEqualOperator::semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable) {
 	const TypeSymbol* returnType = PositionalMethodSymbol::semanticAnaylsis(methodCallNode, symboltable);
-	lhsValue = boost::get<Boolean>(&methodCallNode->expressionToArgList["lhs"]->expressionValue);
-	rhsValue = boost::get<Boolean>(&methodCallNode->expressionToArgList["rhs"]->expressionValue);
+	lhsValue = boost::get<NullableValueBoolean>(&methodCallNode->expressionToArgList["lhs"]->expressionValue);
+	rhsValue = boost::get<NullableValueBoolean>(&methodCallNode->expressionToArgList["rhs"]->expressionValue);
 	return returnType;
 }
 
 ExpressionValue BinaryBooleanNotEqualOperator::interpret(const unsigned int tick) {
 	// if any argument is a NAN return NAN
 	if (!lhsValue->value || !rhsValue->value) {
-		return Boolean();
+		return NullableValueBoolean();
 	}
-	return Boolean(*lhsValue->value != *rhsValue->value);
+	return NullableValueBoolean(*lhsValue->value != *rhsValue->value);
 }
 
 BinaryFloatNotEqualOperator::BinaryFloatNotEqualOperator(const std::string& _name) : PositionalMethodSymbol(_name,
@@ -505,31 +505,31 @@ BinaryFloatNotEqualOperator::BinaryFloatNotEqualOperator(const std::string& _nam
 
 	{
 
-				ParameterSymbol(TypeInstances::GetFloatInstance(), "lhs", "The left hand side of the not equal operation."),
-	ParameterSymbol(TypeInstances::GetFloatInstance(), "rhs", "The rhs hand side of the not equal operation.")
+				ParameterSymbol(TypeInstances::GetNumberInstance(), "lhs", "The left hand side of the not equal operation."),
+	ParameterSymbol(TypeInstances::GetNumberInstance(), "rhs", "The rhs hand side of the not equal operation.")
 	}, ReturnSymbol(TypeInstances::GetBooleanInstance(), "Are the two operands not equal")) {}
 
 
 const TypeSymbol* BinaryFloatNotEqualOperator::semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable) {
 	const TypeSymbol* returnType = PositionalMethodSymbol::semanticAnaylsis(methodCallNode, symboltable);
-	lhsValue = boost::get<Float>(&methodCallNode->expressionToArgList["lhs"]->expressionValue);
-	rhsValue = boost::get<Float>(&methodCallNode->expressionToArgList["rhs"]->expressionValue);
+	lhsValue = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["lhs"]->expressionValue);
+	rhsValue = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["rhs"]->expressionValue);
 	return returnType;
 }
 
 ExpressionValue BinaryFloatNotEqualOperator::interpret(const unsigned int tick) {
 	// if any argument is a NAN return NAN
 	if (!lhsValue->value || !rhsValue->value) {
-		return Boolean();
+		return NullableValueBoolean();
 	}
-	return Boolean(*lhsValue->value != *rhsValue->value);
+	return NullableValueBoolean(*lhsValue->value != *rhsValue->value);
 }
 
 
 
 GetTick::GetTick() : PositionalMethodSymbol("tick",
 	"Gets the current tick.",
-	{ }, ReturnSymbol(TypeInstances::GetFloatInstance(), "The current tick")) {}
+	{ }, ReturnSymbol(TypeInstances::GetNumberInstance(), "The current tick")) {}
 
 
 const TypeSymbol* GetTick::semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable) {
@@ -537,7 +537,7 @@ const TypeSymbol* GetTick::semanticAnaylsis(MethodCallNode* methodCallNode, std:
 }
 
 ExpressionValue GetTick::interpret(const unsigned int tick) {
-	return Float(tick);
+	return NullableValueNumber(tick);
 }
 
 
@@ -545,12 +545,12 @@ ExpressionValue GetTick::interpret(const unsigned int tick) {
 Plot::Plot() : KeywordMethodSymbol("plot",
 	"Plots a series of values onto the chart",
 	{
-	ParameterSymbol(TypeInstances::GetFloatInstance(), "value", "The value that will be plotted at the current tick"),
+	ParameterSymbol(TypeInstances::GetNumberInstance(), "value", "The value that will be plotted at the current tick"),
 
 	},
 	{
-	OptionalParameterSymbol(TypeInstances::GetStringConstantInstance(), String(""), "name", "The name of the plot"),
-	OptionalParameterSymbol(TypeInstances::GetStringConstantInstance(), String(DEFAULT_CHART_WINDOW_ID), "chart_id", "The id of the chart to plot too.")
+	OptionalParameterSymbol(TypeInstances::GetStringConstantInstance(), NullableValueString(""), "name", "The name of the plot"),
+	OptionalParameterSymbol(TypeInstances::GetStringConstantInstance(), NullableValueString(DEFAULT_CHART_WINDOW_ID), "chart_id", "The id of the chart to plot too.")
 
 	}
 
@@ -561,9 +561,9 @@ Plot::Plot() : KeywordMethodSymbol("plot",
 const TypeSymbol* Plot::semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable) {
 
 	const TypeSymbol* returnType = KeywordMethodSymbol::semanticAnaylsis(methodCallNode, symboltable);
-	value = boost::get<Float>(&methodCallNode->expressionToArgList["value"]->expressionValue);
-	lineName = boost::get<String>(&methodCallNode->expressionToArgList["name"]->expressionValue);
-	chartId = boost::get<String>(&methodCallNode->expressionToArgList["chart_id"]->expressionValue);
+	value = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["value"]->expressionValue);
+	lineName = boost::get<NullableValueString>(&methodCallNode->expressionToArgList["name"]->expressionValue);
+	chartId = boost::get<NullableValueString>(&methodCallNode->expressionToArgList["chart_id"]->expressionValue);
 
 
 	if (!InterpreterContext::isIntellisense) {
@@ -584,7 +584,7 @@ ExpressionValue Plot::interpret(const unsigned int tick) {
 	float pushBackValue = value->value ? *value->value : std::numeric_limits<double>::quiet_NaN();
 	plotdata->data[tick] = pushBackValue;
 
-	return Boolean(true);
+	return NullableValueBoolean(true);
 }
 
 
@@ -594,11 +594,11 @@ Mark::Mark() : KeywordMethodSymbol("mark",
 
 	{
 	ParameterSymbol(TypeInstances::GetBooleanInstance(), "when", "Mark the current tick or not"),
-	ParameterSymbol(TypeInstances::GetFloatInstance(), "value", "The value to mark if marking this tick"),
+	ParameterSymbol(TypeInstances::GetNumberInstance(), "value", "The value to mark if marking this tick"),
 	},
 	{
-	OptionalParameterSymbol(TypeInstances::GetStringConstantInstance(), String(""), "name", "The name of the plot"),
-	OptionalParameterSymbol(TypeInstances::GetStringConstantInstance(), String(DEFAULT_CHART_WINDOW_ID), "chart_id", "The id of the chart to plot too.")
+	OptionalParameterSymbol(TypeInstances::GetStringConstantInstance(), NullableValueString(""), "name", "The name of the plot"),
+	OptionalParameterSymbol(TypeInstances::GetStringConstantInstance(), NullableValueString(DEFAULT_CHART_WINDOW_ID), "chart_id", "The id of the chart to plot too.")
 	},
 	ReturnSymbol(TypeInstances::GetVoidInstance())) {}
 
@@ -607,10 +607,10 @@ Mark::Mark() : KeywordMethodSymbol("mark",
 
 const TypeSymbol* Mark::semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable) {
 	const TypeSymbol* returnType = KeywordMethodSymbol::semanticAnaylsis(methodCallNode, symboltable);
-	when = boost::get<Boolean>(&methodCallNode->expressionToArgList["when"]->expressionValue);
-	value = boost::get<Float>(&methodCallNode->expressionToArgList["value"]->expressionValue);
-	lineName = boost::get<String>(&methodCallNode->expressionToArgList["name"]->expressionValue);
-	chartId = boost::get<String>(&methodCallNode->expressionToArgList["chart_id"]->expressionValue);
+	when = boost::get<NullableValueBoolean>(&methodCallNode->expressionToArgList["when"]->expressionValue);
+	value = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["value"]->expressionValue);
+	lineName = boost::get<NullableValueString>(&methodCallNode->expressionToArgList["name"]->expressionValue);
+	chartId = boost::get<NullableValueString>(&methodCallNode->expressionToArgList["chart_id"]->expressionValue);
 
 
 	if (!InterpreterContext::isIntellisense) {
@@ -642,7 +642,7 @@ ExpressionValue Mark::interpret(const unsigned int tick) {
 		plotdata->data[tick] = (std::numeric_limits<double>::quiet_NaN());
 	}
 
-	return Boolean(true);
+	return NullableValueBoolean(true);
 }
 
 
@@ -652,16 +652,16 @@ ValueWhen::ValueWhen() : PositionalMethodSymbol("valuewhen",
 
 	{
 	ParameterSymbol(TypeInstances::GetBooleanInstance(), "when", "When to update the current value."),
-	ParameterSymbol(TypeInstances::GetFloatInstance(), "value", "The value to update it with.")
+	ParameterSymbol(TypeInstances::GetNumberInstance(), "value", "The value to update it with.")
 
 
-	}, ReturnSymbol(TypeInstances::GetFloatInstance(), "The value last time the condition was true")) {}
+	}, ReturnSymbol(TypeInstances::GetNumberInstance(), "The value last time the condition was true")) {}
 
 
 const TypeSymbol* ValueWhen::semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable) {
 	const TypeSymbol* returnType = PositionalMethodSymbol::semanticAnaylsis(methodCallNode, symboltable);
-	when = boost::get<Boolean>(&methodCallNode->expressionToArgList["when"]->expressionValue);
-	value = boost::get<Float>(&methodCallNode->expressionToArgList["value"]->expressionValue);
+	when = boost::get<NullableValueBoolean>(&methodCallNode->expressionToArgList["when"]->expressionValue);
+	value = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["value"]->expressionValue);
 	return returnType;
 }
 
@@ -683,7 +683,7 @@ ExpressionValue ValueWhen::interpret(const unsigned int tick) {
 FloatNAN::FloatNAN() : PositionalMethodSymbol("nan_f",
 	"Get a float NAN.",
 
-	{ }, ReturnSymbol(TypeInstances::GetFloatInstance(), "NAN value")) {}
+	{ }, ReturnSymbol(TypeInstances::GetNumberInstance(), "NAN value")) {}
 
 const TypeSymbol* FloatNAN::semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable) {
 	return PositionalMethodSymbol::semanticAnaylsis(methodCallNode, symboltable);
@@ -691,7 +691,7 @@ const TypeSymbol* FloatNAN::semanticAnaylsis(MethodCallNode* methodCallNode, std
 
 
 ExpressionValue FloatNAN::interpret(const unsigned int tick) {
-	return Float();
+	return NullableValueNumber();
 }
 
 
@@ -704,20 +704,20 @@ const TypeSymbol* BooleanNAN::semanticAnaylsis(MethodCallNode* methodCallNode, s
 }
 
 ExpressionValue BooleanNAN::interpret(const unsigned int tick) {
-	return Boolean();
+	return NullableValueBoolean();
 }
 
 
 StringNAN::StringNAN() : PositionalMethodSymbol("nan_s",
 	"Get a string NAN.",
-	{ }, ReturnSymbol(TypeInstances::GetStringInstance(), "String value")) {}
+	{ }, ReturnSymbol(TypeInstances::GetStringInstance(), "NullableValueString value")) {}
 
 const TypeSymbol* StringNAN::semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable) {
 	return PositionalMethodSymbol::semanticAnaylsis(methodCallNode, symboltable);
 }
 
 ExpressionValue StringNAN::interpret(const unsigned int tick) {
-	return String();
+	return NullableValueString();
 }
 
 
@@ -726,15 +726,15 @@ Minimum::Minimum() : PositionalMethodSymbol("min",
 	"Returns the smallest value that has ever been passed to it.",
 
 	{
-	ParameterSymbol(TypeInstances::GetFloatInstance(), "value", "Next potentially minimum value.")
+	ParameterSymbol(TypeInstances::GetNumberInstance(), "value", "Next potentially minimum value.")
 
 
-	}, ReturnSymbol(TypeInstances::GetFloatInstance(), "The maximum value.")) {}
+	}, ReturnSymbol(TypeInstances::GetNumberInstance(), "The maximum value.")) {}
 
 
 const TypeSymbol* Minimum::semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable) {
 	const TypeSymbol* returnType = PositionalMethodSymbol::semanticAnaylsis(methodCallNode, symboltable);
-	value = boost::get<Float>(&methodCallNode->expressionToArgList["value"]->expressionValue);
+	value = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["value"]->expressionValue);
 	return returnType;
 }
 
@@ -756,17 +756,17 @@ MinimumBars::MinimumBars() : PositionalMethodSymbol("min",
 	"Returns the smallest value that has ever been passed to it in the last bars_back bars",
 
 	{
-	ParameterSymbol(TypeInstances::GetFloatInstance(), "value", "Next potentially minimum value."),
-	ParameterSymbol(TypeInstances::GetFloatInstance(), "bars_back", "Next potentially minimum value.")
+	ParameterSymbol(TypeInstances::GetNumberInstance(), "value", "Next potentially minimum value."),
+	ParameterSymbol(TypeInstances::GetNumberInstance(), "bars_back", "Next potentially minimum value.")
 
 
-	}, ReturnSymbol(TypeInstances::GetFloatInstance(), "The minimum value.")) {}
+	}, ReturnSymbol(TypeInstances::GetNumberInstance(), "The minimum value.")) {}
 
 
 const TypeSymbol* MinimumBars::semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable) {
 	const TypeSymbol* returnType = PositionalMethodSymbol::semanticAnaylsis(methodCallNode, symboltable);
-	value = boost::get<Float>(&methodCallNode->expressionToArgList["value"]->expressionValue);
-	bars_back = boost::get<Float>(&methodCallNode->expressionToArgList["bars_back"]->expressionValue);
+	value = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["value"]->expressionValue);
+	bars_back = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["bars_back"]->expressionValue);
 	barsBackNode = methodCallNode->expressionToArgList["bars_back"]->expression;
 	return returnType;
 }
@@ -783,17 +783,17 @@ ExpressionValue MinimumBars::interpret(const unsigned int tick) {
 			buffer.push_back(*value->value);
 
 			if (buffer.size() < lookback) {
-				return Float();
+				return NullableValueNumber();
 			}
 
 			float min = *std::min_element(buffer.begin(), buffer.end());
 
 			buffer.pop_front();
-			return Float(min);
+			return NullableValueNumber(min);
 		}
 	}
 
-	return Float();
+	return NullableValueNumber();
 }
 
 
@@ -804,15 +804,15 @@ Maximum::Maximum() : PositionalMethodSymbol("max",
 	"Returns the max value that has ever been passed to it.",
 
 	{
-	ParameterSymbol(TypeInstances::GetFloatInstance(), "value", "Next potentially maximum value.")
+	ParameterSymbol(TypeInstances::GetNumberInstance(), "value", "Next potentially maximum value.")
 
 
-	}, ReturnSymbol(TypeInstances::GetFloatInstance(), "The minimum value.")) {}
+	}, ReturnSymbol(TypeInstances::GetNumberInstance(), "The minimum value.")) {}
 
 
 const TypeSymbol* Maximum::semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable) {
 	const TypeSymbol* returnType = PositionalMethodSymbol::semanticAnaylsis(methodCallNode, symboltable);
-	value = boost::get<Float>(&methodCallNode->expressionToArgList["value"]->expressionValue);
+	value = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["value"]->expressionValue);
 	return returnType;
 }
 
@@ -832,17 +832,17 @@ MaximumBars::MaximumBars() : PositionalMethodSymbol("max",
 	"Returns the largest value that has ever been passed to it in the last bars_back bars",
 
 	{
-	ParameterSymbol(TypeInstances::GetFloatInstance(), "value", "Next potentially maximum value."),
-	ParameterSymbol(TypeInstances::GetFloatInstance(), "bars_back", "Next potentially maximum value.")
+	ParameterSymbol(TypeInstances::GetNumberInstance(), "value", "Next potentially maximum value."),
+	ParameterSymbol(TypeInstances::GetNumberInstance(), "bars_back", "Next potentially maximum value.")
 
 
-	}, ReturnSymbol(TypeInstances::GetFloatInstance(), "The maximum value.")) {}
+	}, ReturnSymbol(TypeInstances::GetNumberInstance(), "The maximum value.")) {}
 
 
 const TypeSymbol* MaximumBars::semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable) {
 	const TypeSymbol* returnType = PositionalMethodSymbol::semanticAnaylsis(methodCallNode, symboltable);
-	value = boost::get<Float>(&methodCallNode->expressionToArgList["value"]->expressionValue);
-	bars_back = boost::get<Float>(&methodCallNode->expressionToArgList["bars_back"]->expressionValue);
+	value = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["value"]->expressionValue);
+	bars_back = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["bars_back"]->expressionValue);
 	barsBackNode = methodCallNode->expressionToArgList["bars_back"]->expression;
 
 	return returnType;
@@ -860,17 +860,17 @@ ExpressionValue MaximumBars::interpret(const unsigned int tick) {
 			buffer.push_back(*value->value);
 
 			if (buffer.size() < lookback) {
-				return Float();
+				return NullableValueNumber();
 			}
 
 			float min = *std::max_element(buffer.begin(), buffer.end());
 
 			buffer.pop_front();
-			return Float(min);
+			return NullableValueNumber(min);
 		}
 	}
 
-	return Float();
+	return NullableValueNumber();
 }
 
 
@@ -882,15 +882,15 @@ Sum::Sum() : PositionalMethodSymbol("sum",
 	"Returns the sum of the values passed to it so far",
 
 	{
-	ParameterSymbol(TypeInstances::GetFloatInstance(), "value", "Add this to sum/")
+	ParameterSymbol(TypeInstances::GetNumberInstance(), "value", "Add this to sum/")
 
 
-	}, ReturnSymbol(TypeInstances::GetFloatInstance(), "The total sum.")) {}
+	}, ReturnSymbol(TypeInstances::GetNumberInstance(), "The total sum.")) {}
 
 
 const TypeSymbol* Sum::semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable) {
 	const TypeSymbol* returnType = PositionalMethodSymbol::semanticAnaylsis(methodCallNode, symboltable);
-	value = boost::get<Float>(&methodCallNode->expressionToArgList["value"]->expressionValue);
+	value = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["value"]->expressionValue);
 	return returnType;
 }
 
@@ -899,7 +899,7 @@ ExpressionValue Sum::interpret(const unsigned int tick) {
 		sum += *value->value;
 	}
 
-	return Float(sum);
+	return NullableValueNumber(sum);
 }
 
 
@@ -908,17 +908,17 @@ SumBars::SumBars() : PositionalMethodSymbol("sum",
 	"Returns the sum of the last bars_back bars",
 
 	{
-	ParameterSymbol(TypeInstances::GetFloatInstance(), "value", "Current value"),
-	ParameterSymbol(TypeInstances::GetFloatInstance(), "bars_back", "Sum of bars back bars.")
+	ParameterSymbol(TypeInstances::GetNumberInstance(), "value", "Current value"),
+	ParameterSymbol(TypeInstances::GetNumberInstance(), "bars_back", "Sum of bars back bars.")
 
 
-	}, ReturnSymbol(TypeInstances::GetFloatInstance(), "The sum.")) {}
+	}, ReturnSymbol(TypeInstances::GetNumberInstance(), "The sum.")) {}
 
 
 const TypeSymbol* SumBars::semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable) {
 	const TypeSymbol* returnType = PositionalMethodSymbol::semanticAnaylsis(methodCallNode, symboltable);
-	value = boost::get<Float>(&methodCallNode->expressionToArgList["value"]->expressionValue);
-	bars_back = boost::get<Float>(&methodCallNode->expressionToArgList["bars_back"]->expressionValue);
+	value = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["value"]->expressionValue);
+	bars_back = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["bars_back"]->expressionValue);
 	barsBackNode = methodCallNode->expressionToArgList["bars_back"]->expression;
 
 	return returnType;
@@ -936,17 +936,17 @@ ExpressionValue SumBars::interpret(const unsigned int tick) {
 			buffer.push_back(*value->value);
 
 			if (buffer.size() < lookback) {
-				return Float();
+				return NullableValueNumber();
 			}
 
 			float min = std::accumulate(buffer.begin(), buffer.end(), 0);
 
 			buffer.pop_front();
-			return Float(min);
+			return NullableValueNumber(min);
 		}
 	}
 
-	return Float();
+	return NullableValueNumber();
 }
 
 
@@ -960,15 +960,15 @@ Mean::Mean() : PositionalMethodSymbol("mean",
 	"Returns the mean of values passed to it so far. (Doesn't take na values into account).",
 
 	{
-	ParameterSymbol(TypeInstances::GetFloatInstance(), "value", "The value to add to the mean calculation. (Will ignore NAs)")
+	ParameterSymbol(TypeInstances::GetNumberInstance(), "value", "The value to add to the mean calculation. (Will ignore NAs)")
 
 
-	}, ReturnSymbol(TypeInstances::GetFloatInstance(), "The mean value so far.")) {}
+	}, ReturnSymbol(TypeInstances::GetNumberInstance(), "The mean value so far.")) {}
 
 
 const TypeSymbol* Mean::semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable) {
 	const TypeSymbol* returnType = PositionalMethodSymbol::semanticAnaylsis(methodCallNode, symboltable);
-	value = boost::get<Float>(&methodCallNode->expressionToArgList["value"]->expressionValue);
+	value = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["value"]->expressionValue);
 	return returnType;
 }
 
@@ -979,7 +979,7 @@ ExpressionValue Mean::interpret(const unsigned int tick) {
 		sum += *value->value;
 	}
 
-	return Float(sum / amountSoFar);
+	return NullableValueNumber(sum / amountSoFar);
 }
 
 
@@ -987,7 +987,7 @@ GetPi::GetPi() : PositionalMethodSymbol("pi",
 	"Gets the PI constant.",
 
 	{
-	}, ReturnSymbol(TypeInstances::GetFloatInstance(), "The PI constant")) {}
+	}, ReturnSymbol(TypeInstances::GetNumberInstance(), "The PI constant")) {}
 
 const TypeSymbol* GetPi::semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable) {
 	return PositionalMethodSymbol::semanticAnaylsis(methodCallNode, symboltable);
@@ -995,7 +995,7 @@ const TypeSymbol* GetPi::semanticAnaylsis(MethodCallNode* methodCallNode, std::s
 
 
 ExpressionValue GetPi::interpret(const unsigned int tick) {
-	return Float(std::numbers::pi_v<float>);
+	return NullableValueNumber(std::numbers::pi_v<float>);
 }
 
 
@@ -1003,7 +1003,7 @@ GetE::GetE() : PositionalMethodSymbol("e",
 	"Gets the E constant.",
 
 	{
-	}, ReturnSymbol(TypeInstances::GetFloatInstance(), "The E constant")) {}
+	}, ReturnSymbol(TypeInstances::GetNumberInstance(), "The E constant")) {}
 
 
 const TypeSymbol* GetE::semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable) {
@@ -1012,7 +1012,7 @@ const TypeSymbol* GetE::semanticAnaylsis(MethodCallNode* methodCallNode, std::sh
 
 
 ExpressionValue GetE::interpret(const unsigned int tick) {
-	return Float(std::numbers::e);
+	return NullableValueNumber(std::numbers::e);
 }
 
 
@@ -1020,23 +1020,23 @@ Round::Round() : PositionalMethodSymbol("round",
 	"Rounds to nearest int. Returns NA if NA passed.",
 
 	{
-		ParameterSymbol(TypeInstances::GetFloatInstance(), "value", "The value to round")
-	}, ReturnSymbol(TypeInstances::GetFloatInstance(), "The rounded value")) {}
+		ParameterSymbol(TypeInstances::GetNumberInstance(), "value", "The value to round")
+	}, ReturnSymbol(TypeInstances::GetNumberInstance(), "The rounded value")) {}
 
 
 const TypeSymbol* Round::semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable) {
 	const TypeSymbol* returnType = PositionalMethodSymbol::semanticAnaylsis(methodCallNode, symboltable);
-	value = boost::get<Float>(&methodCallNode->expressionToArgList["value"]->expressionValue);
+	value = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["value"]->expressionValue);
 	return returnType;
 }
 
 ExpressionValue Round::interpret(const unsigned int tick) {
 
 	if (value->value) {
-		return Float(std::round(*value->value));
+		return NullableValueNumber(std::round(*value->value));
 	}
 
-	return Float();
+	return NullableValueNumber();
 }
 
 
@@ -1046,23 +1046,23 @@ Floor::Floor() : PositionalMethodSymbol("floor",
 	"Floors value",
 
 	{
-		ParameterSymbol(TypeInstances::GetFloatInstance(), "value", "The value to floor")
-	}, ReturnSymbol(TypeInstances::GetFloatInstance(), "The floored value")) {}
+		ParameterSymbol(TypeInstances::GetNumberInstance(), "value", "The value to floor")
+	}, ReturnSymbol(TypeInstances::GetNumberInstance(), "The floored value")) {}
 
 
 const TypeSymbol* Floor::semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable) {
 	const TypeSymbol* returnType = PositionalMethodSymbol::semanticAnaylsis(methodCallNode, symboltable);
-	value = boost::get<Float>(&methodCallNode->expressionToArgList["value"]->expressionValue);
+	value = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["value"]->expressionValue);
 	return returnType;
 }
 
 ExpressionValue Floor::interpret(const unsigned int tick) {
 
 	if (value->value) {
-		return Float(std::floor(*value->value));
+		return NullableValueNumber(std::floor(*value->value));
 	}
 
-	return Float();
+	return NullableValueNumber();
 }
 
 
@@ -1071,23 +1071,23 @@ Ceil::Ceil() : PositionalMethodSymbol("ceil",
 	"Ceils value",
 
 	{
-		ParameterSymbol(TypeInstances::GetFloatInstance(), "value", "The value to ceil")
-	}, ReturnSymbol(TypeInstances::GetFloatInstance(), "The ceiled value")) {}
+		ParameterSymbol(TypeInstances::GetNumberInstance(), "value", "The value to ceil")
+	}, ReturnSymbol(TypeInstances::GetNumberInstance(), "The ceiled value")) {}
 
 
 const TypeSymbol* Ceil::semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable) {
 	const TypeSymbol* returnType = PositionalMethodSymbol::semanticAnaylsis(methodCallNode, symboltable);
-	value = boost::get<Float>(&methodCallNode->expressionToArgList["value"]->expressionValue);
+	value = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["value"]->expressionValue);
 	return returnType;
 }
 
 ExpressionValue Ceil::interpret(const unsigned int tick) {
 
 	if (value->value) {
-		return Float(std::ceil(*value->value));
+		return NullableValueNumber(std::ceil(*value->value));
 	}
 
-	return Float();
+	return NullableValueNumber();
 }
 
 
@@ -1096,7 +1096,7 @@ FloatMax::FloatMax() : PositionalMethodSymbol("floatmax",
 	"The max float value",
 
 	{
-	}, ReturnSymbol(TypeInstances::GetFloatInstance(), "The largest possible float value")) {}
+	}, ReturnSymbol(TypeInstances::GetNumberInstance(), "The largest possible float value")) {}
 
 const TypeSymbol* FloatMax::semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable) {
 	return PositionalMethodSymbol::semanticAnaylsis(methodCallNode, symboltable);
@@ -1105,7 +1105,7 @@ const TypeSymbol* FloatMax::semanticAnaylsis(MethodCallNode* methodCallNode, std
 
 ExpressionValue FloatMax::interpret(const unsigned int tick) {
 
-	return Float((std::numeric_limits<float>::max)());
+	return NullableValueNumber((std::numeric_limits<float>::max)());
 }
 
 
@@ -1113,7 +1113,7 @@ FloatMin::FloatMin() : PositionalMethodSymbol("floatmin",
 	"The minimum float value",
 
 	{
-	}, ReturnSymbol(TypeInstances::GetFloatInstance(), "The smallest possible float value")) {}
+	}, ReturnSymbol(TypeInstances::GetNumberInstance(), "The smallest possible float value")) {}
 
 
 const TypeSymbol* FloatMin::semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable) {
@@ -1122,7 +1122,7 @@ const TypeSymbol* FloatMin::semanticAnaylsis(MethodCallNode* methodCallNode, std
 
 ExpressionValue FloatMin::interpret(const unsigned int tick) {
 
-	return Float((std::numeric_limits<float>::min)());
+	return NullableValueNumber((std::numeric_limits<float>::min)());
 }
 
 
@@ -1132,12 +1132,12 @@ Count::Count() : PositionalMethodSymbol("count",
 
 	{
 		ParameterSymbol(TypeInstances::GetBooleanInstance(), "condition", "The condition to count.")
-	}, ReturnSymbol(TypeInstances::GetFloatInstance(), "The amount of times that condition has been true.")) {}
+	}, ReturnSymbol(TypeInstances::GetNumberInstance(), "The amount of times that condition has been true.")) {}
 
 
 const TypeSymbol* Count::semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable) {
 	const TypeSymbol* returnType = PositionalMethodSymbol::semanticAnaylsis(methodCallNode, symboltable);
-	value = boost::get<Boolean>(&methodCallNode->expressionToArgList["condition"]->expressionValue);
+	value = boost::get<NullableValueBoolean>(&methodCallNode->expressionToArgList["condition"]->expressionValue);
 	return returnType;
 }
 
@@ -1150,7 +1150,7 @@ ExpressionValue Count::interpret(const unsigned int tick) {
 		}
 	}
 
-	return Float(count);
+	return NullableValueNumber(count);
 }
 
 
@@ -1159,22 +1159,22 @@ FloatCast::FloatCast() : PositionalMethodSymbol("float",
 
 	{
 		ParameterSymbol(TypeInstances::GetBooleanInstance(), "value", "The value to convert")
-	}, ReturnSymbol(TypeInstances::GetFloatInstance(), "The value as a float.")) {}
+	}, ReturnSymbol(TypeInstances::GetNumberInstance(), "The value as a float.")) {}
 
 
 const TypeSymbol* FloatCast::semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable) {
 	const TypeSymbol* returnType = PositionalMethodSymbol::semanticAnaylsis(methodCallNode, symboltable);
-	value = boost::get<Boolean>(&methodCallNode->expressionToArgList["value"]->expressionValue);
+	value = boost::get<NullableValueBoolean>(&methodCallNode->expressionToArgList["value"]->expressionValue);
 	return returnType;
 }
 
 ExpressionValue FloatCast::interpret(const unsigned int tick) {
 
 	if (value->value) {
-		return Float(*value->value);
+		return NullableValueNumber(*value->value);
 	}
 
-	return Float();
+	return NullableValueNumber();
 }
 
 
@@ -1183,23 +1183,23 @@ BooleanCast::BooleanCast() : PositionalMethodSymbol("boolean",
 	"Casts value to a boolea.",
 
 	{
-		ParameterSymbol(TypeInstances::GetFloatInstance(), "value", "The value to convert")
+		ParameterSymbol(TypeInstances::GetNumberInstance(), "value", "The value to convert")
 	}, ReturnSymbol(TypeInstances::GetBooleanInstance(), "The value as a boolean.")) {}
 
 
 const TypeSymbol* BooleanCast::semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable) {
 	const TypeSymbol* returnType = PositionalMethodSymbol::semanticAnaylsis(methodCallNode, symboltable);
-	value = boost::get<Float>(&methodCallNode->expressionToArgList["value"]->expressionValue);
+	value = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["value"]->expressionValue);
 	return returnType;
 }
 
 ExpressionValue BooleanCast::interpret(const unsigned int tick) {
 
 	if (value->value) {
-		return Boolean(*value->value);
+		return NullableValueBoolean(*value->value);
 	}
 
-	return Boolean();
+	return NullableValueBoolean();
 }
 
 
@@ -1209,13 +1209,13 @@ Absolute::Absolute() : PositionalMethodSymbol("abs",
 	"Returns the abs of a value.",
 
 	{
-		ParameterSymbol(TypeInstances::GetFloatInstance(), "value", "The value to abs.")
-	}, ReturnSymbol(TypeInstances::GetFloatInstance(), "The value as a abs.")) {}
+		ParameterSymbol(TypeInstances::GetNumberInstance(), "value", "The value to abs.")
+	}, ReturnSymbol(TypeInstances::GetNumberInstance(), "The value as a abs.")) {}
 
 
 const TypeSymbol* Absolute::semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable) {
 	const TypeSymbol* returnType = PositionalMethodSymbol::semanticAnaylsis(methodCallNode, symboltable);
-	value = boost::get<Float>(&methodCallNode->expressionToArgList["value"]->expressionValue);
+	value = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["value"]->expressionValue);
 	return returnType;
 }
 
@@ -1223,10 +1223,10 @@ const TypeSymbol* Absolute::semanticAnaylsis(MethodCallNode* methodCallNode, std
 ExpressionValue Absolute::interpret(const unsigned int tick) {
 
 	if (value->value) {
-		return Float(std::abs(*value->value));
+		return NullableValueNumber(std::abs(*value->value));
 	}
 
-	return Float();
+	return NullableValueNumber();
 }
 
 
@@ -1236,13 +1236,13 @@ LogE::LogE() : PositionalMethodSymbol("log",
 	"Returns the natural base-e log of a number. Can throw a run time error if <= 0.",
 
 	{
-		ParameterSymbol(TypeInstances::GetFloatInstance(), "value", "The value to log. Has to be positive non-zero value.")
-	}, ReturnSymbol(TypeInstances::GetFloatInstance(), "The logged value")) {}
+		ParameterSymbol(TypeInstances::GetNumberInstance(), "value", "The value to log. Has to be positive non-zero value.")
+	}, ReturnSymbol(TypeInstances::GetNumberInstance(), "The logged value")) {}
 
 
 const TypeSymbol* LogE::semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable) {
 	const TypeSymbol* returnType = PositionalMethodSymbol::semanticAnaylsis(methodCallNode, symboltable);
-	value = boost::get<Float>(&methodCallNode->expressionToArgList["value"]->expressionValue);
+	value = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["value"]->expressionValue);
 	valueNode = methodCallNode->expressionToArgList["value"]->expression;
 	return returnType;
 }
@@ -1253,10 +1253,10 @@ ExpressionValue LogE::interpret(const unsigned int tick) {
 		if (*value->value <= 0) {
 			throw LanguageException("Run time error at tick " + std::to_string(tick) + ", log function must use positive non zero value.", valueNode);
 		}
-		return Float(std::log(*value->value));
+		return NullableValueNumber(std::log(*value->value));
 	}
 
-	return Float();
+	return NullableValueNumber();
 }
 
 
@@ -1265,15 +1265,15 @@ LogBase::LogBase() : PositionalMethodSymbol("log",
 	"Returns the log of a number given a base. Can throw a run time error if <= 0.",
 
 	{
-		ParameterSymbol(TypeInstances::GetFloatInstance(), "value", "The value to log. Has to be positive non-zero value."),
-		ParameterSymbol(TypeInstances::GetFloatInstance(), "base", "The base of the log. Has to be positive non-zero value.")
-	}, ReturnSymbol(TypeInstances::GetFloatInstance(), "The logged value.")) {}
+		ParameterSymbol(TypeInstances::GetNumberInstance(), "value", "The value to log. Has to be positive non-zero value."),
+		ParameterSymbol(TypeInstances::GetNumberInstance(), "base", "The base of the log. Has to be positive non-zero value.")
+	}, ReturnSymbol(TypeInstances::GetNumberInstance(), "The logged value.")) {}
 
 
 const TypeSymbol* LogBase::semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable) {
 	const TypeSymbol* returnType = PositionalMethodSymbol::semanticAnaylsis(methodCallNode, symboltable);
-	value = boost::get<Float>(&methodCallNode->expressionToArgList["value"]->expressionValue);
-	base = boost::get<Float>(&methodCallNode->expressionToArgList["base"]->expressionValue);
+	value = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["value"]->expressionValue);
+	base = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["base"]->expressionValue);
 	valueNode = methodCallNode->expressionToArgList["value"]->expression;
 	baseNode = methodCallNode->expressionToArgList["base"]->expression;
 
@@ -1291,10 +1291,10 @@ ExpressionValue LogBase::interpret(const unsigned int tick) {
 		if (*base->value <= 0) {
 			throw LanguageException("Run time error at tick " + std::to_string(tick) + ", log function must use positive non zero base.", baseNode);
 		}
-		return Float(log(*value->value) / log(*base->value));
+		return NullableValueNumber(log(*value->value) / log(*base->value));
 	}
 
-	return Float();
+	return NullableValueNumber();
 }
 
 
@@ -1303,13 +1303,13 @@ SquareRoot::SquareRoot() : PositionalMethodSymbol("sqrt",
 	"Returns the square root of a number. ",
 
 	{
-		ParameterSymbol(TypeInstances::GetFloatInstance(), "value", "The value to root. Must be a positive number."),
-	}, ReturnSymbol(TypeInstances::GetFloatInstance(), "The rooted value.")) {}
+		ParameterSymbol(TypeInstances::GetNumberInstance(), "value", "The value to root. Must be a positive number."),
+	}, ReturnSymbol(TypeInstances::GetNumberInstance(), "The rooted value.")) {}
 
 
 const TypeSymbol* SquareRoot::semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable) {
 	const TypeSymbol* returnType = PositionalMethodSymbol::semanticAnaylsis(methodCallNode, symboltable);
-	value = boost::get<Float>(&methodCallNode->expressionToArgList["value"]->expressionValue);
+	value = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["value"]->expressionValue);
 	valueNode = methodCallNode->expressionToArgList["value"]->expression;
 	return returnType;
 }
@@ -1321,10 +1321,10 @@ ExpressionValue SquareRoot::interpret(const unsigned int tick) {
 			throw LanguageException("Run time error at tick " + std::to_string(tick) + ", log function must use positive zero value.", valueNode);
 		}
 
-		return Float(std::sqrt(*value->value));
+		return NullableValueNumber(std::sqrt(*value->value));
 	}
 
-	return Float();
+	return NullableValueNumber();
 }
 
 
@@ -1333,15 +1333,15 @@ LCM::LCM() : PositionalMethodSymbol("lcm",
 	"Returns the lowest common multiple of two numbers. Note: converts both numbers to ints.",
 
 	{
-		ParameterSymbol(TypeInstances::GetFloatInstance(), "value1", "The LCM value 1."),
-		ParameterSymbol(TypeInstances::GetFloatInstance(), "value2", "The LCM value 2."),
-	}, ReturnSymbol(TypeInstances::GetFloatInstance(), "The LCM.")) {}
+		ParameterSymbol(TypeInstances::GetNumberInstance(), "value1", "The LCM value 1."),
+		ParameterSymbol(TypeInstances::GetNumberInstance(), "value2", "The LCM value 2."),
+	}, ReturnSymbol(TypeInstances::GetNumberInstance(), "The LCM.")) {}
 
 
 const TypeSymbol* LCM::semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable) {
 	const TypeSymbol* returnType = PositionalMethodSymbol::semanticAnaylsis(methodCallNode, symboltable);
-	value1 = boost::get<Float>(&methodCallNode->expressionToArgList["value1"]->expressionValue);
-	value2 = boost::get<Float>(&methodCallNode->expressionToArgList["value2"]->expressionValue);
+	value1 = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["value1"]->expressionValue);
+	value2 = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["value2"]->expressionValue);
 	return returnType;
 }
 
@@ -1349,10 +1349,10 @@ ExpressionValue LCM::interpret(const unsigned int tick) {
 
 	if (value1->value && value2->value) {
 
-		return Float(std::lcm((int)*value1->value, (int)*value2->value));
+		return NullableValueNumber(std::lcm((int)*value1->value, (int)*value2->value));
 	}
 
-	return Float();
+	return NullableValueNumber();
 }
 
 
@@ -1361,15 +1361,15 @@ GCD::GCD() : PositionalMethodSymbol("gcd",
 	"Returns the greatest common divider of two numbers. Note: converts both numbers to ints.",
 
 	{
-		ParameterSymbol(TypeInstances::GetFloatInstance(), "value1", "The GCD value 1."),
-		ParameterSymbol(TypeInstances::GetFloatInstance(), "value2", "The GCD value 2."),
-	}, ReturnSymbol(TypeInstances::GetFloatInstance(), "The GCD.")) {}
+		ParameterSymbol(TypeInstances::GetNumberInstance(), "value1", "The GCD value 1."),
+		ParameterSymbol(TypeInstances::GetNumberInstance(), "value2", "The GCD value 2."),
+	}, ReturnSymbol(TypeInstances::GetNumberInstance(), "The GCD.")) {}
 
 
 const TypeSymbol* GCD::semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable) {
 	const TypeSymbol* returnType = PositionalMethodSymbol::semanticAnaylsis(methodCallNode, symboltable);
-	value1 = boost::get<Float>(&methodCallNode->expressionToArgList["value1"]->expressionValue);
-	value2 = boost::get<Float>(&methodCallNode->expressionToArgList["value2"]->expressionValue);
+	value1 = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["value1"]->expressionValue);
+	value2 = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["value2"]->expressionValue);
 	return returnType;
 }
 
@@ -1377,10 +1377,10 @@ ExpressionValue GCD::interpret(const unsigned int tick) {
 
 	if (value1->value && value2->value) {
 
-		return Float(std::gcd((int)*value1->value, (int)*value2->value));
+		return NullableValueNumber(std::gcd((int)*value1->value, (int)*value2->value));
 	}
 
-	return Float();
+	return NullableValueNumber();
 }
 
 
@@ -1389,15 +1389,15 @@ Variance::Variance() : PositionalMethodSymbol("variance",
 	"Returns the variance of a value.",
 
 	{
-		ParameterSymbol(TypeInstances::GetFloatInstance(), "value", "The value."),
-		ParameterSymbol(TypeInstances::GetFloatInstance(), "amount", "Amount values must be positive non zero value. Will be converted to a int."),
-	}, ReturnSymbol(TypeInstances::GetFloatInstance(), "The variance of the data.")) {}
+		ParameterSymbol(TypeInstances::GetNumberInstance(), "value", "The value."),
+		ParameterSymbol(TypeInstances::GetNumberInstance(), "amount", "Amount values must be positive non zero value. Will be converted to a int."),
+	}, ReturnSymbol(TypeInstances::GetNumberInstance(), "The variance of the data.")) {}
 
 
 const TypeSymbol* Variance::semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable) {
 	const TypeSymbol* returnType = PositionalMethodSymbol::semanticAnaylsis(methodCallNode, symboltable);
-	value = boost::get<Float>(&methodCallNode->expressionToArgList["value"]->expressionValue);
-	amount = boost::get<Float>(&methodCallNode->expressionToArgList["amount"]->expressionValue);
+	value = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["value"]->expressionValue);
+	amount = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["amount"]->expressionValue);
 	amountNode = methodCallNode->expressionToArgList["amount"]->expression;
 
 	return returnType;
@@ -1414,7 +1414,7 @@ ExpressionValue Variance::interpret(const unsigned int tick) {
 			buffer.push_back(*value->value);
 
 			if (buffer.size() < lookback) {
-				return Float();
+				return NullableValueNumber();
 			}
 
 			float sum = std::accumulate(buffer.begin(), buffer.end(), 0);
@@ -1426,11 +1426,11 @@ ExpressionValue Variance::interpret(const unsigned int tick) {
 			}
 			variance = variance / buffer.size();
 			buffer.pop_front();
-			return Float(variance);
+			return NullableValueNumber(variance);
 		}
 	}
 
-	return Float();
+	return NullableValueNumber();
 }
 
 
@@ -1440,14 +1440,14 @@ STD::STD() : PositionalMethodSymbol("std",
 	"Returns the std of a value.",
 
 	{
-		ParameterSymbol(TypeInstances::GetFloatInstance(), "value", "The value."),
-		ParameterSymbol(TypeInstances::GetFloatInstance(), "amount", "Amount values must be positive non zero value. Will be converted to a int."),
-	}, ReturnSymbol(TypeInstances::GetFloatInstance(), "The std of the data.")) {}
+		ParameterSymbol(TypeInstances::GetNumberInstance(), "value", "The value."),
+		ParameterSymbol(TypeInstances::GetNumberInstance(), "amount", "Amount values must be positive non zero value. Will be converted to a int."),
+	}, ReturnSymbol(TypeInstances::GetNumberInstance(), "The std of the data.")) {}
 
 const TypeSymbol* STD::semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable) {
 	const TypeSymbol* returnType = PositionalMethodSymbol::semanticAnaylsis(methodCallNode, symboltable);
-	value = boost::get<Float>(&methodCallNode->expressionToArgList["value"]->expressionValue);
-	amount = boost::get<Float>(&methodCallNode->expressionToArgList["amount"]->expressionValue);
+	value = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["value"]->expressionValue);
+	amount = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["amount"]->expressionValue);
 	amountNode = methodCallNode->expressionToArgList["amount"]->expression;
 
 	return returnType;
@@ -1467,7 +1467,7 @@ ExpressionValue STD::interpret(const unsigned int tick) {
 			buffer.push_back(*value->value);
 
 			if (buffer.size() < lookback) {
-				return Float();
+				return NullableValueNumber();
 			}
 
 			float sum = std::accumulate(buffer.begin(), buffer.end(), 0);
@@ -1479,11 +1479,11 @@ ExpressionValue STD::interpret(const unsigned int tick) {
 			}
 			variance = variance / buffer.size();
 			buffer.pop_front();
-			return Float(std::sqrt(variance));
+			return NullableValueNumber(std::sqrt(variance));
 		}
 	}
 
-	return Float();
+	return NullableValueNumber();
 }
 
 
@@ -1493,15 +1493,15 @@ MA::MA() : PositionalMethodSymbol("ma",
 	"Returns the moving average of a value.",
 
 	{
-		ParameterSymbol(TypeInstances::GetFloatInstance(), "value", "The value."),
-		ParameterSymbol(TypeInstances::GetFloatInstance(), "amount", "Amount values must be positive non zero value. Will be converted to a int."),
-	}, ReturnSymbol(TypeInstances::GetFloatInstance(), "The moving average of the data.")) {}
+		ParameterSymbol(TypeInstances::GetNumberInstance(), "value", "The value."),
+		ParameterSymbol(TypeInstances::GetNumberInstance(), "amount", "Amount values must be positive non zero value. Will be converted to a int."),
+	}, ReturnSymbol(TypeInstances::GetNumberInstance(), "The moving average of the data.")) {}
 
 
 const TypeSymbol* MA::semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable) {
 	const TypeSymbol* returnType = PositionalMethodSymbol::semanticAnaylsis(methodCallNode, symboltable);
-	value = boost::get<Float>(&methodCallNode->expressionToArgList["value"]->expressionValue);
-	amount = boost::get<Float>(&methodCallNode->expressionToArgList["amount"]->expressionValue);
+	value = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["value"]->expressionValue);
+	amount = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["amount"]->expressionValue);
 	amountNode = methodCallNode->expressionToArgList["amount"]->expression;
 
 	return returnType;
@@ -1518,18 +1518,18 @@ ExpressionValue MA::interpret(const unsigned int tick) {
 			buffer.push_back(*value->value);
 
 			if (buffer.size() < lookback) {
-				return Float();
+				return NullableValueNumber();
 			}
 
 			float sum = std::accumulate(buffer.begin(), buffer.end(), 0);
 			float mean = sum / buffer.size();
 
 			buffer.pop_front();
-			return Float(mean);
+			return NullableValueNumber(mean);
 		}
 	}
 
-	return Float();
+	return NullableValueNumber();
 }
 
 
@@ -1539,19 +1539,19 @@ IsNANF::IsNANF() : PositionalMethodSymbol("isnan",
 	"Returns true if float value is NAN",
 
 	{
-		ParameterSymbol(TypeInstances::GetFloatInstance(), "value", "The value to test"),
+		ParameterSymbol(TypeInstances::GetNumberInstance(), "value", "The value to test"),
 	}, ReturnSymbol(TypeInstances::GetBooleanInstance(), "Whether the value is NAN or not")) {}
 
 
 const TypeSymbol* IsNANF::semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable) {
 	const TypeSymbol* returnType = PositionalMethodSymbol::semanticAnaylsis(methodCallNode, symboltable);
-	value = boost::get<Float>(&methodCallNode->expressionToArgList["value"]->expressionValue);
+	value = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["value"]->expressionValue);
 	return returnType;
 }
 
 
 ExpressionValue IsNANF::interpret(const unsigned int tick) {
-	return Boolean((bool)!value->value);
+	return NullableValueBoolean((bool)!value->value);
 }
 
 
@@ -1565,12 +1565,12 @@ IsNANB::IsNANB() : PositionalMethodSymbol("isnan",
 
 const TypeSymbol* IsNANB::semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable) {
 	const TypeSymbol* returnType = PositionalMethodSymbol::semanticAnaylsis(methodCallNode, symboltable);
-	value = boost::get<Boolean>(&methodCallNode->expressionToArgList["value"]->expressionValue);
+	value = boost::get<NullableValueBoolean>(&methodCallNode->expressionToArgList["value"]->expressionValue);
 	return returnType;
 }
 
 ExpressionValue IsNANB::interpret(const unsigned int tick) {
-	return Boolean((bool)!value->value);
+	return NullableValueBoolean((bool)!value->value);
 }
 
 
@@ -1586,12 +1586,12 @@ IsNANS::IsNANS() : PositionalMethodSymbol("isnan",
 
 const TypeSymbol* IsNANS::semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable) {
 	const TypeSymbol* returnType = PositionalMethodSymbol::semanticAnaylsis(methodCallNode, symboltable);
-	value = boost::get<String>(&methodCallNode->expressionToArgList["value"]->expressionValue);
+	value = boost::get<NullableValueString>(&methodCallNode->expressionToArgList["value"]->expressionValue);
 	return returnType;
 }
 
 ExpressionValue IsNANS::interpret(const unsigned int tick) {
-	return Boolean((bool)!value->value);
+	return NullableValueBoolean((bool)!value->value);
 }
 
 
@@ -1602,24 +1602,24 @@ Random::Random() : PositionalMethodSymbol("random",
 	"Returns random value between the two ranges",
 
 	{
-		ParameterSymbol(TypeInstances::GetFloatInstance(), "minvalue", "The minimum range (will be casted to int)."),
-		ParameterSymbol(TypeInstances::GetFloatInstance(), "maxvalue", "The maximum range (will be casted to int)."),
-	}, ReturnSymbol(TypeInstances::GetFloatInstance(), "The random number in the range.")) {}
+		ParameterSymbol(TypeInstances::GetNumberInstance(), "minvalue", "The minimum range (will be casted to int)."),
+		ParameterSymbol(TypeInstances::GetNumberInstance(), "maxvalue", "The maximum range (will be casted to int)."),
+	}, ReturnSymbol(TypeInstances::GetNumberInstance(), "The random number in the range.")) {}
 
 
 const TypeSymbol* Random::semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable) {
 	const TypeSymbol* returnType = PositionalMethodSymbol::semanticAnaylsis(methodCallNode, symboltable);
-	minvalue = boost::get<Float>(&methodCallNode->expressionToArgList["minvalue"]->expressionValue);
-	maxvalue = boost::get<Float>(&methodCallNode->expressionToArgList["maxvalue"]->expressionValue);
+	minvalue = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["minvalue"]->expressionValue);
+	maxvalue = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["maxvalue"]->expressionValue);
 	return returnType;
 }
 
 ExpressionValue Random::interpret(const unsigned int tick) {
 	if (!minvalue->value) {
-		return Float();
+		return NullableValueNumber();
 	}
 	if (!maxvalue->value) {
-		return Float();
+		return NullableValueNumber();
 	}
 
 	std::random_device seeder;
@@ -1627,7 +1627,7 @@ ExpressionValue Random::interpret(const unsigned int tick) {
 	std::uniform_int_distribution<int> dist((int)*minvalue->value, (int)*maxvalue->value);
 	int compGuess = dist(engine);
 
-	return Float(compGuess);
+	return NullableValueNumber(compGuess);
 }
 
 
@@ -1636,15 +1636,15 @@ Falling::Falling() : PositionalMethodSymbol("falling",
 	"Returns true if data has been dropping for n bars in a row.",
 
 	{
-		ParameterSymbol(TypeInstances::GetFloatInstance(), "value", "The value."),
-		ParameterSymbol(TypeInstances::GetFloatInstance(), "amount", "Amount bars must be positive non zero value. Will be converted to a int."),
+		ParameterSymbol(TypeInstances::GetNumberInstance(), "value", "The value."),
+		ParameterSymbol(TypeInstances::GetNumberInstance(), "amount", "Amount bars must be positive non zero value. Will be converted to a int."),
 	}, ReturnSymbol(TypeInstances::GetBooleanInstance(), "True or false if it has been falling for n bars in a row.")) {}
 
 
 const TypeSymbol* Falling::semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable) {
 	const TypeSymbol* returnType = PositionalMethodSymbol::semanticAnaylsis(methodCallNode, symboltable);
-	value = boost::get<Float>(&methodCallNode->expressionToArgList["value"]->expressionValue);
-	amount = boost::get<Float>(&methodCallNode->expressionToArgList["amount"]->expressionValue);
+	value = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["value"]->expressionValue);
+	amount = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["amount"]->expressionValue);
 	amountNode = methodCallNode->expressionToArgList["amount"]->expression;
 
 	return returnType;
@@ -1668,13 +1668,13 @@ ExpressionValue Falling::interpret(const unsigned int tick) {
 			currentMin = newVal;
 
 			if (inRow >= lookback) {
-				return Boolean(true);
+				return NullableValueBoolean(true);
 			}
-			return Boolean(false);
+			return NullableValueBoolean(false);
 		}
 	}
 
-	return Boolean();
+	return NullableValueBoolean();
 }
 
 
@@ -1683,15 +1683,15 @@ Rising::Rising() : PositionalMethodSymbol("rising",
 	"Returns true if data has been rising for n bars in a row.",
 
 	{
-		ParameterSymbol(TypeInstances::GetFloatInstance(), "value", "The value."),
-		ParameterSymbol(TypeInstances::GetFloatInstance(), "amount", "Amount bars must be positive non zero value. Will be converted to a int."),
+		ParameterSymbol(TypeInstances::GetNumberInstance(), "value", "The value."),
+		ParameterSymbol(TypeInstances::GetNumberInstance(), "amount", "Amount bars must be positive non zero value. Will be converted to a int."),
 	}, ReturnSymbol(TypeInstances::GetBooleanInstance(), "True or false if it has been rising for n bars in a row.")) {}
 
 
 const TypeSymbol* Rising::semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable) {
 	const TypeSymbol* returnType = PositionalMethodSymbol::semanticAnaylsis(methodCallNode, symboltable);
-	value = boost::get<Float>(&methodCallNode->expressionToArgList["value"]->expressionValue);
-	amount = boost::get<Float>(&methodCallNode->expressionToArgList["amount"]->expressionValue);
+	value = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["value"]->expressionValue);
+	amount = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["amount"]->expressionValue);
 	amountNode = methodCallNode->expressionToArgList["amount"]->expression;
 
 	return returnType;
@@ -1715,13 +1715,13 @@ ExpressionValue Rising::interpret(const unsigned int tick) {
 			currentMax = newVal;
 
 			if (inRow >= lookback) {
-				return Boolean(true);
+				return NullableValueBoolean(true);
 			}
-			return Boolean(false);
+			return NullableValueBoolean(false);
 		}
 	}
 
-	return Boolean();
+	return NullableValueBoolean();
 }
 
 
@@ -1730,22 +1730,22 @@ Cosine::Cosine() : PositionalMethodSymbol("cos",
 	"Returns the cosine of x radians. If NAN supplied, will return NAN.",
 
 	{
-		ParameterSymbol(TypeInstances::GetFloatInstance(), "radians", "The amount of radians"),
-	}, ReturnSymbol(TypeInstances::GetFloatInstance(), "The consine of the parameter input.")) {}
+		ParameterSymbol(TypeInstances::GetNumberInstance(), "radians", "The amount of radians"),
+	}, ReturnSymbol(TypeInstances::GetNumberInstance(), "The consine of the parameter input.")) {}
 
 const TypeSymbol* Cosine::semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable) {
 	const TypeSymbol* returnType = PositionalMethodSymbol::semanticAnaylsis(methodCallNode, symboltable);
-	radians = boost::get<Float>(&methodCallNode->expressionToArgList["radians"]->expressionValue);
+	radians = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["radians"]->expressionValue);
 	return returnType;
 }
 
 
 ExpressionValue Cosine::interpret(const unsigned int tick) {
 	if (radians->value) {
-		return Float(std::cos(*radians->value));
+		return NullableValueNumber(std::cos(*radians->value));
 	}
 
-	return Float();
+	return NullableValueNumber();
 }
 
 
@@ -1754,23 +1754,23 @@ Tangent::Tangent() : PositionalMethodSymbol("tan",
 	"Returns the tangent of x radians. If NAN supplied, will return NAN.",
 
 	{
-		ParameterSymbol(TypeInstances::GetFloatInstance(), "radians", "The amount of radians"),
-	}, ReturnSymbol(TypeInstances::GetFloatInstance(), "The tangent of the parameter input.")) {}
+		ParameterSymbol(TypeInstances::GetNumberInstance(), "radians", "The amount of radians"),
+	}, ReturnSymbol(TypeInstances::GetNumberInstance(), "The tangent of the parameter input.")) {}
 
 
 const TypeSymbol* Tangent::semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable) {
 	const TypeSymbol* returnType = PositionalMethodSymbol::semanticAnaylsis(methodCallNode, symboltable);
-	radians = boost::get<Float>(&methodCallNode->expressionToArgList["radians"]->expressionValue);
+	radians = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["radians"]->expressionValue);
 	return returnType;
 }
 
 
 ExpressionValue Tangent::interpret(const unsigned int tick) {
 	if (radians->value) {
-		return Float(std::tan(*radians->value));
+		return NullableValueNumber(std::tan(*radians->value));
 	}
 
-	return Float();
+	return NullableValueNumber();
 }
 
 
@@ -1779,22 +1779,22 @@ Sine::Sine() : PositionalMethodSymbol("sin",
 	"Returns the sine of x radians. If NAN supplied, will return NAN.",
 
 	{
-		ParameterSymbol(TypeInstances::GetFloatInstance(), "radians", "The amount of radians"),
-	}, ReturnSymbol(TypeInstances::GetFloatInstance(), "The sine of the parameter input.")) {}
+		ParameterSymbol(TypeInstances::GetNumberInstance(), "radians", "The amount of radians"),
+	}, ReturnSymbol(TypeInstances::GetNumberInstance(), "The sine of the parameter input.")) {}
 
 
 const TypeSymbol* Sine::semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable) {
 	const TypeSymbol* returnType = PositionalMethodSymbol::semanticAnaylsis(methodCallNode, symboltable);
-	radians = boost::get<Float>(&methodCallNode->expressionToArgList["radians"]->expressionValue);
+	radians = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["radians"]->expressionValue);
 	return returnType;
 }
 
 ExpressionValue Sine::interpret(const unsigned int tick) {
 	if (radians->value) {
-		return Float(std::sin(*radians->value));
+		return NullableValueNumber(std::sin(*radians->value));
 	}
 
-	return Float();
+	return NullableValueNumber();
 }
 
 
@@ -1802,22 +1802,22 @@ ArcCosine::ArcCosine() : PositionalMethodSymbol("acos",
 	"Returns the arc cosine of x radians. If NAN supplied, will return NAN.",
 
 	{
-		ParameterSymbol(TypeInstances::GetFloatInstance(), "radians", "The amount of radians"),
-	}, ReturnSymbol(TypeInstances::GetFloatInstance(), "The arc cosine of the parameter input.")) {}
+		ParameterSymbol(TypeInstances::GetNumberInstance(), "radians", "The amount of radians"),
+	}, ReturnSymbol(TypeInstances::GetNumberInstance(), "The arc cosine of the parameter input.")) {}
 
 
 const TypeSymbol* ArcCosine::semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable) {
 	const TypeSymbol* returnType = PositionalMethodSymbol::semanticAnaylsis(methodCallNode, symboltable);
-	radians = boost::get<Float>(&methodCallNode->expressionToArgList["radians"]->expressionValue);
+	radians = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["radians"]->expressionValue);
 	return returnType;
 }
 
 ExpressionValue ArcCosine::interpret(const unsigned int tick) {
 	if (radians->value) {
-		return Float(std::acos(*radians->value));
+		return NullableValueNumber(std::acos(*radians->value));
 	}
 
-	return Float();
+	return NullableValueNumber();
 }
 
 
@@ -1827,23 +1827,23 @@ ArcTan::ArcTan() : PositionalMethodSymbol("atan",
 	"Returns the arc tangent of x radians. If NAN supplied, will return NAN.",
 
 	{
-		ParameterSymbol(TypeInstances::GetFloatInstance(), "radians", "The amount of radians"),
-	}, ReturnSymbol(TypeInstances::GetFloatInstance(), "The arc tangent of the parameter input.")) {}
+		ParameterSymbol(TypeInstances::GetNumberInstance(), "radians", "The amount of radians"),
+	}, ReturnSymbol(TypeInstances::GetNumberInstance(), "The arc tangent of the parameter input.")) {}
 
 
 const TypeSymbol* ArcTan::semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable) {
 	const TypeSymbol* returnType = PositionalMethodSymbol::semanticAnaylsis(methodCallNode, symboltable);
-	radians = boost::get<Float>(&methodCallNode->expressionToArgList["radians"]->expressionValue);
+	radians = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["radians"]->expressionValue);
 	return returnType;
 }
 
 
 ExpressionValue ArcTan::interpret(const unsigned int tick) {
 	if (radians->value) {
-		return Float(std::atan(*radians->value));
+		return NullableValueNumber(std::atan(*radians->value));
 	}
 
-	return Float();
+	return NullableValueNumber();
 }
 
 
@@ -1854,22 +1854,22 @@ ArcSine::ArcSine() : PositionalMethodSymbol("asin",
 	"Returns the arc sine of x radians. If NAN supplied, will return NAN.",
 
 	{
-		ParameterSymbol(TypeInstances::GetFloatInstance(), "radians", "The amount of radians"),
-	}, ReturnSymbol(TypeInstances::GetFloatInstance(), "The arc sine of the parameter input.")) {}
+		ParameterSymbol(TypeInstances::GetNumberInstance(), "radians", "The amount of radians"),
+	}, ReturnSymbol(TypeInstances::GetNumberInstance(), "The arc sine of the parameter input.")) {}
 
 
 const TypeSymbol* ArcSine::semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable) {
 	const TypeSymbol* returnType = PositionalMethodSymbol::semanticAnaylsis(methodCallNode, symboltable);
-	radians = boost::get<Float>(&methodCallNode->expressionToArgList["radians"]->expressionValue);
+	radians = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["radians"]->expressionValue);
 	return returnType;
 }
 
 ExpressionValue ArcSine::interpret(const unsigned int tick) {
 	if (radians->value) {
-		return Float(std::asin(*radians->value));
+		return NullableValueNumber(std::asin(*radians->value));
 	}
 
-	return Float();
+	return NullableValueNumber();
 }
 
 
@@ -1877,14 +1877,14 @@ LinearRegression::LinearRegression() : PositionalMethodSymbol("linreg",
 	"Returns the rolling linear regression of last n bars.",
 
 	{
-		ParameterSymbol(TypeInstances::GetFloatInstance(), "data", "The data we are using in the prediction"),
-		ParameterSymbol(TypeInstances::GetFloatInstance(), "bars", "The amount of bars to perform the calculation on"),
-	}, ReturnSymbol(TypeInstances::GetFloatInstance(), "The y level of the linear regression")) {}
+		ParameterSymbol(TypeInstances::GetNumberInstance(), "data", "The data we are using in the prediction"),
+		ParameterSymbol(TypeInstances::GetNumberInstance(), "bars", "The amount of bars to perform the calculation on"),
+	}, ReturnSymbol(TypeInstances::GetNumberInstance(), "The y level of the linear regression")) {}
 
 const TypeSymbol* LinearRegression::semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable) {
 	const TypeSymbol* returnType = PositionalMethodSymbol::semanticAnaylsis(methodCallNode, symboltable);
-	data = boost::get<Float>(&methodCallNode->expressionToArgList["data"]->expressionValue);
-	bars = boost::get<Float>(&methodCallNode->expressionToArgList["bars"]->expressionValue);
+	data = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["data"]->expressionValue);
+	bars = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["bars"]->expressionValue);
 	barsNode = methodCallNode->expressionToArgList["bars"]->expression;
 
 	return returnType;
@@ -1906,7 +1906,7 @@ ExpressionValue LinearRegression::interpret(const unsigned int tick) {
 			bufferY.push_back(*data->value);
 
 			if (bufferX.size() < lookback) {
-				return Float();
+				return NullableValueNumber();
 			}
 		https://towardsdatascience.com/linear-regression-using-least-squares-a4c3456e8570
 
@@ -1925,12 +1925,12 @@ ExpressionValue LinearRegression::interpret(const unsigned int tick) {
 
 			bufferX.pop_front();
 			bufferY.pop_front();
-			return Float((m * tick) + c);
+			return NullableValueNumber((m * tick) + c);
 		}
 
 	}
 
-	return Float();
+	return NullableValueNumber();
 }
 
 
@@ -1941,17 +1941,17 @@ Correlation::Correlation() : PositionalMethodSymbol("correlation",
 	"Returns the correlation of two data sources in the last n bars.",
 
 	{
-		ParameterSymbol(TypeInstances::GetFloatInstance(), "data1", "The first data source"),
-		ParameterSymbol(TypeInstances::GetFloatInstance(), "data2", "The second data source"),
-		ParameterSymbol(TypeInstances::GetFloatInstance(), "length", "The amount of bars to perform the calculation on"),
-	}, ReturnSymbol(TypeInstances::GetFloatInstance(), "The correlation")) {}
+		ParameterSymbol(TypeInstances::GetNumberInstance(), "data1", "The first data source"),
+		ParameterSymbol(TypeInstances::GetNumberInstance(), "data2", "The second data source"),
+		ParameterSymbol(TypeInstances::GetNumberInstance(), "length", "The amount of bars to perform the calculation on"),
+	}, ReturnSymbol(TypeInstances::GetNumberInstance(), "The correlation")) {}
 
 
 const TypeSymbol* Correlation::semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable) {
 	const TypeSymbol* returnType = PositionalMethodSymbol::semanticAnaylsis(methodCallNode, symboltable);
-	data1 = boost::get<Float>(&methodCallNode->expressionToArgList["data1"]->expressionValue);
-	data2 = boost::get<Float>(&methodCallNode->expressionToArgList["data2"]->expressionValue);
-	length = boost::get<Float>(&methodCallNode->expressionToArgList["length"]->expressionValue);
+	data1 = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["data1"]->expressionValue);
+	data2 = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["data2"]->expressionValue);
+	length = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["length"]->expressionValue);
 	lengthNode = methodCallNode->expressionToArgList["length"]->expression;
 	return returnType;
 }
@@ -1973,7 +1973,7 @@ ExpressionValue Correlation::interpret(const unsigned int tick) {
 			values2.push_back(*data2->value);
 
 			if (values1.size() < lookback) {
-				return Float();
+				return NullableValueNumber();
 			}
 			//https://tutorialspoint.dev/algorithm/mathematical-algorithms/program-find-correlation-coefficient
 
@@ -2002,12 +2002,12 @@ ExpressionValue Correlation::interpret(const unsigned int tick) {
 					* (lookback * squareSum_Y - sum_Y * sum_Y));
 			values1.pop_front();
 			values2.pop_front();
-			return Float(corr);
+			return NullableValueNumber(corr);
 		}
 
 	}
 
-	return Float();
+	return NullableValueNumber();
 }
 
 
@@ -2021,16 +2021,16 @@ ExpressionValue Correlation::interpret(const unsigned int tick) {
 PreviousValue::PreviousValue() : PositionalMethodSymbol("prev",
 	"Gets the previous value. Lookback will return the last nth non-NAN value.",
 	{
-	ParameterSymbol(TypeInstances::GetFloatInstance(), "data", "Series of data to retreive value for (stores it every time its called)."),
-	ParameterSymbol(TypeInstances::GetFloatInstance(), "barsback", "The amount of bars back to retrieve the value")
+	ParameterSymbol(TypeInstances::GetNumberInstance(), "data", "Series of data to retreive value for (stores it every time its called)."),
+	ParameterSymbol(TypeInstances::GetNumberInstance(), "barsback", "The amount of bars back to retrieve the value")
 
-	}, ReturnSymbol(TypeInstances::GetFloatInstance())) {}
+	}, ReturnSymbol(TypeInstances::GetNumberInstance())) {}
 
 
 const TypeSymbol* PreviousValue::semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable) {
 	const TypeSymbol* returnType = PositionalMethodSymbol::semanticAnaylsis(methodCallNode, symboltable);
-	data = boost::get<Float>(&methodCallNode->expressionToArgList["data"]->expressionValue);
-	barsback = boost::get<Float>(&methodCallNode->expressionToArgList["barsback"]->expressionValue);
+	data = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["data"]->expressionValue);
+	barsback = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["barsback"]->expressionValue);
 	barsbackNode = methodCallNode->expressionToArgList["barsback"]->expression;
 	return returnType;
 }
@@ -2052,11 +2052,11 @@ ExpressionValue PreviousValue::interpret(const unsigned int tick) {
 		if (values.size() > lookback) {
 			return values[tick - lookback];
 		}
-		return Float();
+		return NullableValueNumber();
 
 	}
 
-	return Float();
+	return NullableValueNumber();
 }
 
 
@@ -2078,14 +2078,14 @@ insert_sorted(std::vector<T>& vec, T const& item)
 Median::Median() : PositionalMethodSymbol("median",
 	"Returns the median value. Ignores NAN values.",
 	{
-	ParameterSymbol(TypeInstances::GetFloatInstance(), "data", "Data to perform median on."),
+	ParameterSymbol(TypeInstances::GetNumberInstance(), "data", "Data to perform median on."),
 
-	}, ReturnSymbol(TypeInstances::GetFloatInstance(), "The median value")) {}
+	}, ReturnSymbol(TypeInstances::GetNumberInstance(), "The median value")) {}
 
 
 const TypeSymbol* Median::semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable) {
 	const TypeSymbol* returnType = PositionalMethodSymbol::semanticAnaylsis(methodCallNode, symboltable);
-	data = boost::get<Float>(&methodCallNode->expressionToArgList["data"]->expressionValue);
+	data = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["data"]->expressionValue);
 	return returnType;
 }
 
@@ -2093,17 +2093,17 @@ const TypeSymbol* Median::semanticAnaylsis(MethodCallNode* methodCallNode, std::
 ExpressionValue Median::interpret(const unsigned int tick) {
 
 	if (!data->value) {
-		return Float();
+		return NullableValueNumber();
 	}
 
 	insert_sorted(values, *data->value);
 
 	if (values.size() % 2 == 0)
 	{
-		return Float((values[values.size() / 2 - 1] + values[values.size() / 2]) / 2);
+		return NullableValueNumber((values[values.size() / 2 - 1] + values[values.size() / 2]) / 2);
 	}
 
-	return Float(values[values.size() / 2]);
+	return NullableValueNumber(values[values.size() / 2]);
 }
 
 
@@ -2111,15 +2111,15 @@ ExpressionValue Median::interpret(const unsigned int tick) {
 MedianBars::MedianBars() : PositionalMethodSymbol("median",
 	"Returns the rolling median value. Ignores NAN values.",
 	{
-	ParameterSymbol(TypeInstances::GetFloatInstance(), "data", "Data to perform median on."),
-	ParameterSymbol(TypeInstances::GetFloatInstance(), "barsback", "Range of bars to consider for median"),
+	ParameterSymbol(TypeInstances::GetNumberInstance(), "data", "Data to perform median on."),
+	ParameterSymbol(TypeInstances::GetNumberInstance(), "barsback", "Range of bars to consider for median"),
 
-	}, ReturnSymbol(TypeInstances::GetFloatInstance(), "The median value")) {}
+	}, ReturnSymbol(TypeInstances::GetNumberInstance(), "The median value")) {}
 
 const TypeSymbol* MedianBars::semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable) {
 	const TypeSymbol* returnType = PositionalMethodSymbol::semanticAnaylsis(methodCallNode, symboltable);
-	data = boost::get<Float>(&methodCallNode->expressionToArgList["data"]->expressionValue);
-	barsback = boost::get<Float>(&methodCallNode->expressionToArgList["barsback"]->expressionValue);
+	data = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["data"]->expressionValue);
+	barsback = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["barsback"]->expressionValue);
 	return returnType;
 }
 
@@ -2127,11 +2127,11 @@ const TypeSymbol* MedianBars::semanticAnaylsis(MethodCallNode* methodCallNode, s
 ExpressionValue MedianBars::interpret(const unsigned int tick) {
 
 	if (!data->value) {
-		return Float();
+		return NullableValueNumber();
 	}
 
 	if (!barsback->value) {
-		return Float();
+		return NullableValueNumber();
 	}
 
 
@@ -2143,13 +2143,13 @@ ExpressionValue MedianBars::interpret(const unsigned int tick) {
 		std::sort(new_vec.begin(), new_vec.end());
 		if (new_vec.size() % 2 == 0)
 		{
-			return Float((new_vec[new_vec.size() / 2 - 1] + new_vec[new_vec.size() / 2]) / 2);
+			return NullableValueNumber((new_vec[new_vec.size() / 2 - 1] + new_vec[new_vec.size() / 2]) / 2);
 		}
 
-		return Float(new_vec[new_vec.size() / 2]);
+		return NullableValueNumber(new_vec[new_vec.size() / 2]);
 	}
 
-	return Float();
+	return NullableValueNumber();
 }
 
 
@@ -2158,7 +2158,7 @@ ExpressionValue MedianBars::interpret(const unsigned int tick) {
 IsPrime::IsPrime() : PositionalMethodSymbol("isprime",
 	"Returns true or false if it is a prime number. Will be converted to a integer. Ignores NAN values.",
 	{
-	ParameterSymbol(TypeInstances::GetFloatInstance(), "data", "Data to check if prime."),
+	ParameterSymbol(TypeInstances::GetNumberInstance(), "data", "Data to check if prime."),
 
 	}, ReturnSymbol(TypeInstances::GetBooleanInstance(), "Is prime or not.")) {}
 
@@ -2166,7 +2166,7 @@ IsPrime::IsPrime() : PositionalMethodSymbol("isprime",
 
 const TypeSymbol* IsPrime::semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable) {
 	const TypeSymbol* returnType = PositionalMethodSymbol::semanticAnaylsis(methodCallNode, symboltable);
-	data = boost::get<Float>(&methodCallNode->expressionToArgList["data"]->expressionValue);
+	data = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["data"]->expressionValue);
 	return returnType;
 }
 
@@ -2175,7 +2175,7 @@ const TypeSymbol* IsPrime::semanticAnaylsis(MethodCallNode* methodCallNode, std:
 ExpressionValue IsPrime::interpret(const unsigned int tick) {
 
 	if (!data->value) {
-		return Boolean();
+		return NullableValueBoolean();
 	}
 
 	int n = *data->value;
@@ -2183,14 +2183,14 @@ ExpressionValue IsPrime::interpret(const unsigned int tick) {
 	//https://www.geeksforgeeks.org/c-program-to-check-prime-number/
 	// Corner case
 	if (n <= 1)
-		return Boolean(false);
+		return NullableValueBoolean(false);
 
 	// Check from 2 to n-1
 	for (int i = 2; i < n; i++)
 		if (n % i == 0)
-			return Boolean(false);
+			return NullableValueBoolean(false);
 
-	return Boolean(true);
+	return NullableValueBoolean(true);
 }
 
 
@@ -2198,20 +2198,20 @@ ExpressionValue IsPrime::interpret(const unsigned int tick) {
 IsTriangle::IsTriangle() : PositionalMethodSymbol("istriangle",
 	"Returns true or false if it is a triangle number. Will be converted to a integer. Ignores NAN values.",
 	{
-	ParameterSymbol(TypeInstances::GetFloatInstance(), "data", "Data to check if triangle."),
+	ParameterSymbol(TypeInstances::GetNumberInstance(), "data", "Data to check if triangle."),
 
 	}, ReturnSymbol(TypeInstances::GetBooleanInstance(), "Is triangle or not.")) {}
 
 const TypeSymbol* IsTriangle::semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable) {
 	const TypeSymbol* returnType = PositionalMethodSymbol::semanticAnaylsis(methodCallNode, symboltable);
-	data = boost::get<Float>(&methodCallNode->expressionToArgList["data"]->expressionValue);
+	data = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["data"]->expressionValue);
 	return returnType;
 }
 
 ExpressionValue IsTriangle::interpret(const unsigned int tick) {
 
 	if (!data->value) {
-		return Boolean();
+		return NullableValueBoolean();
 	}
 
 	int n = *data->value;
@@ -2219,13 +2219,13 @@ ExpressionValue IsTriangle::interpret(const unsigned int tick) {
 	//https://stackoverflow.com/questions/2913215/fastest-method-to-define-whether-a-number-is-a-triangular-number
 
 	if (n < 0)
-		return Boolean(false);
+		return NullableValueBoolean(false);
 
 	for (int i = 0; i < n; i++) {
 		if (i * (i + 1) / 2 == n) {
-			return Boolean(true);
+			return NullableValueBoolean(true);
 		}
 	}
 
-	return Boolean(false);
+	return NullableValueBoolean(false);
 }

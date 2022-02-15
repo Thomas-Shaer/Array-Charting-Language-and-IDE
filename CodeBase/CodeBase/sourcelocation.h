@@ -86,12 +86,26 @@ namespace yy {
         SourceLocation(const SourceLocation& sl);
 
 
-        SourceLocation& operator=(const SourceLocation& sl);
+        //SourceLocation& operator=(const SourceLocation& sl);
 
+        /*
+        Used to easily combine multiple source location objects together.
+        Does this via getting the minimum and maximum row/col of the two objects and
+        creating a new one from that.
+        */
         SourceLocation operator+(const SourceLocation& sl);
-        friend std::ostream& operator<<(std::ostream& output, const SourceLocation& source);
+
+        /*
+        Given the source code, highlight the source code in the lines/cols
+        corresponding to this location.
+        Highlighting is done via ^ characters
+        */
         std::string getNodeSourceCode(const std::string& sourceCode) const;
-        std::string toString() const;
+
+        /*
+        Prints out location in clear format (mainly for debugging)
+        */
+        friend std::ostream& operator<<(std::ostream& output, const SourceLocation& source);
 
         /// Beginning of the located region.
         Position begin;

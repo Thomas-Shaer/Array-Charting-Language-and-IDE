@@ -17,7 +17,7 @@ public:
 	{
 		Default,
 		Keyword,
-		Number,
+		NullableValueNumber,
 		String,
 		CharLiteral,
 		Punctuation,

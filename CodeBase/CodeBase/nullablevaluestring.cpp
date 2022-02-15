@@ -1,12 +1,12 @@
-#include "string.h"
+#include "nullablevaluestring.h"
 #include <string>
 #include "jsonsettings.h"
 
-std::string String::toString() const {
+std::string NullableValueString::toString() const {
 	return this->value ? "\"" + (*this->value) + "\"" : "nan";
 }
 
-std::string String::toFileString() const {
+std::string NullableValueString::toFileString() const {
 	if (!value) {
 		return Settings::settingsFile["defaultNANExportLiteral"].get<std::string>();;
 	}

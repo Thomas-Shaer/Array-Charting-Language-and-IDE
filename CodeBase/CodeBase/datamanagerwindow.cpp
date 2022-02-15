@@ -23,7 +23,7 @@ void DataManagerWindow::init() {
     fb.SetPwd(std::filesystem::path(Settings::settingsFile["lastDataImportDirectory"].get<std::string>()));
 
     for (nlohmann::json path : Settings::settingsFile["loadedInData"].get<std::vector<nlohmann::json>>()) {
-        auto newData = InputData::LoadInputData(StringToImportPolicy(path["policy"]), path["path"], path["name"], path["trueImportString"], path["falseImportString"], path["NANImportString"]);
+        auto newData = InputData::LoadInputData(InputData::StringToImportPolicy(path["policy"]), path["path"], path["name"], path["trueImportString"], path["falseImportString"], path["NANImportString"]);
         LOADED_IN_DATA.insert(LOADED_IN_DATA.end(), newData.begin(), newData.end());
     }
 
@@ -42,7 +42,7 @@ void DataManagerWindow::loadInData(const ImportPolicy importPolicy, const std::s
     nlohmann::json newSave;
     newSave["path"] = pathName;
     newSave["name"] = fileName;
-    newSave["policy"] = ImportPolicyToString(importPolicy);
+    newSave["policy"] = InputData::ImportPolicyToString(importPolicy);
     newSave["trueImportString"] = TrueString;
     newSave["falseImportString"] = FalseString;
     newSave["NANImportString"] = NANString;
@@ -53,7 +53,7 @@ void DataManagerWindow::loadInData(const ImportPolicy importPolicy, const std::s
 void DataManagerWindow::createNewVariable(std::shared_ptr<InputData> data, const std::string& variableName) {
     data->isVariable = true;
     data->variableName = variableName;
-    std::shared_ptr<VarSymbol> varSymbol = VarSymbol::createVarSymbol(data->variableName, TypeInstances::GetFloatInstance(), data->data);
+    std::shared_ptr<VarSymbol> varSymbol = VarSymbol::createVarSymbol(data->variableName, TypeInstances::GetNumberInstance(), data->data);
     SymbolTable::GLOBAL_SYMBOL_TABLE->variableTable[data->variableName] = varSymbol;
     OutputWindow::UpdateVariablesTab();
     
@@ -63,7 +63,7 @@ void DataManagerWindow::renameVariable(std::shared_ptr<InputData> data, const st
     std::shared_ptr<VarSymbol> oldSymbol = SymbolTable::GLOBAL_SYMBOL_TABLE->variableTable[data->variableName];
     SymbolTable::GLOBAL_SYMBOL_TABLE->variableTable.erase(SymbolTable::GLOBAL_SYMBOL_TABLE->variableTable.find(data->variableName));
     data->variableName = variableName;
-    std::shared_ptr<VarSymbol> varSymbol = VarSymbol::createVarSymbol(data->variableName, TypeInstances::GetFloatInstance(), oldSymbol->getValues());
+    std::shared_ptr<VarSymbol> varSymbol = VarSymbol::createVarSymbol(data->variableName, TypeInstances::GetNumberInstance(), oldSymbol->getArrayValues());
     SymbolTable::GLOBAL_SYMBOL_TABLE->variableTable[data->variableName] = varSymbol;
     OutputWindow::UpdateVariablesTab();
 }
@@ -175,12 +175,12 @@ void DataManagerWindow::ShowWindow() {
         ImGui::Text(std::string("Import data.").c_str());
         ImGui::NewLine();
         ImGui::Text("Import Policy");
-        if (ImGui::BeginCombo("", ImportPolicyToString(importPolicySelection).c_str())) {
+        if (ImGui::BeginCombo("", InputData::ImportPolicyToString(importPolicySelection).c_str())) {
             bool is_selected = false;
-            if (ImGui::Selectable(ImportPolicyToString(ImportPolicy::COLUMN_WISE).c_str(), is_selected)) {
+            if (ImGui::Selectable(InputData::ImportPolicyToString(ImportPolicy::COLUMN_WISE).c_str(), is_selected)) {
                 importPolicySelection = ImportPolicy::COLUMN_WISE;
             }
-            if (ImGui::Selectable(ImportPolicyToString(ImportPolicy::ROW_WISE).c_str(), is_selected)) {
+            if (ImGui::Selectable(InputData::ImportPolicyToString(ImportPolicy::ROW_WISE).c_str(), is_selected)) {
                 importPolicySelection = ImportPolicy::ROW_WISE;
             }
             ImGui::EndCombo();
@@ -325,12 +325,12 @@ void DataManagerWindow::ShowWindow() {
 
         ImGui::Text(data->name.c_str());
 
-        if (data->type == TypeInstances::GetFloatInstance()) {
+        if (data->type == TypeInstances::GetNumberInstance()) {
             if (ImGui::Button("Plot"))
             {
                 std::vector<float> values;
                 for (auto val : data->data) {
-                    Float f = boost::get<Float>(val);
+                    NullableValueNumber f = boost::get<NullableValueNumber>(val);
                     if (!f.value) {
                         values.push_back(std::numeric_limits<float>::quiet_NaN());
                         continue;
@@ -346,7 +346,7 @@ void DataManagerWindow::ShowWindow() {
             {
                 std::vector<float> values;
                 for (auto val : data->data) {
-                    Boolean f = boost::get<Boolean>(val);
+                    NullableValueBoolean f = boost::get<NullableValueBoolean>(val);
                     if (!f.value) {
                         values.push_back(std::numeric_limits<float>::quiet_NaN());
                         continue;

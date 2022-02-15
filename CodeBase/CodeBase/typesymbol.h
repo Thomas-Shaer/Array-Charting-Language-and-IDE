@@ -2,6 +2,10 @@
 #include <iostream>
 #include "global.h"
 
+/*
+Type symbol class.
+Used to represent types.
+*/
 class TypeSymbol {
 public:
 	const std::string name;
@@ -14,13 +18,28 @@ public:
 	ExpressionValue nanValue;
 };
 
+/*
+Singleton for type instances.
+*/
 struct TypeInstances {
 	TypeInstances();
-	static TypeSymbol* GetFloatInstance();
-	static TypeSymbol* GetFloatConstantInstance();
+
+	// Number type
+	static TypeSymbol* GetNumberInstance();
+
+	// Constant number type
+	static TypeSymbol* GetNumberConstantInstance();
+
+	// Boolean type
 	static TypeSymbol* GetBooleanInstance();
+
+	// Void type
 	static TypeSymbol* GetVoidInstance();
+
+	// Constant string type
 	static TypeSymbol* GetStringConstantInstance();
+	
+	// String type
 	static TypeSymbol* GetStringInstance();
 };
 

@@ -15,13 +15,6 @@ namespace yy {
 		return expandedLocation;
 	}
 
-	SourceLocation& SourceLocation::operator=(const SourceLocation& sl) {
-		begin.line = sl.begin.line;
-		begin.column = sl.begin.column;
-		end.line = sl.end.line;
-		end.column = sl.end.column;
-		return *this;
-	}
 
 	SourceLocation::SourceLocation(const SourceLocation& sl) {
 		begin.line = sl.begin.line;
@@ -33,10 +26,6 @@ namespace yy {
 	std::ostream& operator<<(std::ostream& output, const SourceLocation& source) {
 		output << "First line: " << source.begin.line << " Last Line: " << source.end.line << " First Column: " << source.begin.column << " Last Column: " << source.end.column << std::endl;
 		return output;
-	}
-
-	std::string SourceLocation::toString() const {
-		return "First line: " + std::to_string(begin.line) + " Last Line: " + std::to_string(end.line) + " First Column: " + std::to_string(begin.column) + " Last Column: " + std::to_string(end.column);
 	}
 
 	std::string SourceLocation::getNodeSourceCode(const std::string& sourceCode) const {

@@ -13,15 +13,43 @@ class InterpreterContext {
 
 public:
 
+	/*
+	Amount of times the code will be executed in the interpreter stage.
+	This will be the size of the largest series of data inputted into the program.
+	*/
 	static unsigned int ticks;
 
+	/*
+	The main symbol table.
+	*/
 	std::shared_ptr<SymbolTable> symboltable = nullptr;
+	
+	/*
+	The AST of the program
+	*/
 	BlockNode* ast = nullptr;
+
+	/*
+	The output of the program
+	*/
 	std::shared_ptr<InterpreterOutput> output;
 
+	/*
+	Executes the source code read in from a string.
+	*/
 	void execute(const std::string& code);
-	void execute(std::ifstream& myfile);
+	
+	
+	/*
+	Runs "intellisense" execution of source code which
+	only involves executing the parser + semantic analyzer
+	such that compile time errors can be read. 
+	*/
 	void intellisense(const std::string& code);
+
+	/*
+	Flag for when interpeter is running as intellisense.
+	*/
 	static bool isIntellisense;
 	~InterpreterContext();
 private:

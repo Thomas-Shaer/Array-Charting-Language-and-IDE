@@ -1,7 +1,7 @@
 #include "parametersymbol.h"
 #include "typesymbol.h"
 #include "visitors.h"
-#include "float.h"
+#include "nullablevaluenumber.h"
 
 ParameterSymbol::ParameterSymbol(const TypeSymbol* _typesymbol, const std::string& _name, const std::string& _description)
 	: typesymbol(_typesymbol), name(_name), description(_description) {}
@@ -21,7 +21,7 @@ OptionalParameterSymbol::OptionalParameterSymbol(const TypeSymbol* _typesymbol, 
 
 
 OptionalParameterSymbol::OptionalParameterSymbol()
-	: ParameterSymbol(TypeInstances::GetVoidInstance(), "temp", "temp"), defaultValue(Float()) {}
+	: ParameterSymbol(TypeInstances::GetVoidInstance(), "temp", "temp"), defaultValue(NullableValueNumber()) {}
 
 
 std::string OptionalParameterSymbol::toString() const {

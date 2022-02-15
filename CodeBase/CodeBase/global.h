@@ -1,7 +1,11 @@
 #pragma once
-#include "boolean.h"
-#include "float.h"
-#include "string.h"
+#include "nullablevalueboolean.h"
+#include "nullablevaluenumber.h"
+#include "nullablevaluestring.h"
 #include <boost/variant.hpp>
 
-typedef boost::variant<Float, Boolean, String> ExpressionValue;
+/*
+Variant of which we store the all possible expression values for 
+easy and convienent access.
+*/
+typedef boost::variant<NullableValueNumber, NullableValueBoolean, NullableValueString> ExpressionValue;

@@ -2332,7 +2332,7 @@ struct ImFontBuildSrcData
 // Temporary data for one destination ImFont* (multiple source fonts can be merged into one destination ImFont)
 struct ImFontBuildDstData
 {
-    int                 SrcCount;           // Number of source fonts targeting this destination font.
+    int                 SrcCount;           // NullableValueNumber of source fonts targeting this destination font.
     int                 GlyphsHighest;
     int                 GlyphsCount;
     ImBitVector         GlyphsSet;          // This is used to resolve collision when multiple sources are merged into a same destination font.

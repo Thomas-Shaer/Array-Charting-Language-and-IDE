@@ -12,8 +12,8 @@ std::vector<float> ChartPlot::createEmptyVector(unsigned int amountTicks) {
 	return  newVector;
 }
 
-std::vector<Float> ChartPlot::createEmptyVectorNAFloat(unsigned int amountTicks) {
-	std::vector<Float> newVector(amountTicks);
-	std::fill(newVector.begin(), newVector.end(), Float());
+std::vector<NullableValueNumber> ChartPlot::createEmptyVectorNAFloat(unsigned int amountTicks) {
+	std::vector<NullableValueNumber> newVector(amountTicks);
+	std::fill(newVector.begin(), newVector.end(), NullableValueNumber());
 	return  newVector;
 }

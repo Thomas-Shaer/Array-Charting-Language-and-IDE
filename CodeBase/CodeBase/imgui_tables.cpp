@@ -726,8 +726,8 @@ void ImGui::TableUpdateLayout(ImGuiTable* table)
 
     // [Part 1] Apply/lock Enabled and Order states. Calculate auto/ideal width for columns. Count fixed/stretch columns.
     // Process columns in their visible orders as we are building the Prev/Next indices.
-    int count_fixed = 0;                // Number of columns that have fixed sizing policies
-    int count_stretch = 0;              // Number of columns that have stretch sizing policies
+    int count_fixed = 0;                // NullableValueNumber of columns that have fixed sizing policies
+    int count_stretch = 0;              // NullableValueNumber of columns that have stretch sizing policies
     int prev_visible_column_idx = -1;
     bool has_auto_fit_request = false;
     bool has_resizable = false;

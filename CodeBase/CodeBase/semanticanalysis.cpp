@@ -13,7 +13,7 @@ void BlockNode::semanticAnalysis(std::shared_ptr<SymbolTable> symboltable) {
 }
 
 const TypeSymbol* NumberNode::semanticAnalysis(std::shared_ptr<SymbolTable> symboltable) {
-	return TypeInstances::GetFloatConstantInstance();
+	return TypeInstances::GetNumberConstantInstance();
 }
 
 const TypeSymbol* BooleanNode::semanticAnalysis(std::shared_ptr<SymbolTable> symboltable) {
@@ -53,8 +53,8 @@ void AssignNode::semanticAnalysis(std::shared_ptr<SymbolTable> symboltable) {
 
 	// x = 2
 	// store as float, not float_constant
-	if (rhsType == TypeInstances::GetFloatConstantInstance()) {
-		rhsType = TypeInstances::GetFloatInstance();
+	if (rhsType == TypeInstances::GetNumberConstantInstance()) {
+		rhsType = TypeInstances::GetNumberInstance();
 	}
 
 
@@ -123,12 +123,12 @@ const TypeSymbol* TernaryNode::semanticAnalysis(std::shared_ptr<SymbolTable> sym
 	const TypeSymbol* lhsType = expression1->semanticAnalysis(symboltable);
 	const TypeSymbol* rhstype = expression2->semanticAnalysis(symboltable);
 
-	if (lhsType == TypeInstances::GetFloatConstantInstance()) {
-		lhsType = TypeInstances::GetFloatInstance();
+	if (lhsType == TypeInstances::GetNumberConstantInstance()) {
+		lhsType = TypeInstances::GetNumberInstance();
 	}
 
-	if (rhstype == TypeInstances::GetFloatConstantInstance()) {
-		rhstype = TypeInstances::GetFloatInstance();
+	if (rhstype == TypeInstances::GetNumberConstantInstance()) {
+		rhstype = TypeInstances::GetNumberInstance();
 	}
 
 	if (lhsType == TypeInstances::GetStringConstantInstance()) {

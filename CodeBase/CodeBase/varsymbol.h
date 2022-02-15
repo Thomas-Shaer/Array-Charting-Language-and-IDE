@@ -12,8 +12,13 @@ class TypeSymbol;
 
 class VarSymbol {
 public:
+	// name of variable
 	const std::string name;
+
+	// type of variable
 	const TypeSymbol* type;
+
+	// is modifiable flag i.e. if imported you cannot modify it directly
 	const bool modifiable;
 
 	// size of buffer if imported
@@ -47,21 +52,36 @@ public:
 
 	std::string toString();
 
+
+	/*
+	Gets value of internal array at index
+	*/
 	ExpressionValue getValue(const unsigned int i);
+	
+	/*
+	Sets value of internal array at index
+	*/
 	void setValue(const unsigned int i, ExpressionValue _value);
 
-
-	std::vector<ExpressionValue> getValues();
-	void setValues(const std::vector<ExpressionValue>& values);
+	/*
+	Get internal array values
+	*/
+	std::vector<ExpressionValue> getArrayValues();
+	
+	/*
+	Set internal array values
+	*/
+	void setArrayValues(const std::vector<ExpressionValue>& values);
 
 	/*
 	Updates the size of the internal buffer array to match max ticks
 	*/
-	void matchGlobalBufferSize();
+	void matchTickSize();
 
 	bool exportVariable = false;
 	std::string exportName;
 
+	// internal array
 	std::vector<ExpressionValue> buffer;
 
 

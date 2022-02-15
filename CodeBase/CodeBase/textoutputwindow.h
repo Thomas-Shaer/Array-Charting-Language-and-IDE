@@ -43,6 +43,9 @@ public:
 	static ImGuiTabItemFlags_ codeReconstructionTabFlags;
 	static ImGuiTabItemFlags_ variableTabFlags;
 
+	static void exportColumnWise(const std::string& filePath, std::vector<std::shared_ptr<VarSymbol>> variables);
+	static void exportRowWise(const std::string& filePath, std::vector<std::shared_ptr<VarSymbol>> variables);
+
 private:
 	static bool bringToFront;
 

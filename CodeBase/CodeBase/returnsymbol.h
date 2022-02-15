@@ -14,9 +14,13 @@ public:
 
 
 	std::string toString() const;
+
+	// type of the return
 	const TypeSymbol* typesymbol;
 
 private:
+
+	// (FRONT END USE ONLY) description of return type
 	const std::string description;
 
 };

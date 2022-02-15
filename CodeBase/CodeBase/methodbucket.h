@@ -7,14 +7,14 @@
 /*
 Used for classing methods by their type.
 */
-const enum METHOD_TYPE { OPERATOR, MATHEMATICAL, LOGIC, OUTPUT, STATISTICS, MISC };
-static std::map<METHOD_TYPE, std::string> METHOD_TYPE_TO_STRING{
-	{METHOD_TYPE::OPERATOR, "Operator"},
-	{METHOD_TYPE::MATHEMATICAL, "Mathematical"},
-	{METHOD_TYPE::LOGIC, "Logic"},
-	{METHOD_TYPE::OUTPUT, "Output"},
-	{METHOD_TYPE::STATISTICS, "Statistics"},
-	{METHOD_TYPE::MISC, "Miscellaneous"}
+enum class METHOD_CAT { OPERATOR, MATHEMATICAL, LOGIC, OUTPUT, STATISTICS, MISC };
+static std::map<METHOD_CAT, std::string> METHOD_CAT_TO_STRING{
+	{METHOD_CAT::OPERATOR, "Operator"},
+	{METHOD_CAT::MATHEMATICAL, "Mathematical"},
+	{METHOD_CAT::LOGIC, "Logic"},
+	{METHOD_CAT::OUTPUT, "Output"},
+	{METHOD_CAT::STATISTICS, "Statistics"},
+	{METHOD_CAT::MISC, "Miscellaneous"}
 };
 
 class MethodSymbol;
@@ -33,10 +33,13 @@ class SymbolTable;
 class MethodBucket {
 public:
 
+	/*
+	Used to map the method type categories to the method itself.
+	(For front end purposes - documentation window)
+	*/
+	static std::map<METHOD_CAT, std::vector<MethodBucket*>> methodTypeMappings;
 
-	static std::map<METHOD_TYPE, std::vector<MethodBucket*>> methodTypeMappings;
-
-	MethodBucket(const METHOD_TYPE _methodType);
+	MethodBucket(const METHOD_CAT _methodType);
 
 	/*
 	* Get a method given the argument types
@@ -44,7 +47,7 @@ public:
 	virtual MethodSymbol* getMethodSymbol(MethodCallNode* methodcall, std::shared_ptr<SymbolTable> symbolTable) const=0;
 
 
-	METHOD_TYPE methodType;
+	METHOD_CAT methodCat;
 
 	/*
 	Used to nicely format the method when drawing onto the GUI
@@ -67,7 +70,7 @@ public:
 class OverloadedMethodBucket : public MethodBucket {
 public:
 
-	OverloadedMethodBucket(const std::vector<PositionalMethodSymbol*> _overloads, const METHOD_TYPE _methodType) : overloads(_overloads), MethodBucket(_methodType){}
+	OverloadedMethodBucket(const std::vector<PositionalMethodSymbol*> _overloads, const METHOD_CAT _methodType) : overloads(_overloads), MethodBucket(_methodType){}
 
 	const std::vector<PositionalMethodSymbol*> overloads;
 
@@ -88,7 +91,7 @@ public:
 class SingleMethodBucket : public MethodBucket {
 public:
 
-	SingleMethodBucket(MethodSymbol* _methodsymbol, const METHOD_TYPE _methodType) : methodsymbol(_methodsymbol), MethodBucket(_methodType) {}
+	SingleMethodBucket(MethodSymbol* _methodsymbol, const METHOD_CAT _methodType) : methodsymbol(_methodsymbol), MethodBucket(_methodType) {}
 
 	MethodSymbol* methodsymbol;
 

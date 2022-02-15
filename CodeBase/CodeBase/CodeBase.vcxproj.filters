@@ -90,12 +90,6 @@
     <ClCompile Include="typesymbol.cpp">
       <Filter>Source Files\Symbol</Filter>
     </ClCompile>
-    <ClCompile Include="boolean.cpp">
-      <Filter>Source Files\Values</Filter>
-    </ClCompile>
-    <ClCompile Include="float.cpp">
-      <Filter>Source Files\Values</Filter>
-    </ClCompile>
     <ClCompile Include="imgui_widgets.cpp">
       <Filter>Source Files\GUI\Library\IMGUI</Filter>
     </ClCompile>
@@ -159,12 +153,6 @@
     <ClCompile Include="returnsymbol.cpp">
       <Filter>Source Files\Symbol</Filter>
     </ClCompile>
-    <ClCompile Include="exportdata.cpp">
-      <Filter>Source Files\Data</Filter>
-    </ClCompile>
-    <ClCompile Include="value.cpp">
-      <Filter>Source Files\Values</Filter>
-    </ClCompile>
     <ClCompile Include="imgui_impl_glfw.cpp">
       <Filter>Source Files\GUI\Library\IMGUI</Filter>
     </ClCompile>
@@ -183,9 +171,6 @@
     <ClCompile Include="window.cpp">
       <Filter>Source Files\GUI\Windows</Filter>
     </ClCompile>
-    <ClCompile Include="string.cpp">
-      <Filter>Source Files\Values</Filter>
-    </ClCompile>
     <ClCompile Include="semanticanalysis.cpp">
       <Filter>Source Files\Visitor</Filter>
     </ClCompile>
@@ -197,6 +182,18 @@
     </ClCompile>
     <ClCompile Include="languageexception.cpp">
       <Filter>Source Files\Exceptions</Filter>
+    </ClCompile>
+    <ClCompile Include="nullablevalueboolean.cpp">
+      <Filter>Source Files\Values</Filter>
+    </ClCompile>
+    <ClCompile Include="nullablevaluenumber.cpp">
+      <Filter>Source Files\Values</Filter>
+    </ClCompile>
+    <ClCompile Include="nullablevaluestring.cpp">
+      <Filter>Source Files\Values</Filter>
+    </ClCompile>
+    <ClCompile Include="nullablevalue.cpp">
+      <Filter>Source Files\Values</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -229,15 +226,6 @@
     </ClInclude>
     <ClInclude Include="typesymbol.h">
       <Filter>Source Files\Symbol</Filter>
-    </ClInclude>
-    <ClInclude Include="boolean.h">
-      <Filter>Source Files\Values</Filter>
-    </ClInclude>
-    <ClInclude Include="float.h">
-      <Filter>Source Files\Values</Filter>
-    </ClInclude>
-    <ClInclude Include="value.h">
-      <Filter>Source Files\Values</Filter>
     </ClInclude>
     <ClInclude Include="visitors.h">
       <Filter>Source Files\Values</Filter>
@@ -314,9 +302,6 @@
     <ClInclude Include="maingui.h">
       <Filter>Source Files\GUI</Filter>
     </ClInclude>
-    <ClInclude Include="exportdata.h">
-      <Filter>Source Files\Data</Filter>
-    </ClInclude>
     <ClInclude Include="resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -347,14 +332,23 @@
     <ClInclude Include="window.h">
       <Filter>Source Files\GUI\Windows</Filter>
     </ClInclude>
-    <ClInclude Include="string.h">
-      <Filter>Source Files\Values</Filter>
-    </ClInclude>
     <ClInclude Include="sourcelocation.h">
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="bison.tab.h">
       <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="nullablevalueboolean.h">
+      <Filter>Source Files\Values</Filter>
+    </ClInclude>
+    <ClInclude Include="nullablevaluenumber.h">
+      <Filter>Source Files\Values</Filter>
+    </ClInclude>
+    <ClInclude Include="nullablevaluestring.h">
+      <Filter>Source Files\Values</Filter>
+    </ClInclude>
+    <ClInclude Include="nullablevalue.h">
+      <Filter>Source Files\Values</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

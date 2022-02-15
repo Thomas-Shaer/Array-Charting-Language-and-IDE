@@ -72,6 +72,11 @@ public:
 
 private:
 
+	/*
+	Symbol tables follow a stack design.
+	It is important to remember the previous enclosing symbol table
+	when a new one is dynamically created e.g. if statements
+	*/
 	std::shared_ptr<SymbolTable> enclosingSymbolTable;
 
 };

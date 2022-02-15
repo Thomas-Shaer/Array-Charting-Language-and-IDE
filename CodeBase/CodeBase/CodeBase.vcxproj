@@ -158,12 +158,11 @@
   <ItemGroup>
     <ClCompile Include="argumentsymbol.cpp" />
     <ClCompile Include="bison.tab.cpp" />
-    <ClCompile Include="boolean.cpp" />
+    <ClCompile Include="nullablevalueboolean.cpp" />
     <ClCompile Include="chartplot.cpp" />
     <ClCompile Include="datamanagerwindow.cpp" />
     <ClCompile Include="documentationwindow.cpp" />
-    <ClCompile Include="exportdata.cpp" />
-    <ClCompile Include="float.cpp" />
+    <ClCompile Include="nullablevaluenumber.cpp" />
     <ClCompile Include="imgui.cpp" />
     <ClCompile Include="imgui_draw.cpp" />
     <ClCompile Include="imgui_impl_glfw.cpp" />
@@ -191,14 +190,14 @@
     <ClCompile Include="semanticanalysis.cpp" />
     <ClCompile Include="settingswindow.cpp" />
     <ClCompile Include="sourcelocation.cpp" />
-    <ClCompile Include="string.cpp" />
+    <ClCompile Include="nullablevaluestring.cpp" />
     <ClCompile Include="symboltable.cpp" />
     <ClCompile Include="chartwindow.cpp" />
     <ClCompile Include="TextEditor.cpp" />
     <ClCompile Include="texteditorwindow.cpp" />
     <ClCompile Include="textoutputwindow.cpp" />
     <ClCompile Include="typesymbol.cpp" />
-    <ClCompile Include="value.cpp" />
+    <ClCompile Include="nullablevalue.cpp" />
     <ClCompile Include="varsymbol.cpp" />
     <ClCompile Include="window.cpp" />
   </ItemGroup>
@@ -209,7 +208,6 @@
     <ClInclude Include="datamanagerwindow.h" />
     <ClInclude Include="dataparseexception.h" />
     <ClInclude Include="documentationwindow.h" />
-    <ClInclude Include="exportdata.h" />
     <ClInclude Include="imconfig.h" />
     <ClInclude Include="imfilebrowser.h" />
     <ClInclude Include="imgui.h" />
@@ -230,9 +228,9 @@
     <ClInclude Include="menubar.h" />
     <ClInclude Include="methodsymbol.h" />
     <ClInclude Include="methodimplementations.h" />
-    <ClInclude Include="boolean.h" />
+    <ClInclude Include="nullablevalueboolean.h" />
     <ClInclude Include="flex.flex.h" />
-    <ClInclude Include="float.h" />
+    <ClInclude Include="nullablevaluenumber.h" />
     <ClInclude Include="languageexception.h" />
     <ClInclude Include="node.h" />
     <ClInclude Include="methodbucket.h" />
@@ -244,11 +242,11 @@
     <ClInclude Include="settingswindow.h" />
     <ClInclude Include="sourcelocation.h" />
     <ClInclude Include="stb_image_write.h" />
-    <ClInclude Include="string.h" />
+    <ClInclude Include="nullablevaluestring.h" />
     <ClInclude Include="TextEditor.h" />
     <ClInclude Include="texteditorwindow.h" />
     <ClInclude Include="textoutputwindow.h" />
-    <ClInclude Include="value.h" />
+    <ClInclude Include="nullablevalue.h" />
     <ClInclude Include="symboltable.h" />
     <ClInclude Include="global.h" />
     <ClInclude Include="typesymbol.h" />

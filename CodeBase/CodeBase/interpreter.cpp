@@ -15,16 +15,16 @@ void ExpressionStatementNode::interpret(const unsigned int tick) const {
 }
 
 ExpressionValue NumberNode::interpret(const unsigned int tick) const {
-	return (ExpressionValue)Float(number);
+	return (ExpressionValue)NullableValueNumber(number);
 }
 
 ExpressionValue BooleanNode::interpret(const unsigned int tick) const {
-	return (ExpressionValue)Boolean(value);
+	return (ExpressionValue)NullableValueBoolean(value);
 }
 
 
 ExpressionValue StringNode::interpret(const unsigned int tick) const {
-	return (ExpressionValue)String(value);
+	return (ExpressionValue)NullableValueString(value);
 }
 
 
@@ -68,7 +68,7 @@ ExpressionValue KeywordNode::interpret(const unsigned int tick) const {
 
 void IfStatementNode::interpret(const unsigned int tick) const {
 	// if condition true execute block code.
-	std::optional<bool> conditionResult = boost::get<Boolean>(condition->interpret(tick)).value;
+	std::optional<bool> conditionResult = boost::get<NullableValueBoolean>(condition->interpret(tick)).value;
 	if (conditionResult) {
 		if (*conditionResult) {
 			block->interpret(tick);
@@ -79,7 +79,7 @@ void IfStatementNode::interpret(const unsigned int tick) const {
 
 ExpressionValue TernaryNode::interpret(const unsigned int tick) const {
 	// if condition true execute block code.
-	std::optional<bool> conditionResult = boost::get<Boolean>(condition->interpret(tick)).value;
+	std::optional<bool> conditionResult = boost::get<NullableValueBoolean>(condition->interpret(tick)).value;
 	if (conditionResult) {
 		return *conditionResult ? expression1->interpret(tick) : expression2->interpret(tick);
 	}

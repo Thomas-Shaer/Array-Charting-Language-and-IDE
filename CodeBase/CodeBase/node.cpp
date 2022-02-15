@@ -14,29 +14,6 @@ std::string ExpressionStatementNode::toString() const {
 
 
 
-std::string Node::getNodeSourceCode(const std::string& sourceCode) const {
-	int lineno = 0;
-	std::string output;
-	std::istringstream stream(sourceCode);
-	for (std::string line; std::getline(stream, line); )
-	{
-		if (lineno == sourceLocation.begin.line && lineno == sourceLocation.end.line) {
-			return std::string(line.begin() + sourceLocation.begin.column, line.begin() + sourceLocation.end.column + 1);
-		}
-		else if (lineno == sourceLocation.begin.line) {
-			output += std::string(line.begin() + sourceLocation.begin.column, line.end());
-		}
-		else if (lineno == sourceLocation.end.line) {
-			return output + std::string(line.begin(), line.begin() + sourceLocation.end.column);
-		}
-		lineno++;
-	}
-
-	return output;
-}
-
-
-
 ExpressionStatementNode::~ExpressionStatementNode() {
 	delete expressionNode;
 }

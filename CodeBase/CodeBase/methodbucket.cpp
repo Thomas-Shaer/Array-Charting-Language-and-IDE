@@ -5,10 +5,10 @@
 #include "node.h"
 
 
-std::map<METHOD_TYPE, std::vector<MethodBucket*>> MethodBucket::methodTypeMappings;
+std::map<METHOD_CAT, std::vector<MethodBucket*>> MethodBucket::methodTypeMappings;
 
 
-MethodBucket::MethodBucket(const METHOD_TYPE _methodType) : methodType(_methodType) {
+MethodBucket::MethodBucket(const METHOD_CAT _methodType) : methodCat(_methodType) {
 	if (methodTypeMappings.find(_methodType) == methodTypeMappings.end()) {
 		methodTypeMappings[_methodType] = std::vector<MethodBucket*>();
 	}

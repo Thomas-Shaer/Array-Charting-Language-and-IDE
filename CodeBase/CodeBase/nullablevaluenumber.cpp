@@ -1,13 +1,13 @@
-#include "float.h"
+#include "nullablevaluenumber.h"
 #include <string>
 #include "jsonsettings.h"
 
 
-std::string Float::toString() const {
+std::string NullableValueNumber::toString() const {
 	return this->value ? std::to_string(*this->value) : "nan";
 }
 
-std::string Float::toFileString() const {
+std::string NullableValueNumber::toFileString() const {
 	if (!value) {
 		return Settings::settingsFile["defaultNANExportLiteral"].get<std::string>();;
 	}

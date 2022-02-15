@@ -7,46 +7,47 @@ TypeSymbol::TypeSymbol(const std::string _name) : name(_name) {
 
 
 TypeInstances::TypeInstances() {
-	GetFloatInstance();
+	GetNumberInstance();
 	GetBooleanInstance();
-	GetFloatConstantInstance();
+	GetNumberConstantInstance();
+	GetStringInstance();
+	GetStringConstantInstance();
 	GetVoidInstance();
 }
 
-TypeSymbol* TypeInstances::GetFloatInstance() {
-	static TypeSymbol* floattemp = new TypeSymbol("float");
-	floattemp->nanValue = Float();
+TypeSymbol* TypeInstances::GetNumberInstance() {
+	static TypeSymbol* floattemp = new TypeSymbol("number");
+	floattemp->nanValue = NullableValueNumber();
 	return floattemp;
 }
 
-TypeSymbol* TypeInstances::GetFloatConstantInstance() {
-	static TypeSymbol* floatconsttemp = new TypeSymbol("float_constant");
-	floatconsttemp->nanValue = Float();
+TypeSymbol* TypeInstances::GetNumberConstantInstance() {
+	static TypeSymbol* floatconsttemp = new TypeSymbol("number_constant");
+	floatconsttemp->nanValue = NullableValueNumber();
 	return floatconsttemp;
 }
 
 TypeSymbol* TypeInstances::GetBooleanInstance() {
 	static TypeSymbol* boolinstance = new TypeSymbol("boolean");
-	boolinstance->nanValue = Boolean();
+	boolinstance->nanValue = NullableValueBoolean();
 	return boolinstance;
 }
 
 
-
 TypeSymbol* TypeInstances::GetStringConstantInstance() {
 	static TypeSymbol* string_constant = new TypeSymbol("string_constant");
-	string_constant->nanValue = String();
+	string_constant->nanValue = NullableValueString();
 	return string_constant;
 }
 
 TypeSymbol* TypeInstances::GetStringInstance() {
 	static TypeSymbol* string = new TypeSymbol("string");
-	string->nanValue = String();
+	string->nanValue = NullableValueString();
 	return string;
 }
 
 TypeSymbol* TypeInstances::GetVoidInstance() {
 	static TypeSymbol* voidinstance = new TypeSymbol("void");
-	voidinstance->nanValue = String("void");
+	voidinstance->nanValue = NullableValueString("void");
 	return voidinstance;
 }

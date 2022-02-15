@@ -16,7 +16,7 @@ void DocumentationWindow::ShowWindow() {
             ImGui::BeginChild("Scrolling");
 
             for (auto cat : MethodBucket::methodTypeMappings) {
-                if (ImGui::CollapsingHeader(METHOD_TYPE_TO_STRING.at(cat.first).c_str())) {
+                if (ImGui::CollapsingHeader(METHOD_CAT_TO_STRING.at(cat.first).c_str())) {
                     for (MethodBucket* bucket : cat.second) {
                         ImGui::Indent(32);
                         if (ImGui::CollapsingHeader(bucket->name.c_str())) {

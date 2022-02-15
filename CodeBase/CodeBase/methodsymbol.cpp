@@ -6,7 +6,7 @@
 
 
 bool matchType(const TypeSymbol* expected, const TypeSymbol* received) {
-	if (expected == TypeInstances::GetFloatInstance() && received == TypeInstances::GetFloatConstantInstance()) {
+	if (expected == TypeInstances::GetNumberInstance() && received == TypeInstances::GetNumberConstantInstance()) {
 		return true;
 	}
 	if (expected == TypeInstances::GetStringInstance() && received == TypeInstances::GetStringConstantInstance()) {

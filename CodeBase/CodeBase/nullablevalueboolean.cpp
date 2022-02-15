@@ -1,15 +1,15 @@
-#include "boolean.h"
+#include "nullablevalueboolean.h"
 #include <string>
 #include "jsonsettings.h"
 
 
 
-std::string Boolean::toString() const {
+std::string NullableValueBoolean::toString() const {
 	return this->value ? (*this->value ? "true" : "false") : "nan";
 }
 
 
-std::string Boolean::toFileString() const {
+std::string NullableValueBoolean::toFileString() const {
 	if (!value) {
 		return Settings::settingsFile["defaultNANExportLiteral"].get<std::string>();
 	}

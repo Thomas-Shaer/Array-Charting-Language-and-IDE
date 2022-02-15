@@ -19,6 +19,11 @@ bool InterpreterContext::isIntellisense = false;
 void InterpreterContext::intellisense(const std::string& code) {
 	InterpreterContext::isIntellisense = true;
 	try {
+		/*
+		Performs lexing + parsing operations
+		via flex + bison.
+		Parsing errors will be caught.
+		*/
 		output = std::make_shared<InterpreterOutput>();
 
 		yyscan_t scanner;
@@ -36,6 +41,11 @@ void InterpreterContext::intellisense(const std::string& code) {
 		yylex_destroy(scanner);
 
 
+
+		/*
+		Performs semantic anaylsis stage. 
+		Semantic errors will be caught.
+		*/
 		symboltable = std::make_shared<SymbolTable>(SymbolTable::GLOBAL_SYMBOL_TABLE);
 		std::vector<std::shared_ptr<VarSymbol>> variables = symboltable->variablesToVector(true);
 
@@ -51,6 +61,12 @@ void InterpreterContext::execute(const std::string& code) {
 
 
 	try {
+
+		/*
+		Performs lexing + parsing operations
+		via flex + bison.
+		Parsing errors will be caught.
+		*/
 		output = std::make_shared<InterpreterOutput>();
 
 		yyscan_t scanner;
@@ -68,10 +84,14 @@ void InterpreterContext::execute(const std::string& code) {
 		yylex_destroy(scanner);
 
 
+		/*
+		Performs semantic anaylsis stage.
+		Semantic errors will be caught.
+		*/
 		symboltable = std::make_shared<SymbolTable>(SymbolTable::GLOBAL_SYMBOL_TABLE);
 		std::vector<std::shared_ptr<VarSymbol>> variables = symboltable->variablesToVector(true);
 		/*
-		Calculates largest series first
+		Finding the largest array to set the tick size to.
 		*/
 		for (std::shared_ptr<VarSymbol> variable : variables) {
 			InterpreterContext::ticks = InterpreterContext::ticks < variable->originalSize ? variable->originalSize : InterpreterContext::ticks;
@@ -80,76 +100,27 @@ void InterpreterContext::execute(const std::string& code) {
 		Matches all variables so they are have the same buffer size as that max series
 		*/
 		for (std::shared_ptr<VarSymbol> variable : variables) {
-			variable->matchGlobalBufferSize();
+			variable->matchTickSize();
 		}
 
 
 
 		ChartWindow::clearAllWindows();
+		
+		
 		ast->semanticAnalysis(symboltable);
+		
+		
+		/*
+		Performs interpretation for each tick
+		*/
 		for (int i = 0; i < ticks; i++) {
 			ast->interpret(i);
 		}		
-
-
-
 	}
 	catch (LanguageException langexception) {
 		output->langExcept = langexception;
 	}
-
-
-}
-
-
-void InterpreterContext::execute(std::ifstream& myfile) {
-	std::string code = "";
-	std::string line;
-	if (myfile.is_open())
-	{
-		while (getline(myfile, line))
-		{
-			code += line + "\n";
-		}
-		myfile.close();
-	}
-
-	std::shared_ptr<SymbolTable> symboltable = nullptr;
-	try {
-		output = std::make_shared<InterpreterOutput>();
-
-		yyscan_t scanner;
-		std::string errorReturn = "";
-		yylex_init(&scanner);
-		yy_scan_string(code.c_str(), scanner);
-
-		yy::SourceLocation* sl = new yy::SourceLocation();
-		yy::parser parseengine(scanner, &errorReturn, &ast, &sl);
-		int parseResult = parseengine.parse();
-		if (parseResult != 0) {
-			throw LanguageException("Parsing Error: " + errorReturn, *sl);
-		}
-
-		yylex_destroy(scanner);
-
-
-		symboltable = std::make_shared<SymbolTable>(SymbolTable::GLOBAL_SYMBOL_TABLE);
-
-		ChartWindow::clearAllWindows();
-		ast->semanticAnalysis(symboltable);
-		for (int i = 0; i < ticks; i++) {
-			ast->interpret(i);
-		}
-
-
-
-	}
-	catch (LanguageException langexception) {
-		output->langExcept = langexception;
-	}
-
-
-
 }
 
 

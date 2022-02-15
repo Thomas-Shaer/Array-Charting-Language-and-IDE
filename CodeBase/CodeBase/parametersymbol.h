@@ -15,10 +15,15 @@ public:
 
 	std::string toString() const;
 	std::string getDescription() const;
+
+	// type of parameter
 	const TypeSymbol* typesymbol;
+	
+	// name of parameter
 	const std::string name;
 private:
 
+	// (FRONT END USE ONLY) description of parameter 
 	const std::string description;
 
 };
@@ -29,6 +34,12 @@ class OptionalParameterSymbol : public ParameterSymbol {
 public:
 
 	OptionalParameterSymbol(const TypeSymbol* _typesymbol, ExpressionValue _defaultValue, const std::string& _name, const std::string& _description);
+
+	/*
+	DO NOT USE
+	We are forced to provide a default constructor 
+	due to how we implement keyword matching in keyword method symbols.
+	*/
 	OptionalParameterSymbol();
 
 	std::string toString() const;

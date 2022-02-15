@@ -12,7 +12,7 @@ VarSymbol::VarSymbol(const std::string _name, const TypeSymbol* _type, std::vect
 
 VarSymbol::VarSymbol(const std::string _name, const TypeSymbol* _type) : name(_name), type(_type), modifiable(true), exportName(_name), originalSize(0) {
 	// for new variables make sure they match the global buffer size
-	matchGlobalBufferSize();
+	matchTickSize();
 }
 
 
@@ -64,7 +64,7 @@ void VarSymbol::setValue(const unsigned int i, ExpressionValue _value) {
 }
 
 
-void VarSymbol::matchGlobalBufferSize() {
+void VarSymbol::matchTickSize() {
 
 	/*
 	Add NaNs to match largest series
@@ -72,13 +72,13 @@ void VarSymbol::matchGlobalBufferSize() {
 	if (buffer.size() < InterpreterContext::ticks) {
 		for (int i = buffer.size(); i < InterpreterContext::ticks; i ++) {
 			if (type == TypeInstances::GetBooleanInstance()) {
-				buffer.push_back(Boolean());
+				buffer.push_back(NullableValueBoolean());
 			}
-			else if (type == TypeInstances::GetFloatInstance()) {
-				buffer.push_back(Float());
+			else if (type == TypeInstances::GetNumberInstance()) {
+				buffer.push_back(NullableValueNumber());
 			}
 			else if (type == TypeInstances::GetStringInstance()) {
-				buffer.push_back(String());
+				buffer.push_back(NullableValueString());
 			}
 		}
 	}
@@ -93,9 +93,9 @@ void VarSymbol::matchGlobalBufferSize() {
 }
 
 
-std::vector<ExpressionValue> VarSymbol::getValues() {
+std::vector<ExpressionValue> VarSymbol::getArrayValues() {
 	return buffer;
 }
-void VarSymbol::setValues(const std::vector<ExpressionValue>& values) {
+void VarSymbol::setArrayValues(const std::vector<ExpressionValue>& values) {
 	buffer = values;
 }
