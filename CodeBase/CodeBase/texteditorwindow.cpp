@@ -11,7 +11,7 @@
 #include "jsonsettings.h"
 #include <fstream>
 #include <sstream> //std::stringstream
-#include "inputdata.h"
+#include "inputseries.h"
 #include "datamanagerwindow.h"
 #include "dataparseexception.h"
 #include "languageexception.h"
@@ -37,14 +37,14 @@ void TextEditorWindow::saveFile(const std::string& filePath) {
     saveJSON["code"] = textEditor.GetText();
     saveJSON["variables"] = nlohmann::json::array();
 
-    for (std::shared_ptr<InputData> data : DataManagerWindow::LOADED_IN_DATA) {
+    for (std::shared_ptr<InputSeries> data : DataManagerWindow::LOADED_IN_DATA) {
         if (data->isVariable) {
             nlohmann::json variableJSON;
             variableJSON["variableName"] = data->variableName;
             variableJSON["fileName"] = data->fileName;
             variableJSON["path"] = data->path;
             variableJSON["dataName"] = data->name;
-            variableJSON["policy"] = InputData::ImportPolicyToString(data->importPolicy);
+            variableJSON["policy"] = InputSeries::ImportPolicyToString(data->importPolicy);
             variableJSON["trueImportString"] = data->trueLiteral;
             variableJSON["falseImportString"] = data->falseLiteral;
             variableJSON["NANImportString"] = data->nanLiteral;
@@ -68,34 +68,20 @@ void TextEditorWindow::loadFile(const std::string& filePath) {
         std::string fileName = variable["fileName"];
         std::string dataName = variable["dataName"];
         std::string filepath = variable["path"];
+        std::cout << filepath << std::endl;
 
         std::string trueImport = variable["trueImportString"];
         std::string falseImport = variable["falseImportString"];
         std::string NANImport = variable["NANImportString"];
+        ImportPolicy importPolicy = InputSeries::StringToImportPolicy(variable["policy"]);
 
-        bool dataLoadedIn = false;
-        
-        /*
-        If detected that the data file associated with the variable has been removed,
-        attempt to load it in again.
-        */
-        ImportPolicy importPolicy;
-        for (nlohmann::json path : Settings::settingsFile["loadedInData"].get<std::vector<nlohmann::json>>()) {
-            importPolicy = InputData::StringToImportPolicy(path["policy"]);
-            if (path["path"] == filepath) {
-                dataLoadedIn = true;
-                break;
-            }
-        }
+       
+        InputSeries::LoadInputData(importPolicy, filepath, fileName, trueImport, falseImport, NANImport);
 
-        if (!dataLoadedIn) {
-            DataManagerWindow::loadInData(importPolicy, filepath, fileName, trueImport, falseImport, NANImport);
-        }
-
-        for (std::shared_ptr<InputData> data : DataManagerWindow::LOADED_IN_DATA) {
+        for (std::shared_ptr<InputSeries> data : DataManagerWindow::LOADED_IN_DATA) {
             if (data->name == dataName) {
                 try {
-                    DataManagerWindow::createNewVariable(data, variableName);
+                    data->createNewVariable(variableName);
                 }
                 catch (DataParseException e) {
                 }
@@ -106,7 +92,7 @@ void TextEditorWindow::loadFile(const std::string& filePath) {
     }
     TextEditorWindow::textEditor.SetText(saveJSON["code"]);
 
-    //InputData::LoadInputData(std::string name, std::string filename)
+    //InputSeries::LoadInputData(std::string name, std::string filename)
 }
 
 

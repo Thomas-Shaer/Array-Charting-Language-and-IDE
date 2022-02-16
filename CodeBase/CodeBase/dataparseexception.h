@@ -3,11 +3,18 @@
 #include <exception>
 #include <iostream>
 
+/*
+Exception class designated for all actions
+related to data parsing. 
+Primarily used by Input Series
+*/
 class DataParseException : std::exception {
 
 public:
 
-	const std::string message;
 	DataParseException(std::string _message) : message(_message) {}
+
+	// error message
+	const std::string message;
 
 };

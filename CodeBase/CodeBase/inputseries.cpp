@@ -1,4 +1,4 @@
-#include "inputdata.h"
+#include "inputseries.h"
 #include <fstream>
 #include <sstream>
 #include <algorithm> 
@@ -6,13 +6,17 @@
 #include <boost/regex.hpp>
 #include "dataparseexception.h"
 #include "typesymbol.h"
-
+#include "varsymbol.h"
+#include "symboltable.h"
+#include "textoutputwindow.h"
+#include "datamanagerwindow.h"
+#include "jsonsettings.h"
 
 
 
 //https://stackoverflow.com/questions/4654636/how-to-determine-if-a-string-is-a-number-with-c
 
-std::pair<std::vector<ExpressionValue>, TypeSymbol*> InputData::parse(std::vector<std::string> rawValues, const std::string& TrueString, const std::string& FalseString, const std::string& NANString) {
+std::pair<std::vector<ExpressionValue>, TypeSymbol*> InputSeries::parse(std::vector<std::string> rawValues, const std::string& TrueString, const std::string& FalseString, const std::string& NANString) {
     // type of series
     TypeSymbol* seriesType = nullptr;
     // list because we can add to back and front
@@ -98,20 +102,31 @@ std::pair<std::vector<ExpressionValue>, TypeSymbol*> InputData::parse(std::vecto
 }
 
 
-std::string InputData::ImportPolicyToString(const ImportPolicy ip) {
+std::string InputSeries::ImportPolicyToString(const ImportPolicy ip) {
     return ip == ImportPolicy::COLUMN_WISE ? "column-wise" : "row-wise";
 }
 
-ImportPolicy InputData::StringToImportPolicy(const std::string& name) {
+ImportPolicy InputSeries::StringToImportPolicy(const std::string& name) {
     return name == "column-wise" ? ImportPolicy::COLUMN_WISE : ImportPolicy::ROW_WISE;
 }
 
-std::vector<std::shared_ptr<InputData>> InputData::LoadInputData(const ImportPolicy importPolicy, std::string name, std::string filename, const std::string& TrueString, const std::string& FalseString, const std::string& NANString) {
+void InputSeries::LoadInputData(const ImportPolicy importPolicy, std::string name, std::string filename, const std::string& TrueString, const std::string& FalseString, const std::string& NANString) {
     
+
+    /*
+       If detected that the data file associated with the variable has been removed,
+       attempt to load it in again.
+       */
+    for (auto shared_data : DataManagerWindow::LOADED_IN_DATA) {
+        if (shared_data->path == name) {
+            return;
+        }
+    }
+
     /*
     Row wise parsing of data.
     */
-    std::vector<std::shared_ptr<InputData>> series;
+    std::vector<std::shared_ptr<InputSeries>> series;
     if (importPolicy == ImportPolicy::ROW_WISE) {
         std::ifstream fin(name);
         for (std::string line; std::getline(fin, line); ) {
@@ -128,7 +143,7 @@ std::vector<std::shared_ptr<InputData>> InputData::LoadInputData(const ImportPol
             }
            
             std::pair<std::vector<ExpressionValue>, TypeSymbol*> parsedResults = parse(row_data, TrueString, FalseString, NANString);
-            std::shared_ptr<InputData> newdata = std::make_shared<InputData>(firstWord, filename, name, TrueString, FalseString, NANString, parsedResults.first, parsedResults.second, ImportPolicy::ROW_WISE);
+            std::shared_ptr<InputSeries> newdata = std::make_shared<InputSeries>(firstWord, filename, name, TrueString, FalseString, NANString, parsedResults.first, parsedResults.second, ImportPolicy::ROW_WISE);
 
 
             series.push_back(newdata);
@@ -170,12 +185,51 @@ std::vector<std::shared_ptr<InputData>> InputData::LoadInputData(const ImportPol
         // loop through all series and register them
         for (const auto& it : columnData) {
             std::pair<std::vector<ExpressionValue>, TypeSymbol*> parsedResults = parse(it.second, TrueString, FalseString, NANString);
-            std::shared_ptr<InputData> newdata = std::make_shared<InputData>(it.first, filename, name, TrueString, FalseString, NANString, parsedResults.first, parsedResults.second, ImportPolicy::COLUMN_WISE);
+            std::shared_ptr<InputSeries> newdata = std::make_shared<InputSeries>(it.first, filename, name, TrueString, FalseString, NANString, parsedResults.first, parsedResults.second, ImportPolicy::COLUMN_WISE);
             series.push_back(newdata);
         }
 
     }
 
-    return series;
+
+    DataManagerWindow::LOADED_IN_DATA.insert(DataManagerWindow::LOADED_IN_DATA.end(), series.begin(), series.end());
+
+    /*
+    Saves data
+    */
+    nlohmann::json newSave;
+    newSave["path"] = name;
+    newSave["name"] = filename;
+    newSave["policy"] = InputSeries::ImportPolicyToString(importPolicy);
+    newSave["trueImportString"] = TrueString;
+    newSave["falseImportString"] = FalseString;
+    newSave["NANImportString"] = NANString;
+    Settings::settingsFile["loadedInData"].push_back(newSave);
+}
+
+
+void InputSeries::renameVariable(const std::string& cvariableName) {
+    std::shared_ptr<VarSymbol> oldSymbol = SymbolTable::GLOBAL_SYMBOL_TABLE->variableTable[cvariableName];
+    SymbolTable::GLOBAL_SYMBOL_TABLE->variableTable.erase(SymbolTable::GLOBAL_SYMBOL_TABLE->variableTable.find(cvariableName));
+    variableName = cvariableName;
+    std::shared_ptr<VarSymbol> varSymbol = VarSymbol::createVarSymbol(variableName, TypeInstances::GetNumberInstance(), oldSymbol->getArrayValues());
+    SymbolTable::GLOBAL_SYMBOL_TABLE->declareVariable(varSymbol);
+    OutputWindow::UpdateVariablesTab();
+}
+
+void InputSeries::deleteVariable() {
+    SymbolTable::GLOBAL_SYMBOL_TABLE->variableTable.erase(SymbolTable::GLOBAL_SYMBOL_TABLE->variableTable.find(variableName));
+    isVariable = false;
+    OutputWindow::UpdateVariablesTab();
+
+}
+
+
+void InputSeries::createNewVariable(const std::string& cvariableName) {
+    isVariable = true;
+    variableName = cvariableName;
+    std::shared_ptr<VarSymbol> varSymbol = VarSymbol::createVarSymbol(variableName, TypeInstances::GetNumberInstance(), data);
+    SymbolTable::GLOBAL_SYMBOL_TABLE->declareVariable(varSymbol);
+    OutputWindow::UpdateVariablesTab();
 
 }

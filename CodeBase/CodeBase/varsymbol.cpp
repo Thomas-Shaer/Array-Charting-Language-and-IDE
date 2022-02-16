@@ -17,6 +17,8 @@ VarSymbol::VarSymbol(const std::string _name, const TypeSymbol* _type) : name(_n
 
 
 std::shared_ptr<VarSymbol> VarSymbol::createVarSymbol(const std::string _name, const TypeSymbol* _type, std::vector<ExpressionValue> _value) {
+	
+	// same regex as what lexer matches
 	if (!std::regex_match(_name, std::regex("[a-zA-Z_][a-zA-Z0-9_]*"))) {
 		throw DataParseException("Invalid variable name: " + _name);
 	}
@@ -25,6 +27,7 @@ std::shared_ptr<VarSymbol> VarSymbol::createVarSymbol(const std::string _name, c
 
 
 std::shared_ptr<VarSymbol> VarSymbol::createVarSymbol(const std::string _name, const TypeSymbol* _type) {
+	// same regex as what lexer matches
 	if (!std::regex_match(_name, std::regex("[a-zA-Z_][a-zA-Z0-9_]*"))) {
 		throw DataParseException("Invalid variable name: " + _name);
 	}

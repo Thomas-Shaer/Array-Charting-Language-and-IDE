@@ -1,7 +1,7 @@
 #pragma once
 #include "imfilebrowser.h"
 #include "window.h"
-class InputData;
+class InputSeries;
 enum class ImportPolicy : unsigned int;
 
 
@@ -12,30 +12,6 @@ public:
 
 
 	DataManagerWindow() : Window("Data Manager Window") {}
-
-
-	/*
-	* Window that shows documentation for the language.
-	*/
-	/*
-Registers date file and also parses and loads in the various data columns.
-*/
-	static void loadInData(const ImportPolicy importPolicy, const std::string& pathName, const std::string& fileName, const std::string& TrueString, const std::string& FalseString, const std::string& NANString);
-
-	/*
-	Creates and registers new variable on symbol table.
-	*/
-	static void createNewVariable(std::shared_ptr<InputData> data, const std::string& variableName);
-
-	/*
-	Deletes variable from symbol table.
-	*/
-	static void deleteVariable(std::shared_ptr<InputData> data);
-
-	/*
-	Renames a variable
-	*/
-	static void renameVariable(std::shared_ptr<InputData> data, const std::string& variableName);
 
 
 	/*
@@ -72,7 +48,7 @@ Registers date file and also parses and loads in the various data columns.
 	static ImGui::FileBrowser fb;
 
 
-	static 	std::vector<std::shared_ptr<InputData>> LOADED_IN_DATA;
+	static 	std::vector<std::shared_ptr<InputSeries>> LOADED_IN_DATA;
 
 private:
 

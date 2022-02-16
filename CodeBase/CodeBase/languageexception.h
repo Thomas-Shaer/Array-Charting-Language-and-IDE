@@ -10,7 +10,7 @@ class Node;
 
 /*
 Language Exception class.
-Used for error handeling the users code.
+Used for error handling the users code.
 Must be given a source code location relating to where the error happened.
 */
 class LanguageException : std::exception {

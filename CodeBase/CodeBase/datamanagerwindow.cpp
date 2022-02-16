@@ -5,7 +5,7 @@
 
 #include "symboltable.h"
 #include "typesymbol.h"
-#include "inputdata.h"
+#include "inputseries.h"
 #include "implot.h"
 #include "varsymbol.h"
 #include "chartwindow.h"
@@ -16,15 +16,14 @@
 
 
 ImGui::FileBrowser DataManagerWindow::fb;
-std::vector<std::shared_ptr<InputData>> DataManagerWindow::LOADED_IN_DATA = { };
+std::vector<std::shared_ptr<InputSeries>> DataManagerWindow::LOADED_IN_DATA = { };
 
 
 void DataManagerWindow::init() {
     fb.SetPwd(std::filesystem::path(Settings::settingsFile["lastDataImportDirectory"].get<std::string>()));
 
     for (nlohmann::json path : Settings::settingsFile["loadedInData"].get<std::vector<nlohmann::json>>()) {
-        auto newData = InputData::LoadInputData(InputData::StringToImportPolicy(path["policy"]), path["path"], path["name"], path["trueImportString"], path["falseImportString"], path["NANImportString"]);
-        LOADED_IN_DATA.insert(LOADED_IN_DATA.end(), newData.begin(), newData.end());
+        InputSeries::LoadInputData(InputSeries::StringToImportPolicy(path["policy"]), path["path"], path["name"], path["trueImportString"], path["falseImportString"], path["NANImportString"]);
     }
 
     // (optional) set browser properties
@@ -32,53 +31,11 @@ void DataManagerWindow::init() {
     fb.SetTypeFilters({ ".csv" });
 }
 
-void DataManagerWindow::loadInData(const ImportPolicy importPolicy, const std::string& pathName, const std::string& fileName, const std::string& TrueString, const std::string& FalseString, const std::string& NANString) {
-    auto newData = InputData::LoadInputData(importPolicy, pathName, fileName, TrueString, FalseString, NANString);
-    LOADED_IN_DATA.insert(LOADED_IN_DATA.end(), newData.begin(), newData.end());
-    
-    /*
-    Saves data
-    */
-    nlohmann::json newSave;
-    newSave["path"] = pathName;
-    newSave["name"] = fileName;
-    newSave["policy"] = InputData::ImportPolicyToString(importPolicy);
-    newSave["trueImportString"] = TrueString;
-    newSave["falseImportString"] = FalseString;
-    newSave["NANImportString"] = NANString;
-    Settings::settingsFile["loadedInData"].push_back(newSave);
-}
-
-
-void DataManagerWindow::createNewVariable(std::shared_ptr<InputData> data, const std::string& variableName) {
-    data->isVariable = true;
-    data->variableName = variableName;
-    std::shared_ptr<VarSymbol> varSymbol = VarSymbol::createVarSymbol(data->variableName, TypeInstances::GetNumberInstance(), data->data);
-    SymbolTable::GLOBAL_SYMBOL_TABLE->variableTable[data->variableName] = varSymbol;
-    OutputWindow::UpdateVariablesTab();
-    
-}
-
-void DataManagerWindow::renameVariable(std::shared_ptr<InputData> data, const std::string& variableName) {
-    std::shared_ptr<VarSymbol> oldSymbol = SymbolTable::GLOBAL_SYMBOL_TABLE->variableTable[data->variableName];
-    SymbolTable::GLOBAL_SYMBOL_TABLE->variableTable.erase(SymbolTable::GLOBAL_SYMBOL_TABLE->variableTable.find(data->variableName));
-    data->variableName = variableName;
-    std::shared_ptr<VarSymbol> varSymbol = VarSymbol::createVarSymbol(data->variableName, TypeInstances::GetNumberInstance(), oldSymbol->getArrayValues());
-    SymbolTable::GLOBAL_SYMBOL_TABLE->variableTable[data->variableName] = varSymbol;
-    OutputWindow::UpdateVariablesTab();
-}
-
-void DataManagerWindow::deleteVariable(std::shared_ptr<InputData> data) {
-    SymbolTable::GLOBAL_SYMBOL_TABLE->variableTable.erase(SymbolTable::GLOBAL_SYMBOL_TABLE->variableTable.find(data->variableName));
-    data->isVariable = false;
-    OutputWindow::UpdateVariablesTab();
-
-}
 
 
 void DataManagerWindow::deleteAllVariables() {
     SymbolTable::GLOBAL_SYMBOL_TABLE->variableTable.clear();
-    for (std::shared_ptr<InputData> inputdata : LOADED_IN_DATA) {
+    for (std::shared_ptr<InputSeries> inputdata : LOADED_IN_DATA) {
         inputdata->isVariable = false;
     }
     OutputWindow::UpdateVariablesTab();
@@ -88,7 +45,7 @@ void DataManagerWindow::deleteAllVariables() {
 void DataManagerWindow::removeFile(const std::string& fileName) {
     LOADED_IN_DATA.erase(std::remove_if(LOADED_IN_DATA.begin(),
         LOADED_IN_DATA.end(),
-        [fileName](std::shared_ptr<InputData> input) {return input->fileName == fileName; }),
+        [fileName](std::shared_ptr<InputSeries> input) {return input->fileName == fileName; }),
         LOADED_IN_DATA.end());
     Settings::settingsFile["loadedInData"].erase(std::remove_if(Settings::settingsFile["loadedInData"].begin(),
         Settings::settingsFile["loadedInData"].end(),
@@ -175,12 +132,12 @@ void DataManagerWindow::ShowWindow() {
         ImGui::Text(std::string("Import data.").c_str());
         ImGui::NewLine();
         ImGui::Text("Import Policy");
-        if (ImGui::BeginCombo("", InputData::ImportPolicyToString(importPolicySelection).c_str())) {
+        if (ImGui::BeginCombo("", InputSeries::ImportPolicyToString(importPolicySelection).c_str())) {
             bool is_selected = false;
-            if (ImGui::Selectable(InputData::ImportPolicyToString(ImportPolicy::COLUMN_WISE).c_str(), is_selected)) {
+            if (ImGui::Selectable(InputSeries::ImportPolicyToString(ImportPolicy::COLUMN_WISE).c_str(), is_selected)) {
                 importPolicySelection = ImportPolicy::COLUMN_WISE;
             }
-            if (ImGui::Selectable(InputData::ImportPolicyToString(ImportPolicy::ROW_WISE).c_str(), is_selected)) {
+            if (ImGui::Selectable(InputSeries::ImportPolicyToString(ImportPolicy::ROW_WISE).c_str(), is_selected)) {
                 importPolicySelection = ImportPolicy::ROW_WISE;
             }
             ImGui::EndCombo();
@@ -217,7 +174,7 @@ void DataManagerWindow::ShowWindow() {
 
             try {
                 parseMessage = "";
-                loadInData(importPolicySelection, filePath, fileName, std::string(defaultTrue), std::string(defaultFalse), std::string(defaultNAN));
+                InputSeries::LoadInputData(importPolicySelection, filePath, fileName, std::string(defaultTrue), std::string(defaultFalse), std::string(defaultNAN));
                 showImportPopup = false;
                 ImGui::CloseCurrentPopup();
             }
@@ -295,7 +252,7 @@ void DataManagerWindow::ShowWindow() {
     */
     ImGui::BeginChild("left pane", ImVec2(150, 0), true);
     for (int i = 0; i < LOADED_IN_DATA.size(); i ++) {
-        std::shared_ptr<InputData> data = LOADED_IN_DATA.at(i);
+        std::shared_ptr<InputSeries> data = LOADED_IN_DATA.at(i);
 
         /*
         Give it a slight different colour if variable has been made.
@@ -321,7 +278,7 @@ void DataManagerWindow::ShowWindow() {
     ImGui::SameLine();
     ImGui::BeginGroup();
     if (selected != -1) {
-        std::shared_ptr<InputData> data = LOADED_IN_DATA.at(selected);
+        std::shared_ptr<InputSeries> data = LOADED_IN_DATA.at(selected);
 
         ImGui::Text(data->name.c_str());
 
@@ -337,8 +294,8 @@ void DataManagerWindow::ShowWindow() {
                     }
                     values.push_back(*f.value);
                 }
-                ChartWindow::getOrCreateChartWindow(0)->CHART_LINE_DATA.push_back(std::make_shared<ChartPlot>(data->name, values));
-                ChartWindow::getOrCreateChartWindow(0)->UpdateChart();
+                ChartWindow::getOrCreateChartWindow(DEFAULT_CHART_WINDOW_ID)->CHART_LINE_DATA.push_back(std::make_shared<ChartPlot>(data->name, values));
+                ChartWindow::getOrCreateChartWindow(DEFAULT_CHART_WINDOW_ID)->UpdateChart();
             }
         }
         else if(data->type == TypeInstances::GetBooleanInstance()) {
@@ -388,8 +345,14 @@ void DataManagerWindow::ShowWindow() {
         if (createVariable) {
 
             if (VarSymbol::isValidName(std::string(characters))) {
-                createNewVariable(data, std::string(characters));
-                variableNameMessage = "";
+                if (!SymbolTable::GLOBAL_SYMBOL_TABLE->isVariableDeclared(std::string(characters))) {
+                    data->createNewVariable(std::string(characters));
+                    variableNameMessage = "";
+                }
+                else {
+                    variableNameMessage = "Variable already declared with name: " + std::string(characters);
+
+                }
             }
             else {
                 variableNameMessage = "Not a valid variable name " + std::string(characters);
@@ -403,8 +366,13 @@ void DataManagerWindow::ShowWindow() {
             if (ImGui::Button("Rename Variable")) {
 
                 if (VarSymbol::isValidName(std::string(characters))) {
-                    renameVariable(data, std::string(characters));
-                    variableNameMessage = "";
+                    if (!SymbolTable::GLOBAL_SYMBOL_TABLE->isVariableDeclared(std::string(characters))) {
+                        data->renameVariable(std::string(characters));
+                        variableNameMessage = "";
+                    }
+                    else {
+                        variableNameMessage = "Variable already declared with name: " + std::string(characters);
+                    }
                 }
                 else {
                     variableNameMessage = "Not a valid variable name " + std::string(characters);
@@ -413,7 +381,7 @@ void DataManagerWindow::ShowWindow() {
 
 
             if (ImGui::Button("Delete Variable")) {
-                deleteVariable(data);
+                data->deleteVariable();
             }
         }
 

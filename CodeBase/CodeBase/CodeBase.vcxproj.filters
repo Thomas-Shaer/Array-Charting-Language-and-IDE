@@ -138,9 +138,6 @@
     <ClCompile Include="datamanagerwindow.cpp">
       <Filter>Source Files\GUI\Windows</Filter>
     </ClCompile>
-    <ClCompile Include="inputdata.cpp">
-      <Filter>Source Files\Data</Filter>
-    </ClCompile>
     <ClCompile Include="chartplot.cpp">
       <Filter>Source Files\GUI</Filter>
     </ClCompile>
@@ -194,6 +191,9 @@
     </ClCompile>
     <ClCompile Include="nullablevalue.cpp">
       <Filter>Source Files\Values</Filter>
+    </ClCompile>
+    <ClCompile Include="inputseries.cpp">
+      <Filter>Source Files\Data</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -287,9 +287,6 @@
     <ClInclude Include="imfilebrowser.h">
       <Filter>Source Files\GUI\Library\File Browser</Filter>
     </ClInclude>
-    <ClInclude Include="inputdata.h">
-      <Filter>Source Files\Data</Filter>
-    </ClInclude>
     <ClInclude Include="chartplot.h">
       <Filter>Source Files\GUI</Filter>
     </ClInclude>
@@ -349,6 +346,9 @@
     </ClInclude>
     <ClInclude Include="nullablevalue.h">
       <Filter>Source Files\Values</Filter>
+    </ClInclude>
+    <ClInclude Include="inputseries.h">
+      <Filter>Source Files\Data</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

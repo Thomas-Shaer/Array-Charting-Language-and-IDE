@@ -14,7 +14,7 @@
 #include "settingswindow.h"
 //#include "jsonsettings.h"
 //#include "imfilebrowser.h"
-//#include "inputdata.h"
+//#include "inputseries.h"
 #include "maingui.h"
 #include "jsonsettings.h"
 #include "implot.h"
