@@ -12,11 +12,21 @@ class ChartWindow : public Window {
 
 public:
 
+	/*
+	supplementary lookup map saving string ids to chart window
+	(chart windows require additional management as they
+	should all be updated whenever code is executed)
+	*/
+	static std::map<std::string, ChartWindow*> allChartWindows;
+
+
+	/*
+	Given a string id, will create or return a pointer to a chart window.
+	*/
 	static ChartWindow* getOrCreateChartWindow(const std::string& id);
 
 
 	ChartWindow(const std::string& id);
-	//ChartWindow() : chart_id(-99), Window("Chart Window (temp)", true) {}
 
 	/*
 	* Window that displays chart
@@ -29,30 +39,47 @@ public:
 	void UpdateChart();
 
 
-	ImGui::FileBrowser fbSave{ ImGuiFileBrowserFlags_EnterNewFilename };
-
-	bool exportWithBorder = false;
-	bool exportWithOutBorder = false;
-
-
-	std::string chart_id;
-
+	// chart data for lines
 	std::vector<std::shared_ptr<ChartPlot>> CHART_LINE_DATA;
+	// chart data for plots
 	std::vector<std::shared_ptr<ChartPlot>> CHART_MARK_DATA;
 
 
-	void reset();
+	void clearChart();
 
 
-	static void clearAllWindows();
+
+	/*
+	Clears all charts
+	*/
+	static void clearAllCharts();
+	
+	/*
+	Updates all charts by redrawing its plot data
+	*/
 	static void updateAllCharts();
-	static std::map<std::string, ChartWindow*> allChartWindows;
 
 
 private:
 	std::string TITLE = "Chart Screen(0)###ChartWindow";
-	bool exportChart = false;
-	bool showName = true;
+
+	// flag to indicate whether to display the chart title
+	bool showChartTitle = true;
+
+	// flag to indicate whether chart should be updated
 	bool updateChart = false;
 
+	// flag to indicate whether chart should be exported
+	bool exportChart = false;
+	// if to be exported, export with the chart border
+	bool exportWithBorder = false;
+	// if to be exported, export without the chart border
+	bool exportWithOutBorder = false;
+
+
+	ImGui::FileBrowser fbSave{ ImGuiFileBrowserFlags_EnterNewFilename };
+
+
+	// id of this chart window
+	std::string chart_id;
 };

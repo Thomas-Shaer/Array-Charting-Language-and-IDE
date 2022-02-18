@@ -5,6 +5,10 @@
 #include "node.h"
 
 
+/*
+Helper functions to determine if two types are compatible.
+Supplies edge cases for constant types.
+*/
 bool matchType(const TypeSymbol* expected, const TypeSymbol* received) {
 	if (expected == TypeInstances::GetNumberInstance() && received == TypeInstances::GetNumberConstantInstance()) {
 		return true;
@@ -13,16 +17,19 @@ bool matchType(const TypeSymbol* expected, const TypeSymbol* received) {
 		return true;
 	}
 	// else types have to be the same
-	else if (expected == received) {
-		return true;
-	}
-	return false;
+	return expected == received;
 }
 
 
 
 const TypeSymbol* PositionalMethodSymbol::semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable) {
+	// clear the method nodes argument symbol list
 	methodCallNode->expressionToArgList.clear();
+
+
+	/*
+	Create argument symbols from the method args
+	*/
 	std::vector<std::shared_ptr<ArgumentSymbol>> _argumentSymbols;
 	for (Expression* expr : methodCallNode->arguments) {
 		_argumentSymbols.push_back(std::make_shared<ArgumentSymbol>(expr->semanticAnalysis(symboltable), expr));
@@ -82,36 +89,48 @@ KeywordMethodSymbol::KeywordMethodSymbol(const std::string& _name, const std::st
 
 
 const TypeSymbol* KeywordMethodSymbol::semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable) {
+	// clear the method nodes argument symbol list
 	methodCallNode->expressionToArgList.clear();
+
+	/*
+	Create argument symbols from the method args
+	*/
 	std::vector<std::shared_ptr<ArgumentSymbol>> positionalSymbols;
 	std::map<std::string, std::shared_ptr<ArgumentSymbol>> keywordSymbols;
 	for (Expression* expr : methodCallNode->arguments) {
-		//std::shared_ptr<ArgumentSymbol> argSymbol = std::make_shared<ArgumentSymbol>(expr->semanticAnalysis(symboltable), expr);
 
 		KeywordNode* keyword;
 		if ((keyword = dynamic_cast<KeywordNode*>(expr))) {
+			// Convenient place to make sure same keyword argument not supplied twice
 			if (keywordSymbols.find(keyword->name) != keywordSymbols.end()) {
 				throw LanguageException("Already specified keyword argument " + keyword->name, keyword);
 			}
+			// register keyword argument
 			keywordSymbols[keyword->name] = std::make_shared<ArgumentSymbol>(expr->semanticAnalysis(symboltable), keyword->rhs);
 			continue;
 		}
+		// register non keyword argument
 		positionalSymbols.push_back(std::make_shared<ArgumentSymbol>(expr->semanticAnalysis(symboltable), expr));
 	}
 
-	// (must do bound checking for positional arguments)
+	/*
+	Bounds checking
+	*/
 
-	// must supply at least the amount of non optional params
+	// must supply at least the amount of required params
 	if (positionalSymbols.size() < requiredParameterSymbols.size()) {
 		throw LanguageException("Method " + name + " takes at least " + std::to_string(requiredParameterSymbols.size()) + " non optional parameters not " + std::to_string(positionalSymbols.size()) + " non optional parameters", methodCallNode);
 	}
 
-	// must supply at least the amount of non optional params
+	// must not provide more arguments then required + optional parameters
 	if (positionalSymbols.size() > (requiredParameterSymbols.size() + optionalParameterSymbols.size())) {
 		throw LanguageException("Method " + name + " takes at most " + std::to_string(requiredParameterSymbols.size() + optionalParameterSymbols.size()) + " parameters not " + std::to_string(positionalSymbols.size()) + " parameters", methodCallNode);
 	}
 
 
+	/*
+	Matching
+	*/
 
 	// first we match the positional args
 	for (int i = 0; i < positionalSymbols.size(); i++) {
@@ -168,13 +187,13 @@ const TypeSymbol* KeywordMethodSymbol::semanticAnaylsis(MethodCallNode* methodCa
 		throw LanguageException("Method " + name + " expected parameter " + name + " to be " + expected.typesymbol->name + " but recieved " + received->type->name, received->expression);
 
 	}
-	// rest of keyword args just declare them
-
+	// The optional arguments not supplied by the user will now be registered as a argument with their default value
 	for (auto& item : optionalParamsMap) {
 		/*
 		Gives argument symbol the default value of the parameter symbol
 		*/
 		std::shared_ptr<ArgumentSymbol> defaultArgument = std::make_shared<ArgumentSymbol>(item.second.typesymbol, nullptr);
+		// give argument symbol default parameter value
 		defaultArgument->expressionValue = item.second.defaultValue;
 		methodCallNode->expressionToArgList[item.first] = defaultArgument;
 	}

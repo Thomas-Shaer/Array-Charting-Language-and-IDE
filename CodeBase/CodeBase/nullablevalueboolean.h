@@ -3,7 +3,10 @@
 
 
 
-
+/*
+The boolean value.
+Value will be null or a boolean.
+*/
 class NullableValueBoolean : public NullableValue<bool> {
 
 public:

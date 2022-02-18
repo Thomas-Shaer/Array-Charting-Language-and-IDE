@@ -27,10 +27,10 @@ ChartWindow::ChartWindow(const std::string& id) : chart_id(id), Window("Chart Wi
 
 
 
-void ChartWindow::clearAllWindows() {
+void ChartWindow::clearAllCharts() {
     //std::cout << ChartWindow::allChartWindows.size() << std::endl;
     for (auto& window : ChartWindow::allChartWindows) {
-        window.second->reset();
+        window.second->clearChart();
     }
 }
 
@@ -42,7 +42,7 @@ void ChartWindow::updateAllCharts() {
     }
 }
 
-void ChartWindow::reset() {
+void ChartWindow::clearChart() {
     CHART_LINE_DATA.clear();
     CHART_MARK_DATA.clear();
 }
@@ -116,14 +116,14 @@ void ChartWindow::ShowWindow() {
         }
         if (ImGui::BeginMenu("Chart")) {
             if (ImGui::MenuItem("Clear")) {
-                reset();
+                clearChart();
                 UpdateChart();
             }
             if (ImGui::MenuItem("Fit to data")) {
                 UpdateChart();
             }
-            if (ImGui::MenuItem("Show Key", NULL, showName)) {
-                showName = !showName;
+            if (ImGui::MenuItem("Show Key", NULL, showChartTitle)) {
+                showChartTitle = !showChartTitle;
                 //Settings::settingsFile["chartAntiAliasing"] = antiAliasing;
             }
             
@@ -189,14 +189,14 @@ void ChartWindow::ShowWindow() {
 
         int i = 0;
         for (auto line : CHART_LINE_DATA) {
-            std::string name = showName ? line->plotName : "";
+            std::string name = showChartTitle ? line->plotName : "";
             ImPlot::PushStyleColor(ImPlotCol_Line, ImPlot::GetColormapColor(i));
             ImPlot::PlotLine(name.c_str(), line->data.data(), line->data.size());
             ImPlot::PopStyleColor();
             i++;
         }
         for (auto line : CHART_MARK_DATA) {
-            std::string name = showName ? line->plotName : "";
+            std::string name = showChartTitle ? line->plotName : "";
             ImPlot::PushStyleColor(ImPlotCol_Line, ImPlot::GetColormapColor(i));
             ImPlot::PlotScatter(name.c_str(), line->data.data(), line->data.size());
             ImPlot::PopStyleColor();

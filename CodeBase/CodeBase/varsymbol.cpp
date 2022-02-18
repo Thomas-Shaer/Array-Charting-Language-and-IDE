@@ -1,7 +1,7 @@
 #include "varsymbol.h"
 #include <iostream>
 #include "typesymbol.h"
-#include "visitors.h"
+
 #include "interpretercontext.h"
 #include <regex>
 #include "dataparseexception.h"

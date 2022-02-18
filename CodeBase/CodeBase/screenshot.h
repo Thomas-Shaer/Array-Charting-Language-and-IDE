@@ -1,5 +1,10 @@
 #pragma once
-// ImGui Screenshot Maker (OpenGL only)
+
+/*
+NOTE
+This file is a modified version of ImGui's screenshotting tool
+found here https://github.com/ocornut/imgui/wiki/screenshot_tool
+*/
 
 #include "imgui.h"
 #define IMGUI_DEFINE_MATH_OPERATORS
@@ -31,6 +36,9 @@ struct ImageBuf
     u32* GetPtr(int x, int y);
     u32 GetPixel(int x, int y) const;
 
+    /*
+    Save and take a screenshot at bounds
+    */
     static void capture(int x, int y, int width, int height, const std::string& fileName);
 };
 

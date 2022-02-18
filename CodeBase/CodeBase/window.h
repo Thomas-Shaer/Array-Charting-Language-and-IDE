@@ -1,11 +1,16 @@
 #pragma once
 #include <iostream>
 #include <vector>
-#include "imgui_internal.h"
 
+/*
+Window base class.
+Allows for easy access and management of window objects.
+E.g. ChartWindow, DataManagerWindow
+*/
 class Window {
 public:
 
+	// contains record of ALL windows. Window constructor automatically registers it in here.
 	static std::vector<Window*> windows;
 
 
@@ -13,6 +18,7 @@ public:
 	Window(const std::string _name);
 	virtual void ShowWindow() = 0;
 
+	// registers this window in toDelete. Will be safely deleted
 	void deleteWindow();
 
 	/*
@@ -23,15 +29,21 @@ public:
 	static void manageNewWindows();
 
 
+	// name of window
 	std::string name;
+	// json is open save name for this window
 	std::string saveJSONName;
-	bool saveStatus = false;
+	// if true will save status of open/closed for this window
+	bool saveOpenStatus = false;
+	// render this window or not
 	bool show = true;
+	// add this window to main viewport menubar tab
 	bool windowTab = false;
 private:
+	// temporarily store windows to be safely created
 	static std::vector<Window*> toCreate;
+	// temporarily store windows to be safely deleted
 	static std::vector<Window*> toDelete;
-protected:
-	ImGuiWindow* guiwindow;
+
 
 };

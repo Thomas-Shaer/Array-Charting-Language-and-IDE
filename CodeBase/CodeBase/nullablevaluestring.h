@@ -2,6 +2,10 @@
 #include "nullablevalue.h"
 
 
+/*
+The string value.
+Value will be null or a string.
+*/
 class NullableValueString : public NullableValue<std::string> {
 
 public:

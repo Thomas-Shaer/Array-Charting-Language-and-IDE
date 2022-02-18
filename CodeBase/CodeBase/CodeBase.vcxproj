@@ -197,7 +197,6 @@
     <ClCompile Include="texteditorwindow.cpp" />
     <ClCompile Include="textoutputwindow.cpp" />
     <ClCompile Include="typesymbol.cpp" />
-    <ClCompile Include="nullablevalue.cpp" />
     <ClCompile Include="varsymbol.cpp" />
     <ClCompile Include="window.cpp" />
   </ItemGroup>
@@ -251,7 +250,6 @@
     <ClInclude Include="global.h" />
     <ClInclude Include="typesymbol.h" />
     <ClInclude Include="varsymbol.h" />
-    <ClInclude Include="visitors.h" />
     <ClInclude Include="window.h" />
   </ItemGroup>
   <ItemGroup>

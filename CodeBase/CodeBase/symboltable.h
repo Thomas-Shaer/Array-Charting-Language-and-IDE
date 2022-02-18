@@ -57,7 +57,6 @@ public:
 	//converts symbol table to string
 	std::string toString();
 
-	std::string variablesToString(bool _enclosing = false);
 
 	std::vector<std::shared_ptr<VarSymbol>> variablesToVector(bool _enclosing = false);
 

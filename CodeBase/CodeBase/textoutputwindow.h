@@ -33,9 +33,16 @@ public:
 
 
 	static void init();
-	static ImGui::FileBrowser fb;
 	static std::string CODE_OUTPUT; //Text output from the code is displayed here
 	static std::string CODE_OUTPUT_RECONSTRUCTION; //Shows how the input code is interpreted
+
+
+	static void exportColumnWise(const std::string& filePath, std::vector<std::shared_ptr<VarSymbol>> variables);
+	static void exportRowWise(const std::string& filePath, std::vector<std::shared_ptr<VarSymbol>> variables);
+
+private:
+	static bool bringToFront;
+
 	/*
 	Flags to indicate whether tab should be opened or not.
 	*/
@@ -43,11 +50,8 @@ public:
 	static ImGuiTabItemFlags_ codeReconstructionTabFlags;
 	static ImGuiTabItemFlags_ variableTabFlags;
 
-	static void exportColumnWise(const std::string& filePath, std::vector<std::shared_ptr<VarSymbol>> variables);
-	static void exportRowWise(const std::string& filePath, std::vector<std::shared_ptr<VarSymbol>> variables);
 
-private:
-	static bool bringToFront;
+	static ImGui::FileBrowser fb;
 
 
 };

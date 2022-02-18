@@ -105,7 +105,7 @@ void InterpreterContext::execute(const std::string& code) {
 
 
 
-		ChartWindow::clearAllWindows();
+		ChartWindow::clearAllCharts();
 		
 		
 		ast->semanticAnalysis(symboltable);

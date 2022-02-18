@@ -3,6 +3,10 @@
 
 #define SAVE_NAME "settings.json"
 
+/*
+Struct for accessing all 
+things related to saveable settings.
+*/
 
 struct Settings {
 	// last time settings were saved
@@ -11,6 +15,7 @@ struct Settings {
 	// how many miliseconds should pass before we save again
 	static const int saveFrequency = 5000;
 
+	// the actual json settings file
 	static nlohmann::json settingsFile;
 	
 	/*

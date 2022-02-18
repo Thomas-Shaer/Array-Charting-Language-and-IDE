@@ -192,19 +192,6 @@ std::string SymbolTable::toString() {
 	return output;
 }
 
-std::string SymbolTable::variablesToString(bool _enclosing) {
-	std::string output = "";
-	for (const auto& value : variableTable) {
-		output += value.second->toString() + "\n";
-	}
-	if (_enclosing) {
-		if (enclosingSymbolTable) {
-			output += "######\n";
-			output += enclosingSymbolTable->variablesToString(_enclosing);
-		}
-	}
-	return output;
-}
 
 std::vector<std::shared_ptr<VarSymbol>> SymbolTable::variablesToVector(bool _enclosing) {
 	std::vector<std::shared_ptr<VarSymbol>> table;

@@ -189,9 +189,6 @@
     <ClCompile Include="nullablevaluestring.cpp">
       <Filter>Source Files\Values</Filter>
     </ClCompile>
-    <ClCompile Include="nullablevalue.cpp">
-      <Filter>Source Files\Values</Filter>
-    </ClCompile>
     <ClCompile Include="inputseries.cpp">
       <Filter>Source Files\Data</Filter>
     </ClCompile>
@@ -226,9 +223,6 @@
     </ClInclude>
     <ClInclude Include="typesymbol.h">
       <Filter>Source Files\Symbol</Filter>
-    </ClInclude>
-    <ClInclude Include="visitors.h">
-      <Filter>Source Files\Values</Filter>
     </ClInclude>
     <ClInclude Include="imgui_internal.h">
       <Filter>Source Files\GUI\Library\IMGUI</Filter>

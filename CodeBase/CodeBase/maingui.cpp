@@ -110,7 +110,7 @@ int start()
     // default chart window instance
     //ChartWindow chartWindow(0);
     ChartWindow::allChartWindows[DEFAULT_CHART_WINDOW_ID] = new ChartWindow(DEFAULT_CHART_WINDOW_ID);
-    ChartWindow::allChartWindows[DEFAULT_CHART_WINDOW_ID]->saveStatus = true;
+    ChartWindow::allChartWindows[DEFAULT_CHART_WINDOW_ID]->saveOpenStatus = true;
 
     /*
     The order of these declarations matter. Default first.
@@ -122,23 +122,23 @@ int start()
 
     TextEditorWindow texteditorwindow;
     texteditorwindow.windowTab = true;
-    texteditorwindow.saveStatus = true;
+    texteditorwindow.saveOpenStatus = true;
 
     OutputWindow outputWindow;
     outputWindow.windowTab = true;
-    outputWindow.saveStatus = true;
+    outputWindow.saveOpenStatus = true;
 
     DocumentationWindow documentationWindow;
     documentationWindow.windowTab = true;
-    documentationWindow.saveStatus = true;
+    documentationWindow.saveOpenStatus = true;
 
     SettingsWindow settingsWindow;
     settingsWindow.windowTab = true;
-    settingsWindow.saveStatus = true;
+    settingsWindow.saveOpenStatus = true;
 
     DataManagerWindow datamanagerWindow;
     datamanagerWindow.windowTab = true;
-    datamanagerWindow.saveStatus = true;
+    datamanagerWindow.saveOpenStatus = true;
 
 
     // Main loop
@@ -167,7 +167,7 @@ int start()
             if (window->show) {
                 window->ShowWindow();
             }
-            if (window->saveStatus) {
+            if (window->saveOpenStatus) {
                 Settings::settingsFile[window->saveJSONName] = window->show;
             }
         }

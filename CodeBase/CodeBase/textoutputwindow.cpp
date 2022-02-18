@@ -5,7 +5,7 @@
 #include "varsymbol.h"
 #include "typesymbol.h"
 #include "jsonsettings.h"
-#include "visitors.h"
+
 
 #include <fstream>
 
@@ -27,7 +27,9 @@ void OutputWindow::exportColumnWise(const std::string& filePath, std::vector<std
     for (int j = 0; j < variables.size(); ++j)
     {
         myFile << variables.at(j)->exportName;
-        if (j != variables.size() - 1) myFile << ","; // No comma at end of line
+        if (j != variables.size() - 1) {
+            myFile << ","; // No comma at end of line
+        }
     }
     myFile << "\n";
 
@@ -37,8 +39,10 @@ void OutputWindow::exportColumnWise(const std::string& filePath, std::vector<std
         for (int j = 0; j < variables.size(); ++j)
         {
             myFile << boost::apply_visitor(ToFileString(), variables.at(j)->buffer[i]);
-            if (j != variables.size() - 1) myFile << ","; // No comma at end of line
-        }
+            if (j != variables.size() - 1) {
+                myFile << ","; // No comma at end of line
+            }
+           }
         myFile << "\n";
     }
     myFile.close();
@@ -56,7 +60,9 @@ void OutputWindow::exportRowWise(const std::string& filePath, std::vector<std::s
         myFile << var->exportName << ",";
         for (int i = 0; i < var->buffer.size(); i++) {
             myFile << boost::apply_visitor(ToFileString(), var->buffer[i]);
-            if (i != var->buffer.size() - 1) myFile << ","; // No comma at end of line
+            if (i != var->buffer.size() - 1) { 
+                myFile << ","; // No comma at end of line
+            }
         }
         myFile << "\n";
 

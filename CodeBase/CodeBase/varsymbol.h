@@ -21,7 +21,7 @@ public:
 	// is modifiable flag i.e. if imported you cannot modify it directly
 	const bool modifiable;
 
-	// size of buffer if imported
+	// original size of array if imported
 	const unsigned int originalSize;
 
 	/*

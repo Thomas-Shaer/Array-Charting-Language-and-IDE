@@ -56,20 +56,32 @@ public:
 	void renameVariable(const std::string& variableName);
 
 
-
+	// parsed name of series (determined by column/row header)
 	std::string name;
+	// file name e.g. data.csv
 	std::string fileName;
+	// path to file e.g. C\\Users\\Tom\\data.csv
 	std::string path;
 
+	// how a true literal should be parsed for this data when reading from CSV
 	std::string trueLiteral;
+	// how a false literal should be parsed for this data when reading from CSV
 	std::string falseLiteral;
+	// how a nan literal should be parsed for this data when reading from CSV
 	std::string nanLiteral;
 
+	// temporary storage of series data
 	std::vector<ExpressionValue> data;
+
+	// type of this series
 	TypeSymbol* type;
+
+	// import policy (parse instruction): column-wise or row-wise
 	ImportPolicy importPolicy;
 
+	// flag indicating if a variable has been made out of this series
 	bool isVariable = false;
+	// name of variable if this series has been turned into a variable
 	std::string variableName;
 
 

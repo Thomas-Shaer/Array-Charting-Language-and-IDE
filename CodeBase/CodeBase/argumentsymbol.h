@@ -6,8 +6,8 @@ class TypeSymbol;
 
 
 /*
-Representation of the users argument passed to a parameter.
-Also acts as a container for the value of the argument.
+Semantic representation of the users argument passed to a parameter.
+Also acts as a container for the runtime value of the argument.
 */
 class ArgumentSymbol {
 
@@ -22,7 +22,7 @@ public:
 	Expression* expression;
 	
 	/*
-	Value passed to the method and updated by the users code.
+	Runtime value passed to the method and updated by the users code.
 	*/
 	ExpressionValue expressionValue;
 private:

@@ -45,13 +45,11 @@ public:
 
 
 	static void init();
-	static ImGui::FileBrowser fb;
 
 
 	static 	std::vector<std::shared_ptr<InputSeries>> LOADED_IN_DATA;
 
 private:
-
-
+	static ImGui::FileBrowser fb;
 
 };

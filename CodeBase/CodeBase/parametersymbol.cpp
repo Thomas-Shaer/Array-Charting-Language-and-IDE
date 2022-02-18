@@ -1,6 +1,6 @@
 #include "parametersymbol.h"
 #include "typesymbol.h"
-#include "visitors.h"
+
 #include "nullablevaluenumber.h"
 
 ParameterSymbol::ParameterSymbol(const TypeSymbol* _typesymbol, const std::string& _name, const std::string& _description)

@@ -3,7 +3,9 @@
 
 
 
-
+/*
+Window containing additional settings for program
+*/
 class SettingsWindow : public Window {
 
 public:

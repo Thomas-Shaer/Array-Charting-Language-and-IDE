@@ -5,7 +5,7 @@
 class TypeSymbol;
 
 /*
-A wrapper for a parameter in a method symbol.
+Semantic representation of a parameter in a method symbol.
 */
 class ParameterSymbol {
 public:
@@ -14,6 +14,8 @@ public:
 
 
 	std::string toString() const;
+
+	// gets the description of the parameter as a string
 	std::string getDescription() const;
 
 	// type of parameter
@@ -29,7 +31,13 @@ private:
 };
 
 
+/*
+Semantic representation of a optional parameter in a method symbol.
+The key difference is that it contains a default value.
+In the case the user does not supply the optional parameter,
+that value is passed to the generated ArgumentSymbol.
 
+*/
 class OptionalParameterSymbol : public ParameterSymbol {
 public:
 
@@ -43,6 +51,8 @@ public:
 	OptionalParameterSymbol();
 
 	std::string toString() const;
+
+	// default value for situation where user does not give this parameter
 	const ExpressionValue defaultValue;
 
 };
