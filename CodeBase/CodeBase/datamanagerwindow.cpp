@@ -11,15 +11,18 @@
 #include "chartwindow.h"
 #include <boost/algorithm/string.hpp>
 #include "chartplot.h"
-#include "textoutputwindow.h"
+#include "outputwindow.h"
 #include "dataparseexception.h"
 
 
-ImGui::FileBrowser DataManagerWindow::fb;
 std::vector<std::shared_ptr<InputSeries>> DataManagerWindow::LOADED_IN_DATA = { };
 
 
-void DataManagerWindow::init() {
+DataManagerWindow::DataManagerWindow() : Window("Data Manager Window") {
+
+    /*
+    Initalise file browser
+    */
     fb.SetPwd(std::filesystem::path(Settings::settingsFile["lastDataImportDirectory"].get<std::string>()));
 
     for (nlohmann::json path : Settings::settingsFile["loadedInData"].get<std::vector<nlohmann::json>>()) {

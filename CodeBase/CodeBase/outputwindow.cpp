@@ -1,4 +1,4 @@
-#include "textoutputwindow.h"
+#include "outputwindow.h"
 #include "imgui.h"
 
 #include "symboltable.h"
@@ -9,7 +9,6 @@
 
 #include <fstream>
 
-ImGui::FileBrowser OutputWindow::fb(ImGuiFileBrowserFlags_EnterNewFilename);
 ImGuiTabItemFlags_ OutputWindow::outputTabFlags = ImGuiTabItemFlags_None;
 ImGuiTabItemFlags_ OutputWindow::codeReconstructionTabFlags = ImGuiTabItemFlags_None;
 ImGuiTabItemFlags_ OutputWindow::variableTabFlags = ImGuiTabItemFlags_None;
@@ -20,12 +19,28 @@ std::string OutputWindow::CODE_OUTPUT = "No information to display. Please run s
 std::string OutputWindow::CODE_OUTPUT_RECONSTRUCTION = "No information to display. Please run some code!";
 
 
+OutputWindow::OutputWindow() : Window("Output Window") {
+
+    /*
+    Initalise file browser
+    */
+
+    fb.SetPwd(std::filesystem::path(Settings::settingsFile["lastDataExportDirectory"].get<std::string>()));
+
+
+    // (optional) set browser properties
+    fb.SetTitle("title");
+    fb.SetTypeFilters({ ".csv" });
+}
+
+
 void OutputWindow::exportColumnWise(const std::string& filePath, std::vector<std::shared_ptr<VarSymbol>> variables) {
     std::ofstream myFile(filePath);
 
 
-    for (int j = 0; j < variables.size(); ++j)
-    {
+
+    // write column names first
+    for (int j = 0; j < variables.size(); ++j) {
         myFile << variables.at(j)->exportName;
         if (j != variables.size() - 1) {
             myFile << ","; // No comma at end of line
@@ -34,15 +49,14 @@ void OutputWindow::exportColumnWise(const std::string& filePath, std::vector<std
     myFile << "\n";
 
 
-    for (int i = 0; i < variables.at(0)->buffer.size(); ++i)
-    {
-        for (int j = 0; j < variables.size(); ++j)
-        {
+    // write data
+    for (int i = 0; i < variables.at(0)->buffer.size(); ++i) {
+        for (int j = 0; j < variables.size(); ++j) {
             myFile << boost::apply_visitor(ToFileString(), variables.at(j)->buffer[i]);
             if (j != variables.size() - 1) {
                 myFile << ","; // No comma at end of line
             }
-           }
+        }
         myFile << "\n";
     }
     myFile.close();
@@ -55,8 +69,7 @@ void OutputWindow::exportRowWise(const std::string& filePath, std::vector<std::s
     std::ofstream myFile(filePath);
 
 
-    for (std::shared_ptr<VarSymbol> var : variables)
-    {
+    for (std::shared_ptr<VarSymbol> var : variables) {
         myFile << var->exportName << ",";
         for (int i = 0; i < var->buffer.size(); i++) {
             myFile << boost::apply_visitor(ToFileString(), var->buffer[i]);
@@ -71,16 +84,6 @@ void OutputWindow::exportRowWise(const std::string& filePath, std::vector<std::s
     myFile.close();
 
 }
-
-void OutputWindow::init() {
-    fb.SetPwd(std::filesystem::path(Settings::settingsFile["lastDataExportDirectory"].get<std::string>()));
-
-
-    // (optional) set browser properties
-    fb.SetTitle("title");
-    fb.SetTypeFilters({ ".csv" });
-}
-
 
 
 void OutputWindow::SnapToOutputTab() {
@@ -101,9 +104,7 @@ void OutputWindow::ShowWindow() {
     }
     ImGui::SetWindowSize(ImVec2(500, 600), ImGuiCond_FirstUseEver);
     ImGui::SetWindowPos(ImVec2(100, 600), ImGuiCond_FirstUseEver);
-    static char defaultTrue[40];
-    static char defaultFalse[40];
-    static char defaultNAN[40];
+
 
 
     if (ImGui::BeginTabBar("Output Menu")) {
@@ -131,7 +132,9 @@ void OutputWindow::ShowWindow() {
             enum ExportPolicy { COLUMN_WISE, ROW_WISE};
             static std::string exportPolicySelectionText = "Column-wise";
             static ExportPolicy exportPolicySelection = COLUMN_WISE;
-
+            static char defaultTrue[40];
+            static char defaultFalse[40];
+            static char defaultNAN[40];
 
             if (outputVariables.empty()) {
                 ImGui::BeginDisabled();
@@ -231,6 +234,7 @@ void OutputWindow::ShowWindow() {
             static int selected = -1;
             static char characters[40];
 
+            // if deleted variable and selected index out of bounds reset it
             if (selected >= CODE_OUTPUT_VARIABLES.size()) {
                 selected = -1;
             }
@@ -259,14 +263,13 @@ void OutputWindow::ShowWindow() {
             ImGui::EndChild();
             ImGui::SameLine();
             ImGui::BeginGroup();
+            /*
+            Information about each variable
+            */
             if (selected != -1) {
-
                 std::shared_ptr<VarSymbol> data = CODE_OUTPUT_VARIABLES.at(selected);
-
                 ImGui::Text(std::string("Name: " + data->name).c_str());
-                //ImGui::NewLine();
                 ImGui::Text(std::string("Type: " + data->type->name).c_str());
-                //ImGui::NewLine();
                 ImGui::Text(std::string("Size: " + std::to_string(data->buffer.size())).c_str());
                 ImGui::Text(std::string("Original Size: " + std::to_string(data->originalSize)).c_str());
                 ImGui::Text(std::string("Modifiable: " + std::string(data->modifiable ? "true" : "false")).c_str());

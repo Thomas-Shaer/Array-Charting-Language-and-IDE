@@ -6,14 +6,4 @@
 ChartPlot::ChartPlot(std::string _plotName, unsigned int amountTicks) : plotName(_plotName), data(std::vector<float>(amountTicks)) {
 	std::fill(data.begin(), data.end(), std::numeric_limits<float>::quiet_NaN());
 }
-std::vector<float> ChartPlot::createEmptyVector(unsigned int amountTicks) {
-	std::vector<float> newVector(amountTicks);
-	std::fill(newVector.begin(), newVector.end(), std::numeric_limits<float>::quiet_NaN());
-	return  newVector;
-}
 
-std::vector<NullableValueNumber> ChartPlot::createEmptyVectorNAFloat(unsigned int amountTicks) {
-	std::vector<NullableValueNumber> newVector(amountTicks);
-	std::fill(newVector.begin(), newVector.end(), NullableValueNumber());
-	return  newVector;
-}

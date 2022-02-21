@@ -319,6 +319,7 @@ public:
 	virtual Plot* clone() {
 		return new Plot();
 	}
+
 private:
 	std::shared_ptr<ChartPlot> plotdata;
 	NullableValueNumber* value;

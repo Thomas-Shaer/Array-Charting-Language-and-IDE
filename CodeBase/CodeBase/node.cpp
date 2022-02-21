@@ -104,6 +104,8 @@ std::string MethodCallNode::toString() const {
 }
 
 MethodCallNode::~MethodCallNode() {
+	
+	//std::cout << name << " amount: " << arguments.size() << std::endl;
 	for (const Expression* argument : arguments) {
 		delete argument;
 	}

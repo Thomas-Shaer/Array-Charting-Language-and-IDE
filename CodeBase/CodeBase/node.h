@@ -33,6 +33,9 @@ public:
 	Source code location of the token(s) that generated this Node.
 	*/
 	yy::SourceLocation sourceLocation;
+
+	bool semanticExecuted = false;
+
 };
 
 /*
@@ -56,6 +59,9 @@ public:
 	Takes a tick relating to current index of array data.
 	*/
 	virtual ExpressionValue interpret(const unsigned int tick) const = 0;
+
+
+	const TypeSymbol* cachedReturnType;
 };
 
 /*
@@ -357,7 +363,8 @@ Used for assign statements, e.g. x = 2 + 3
 class AssignNode : public Statement {
 public:
 
-	AssignNode(std::string _name, Expression* _rhs, yy::SourceLocation csourceLocation) : name(_name), rhs(_rhs), Statement(csourceLocation) {}
+	AssignNode(std::string _name, Expression* _rhs, yy::SourceLocation csourceLocation) : name(_name), rhs(_rhs), Statement(csourceLocation) {
+	}
 
 	/*
 	Representation of this node as a string
@@ -405,7 +412,8 @@ e.g. average(2, 3)
 class MethodCallNode : public Expression {
 public:
 
-	MethodCallNode(std::string _name, std::vector<Expression*> _arguments, yy::SourceLocation csourceLocation) : name(_name), arguments(_arguments), Expression(csourceLocation) {}
+	MethodCallNode(std::string _name, std::vector<Expression*> _arguments, yy::SourceLocation csourceLocation) : name(_name), arguments(_arguments), Expression(csourceLocation) {
+	}
 
 	/*
 	Representation of this node as a string
@@ -496,7 +504,8 @@ class TernaryNode : public Expression {
 public:
 
 	TernaryNode(Expression* _condition, Expression* _expression1, Expression* _expression2, yy::SourceLocation csourceLocation)
-		: condition(_condition), expression1(_expression1), expression2(_expression2), Expression(csourceLocation) {}
+		: condition(_condition), expression1(_expression1), expression2(_expression2), Expression(csourceLocation) {
+	}
 
 	/*
 	Representation of this node as a string

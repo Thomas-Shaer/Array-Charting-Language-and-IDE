@@ -19,6 +19,9 @@ found here https://github.com/ocornut/imgui/wiki/screenshot_tool
 
 struct ImageBuf
 {
+    /*
+    Code from https://github.com/ocornut/imgui/wiki/screenshot_tool
+    */
     typedef unsigned int u32;
 
     int             Width, Height;
@@ -37,6 +40,7 @@ struct ImageBuf
     u32 GetPixel(int x, int y) const;
 
     /*
+    My function.
     Save and take a screenshot at bounds
     */
     static void capture(int x, int y, int width, int height, const std::string& fileName);

@@ -45,9 +45,6 @@ public:
 	/*
 	Contains all the GUI that requires a one time initalisation for the text editor window.
 	*/
-	void initFileBrowserSave();
-	void initFileBrowserOpen();
-	void initTextEditor();
 	ImGui::FileBrowser fbSave{ ImGuiFileBrowserFlags_EnterNewFilename };
 	ImGui::FileBrowser fbOpen;
 	TextEditor textEditor;
@@ -55,6 +52,7 @@ public:
 
 
 
+	// signal for intellisense triggered by text editor
 	static bool intellisenseSignal;
 	static std::string PLACEHOLDER_CODE; //Placeholder code for code input box
 

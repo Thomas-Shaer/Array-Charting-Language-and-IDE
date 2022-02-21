@@ -158,6 +158,8 @@
   <ItemGroup>
     <ClCompile Include="argumentsymbol.cpp" />
     <ClCompile Include="bison.tab.cpp" />
+    <ClCompile Include="methodimplementationsinterpreter.cpp" />
+    <ClCompile Include="methodimplementationssemantic.cpp" />
     <ClCompile Include="nullablevalueboolean.cpp" />
     <ClCompile Include="chartplot.cpp" />
     <ClCompile Include="datamanagerwindow.cpp" />
@@ -195,7 +197,7 @@
     <ClCompile Include="chartwindow.cpp" />
     <ClCompile Include="TextEditor.cpp" />
     <ClCompile Include="texteditorwindow.cpp" />
-    <ClCompile Include="textoutputwindow.cpp" />
+    <ClCompile Include="outputwindow.cpp" />
     <ClCompile Include="typesymbol.cpp" />
     <ClCompile Include="varsymbol.cpp" />
     <ClCompile Include="window.cpp" />
@@ -244,7 +246,7 @@
     <ClInclude Include="nullablevaluestring.h" />
     <ClInclude Include="TextEditor.h" />
     <ClInclude Include="texteditorwindow.h" />
-    <ClInclude Include="textoutputwindow.h" />
+    <ClInclude Include="outputwindow.h" />
     <ClInclude Include="nullablevalue.h" />
     <ClInclude Include="symboltable.h" />
     <ClInclude Include="global.h" />

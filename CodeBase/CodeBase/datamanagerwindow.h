@@ -11,7 +11,7 @@ class DataManagerWindow : public Window {
 public:
 
 
-	DataManagerWindow() : Window("Data Manager Window") {}
+	DataManagerWindow();
 
 
 	/*
@@ -44,12 +44,10 @@ public:
 	void ShowWindow();
 
 
-	static void init();
-
 
 	static 	std::vector<std::shared_ptr<InputSeries>> LOADED_IN_DATA;
 
 private:
-	static ImGui::FileBrowser fb;
+	ImGui::FileBrowser fb;
 
 };

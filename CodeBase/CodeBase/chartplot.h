@@ -14,8 +14,6 @@ public:
 	// create new chart plot i.e. fill vector with amount of ticks
 	ChartPlot(std::string _plotName, unsigned int amountTicks);
 	
-	static std::vector<float> createEmptyVector(unsigned int amountTicks);
-	static std::vector<NullableValueNumber> createEmptyVectorNAFloat(unsigned int amountTicks);
 	// plot data
 	std::vector<float> data;
 	

@@ -100,20 +100,17 @@ void ChartWindow::ShowWindow() {
         if (ImGui::BeginMenu("File")) {
             if (ImGui::BeginMenu("Export as...")) {
                 if (ImGui::MenuItem("Border", NULL, &exportAs)) {
-
-                    exportWithBorder = true;
+                    screenshotWithBorder = true;
                 }
                 if (ImGui::MenuItem("No Border", NULL, &exportAs)) {
-
-                    exportWithOutBorder = true;
+                    screenshotNoBorder = true;
                 }
-
-
 
                 ImGui::EndMenu();
             }
             ImGui::EndMenu();
         }
+
         if (ImGui::BeginMenu("Chart")) {
             if (ImGui::MenuItem("Clear")) {
                 clearChart();
@@ -174,19 +171,21 @@ void ChartWindow::ShowWindow() {
     if (ImPlot::BeginPlot(chart_id.c_str(), ImVec2(-1, -1))) {
         ImPlot::PushColormap(ImPlotColormap_Paired);
 
-
+        // convienent place to record x/y/width/height data for screenshotting
         chartX = ImPlot::GetPlotPos().x;
         chartY = ImPlot::GetPlotPos().y;
         chartWidth = ImPlot::GetPlotSize().x;
         chartHeight = ImPlot::GetPlotSize().y;
 
        
+        // convienent place to record x/y/width/height data for screenshotting
         chartAxisX = ImGui::GetItemRectMin().x;
         chartAxisY = ImGui::GetItemRectMin().y;
         chartAxisWidth = ImGui::GetItemRectSize().x;
         chartAxisHeight = ImGui::GetItemRectSize().y;
 
 
+        // display line plot data
         int i = 0;
         for (auto line : CHART_LINE_DATA) {
             std::string name = showChartTitle ? line->plotName : "";
@@ -195,6 +194,7 @@ void ChartWindow::ShowWindow() {
             ImPlot::PopStyleColor();
             i++;
         }
+        // display mark plot data
         for (auto line : CHART_MARK_DATA) {
             std::string name = showChartTitle ? line->plotName : "";
             ImPlot::PushStyleColor(ImPlotCol_Line, ImPlot::GetColormapColor(i));
@@ -213,19 +213,19 @@ void ChartWindow::ShowWindow() {
 
 
 
-    if (exportChart) {
+    if (screenshotChart) {
 
-        if (ChartWindow::exportWithBorder) {
+        if (ChartWindow::screenshotWithBorder) {
             ImageBuf::capture(chartAxisX, chartAxisY, chartAxisWidth, chartAxisHeight, exportName);
-            ChartWindow::exportWithBorder = false;
+            ChartWindow::screenshotWithBorder = false;
 
         }
-        else if (ChartWindow::exportWithOutBorder) {
+        else if (ChartWindow::screenshotNoBorder) {
             ImageBuf::capture(chartX, chartY, chartWidth, chartHeight, exportName);
-            ChartWindow::exportWithOutBorder = false;
+            ChartWindow::screenshotNoBorder = false;
         }
 
-        exportChart = false;
+        screenshotChart = false;
     }
 
     if (ChartWindow::fbSave.IsOpened()) {
@@ -236,7 +236,7 @@ void ChartWindow::ShowWindow() {
     {
         std::string fullPath = ChartWindow::fbSave.GetSelected().string() + ".png";
         exportName = fullPath;
-        exportChart = true;
+        screenshotChart = true;
         ChartWindow::fbSave.ClearSelected();
 
 

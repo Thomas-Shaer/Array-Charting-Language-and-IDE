@@ -8,7 +8,7 @@
 #include "typesymbol.h"
 #include "varsymbol.h"
 #include "symboltable.h"
-#include "textoutputwindow.h"
+#include "outputwindow.h"
 #include "datamanagerwindow.h"
 #include "jsonsettings.h"
 

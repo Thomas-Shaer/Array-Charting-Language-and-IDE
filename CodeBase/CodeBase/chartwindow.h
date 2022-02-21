@@ -26,6 +26,9 @@ public:
 	static ChartWindow* getOrCreateChartWindow(const std::string& id);
 
 
+	/*
+	Give the string id of the window
+	*/
 	ChartWindow(const std::string& id);
 
 	/*
@@ -45,6 +48,7 @@ public:
 	std::vector<std::shared_ptr<ChartPlot>> CHART_MARK_DATA;
 
 
+	// clears the plots from the chart
 	void clearChart();
 
 
@@ -70,11 +74,11 @@ private:
 	bool updateChart = false;
 
 	// flag to indicate whether chart should be exported
-	bool exportChart = false;
+	bool screenshotChart = false;
 	// if to be exported, export with the chart border
-	bool exportWithBorder = false;
+	bool screenshotWithBorder = false;
 	// if to be exported, export without the chart border
-	bool exportWithOutBorder = false;
+	bool screenshotNoBorder = false;
 
 
 	ImGui::FileBrowser fbSave{ ImGuiFileBrowserFlags_EnterNewFilename };

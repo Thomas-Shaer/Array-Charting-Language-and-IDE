@@ -2,7 +2,7 @@
 #include "imgui.h"
 #include <iostream>
 #include "interpretercontext.h"
-#include "textoutputwindow.h"
+#include "outputwindow.h"
 
 #include "node.h"
 #include "symboltable.h"
@@ -27,9 +27,41 @@ bool TextEditorWindow::intellisenseSignal = false;
 
 
 TextEditorWindow::TextEditorWindow() : Window("Text Editor Window") {
-    initTextEditor();
-    initFileBrowserSave();
-    initFileBrowserOpen();
+
+    /*
+    Initialise text editor widget
+    */
+
+    auto lang = TextEditor::LanguageDefinition::CUSTOM();
+    textEditor.SetLanguageDefinition(lang);
+    textEditor.SetText(PLACEHOLDER_CODE);
+
+    std::string currentCodeFile = Settings::settingsFile["currentCodeFile"].get<std::string>();
+    if (currentCodeFile != "") {
+        loadFile(currentCodeFile);
+    }
+
+    /*
+    Initalise file browser for saving
+    */
+
+    fbSave.SetPwd(std::filesystem::path(Settings::settingsFile["lastCodeSaveDirectory"].get<std::string>()));
+
+
+    // (optional) set browser properties
+    fbSave.SetTitle("title");
+    fbSave.SetTypeFilters({ ".al" });
+
+    /*
+    Initalise file browser for loading
+    */
+    
+    fbOpen.SetPwd(std::filesystem::path(Settings::settingsFile["lastCodeOpenDirectory"].get<std::string>()));
+
+
+    // (optional) set browser properties
+    fbOpen.SetTitle("title");
+    fbOpen.SetTypeFilters({ ".al" });
 }
 
 void TextEditorWindow::saveFile(const std::string& filePath) {
@@ -59,16 +91,20 @@ void TextEditorWindow::saveFile(const std::string& filePath) {
 
 
 void TextEditorWindow::loadFile(const std::string& filePath) {
+    // delete existing variables 
     DataManagerWindow::deleteAllVariables();
     nlohmann::json saveJSON;
     std::ifstream inputjson(filePath);
     inputjson >> saveJSON;
+    /*
+    For every variable in the save file, 
+    parse it's relevant json and load the file
+    */
     for (nlohmann::json variable : saveJSON["variables"].get<std::vector<nlohmann::json>>()) {
         std::string variableName = variable["variableName"];
         std::string fileName = variable["fileName"];
         std::string dataName = variable["dataName"];
         std::string filepath = variable["path"];
-        std::cout << filepath << std::endl;
 
         std::string trueImport = variable["trueImportString"];
         std::string falseImport = variable["falseImportString"];
@@ -78,6 +114,7 @@ void TextEditorWindow::loadFile(const std::string& filePath) {
        
         InputSeries::LoadInputData(importPolicy, filepath, fileName, trueImport, falseImport, NANImport);
 
+        // mark it as a variable
         for (std::shared_ptr<InputSeries> data : DataManagerWindow::LOADED_IN_DATA) {
             if (data->name == dataName) {
                 try {
@@ -90,53 +127,33 @@ void TextEditorWindow::loadFile(const std::string& filePath) {
 
    
     }
+
+    // set the text editor to the code
     TextEditorWindow::textEditor.SetText(saveJSON["code"]);
-
-    //InputSeries::LoadInputData(std::string name, std::string filename)
 }
 
 
-
-void TextEditorWindow::initFileBrowserSave() {
-    fbSave.SetPwd(std::filesystem::path(Settings::settingsFile["lastCodeSaveDirectory"].get<std::string>()));
-
-
-    // (optional) set browser properties
-    fbSave.SetTitle("title");
-    fbSave.SetTypeFilters({ ".al" });
-}
-
-
-void TextEditorWindow::initFileBrowserOpen() {
-    fbOpen.SetPwd(std::filesystem::path(Settings::settingsFile["lastCodeOpenDirectory"].get<std::string>()));
-
-
-    // (optional) set browser properties
-    fbOpen.SetTitle("title");
-    fbOpen.SetTypeFilters({ ".al" });
-}
-
-
-
-void TextEditorWindow::initTextEditor() {
-    auto lang = TextEditor::LanguageDefinition::CUSTOM();
-    textEditor.SetLanguageDefinition(lang);
-    textEditor.SetText(PLACEHOLDER_CODE);
-
-    std::string currentCodeFile = Settings::settingsFile["currentCodeFile"].get<std::string>();
-    if (currentCodeFile != "") {
-        loadFile(currentCodeFile);
-    }
-}
 
 
 void TextEditorWindow::executeCode(const std::string& code) {
 
+    // create interpreter context object
     InterpreterContext context;
+
+    // run code
     context.execute(code);
 
+
+    
+    /*
+    Collect and display output
+    */
+    
+    // reset error markers
     textEditor.SetErrorMarkers({});
+
     OutputWindow::CODE_OUTPUT = "";
+    // if a error display it
     if (context.output->langExcept) {
         OutputWindow::CODE_OUTPUT += context.output->langExcept->toString(code);
         TextEditor::ErrorMarkers markers;
@@ -146,15 +163,15 @@ void TextEditorWindow::executeCode(const std::string& code) {
 
     }
 
-
+    // display the ast as a string
     if (context.ast) {
         OutputWindow::CODE_OUTPUT_RECONSTRUCTION = context.ast->toString();
     }
+    // display all the variables from the symbol table
     if (context.symboltable) {
         OutputWindow::CODE_OUTPUT_VARIABLES = context.symboltable->variablesToVector(true);
     }
-    //ChartWindow::getOrCreateChartWindow(0)->CHART_LINE_DATA = context.output->chartData;
-    //ChartWindow::getOrCreateChartWindow(0)->CHART_MARK_DATA = context.output->markData;
+    // update all the charts
     ChartWindow::updateAllCharts();
 }
 
@@ -162,29 +179,41 @@ void TextEditorWindow::executeCode(const std::string& code) {
 
 void TextEditorWindow::executeIntellisense(const std::string& code) {
 
+    // create interpreter context object
     InterpreterContext context;
 
+    // run code in intellisense mode
     context.intellisense(code);
 
+    /*
+    Collect and display output
+    */
+
+    // reset error markers
     textEditor.SetErrorMarkers({});
+
     OutputWindow::CODE_OUTPUT = "";
+    // if a error display it
     if (context.output->langExcept) {
         OutputWindow::CODE_OUTPUT += context.output->langExcept->toString(code);
         TextEditor::ErrorMarkers markers;
         markers.insert(std::make_pair<int, std::string>(static_cast<int>(context.output->langExcept->sourceLocation.begin.line) + 1, context.output->langExcept->message.c_str()));
         textEditor.SetErrorMarkers(markers);
     }
-
+    // display the ast as a string
     if (context.ast) {
         OutputWindow::CODE_OUTPUT_RECONSTRUCTION = context.ast->toString();
     }
+    // display all the variables from the symbol table
     if (context.symboltable) {
         OutputWindow::CODE_OUTPUT_VARIABLES = context.symboltable->variablesToVector(true);
     }
-    //ChartWindow::getOrCreateChartWindow(0)->CHART_LINE_DATA = context.output->chartData;
-    //ChartWindow::getOrCreateChartWindow(0)->CHART_MARK_DATA = context.output->markData;
 }
 
+/*
+Helper function thats executed whenever a key is pressed 
+while in the text editor widget
+*/
 void TextEditor::AnyKeyPressed() {
     TextEditorWindow::intellisenseSignal = true;
 }
@@ -296,7 +325,4 @@ void TextEditorWindow::ShowWindow() {
         TextEditorWindow::fbOpen.ClearSelected();
 
     }
-
-
-
 }

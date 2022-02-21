@@ -7,7 +7,7 @@
 #include "chartwindow.h"
 //#include "TextEditor.h"
 #include "texteditorwindow.h"
-#include "textoutputwindow.h"
+#include "outputwindow.h"
 #include "documentationwindow.h"
 //
 #include "datamanagerwindow.h"
@@ -104,8 +104,6 @@ int start()
     bool show_another_window = false;
     ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 
-    DataManagerWindow::init();
-    OutputWindow::init();
 
     // default chart window instance
     //ChartWindow chartWindow(0);

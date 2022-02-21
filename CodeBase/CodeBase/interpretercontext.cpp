@@ -17,6 +17,7 @@ bool InterpreterContext::isIntellisense = false;
 
 
 void InterpreterContext::intellisense(const std::string& code) {
+	yy::SourceLocation* sl = new yy::SourceLocation();
 	InterpreterContext::isIntellisense = true;
 	try {
 		/*
@@ -30,13 +31,14 @@ void InterpreterContext::intellisense(const std::string& code) {
 		std::string errorReturn = "";
 		yylex_init(&scanner);
 		yy_scan_string(code.c_str(), scanner);
-		yy::SourceLocation* sl = new yy::SourceLocation();
+		
 
 		yy::parser parseengine(scanner, &errorReturn, &ast, &sl);
 		int parseResult = parseengine.parse();
 		if (parseResult != 0) {
 			throw LanguageException("Parsing Error: " + errorReturn, *sl);
 		}
+
 
 		yylex_destroy(scanner);
 
@@ -55,11 +57,12 @@ void InterpreterContext::intellisense(const std::string& code) {
 		output->langExcept = langexception;
 	}
 	InterpreterContext::isIntellisense = false;
+	delete sl;
 }
 
 void InterpreterContext::execute(const std::string& code) {
 
-
+	yy::SourceLocation* sl = new yy::SourceLocation();
 	try {
 
 		/*
@@ -73,7 +76,7 @@ void InterpreterContext::execute(const std::string& code) {
 		std::string errorReturn = "";
 		yylex_init(&scanner);
 		yy_scan_string(code.c_str(), scanner);
-		yy::SourceLocation* sl = new yy::SourceLocation();
+		
 
 		yy::parser parseengine(scanner, &errorReturn, &ast, &sl);
 		int parseResult = parseengine.parse();
@@ -121,6 +124,7 @@ void InterpreterContext::execute(const std::string& code) {
 	catch (LanguageException langexception) {
 		output->langExcept = langexception;
 	}
+	delete sl;
 }
 
 
