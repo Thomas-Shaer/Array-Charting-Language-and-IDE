@@ -72,6 +72,8 @@ namespace yy {
         /// Current column number.
         unsigned int column = 0;
 
+        Position(const unsigned int _line, const unsigned int _column) : line(_line), column(_column) {}
+        Position() {}
     };
 
 
@@ -84,6 +86,7 @@ namespace yy {
 
         SourceLocation();
         SourceLocation(const SourceLocation& sl);
+        SourceLocation(const Position _begin, const Position _end) : begin(_begin), end(_end) {}
 
 
         //SourceLocation& operator=(const SourceLocation& sl);
@@ -100,7 +103,7 @@ namespace yy {
         corresponding to this location.
         Highlighting is done via ^ characters
         */
-        std::string getNodeSourceCode(const std::string& sourceCode) const;
+        std::string highlightSourceLocation(const std::string& sourceCode) const;
 
         /*
         Prints out location in clear format (mainly for debugging)

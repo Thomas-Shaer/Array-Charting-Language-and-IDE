@@ -6,5 +6,5 @@ LanguageException::LanguageException(std::string _message, Node* _node) : messag
 
 
 std::string LanguageException::toString(const std::string& sourceCode) {
-	return message + "\n" + sourceLocation.getNodeSourceCode(sourceCode);
+	return message + "\n" + sourceLocation.highlightSourceLocation(sourceCode);
 }

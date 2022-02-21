@@ -5,7 +5,7 @@
 
 
 ArgumentSymbol::ArgumentSymbol(const TypeSymbol* _type, Expression* _expression) : type(_type), expression(_expression) {
-	// assign default type nan value just so the variant sub type is correct
+	// assign default type null value just so the variant sub type is correct
 	expressionValue = _type->nanValue;
 	/*
 	If constant values are passed, load in their value at compile time.

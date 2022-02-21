@@ -67,7 +67,7 @@ public:
 	std::string trueLiteral;
 	// how a false literal should be parsed for this data when reading from CSV
 	std::string falseLiteral;
-	// how a nan literal should be parsed for this data when reading from CSV
+	// how a null literal should be parsed for this data when reading from CSV
 	std::string nanLiteral;
 
 	// temporary storage of series data

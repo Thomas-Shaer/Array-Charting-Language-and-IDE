@@ -362,11 +362,6 @@
     </Bison>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="examplecode.txt">
-      <Filter>Source Files</Filter>
-    </Text>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="settings.json">
       <Filter>Source Files</Filter>
     </None>

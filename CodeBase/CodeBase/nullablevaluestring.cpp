@@ -3,7 +3,7 @@
 #include "jsonsettings.h"
 
 std::string NullableValueString::toString() const {
-	return this->value ? "\"" + (*this->value) + "\"" : "nan";
+	return this->value ? "\"" + (*this->value) + "\"" : "null";
 }
 
 std::string NullableValueString::toFileString() const {

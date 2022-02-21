@@ -5,7 +5,7 @@
 
 
 std::string NullableValueBoolean::toString() const {
-	return this->value ? (*this->value ? "true" : "false") : "nan";
+	return this->value ? (*this->value ? "true" : "false") : "null";
 }
 
 

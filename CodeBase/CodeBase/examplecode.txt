@@ -1,7 +1,0 @@
-x = 2 + 2
-y = true && false
-print(x)
-print(y)
-
-z = 21 > (321 + 23 - 2)
-print(z)

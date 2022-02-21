@@ -21,7 +21,7 @@ std::pair<std::vector<ExpressionValue>, TypeSymbol*> InputSeries::parse(std::vec
     TypeSymbol* seriesType = nullptr;
     // list because we can add to back and front
     std::list<ExpressionValue> values;
-    // the nan type (float or boolean) to be determined
+    // the null type (float or boolean) to be determined
     ExpressionValue nanType;
     // count of NaNs found before seriesType is determined
     unsigned int leadingNaNs = 0;

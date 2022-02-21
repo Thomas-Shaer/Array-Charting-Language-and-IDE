@@ -28,7 +28,7 @@ namespace yy {
 		return output;
 	}
 
-	std::string SourceLocation::getNodeSourceCode(const std::string& sourceCode) const {
+	std::string SourceLocation::highlightSourceLocation(const std::string& sourceCode) const {
 		int lineno = 0;
 		std::string output;
 		std::istringstream stream(sourceCode);

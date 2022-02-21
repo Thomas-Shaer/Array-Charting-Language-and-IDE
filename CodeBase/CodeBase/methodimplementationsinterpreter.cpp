@@ -18,7 +18,7 @@ ExpressionValue MethodAverage::interpret(const unsigned int tick) {
 
 
 ExpressionValue UnaryPlusOperator::interpret(const unsigned int tick) {
-	// if arg is nan return a nan
+	// if arg is null return a null
 	if (!value->value) {
 		return NullableValueNumber();
 	}
@@ -26,7 +26,7 @@ ExpressionValue UnaryPlusOperator::interpret(const unsigned int tick) {
 }
 
 ExpressionValue UnaryMinusOperator::interpret(const unsigned int tick) {
-	// if arg is nan return a nan
+	// if arg is null return a null
 	if (!value->value) {
 		return NullableValueNumber();
 	}
@@ -35,7 +35,7 @@ ExpressionValue UnaryMinusOperator::interpret(const unsigned int tick) {
 
 
 ExpressionValue UnaryNotOperator::interpret(const unsigned int tick) {
-	// if arg is nan return a nan
+	// if arg is null return a null
 	if (!value->value) {
 		return NullableValueBoolean();
 	}
@@ -194,7 +194,7 @@ ExpressionValue GetTick::interpret(const unsigned int tick) {
 ExpressionValue Plot::interpret(const unsigned int tick) {
 
 
-	// if nan return a nan value else extract the correct value
+	// if null return a null value else extract the correct value
 	float pushBackValue = value->value ? *value->value : std::numeric_limits<double>::quiet_NaN();
 	plotdata->data[tick] = pushBackValue;
 
@@ -203,7 +203,7 @@ ExpressionValue Plot::interpret(const unsigned int tick) {
 
 
 ExpressionValue Mark::interpret(const unsigned int tick) {
-	//if not nan
+	//if not null
 	if (when->value) {
 
 		// if positive
