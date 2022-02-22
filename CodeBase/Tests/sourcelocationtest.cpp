@@ -1,7 +1,6 @@
 #define BOOST_TEST_DYN_LINK
-#define BOOST_TEST_MODULE MyTest
 #include <boost/test/unit_test.hpp>
-#include <string>
+//#include <string>
 #include <CodeBase/sourcelocation.h>
 
 BOOST_AUTO_TEST_SUITE(SOURCELOCATION)

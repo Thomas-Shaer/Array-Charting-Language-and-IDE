@@ -154,10 +154,10 @@ void TextEditorWindow::executeCode(const std::string& code) {
 
     OutputWindow::CODE_OUTPUT = "";
     // if a error display it
-    if (context.output->langExcept) {
-        OutputWindow::CODE_OUTPUT += context.output->langExcept->toString(code);
+    if (context.langExcept) {
+        OutputWindow::CODE_OUTPUT += context.langExcept->toString(code);
         TextEditor::ErrorMarkers markers;
-        markers.insert(std::make_pair<int, std::string>(static_cast<int>(context.output->langExcept->sourceLocation.begin.line) + 1, context.output->langExcept->message.c_str()));
+        markers.insert(std::make_pair<int, std::string>(static_cast<int>(context.langExcept->sourceLocation.begin.line) + 1, context.langExcept->message.c_str()));
         textEditor.SetErrorMarkers(markers);
         OutputWindow::SnapToOutputTab();
 
@@ -194,10 +194,10 @@ void TextEditorWindow::executeIntellisense(const std::string& code) {
 
     OutputWindow::CODE_OUTPUT = "";
     // if a error display it
-    if (context.output->langExcept) {
-        OutputWindow::CODE_OUTPUT += context.output->langExcept->toString(code);
+    if (context.langExcept) {
+        OutputWindow::CODE_OUTPUT += context.langExcept->toString(code);
         TextEditor::ErrorMarkers markers;
-        markers.insert(std::make_pair<int, std::string>(static_cast<int>(context.output->langExcept->sourceLocation.begin.line) + 1, context.output->langExcept->message.c_str()));
+        markers.insert(std::make_pair<int, std::string>(static_cast<int>(context.langExcept->sourceLocation.begin.line) + 1, context.langExcept->message.c_str()));
         textEditor.SetErrorMarkers(markers);
     }
     // display the ast as a string

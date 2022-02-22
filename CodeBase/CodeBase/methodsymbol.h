@@ -1,8 +1,8 @@
 #pragma once
 #include <iostream>
-#include "global.h"
+#include "expressionvalue.h"
 #include <vector>
-#include "interpreteroutput.h"
+
 #include "parametersymbol.h"
 #include "returnsymbol.h"
 #include <map>

@@ -51,3 +51,14 @@ TypeSymbol* TypeInstances::GetVoidInstance() {
 	voidinstance->nanValue = NullableValueString("void");
 	return voidinstance;
 }
+
+bool TypeInstances::matchType(const TypeSymbol* expected, const TypeSymbol* received) {
+	if (expected == TypeInstances::GetNumberInstance() && received == TypeInstances::GetNumberConstantInstance()) {
+		return true;
+	}
+	if (expected == TypeInstances::GetStringInstance() && received == TypeInstances::GetStringConstantInstance()) {
+		return true;
+	}
+	// else types have to be the same
+	return expected == received;
+}

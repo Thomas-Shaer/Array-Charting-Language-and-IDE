@@ -311,7 +311,6 @@
     <ClInclude Include="imstb_truetype.h" />
     <ClInclude Include="inputseries.h" />
     <ClInclude Include="interpretercontext.h" />
-    <ClInclude Include="interpreteroutput.h" />
     <ClInclude Include="jsonsettings.h" />
     <ClInclude Include="maingui.h" />
     <ClInclude Include="menubar.h" />
@@ -337,7 +336,7 @@
     <ClInclude Include="outputwindow.h" />
     <ClInclude Include="nullablevalue.h" />
     <ClInclude Include="symboltable.h" />
-    <ClInclude Include="global.h" />
+    <ClInclude Include="expressionvalue.h" />
     <ClInclude Include="typesymbol.h" />
     <ClInclude Include="varsymbol.h" />
     <ClInclude Include="window.h" />

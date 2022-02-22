@@ -1,7 +1,8 @@
 #pragma once
 #include <iostream>
 #include <vector>
-#include "interpreteroutput.h"
+#include "languageexception.h"
+#include <optional>
 
 class BlockNode;
 class SymbolTable;
@@ -32,7 +33,7 @@ public:
 	/*
 	The output of the program
 	*/
-	std::shared_ptr<InterpreterOutput> output;
+	std::optional<LanguageException> langExcept;
 
 	/*
 	Executes the source code read in from a string.

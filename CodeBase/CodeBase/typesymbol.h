@@ -1,6 +1,9 @@
 #pragma once
 #include <iostream>
-#include "global.h"
+#include "expressionvalue.h"
+
+
+
 
 /*
 Type symbol class.
@@ -41,6 +44,12 @@ struct TypeInstances {
 	
 	// String type
 	static TypeSymbol* GetStringInstance();
+
+	/*
+	Helper functions to determine if two types are compatible.
+	Supplies edge cases for constant types.
+	*/
+	static bool matchType(const TypeSymbol* expected, const TypeSymbol* received);
 };
 
 static TypeInstances typeinstances;

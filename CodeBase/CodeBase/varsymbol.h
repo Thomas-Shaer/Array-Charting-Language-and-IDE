@@ -1,5 +1,5 @@
 #pragma once
-#include "global.h"
+#include "expressionvalue.h"
 #include <vector>
 #include <regex>
 
@@ -76,7 +76,7 @@ public:
 	/*
 	Updates the size of the internal buffer array to match max ticks
 	*/
-	void matchTickSize();
+	void setArraySize(const unsigned int size);
 
 	bool exportVariable = false;
 	std::string exportName;

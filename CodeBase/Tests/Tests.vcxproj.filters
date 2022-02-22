@@ -16,12 +16,15 @@
     <Filter Include="Source Files\Included">
       <UniqueIdentifier>{e1e26670-6ed2-49af-98ad-29823c215c6f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Values">
+      <UniqueIdentifier>{41582acb-e62d-42cf-a2ba-f915c773bbca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Symbols">
+      <UniqueIdentifier>{7ea4f480-f33c-4352-b1d4-e24c12068573}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sourcelocationtest.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="nullablevaluestringtest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\CodeBase\argumentsymbol.cpp">
@@ -158,6 +161,39 @@
     </ClCompile>
     <ClCompile Include="..\CodeBase\window.cpp">
       <Filter>Source Files\Included</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="nullablevaluestringtest.cpp">
+      <Filter>Source Files\Values</Filter>
+    </ClCompile>
+    <ClCompile Include="nullablevaluenumbertest.cpp">
+      <Filter>Source Files\Values</Filter>
+    </ClCompile>
+    <ClCompile Include="nullablevaluebooleantest.cpp">
+      <Filter>Source Files\Values</Filter>
+    </ClCompile>
+    <ClCompile Include="expressionvaluetest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="typesymboltest.cpp">
+      <Filter>Source Files\Symbols</Filter>
+    </ClCompile>
+    <ClCompile Include="argumentsymboltest.cpp">
+      <Filter>Source Files\Symbols</Filter>
+    </ClCompile>
+    <ClCompile Include="returnsymboltest.cpp">
+      <Filter>Source Files\Symbols</Filter>
+    </ClCompile>
+    <ClCompile Include="parametersymboltest.cpp">
+      <Filter>Source Files\Symbols</Filter>
+    </ClCompile>
+    <ClCompile Include="varsymboltest.cpp">
+      <Filter>Source Files\Symbols</Filter>
+    </ClCompile>
+    <ClCompile Include="symboltabletest.cpp">
+      <Filter>Source Files\Symbols</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -5,20 +5,6 @@
 #include "node.h"
 
 
-/*
-Helper functions to determine if two types are compatible.
-Supplies edge cases for constant types.
-*/
-bool matchType(const TypeSymbol* expected, const TypeSymbol* received) {
-	if (expected == TypeInstances::GetNumberInstance() && received == TypeInstances::GetNumberConstantInstance()) {
-		return true;
-	}
-	if (expected == TypeInstances::GetStringInstance() && received == TypeInstances::GetStringConstantInstance()) {
-		return true;
-	}
-	// else types have to be the same
-	return expected == received;
-}
 
 
 
@@ -47,7 +33,7 @@ const TypeSymbol* PositionalMethodSymbol::semanticAnaylsis(MethodCallNode* metho
 		methodCallNode->expressionToArgList[parameterSymbols[i].name] = _argumentSymbols[i];
 
 
-		if (matchType(expected, received)) {
+		if (TypeInstances::matchType(expected, received)) {
 			continue;
 		}
 
@@ -155,7 +141,7 @@ const TypeSymbol* KeywordMethodSymbol::semanticAnaylsis(MethodCallNode* methodCa
 
 
 
-		if (matchType(expected, received->type)) {
+		if (TypeInstances::matchType(expected, received->type)) {
 			continue;
 		}
 
@@ -180,7 +166,7 @@ const TypeSymbol* KeywordMethodSymbol::semanticAnaylsis(MethodCallNode* methodCa
 
 		methodCallNode->expressionToArgList[expected.name] = received;
 
-		if (matchType(expected.typesymbol, received->type)) {
+		if (TypeInstances::matchType(expected.typesymbol, received->type)) {
 			continue;
 		}
 

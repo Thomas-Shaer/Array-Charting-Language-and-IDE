@@ -290,8 +290,18 @@
     <ClCompile Include="..\CodeBase\typesymbol.cpp" />
     <ClCompile Include="..\CodeBase\varsymbol.cpp" />
     <ClCompile Include="..\CodeBase\window.cpp" />
+    <ClCompile Include="argumentsymboltest.cpp" />
+    <ClCompile Include="expressionvaluetest.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="nullablevaluebooleantest.cpp" />
+    <ClCompile Include="nullablevaluenumbertest.cpp" />
     <ClCompile Include="nullablevaluestringtest.cpp" />
+    <ClCompile Include="parametersymboltest.cpp" />
+    <ClCompile Include="returnsymboltest.cpp" />
     <ClCompile Include="sourcelocationtest.cpp" />
+    <ClCompile Include="symboltabletest.cpp" />
+    <ClCompile Include="typesymboltest.cpp" />
+    <ClCompile Include="varsymboltest.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\CodeBase\argumentsymbol.h" />

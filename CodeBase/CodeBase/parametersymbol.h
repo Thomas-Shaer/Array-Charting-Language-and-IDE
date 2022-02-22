@@ -1,6 +1,6 @@
 #pragma once
 #include <iostream>
-#include "global.h"
+#include "expressionvalue.h"
 
 class TypeSymbol;
 

@@ -2,12 +2,12 @@
 #include "methodsymbol.h"
 #include "typesymbol.h"
 #include <vector>
-#include "interpreteroutput.h"
+
 #include <queue>
 #include <deque>
 
 class Expression;
-
+class ChartPlot;
 
 // method named "avg" takes two float parameters and returns a float
 class  MethodAverage : public PositionalMethodSymbol {

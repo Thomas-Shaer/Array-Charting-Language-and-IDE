@@ -25,7 +25,6 @@ void InterpreterContext::intellisense(const std::string& code) {
 		via flex + bison.
 		Parsing errors will be caught.
 		*/
-		output = std::make_shared<InterpreterOutput>();
 
 		yyscan_t scanner;
 		std::string errorReturn = "";
@@ -54,7 +53,7 @@ void InterpreterContext::intellisense(const std::string& code) {
 		ast->semanticAnalysis(symboltable);
 	}
 	catch (LanguageException langexception) {
-		output->langExcept = langexception;
+		langExcept = langexception;
 	}
 	InterpreterContext::isIntellisense = false;
 	delete sl;
@@ -70,7 +69,6 @@ void InterpreterContext::execute(const std::string& code) {
 		via flex + bison.
 		Parsing errors will be caught.
 		*/
-		output = std::make_shared<InterpreterOutput>();
 
 		yyscan_t scanner;
 		std::string errorReturn = "";
@@ -103,7 +101,7 @@ void InterpreterContext::execute(const std::string& code) {
 		Matches all variables so they are have the same buffer size as that max series
 		*/
 		for (std::shared_ptr<VarSymbol> variable : variables) {
-			variable->matchTickSize();
+			variable->setArraySize(ticks);
 		}
 
 
@@ -122,7 +120,7 @@ void InterpreterContext::execute(const std::string& code) {
 		}		
 	}
 	catch (LanguageException langexception) {
-		output->langExcept = langexception;
+		langExcept = langexception;
 	}
 	delete sl;
 }

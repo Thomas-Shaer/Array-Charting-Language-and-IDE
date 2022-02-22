@@ -49,9 +49,6 @@
     <Filter Include="Source Files\GUI\Windows">
       <UniqueIdentifier>{4446c07a-d91b-476c-9d39-2f7505a8a5d8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Output">
-      <UniqueIdentifier>{0a2af8de-d56a-4699-bdd5-4317c15d4ea6}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\GUI\Library\File Browser">
       <UniqueIdentifier>{79791cb3-1c1d-4ae2-b015-c566afffa456}</UniqueIdentifier>
     </Filter>
@@ -61,12 +58,12 @@
     <Filter Include="Source Files\GUI\Library\STB">
       <UniqueIdentifier>{bd4d7214-bd34-4865-a375-c5c3e88accde}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Generated">
+      <UniqueIdentifier>{08d4ce73-57d9-4a37-a2c0-af285ef5a787}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="flex.flex.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="interpreter.cpp">
@@ -171,9 +168,6 @@
     <ClCompile Include="sourcelocation.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="bison.tab.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="languageexception.cpp">
       <Filter>Source Files\Exceptions</Filter>
     </ClCompile>
@@ -198,11 +192,14 @@
     <ClCompile Include="methodimplementationsinterpreter.cpp">
       <Filter>Source Files\Methods</Filter>
     </ClCompile>
+    <ClCompile Include="bison.tab.cpp">
+      <Filter>Source Files\Generated</Filter>
+    </ClCompile>
+    <ClCompile Include="flex.flex.cpp">
+      <Filter>Source Files\Generated</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="flex.flex.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="symboltable.h">
       <Filter>Source Files\Symbol</Filter>
     </ClInclude>
@@ -214,9 +211,6 @@
     </ClInclude>
     <ClInclude Include="node.h">
       <Filter>Source Files\Nodes</Filter>
-    </ClInclude>
-    <ClInclude Include="global.h">
-      <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="methodimplementations.h">
       <Filter>Source Files\Methods</Filter>
@@ -268,9 +262,6 @@
     </ClInclude>
     <ClInclude Include="texteditorwindow.h">
       <Filter>Source Files\GUI\Windows</Filter>
-    </ClInclude>
-    <ClInclude Include="interpreteroutput.h">
-      <Filter>Source Files\Output</Filter>
     </ClInclude>
     <ClInclude Include="settingswindow.h">
       <Filter>Source Files\GUI\Windows</Filter>
@@ -329,9 +320,6 @@
     <ClInclude Include="sourcelocation.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="bison.tab.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="nullablevalueboolean.h">
       <Filter>Source Files\Values</Filter>
     </ClInclude>
@@ -349,6 +337,15 @@
     </ClInclude>
     <ClInclude Include="outputwindow.h">
       <Filter>Source Files\GUI\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="bison.tab.h">
+      <Filter>Source Files\Generated</Filter>
+    </ClInclude>
+    <ClInclude Include="flex.flex.h">
+      <Filter>Source Files\Generated</Filter>
+    </ClInclude>
+    <ClInclude Include="expressionvalue.h">
+      <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

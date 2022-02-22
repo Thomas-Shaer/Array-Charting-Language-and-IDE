@@ -2,7 +2,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
-#include "global.h"
+#include "expressionvalue.h"
 
 class TypeSymbol;
 

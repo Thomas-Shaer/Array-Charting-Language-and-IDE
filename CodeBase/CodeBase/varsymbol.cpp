@@ -2,9 +2,9 @@
 #include <iostream>
 #include "typesymbol.h"
 
-#include "interpretercontext.h"
 #include <regex>
 #include "dataparseexception.h"
+#include "interpretercontext.h"
 
 
 VarSymbol::VarSymbol(const std::string _name, const TypeSymbol* _type, std::vector<ExpressionValue> _value) : name(_name), type(_type), buffer(_value), modifiable(false), exportName(_name), originalSize(_value.size()){
@@ -12,7 +12,7 @@ VarSymbol::VarSymbol(const std::string _name, const TypeSymbol* _type, std::vect
 
 VarSymbol::VarSymbol(const std::string _name, const TypeSymbol* _type) : name(_name), type(_type), modifiable(true), exportName(_name), originalSize(0) {
 	// for new variables make sure they match the global buffer size
-	matchTickSize();
+	setArraySize(InterpreterContext::ticks);
 }
 
 
@@ -59,7 +59,7 @@ std::string VarSymbol::toString() {
 
 
 ExpressionValue VarSymbol::getValue(const unsigned int i) {
-	return buffer[i];
+	return buffer.at(i);
 }
 
 void VarSymbol::setValue(const unsigned int i, ExpressionValue _value) {
@@ -67,13 +67,13 @@ void VarSymbol::setValue(const unsigned int i, ExpressionValue _value) {
 }
 
 
-void VarSymbol::matchTickSize() {
+void VarSymbol::setArraySize(const unsigned int size) {
 
 	/*
 	Add NaNs to match largest series
 	*/
-	if (buffer.size() < InterpreterContext::ticks) {
-		for (int i = buffer.size(); i < InterpreterContext::ticks; i ++) {
+	if (buffer.size() < size) {
+		for (int i = buffer.size(); i < size; i ++) {
 			if (type == TypeInstances::GetBooleanInstance()) {
 				buffer.push_back(NullableValueBoolean());
 			}
@@ -88,8 +88,8 @@ void VarSymbol::matchTickSize() {
 	/*
 	If too many i.e. a large input variable was removed, reduce all the variables that were previously matched to it's size
 	*/
-	else if (buffer.size() > InterpreterContext::ticks) {
-		while (buffer.size() != InterpreterContext::ticks) {
+	else if (buffer.size() > size) {
+		while (buffer.size() != size) {
 			buffer.pop_back();
 		}
 	}
