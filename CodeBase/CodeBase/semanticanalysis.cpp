@@ -32,6 +32,7 @@ const TypeSymbol* IdentifierNode::semanticAnalysis(std::shared_ptr<SymbolTable> 
 		semanticExecuted = true;
 		// need to return item in symbol table
 		if (symboltable->isVariableDeclared(name)) {
+			std::cout << "found " << name << std::endl;
 			varSymbol = symboltable->getVariable(name);
 			cachedReturnType = varSymbol->type;
 			return varSymbol->type;
@@ -102,6 +103,10 @@ const TypeSymbol* MethodCallNode::semanticAnalysis(std::shared_ptr<SymbolTable> 
 		// check to see if method exists first
 		if (!symboltable->isMethodDeclared(name)) {
 			throw LanguageException("No method called " + name, this);
+		}
+
+		for (Expression* expr : arguments) {
+			expr->semanticAnalysis(symboltable);
 		}
 
 		methodsymbol = symboltable->getMethod(name)->getMethodSymbol(this, symboltable)->clone();

@@ -48,7 +48,14 @@ std::shared_ptr<SymbolTable> SymbolTable::GLOBAL_SYMBOL_TABLE = std::make_shared
 	registerMethod("nan_f", new SingleMethodBucket(new FloatNAN(), METHOD_CAT::MATHEMATICAL)),
 	registerMethod("nan_b", new SingleMethodBucket(new BooleanNAN(), METHOD_CAT::MATHEMATICAL)),
 	registerMethod("nan_s", new SingleMethodBucket(new StringNAN(), METHOD_CAT::MATHEMATICAL)),
-	registerMethod("valuewhen", new SingleMethodBucket(new ValueWhen(), METHOD_CAT::LOGIC)),
+
+	registerMethod("valuewhen", new OverloadedMethodBucket(
+		{(new ValueWhenBoolean()),
+		 (new ValueWhenNumber()),
+		 (new ValueWhenString())
+		}
+	, METHOD_CAT::MATHEMATICAL)),
+
 
 	registerMethod("min", new OverloadedMethodBucket(
 		{(new Minimum()),
@@ -76,11 +83,24 @@ std::shared_ptr<SymbolTable> SymbolTable::GLOBAL_SYMBOL_TABLE = std::make_shared
 	registerMethod("round", new SingleMethodBucket(new Round(), METHOD_CAT::MATHEMATICAL)),
 	registerMethod("floor", new SingleMethodBucket(new Floor(), METHOD_CAT::MATHEMATICAL)),
 	registerMethod("ceil", new SingleMethodBucket(new Ceil(), METHOD_CAT::MATHEMATICAL)),
-	registerMethod("floatmax", new SingleMethodBucket(new FloatMax(), METHOD_CAT::MATHEMATICAL)),
-	registerMethod("floatmin", new SingleMethodBucket(new FloatMin(), METHOD_CAT::MATHEMATICAL)),
+	registerMethod("maxnumber", new SingleMethodBucket(new MaxNumber(), METHOD_CAT::MATHEMATICAL)),
+	registerMethod("minnumber", new SingleMethodBucket(new MinNumber(), METHOD_CAT::MATHEMATICAL)),
 	registerMethod("count", new SingleMethodBucket(new Count(), METHOD_CAT::LOGIC)),
-	registerMethod("float", new SingleMethodBucket(new FloatCast(), METHOD_CAT::MISC)),
-	registerMethod("boolean", new SingleMethodBucket(new BooleanCast(), METHOD_CAT::MISC)),
+
+
+	registerMethod("float", new SingleMethodBucket(new Boolean2FloatCast(), METHOD_CAT::MISC)),
+	
+		
+		
+	registerMethod("boolean", new SingleMethodBucket(new Float2BooleanCast(), METHOD_CAT::MISC)),
+
+
+	registerMethod("string", new OverloadedMethodBucket(
+		{(new Float2StringCast()),
+		 (new Boolean2StringCast())
+		}
+	, METHOD_CAT::MISC)),
+
 	registerMethod("abs", new SingleMethodBucket(new Absolute(), METHOD_CAT::MATHEMATICAL)),
 	registerMethod("sqrt", new SingleMethodBucket(new SquareRoot(), METHOD_CAT::MATHEMATICAL)),
 	registerMethod("lcm", new SingleMethodBucket(new LCM(), METHOD_CAT::MATHEMATICAL)),
@@ -138,12 +158,14 @@ std::shared_ptr<SymbolTable> SymbolTable::GLOBAL_SYMBOL_TABLE = std::make_shared
 	,METHOD_CAT::OPERATOR)),
 	registerMethod("operator" + token_name(yy::parser::token::TEQUAL), new OverloadedMethodBucket(
 		{new BinaryFloatEqualOperator("operator" + token_name(yy::parser::token::TEQUAL)),
-		 new BinaryBooleanEqualOperator("operator" + token_name(yy::parser::token::TEQUAL))
+		 new BinaryBooleanEqualOperator("operator" + token_name(yy::parser::token::TEQUAL)),
+		 new BinaryStringEqualOperator("operator" + token_name(yy::parser::token::TEQUAL))
 		}
 	,METHOD_CAT::OPERATOR)),
 	registerMethod("operator" + token_name(yy::parser::token::TNOTEQUAL), new OverloadedMethodBucket(
 		{new BinaryFloatNotEqualOperator("operator" + token_name(yy::parser::token::TNOTEQUAL)),
-		 new BinaryBooleanNotEqualOperator("operator" + token_name(yy::parser::token::TNOTEQUAL))
+		 new BinaryBooleanNotEqualOperator("operator" + token_name(yy::parser::token::TNOTEQUAL)),
+		 new BinaryStringNotEqualOperator("operator" + token_name(yy::parser::token::TNOTEQUAL))
 		}
 	,METHOD_CAT::OPERATOR)),
 	registerMethod("operator" + token_name(yy::parser::token::TNOT), new SingleMethodBucket(new UnaryNotOperator("operator" + token_name(yy::parser::token::TNOT)),METHOD_CAT::OPERATOR)),

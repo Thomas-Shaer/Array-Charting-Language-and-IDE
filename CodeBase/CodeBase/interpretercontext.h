@@ -39,6 +39,12 @@ public:
 	Executes the source code read in from a string.
 	*/
 	void execute(const std::string& code);
+
+
+	/*
+	Executes the source code read in from a string.
+	*/
+	void executeNoCatch(const std::string& code);
 	
 	
 	/*

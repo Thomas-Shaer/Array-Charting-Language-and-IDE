@@ -22,6 +22,9 @@
     <Filter Include="Source Files\Symbols">
       <UniqueIdentifier>{7ea4f480-f33c-4352-b1d4-e24c12068573}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Methods">
+      <UniqueIdentifier>{55c3bd80-5644-4e00-9ef7-51170b03a7f1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sourcelocationtest.cpp">
@@ -194,6 +197,15 @@
     </ClCompile>
     <ClCompile Include="symboltabletest.cpp">
       <Filter>Source Files\Symbols</Filter>
+    </ClCompile>
+    <ClCompile Include="methodsymboltest.cpp">
+      <Filter>Source Files\Symbols</Filter>
+    </ClCompile>
+    <ClCompile Include="methodbuckettest.cpp">
+      <Filter>Source Files\Symbols</Filter>
+    </ClCompile>
+    <ClCompile Include="methodimplementationstest.cpp">
+      <Filter>Source Files\Methods</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

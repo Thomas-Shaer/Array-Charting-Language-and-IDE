@@ -293,6 +293,9 @@
     <ClCompile Include="argumentsymboltest.cpp" />
     <ClCompile Include="expressionvaluetest.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="methodbuckettest.cpp" />
+    <ClCompile Include="methodimplementationstest.cpp" />
+    <ClCompile Include="methodsymboltest.cpp" />
     <ClCompile Include="nullablevaluebooleantest.cpp" />
     <ClCompile Include="nullablevaluenumbertest.cpp" />
     <ClCompile Include="nullablevaluestringtest.cpp" />

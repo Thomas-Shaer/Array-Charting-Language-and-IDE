@@ -110,6 +110,7 @@ public:
 private:
 	NullableValueNumber* lhsValue;
 	NullableValueNumber* rhsValue;
+	Expression* rhsNode;
 };
 
 class BinaryMultiplyOperator : public PositionalMethodSymbol {
@@ -139,6 +140,7 @@ public:
 private:
 	NullableValueNumber* lhsValue;
 	NullableValueNumber* rhsValue;
+	Expression* rhsNode;
 };
 
 class BinaryPowOperator : public PositionalMethodSymbol {
@@ -153,6 +155,7 @@ public:
 private:
 	NullableValueNumber* lhsValue;
 	NullableValueNumber* rhsValue;
+	Expression* rhsNode;
 };
 
 class BinaryLessOperator : public PositionalMethodSymbol {
@@ -267,6 +270,21 @@ private:
 	NullableValueNumber* rhsValue;
 };
 
+
+class BinaryStringEqualOperator : public PositionalMethodSymbol {
+public:
+	BinaryStringEqualOperator(const std::string& _name);
+	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable);
+
+	virtual ExpressionValue interpret(const unsigned int tick);
+	virtual BinaryStringEqualOperator* clone() {
+		return new BinaryStringEqualOperator(name);
+	}
+private:
+	NullableValueString* lhsValue;
+	NullableValueString* rhsValue;
+};
+
 class BinaryBooleanNotEqualOperator : public PositionalMethodSymbol {
 public:
 	BinaryBooleanNotEqualOperator(const std::string& _name);
@@ -294,6 +312,20 @@ public:
 private:
 	NullableValueNumber* lhsValue;
 	NullableValueNumber* rhsValue;
+};
+
+class BinaryStringNotEqualOperator : public PositionalMethodSymbol {
+public:
+	BinaryStringNotEqualOperator(const std::string& _name);
+	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable);
+
+	virtual ExpressionValue interpret(const unsigned int tick);
+	virtual BinaryStringNotEqualOperator* clone() {
+		return new BinaryStringNotEqualOperator(name);
+	}
+private:
+	NullableValueString* lhsValue;
+	NullableValueString* rhsValue;
 };
 
 
@@ -379,20 +411,52 @@ public:
 };
 
 
-class ValueWhen : public PositionalMethodSymbol {
+class ValueWhenNumber : public PositionalMethodSymbol {
 public:
-	ValueWhen();
+	ValueWhenNumber();
 	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable);
 
 	virtual ExpressionValue interpret(const unsigned int tick);
-	virtual ValueWhen* clone() {
-		return new ValueWhen();
+	virtual ValueWhenNumber* clone() {
+		return new ValueWhenNumber();
 	}
 private:
-	ExpressionValue currentValue{ NullableValueNumber() };
+	NullableValueNumber currentValue;
 	NullableValueBoolean* when;
 	NullableValueNumber* value;
 };
+
+
+class ValueWhenBoolean : public PositionalMethodSymbol {
+public:
+	ValueWhenBoolean();
+	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable);
+
+	virtual ExpressionValue interpret(const unsigned int tick);
+	virtual ValueWhenBoolean* clone() {
+		return new ValueWhenBoolean();
+	}
+private:
+	NullableValueBoolean currentValue;
+	NullableValueBoolean* when;
+	NullableValueBoolean* value;
+};
+
+class ValueWhenString : public PositionalMethodSymbol {
+public:
+	ValueWhenString();
+	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable);
+
+	virtual ExpressionValue interpret(const unsigned int tick);
+	virtual ValueWhenString* clone() {
+		return new ValueWhenString();
+	}
+private:
+	NullableValueString currentValue;
+	NullableValueBoolean* when;
+	NullableValueString* value;
+};
+
 
 class Minimum : public PositionalMethodSymbol {
 public:
@@ -404,7 +468,7 @@ public:
 		return new Minimum();
 	}
 private:
-	ExpressionValue minimumValue{ NullableValueNumber(std::numeric_limits<float>::max()) };
+	NullableValueNumber currentMinimum{ std::numeric_limits<float>::max() };
 	NullableValueNumber* value;
 
 };
@@ -441,7 +505,7 @@ public:
 		return new Maximum();
 	}
 private:
-	ExpressionValue maximumValue{ NullableValueNumber(std::numeric_limits<float>::min()) };
+	NullableValueNumber maximumValue{-std::numeric_limits<float>::max() };
 	NullableValueNumber* value;
 };
 
@@ -579,25 +643,25 @@ private:
 	NullableValueNumber* value;
 };
 
-class FloatMax : public PositionalMethodSymbol {
+class MaxNumber : public PositionalMethodSymbol {
 public:
-	FloatMax();
+	MaxNumber();
 	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable);
 
 	virtual ExpressionValue interpret(const unsigned int tick);
-	virtual FloatMax* clone() {
-		return new FloatMax();
+	virtual MaxNumber* clone() {
+		return new MaxNumber();
 	}
 };
 
-class FloatMin : public PositionalMethodSymbol {
+class MinNumber : public PositionalMethodSymbol {
 public:
-	FloatMin();
+	MinNumber();
 	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable);
 
 	virtual ExpressionValue interpret(const unsigned int tick);
-	virtual FloatMin* clone() {
-		return new FloatMin();
+	virtual MinNumber* clone() {
+		return new MinNumber();
 	}
 };
 
@@ -617,31 +681,60 @@ private:
 };
 
 
-class FloatCast : public PositionalMethodSymbol {
+class Boolean2FloatCast : public PositionalMethodSymbol {
 public:
-	FloatCast();
+	Boolean2FloatCast();
 	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable);
 
 	virtual ExpressionValue interpret(const unsigned int tick);
-	virtual FloatCast* clone() {
-		return new FloatCast();
+	virtual Boolean2FloatCast* clone() {
+		return new Boolean2FloatCast();
 	}
 private:
 	NullableValueBoolean* value;
 };
 
-class BooleanCast : public PositionalMethodSymbol {
+class Boolean2StringCast : public PositionalMethodSymbol {
 public:
-	BooleanCast();
+	Boolean2StringCast();
 	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable);
 
 	virtual ExpressionValue interpret(const unsigned int tick);
-	virtual BooleanCast* clone() {
-		return new BooleanCast();
+	virtual Boolean2StringCast* clone() {
+		return new Boolean2StringCast();
+	}
+private:
+	NullableValueBoolean* value;
+};
+
+class Float2BooleanCast : public PositionalMethodSymbol {
+public:
+	Float2BooleanCast();
+	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable);
+
+	virtual ExpressionValue interpret(const unsigned int tick);
+	virtual Float2BooleanCast* clone() {
+		return new Float2BooleanCast();
 	}
 private:
 	NullableValueNumber* value;
 };
+
+class Float2StringCast : public PositionalMethodSymbol {
+public:
+	Float2StringCast();
+	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable);
+
+	virtual ExpressionValue interpret(const unsigned int tick);
+	virtual Float2StringCast* clone() {
+		return new Float2StringCast();
+	}
+private:
+	NullableValueNumber* value;
+};
+
+
+
 
 
 class Absolute : public PositionalMethodSymbol {

@@ -228,6 +228,15 @@ BinaryFloatEqualOperator::BinaryFloatEqualOperator(const std::string& _name) : P
 
 
 
+BinaryStringEqualOperator::BinaryStringEqualOperator(const std::string& _name) : PositionalMethodSymbol(_name,
+	"Performs equal operator on two strings.",
+	{
+	ParameterSymbol(TypeInstances::GetStringInstance(), "lhs", "The left hand side of the equal operation."),
+	ParameterSymbol(TypeInstances::GetStringInstance(), "rhs", "The rhs hand side of the equal operation.")
+
+	}, ReturnSymbol(TypeInstances::GetBooleanInstance(), "Are the two operands equal")) {}
+
+
 
 
 BinaryBooleanNotEqualOperator::BinaryBooleanNotEqualOperator(const std::string& _name) : PositionalMethodSymbol(_name,
@@ -251,6 +260,17 @@ BinaryFloatNotEqualOperator::BinaryFloatNotEqualOperator(const std::string& _nam
 	ParameterSymbol(TypeInstances::GetNumberInstance(), "rhs", "The rhs hand side of the not equal operation.")
 	}, ReturnSymbol(TypeInstances::GetBooleanInstance(), "Are the two operands not equal")) {}
 
+
+
+BinaryStringNotEqualOperator::BinaryStringNotEqualOperator(const std::string& _name) : PositionalMethodSymbol(_name,
+
+	"Performs not equal operator on two strings.",
+
+	{
+
+				ParameterSymbol(TypeInstances::GetStringInstance(), "lhs", "The left hand side of the not equal operation."),
+	ParameterSymbol(TypeInstances::GetStringInstance(), "rhs", "The rhs hand side of the not equal operation.")
+	}, ReturnSymbol(TypeInstances::GetBooleanInstance(), "Are the two operands not equal")) {}
 
 
 
@@ -301,7 +321,7 @@ Mark::Mark() : KeywordMethodSymbol("mark",
 
 
 
-ValueWhen::ValueWhen() : PositionalMethodSymbol("valuewhen",
+ValueWhenNumber::ValueWhenNumber() : PositionalMethodSymbol("valuewhen",
 	"Stores and returns a value that only changes when the condition is true.",
 
 	{
@@ -310,6 +330,28 @@ ValueWhen::ValueWhen() : PositionalMethodSymbol("valuewhen",
 
 
 	}, ReturnSymbol(TypeInstances::GetNumberInstance(), "The value last time the condition was true")) {}
+
+
+ValueWhenString::ValueWhenString() : PositionalMethodSymbol("valuewhen",
+	"Stores and returns a value that only changes when the condition is true.",
+
+	{
+	ParameterSymbol(TypeInstances::GetBooleanInstance(), "when", "When to update the current value."),
+	ParameterSymbol(TypeInstances::GetStringInstance(), "value", "The value to update it with.")
+
+
+	}, ReturnSymbol(TypeInstances::GetStringInstance(), "The value last time the condition was true")) {}
+
+
+ValueWhenBoolean::ValueWhenBoolean() : PositionalMethodSymbol("valuewhen",
+	"Stores and returns a value that only changes when the condition is true.",
+
+	{
+	ParameterSymbol(TypeInstances::GetBooleanInstance(), "when", "When to update the current value."),
+	ParameterSymbol(TypeInstances::GetBooleanInstance(), "value", "The value to update it with.")
+
+
+	}, ReturnSymbol(TypeInstances::GetBooleanInstance(), "The value last time the condition was true")) {}
 
 
 
@@ -501,7 +543,7 @@ Ceil::Ceil() : PositionalMethodSymbol("ceil",
 
 
 
-FloatMax::FloatMax() : PositionalMethodSymbol("floatmax",
+MaxNumber::MaxNumber() : PositionalMethodSymbol("maxnumber",
 	"The max float value",
 
 	{
@@ -510,7 +552,7 @@ FloatMax::FloatMax() : PositionalMethodSymbol("floatmax",
 
 
 
-FloatMin::FloatMin() : PositionalMethodSymbol("floatmin",
+MinNumber::MinNumber() : PositionalMethodSymbol("minnumber",
 	"The minimum float value",
 
 	{
@@ -530,7 +572,7 @@ Count::Count() : PositionalMethodSymbol("count",
 
 
 
-FloatCast::FloatCast() : PositionalMethodSymbol("float",
+Boolean2FloatCast::Boolean2FloatCast() : PositionalMethodSymbol("float",
 	"Casts value to a float.",
 
 	{
@@ -539,10 +581,17 @@ FloatCast::FloatCast() : PositionalMethodSymbol("float",
 
 
 
+Boolean2StringCast::Boolean2StringCast() : PositionalMethodSymbol("string",
+	"Casts value to a string.",
+
+	{
+		ParameterSymbol(TypeInstances::GetBooleanInstance(), "value", "The value to convert")
+	}, ReturnSymbol(TypeInstances::GetStringInstance(), "The value as a string.")) {}
 
 
 
-BooleanCast::BooleanCast() : PositionalMethodSymbol("boolean",
+
+Float2BooleanCast::Float2BooleanCast() : PositionalMethodSymbol("boolean",
 	"Casts value to a boolea.",
 
 	{
@@ -550,7 +599,12 @@ BooleanCast::BooleanCast() : PositionalMethodSymbol("boolean",
 	}, ReturnSymbol(TypeInstances::GetBooleanInstance(), "The value as a boolean.")) {}
 
 
+Float2StringCast::Float2StringCast() : PositionalMethodSymbol("string",
+	"Casts value to a string.",
 
+	{
+		ParameterSymbol(TypeInstances::GetNumberInstance(), "value", "The value to convert")
+	}, ReturnSymbol(TypeInstances::GetStringInstance(), "The value as a string.")) {}
 
 
 

@@ -12,9 +12,12 @@ ArgumentSymbol::ArgumentSymbol(const TypeSymbol* _type, Expression* _expression)
 	*/
 	if (expression) {
 		if (_type == TypeInstances::GetStringConstantInstance()) {
+			std::cout << "1" << std::endl;
 			expressionValue = static_cast<StringNode*>(expression)->value;
 		}
 		if (_type == TypeInstances::GetNumberConstantInstance()) {
+			std::cout << "2" << std::endl;
+
 			expressionValue = NullableValueNumber(static_cast<NumberNode*>(expression)->number);
 		}
 	}

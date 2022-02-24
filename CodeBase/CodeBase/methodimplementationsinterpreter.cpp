@@ -65,6 +65,9 @@ ExpressionValue BinaryDivideOperator::interpret(const unsigned int tick) {
 	if (!lhsValue->value || !rhsValue->value) {
 		return NullableValueNumber();
 	}
+	if (*rhsValue->value == 0) {
+		throw LanguageException("Attempt to divide by 0", rhsNode);
+	}
 	return NullableValueNumber(*lhsValue->value / *rhsValue->value);
 }
 
@@ -82,6 +85,9 @@ ExpressionValue BinaryPowOperator::interpret(const unsigned int tick) {
 	if (!lhsValue->value || !rhsValue->value) {
 		return NullableValueNumber();
 	}
+	if (*rhsValue->value == 0) {
+		throw LanguageException("Attempt to raise by power 0", rhsNode);
+	}
 	return NullableValueNumber(std::powf(*lhsValue->value, *rhsValue->value));
 }
 
@@ -91,6 +97,9 @@ ExpressionValue BinaryModOperator::interpret(const unsigned int tick) {
 	// if any argument is a NAN return NAN
 	if (!lhsValue->value || !rhsValue->value) {
 		return NullableValueNumber();
+	}
+	if (*rhsValue->value == 0) {
+		throw LanguageException("Attempt to divide by 0", rhsNode);
 	}
 	return NullableValueNumber(std::fmod(*lhsValue->value, *rhsValue->value));
 }
@@ -168,6 +177,14 @@ ExpressionValue BinaryFloatEqualOperator::interpret(const unsigned int tick) {
 	return NullableValueBoolean(*lhsValue->value == *rhsValue->value);
 }
 
+ExpressionValue BinaryStringEqualOperator::interpret(const unsigned int tick) {
+	// if any argument is a NAN return NAN
+	if (!lhsValue->value || !rhsValue->value) {
+		return NullableValueBoolean();
+	}
+	return NullableValueBoolean(*lhsValue->value == *rhsValue->value);
+}
+
 
 ExpressionValue BinaryBooleanNotEqualOperator::interpret(const unsigned int tick) {
 	// if any argument is a NAN return NAN
@@ -178,6 +195,15 @@ ExpressionValue BinaryBooleanNotEqualOperator::interpret(const unsigned int tick
 }
 
 ExpressionValue BinaryFloatNotEqualOperator::interpret(const unsigned int tick) {
+	// if any argument is a NAN return NAN
+	if (!lhsValue->value || !rhsValue->value) {
+		return NullableValueBoolean();
+	}
+	return NullableValueBoolean(*lhsValue->value != *rhsValue->value);
+}
+
+
+ExpressionValue BinaryStringNotEqualOperator::interpret(const unsigned int tick) {
 	// if any argument is a NAN return NAN
 	if (!lhsValue->value || !rhsValue->value) {
 		return NullableValueBoolean();
@@ -224,15 +250,35 @@ ExpressionValue Mark::interpret(const unsigned int tick) {
 }
 
 
-ExpressionValue ValueWhen::interpret(const unsigned int tick) {
+ExpressionValue ValueWhenNumber::interpret(const unsigned int tick) {
 	if (when->value) {
-		if (when->value) {
+		if (*when->value) {
 			currentValue = *value;
 		}
 	}
-
 	return currentValue;
 }
+
+ExpressionValue ValueWhenBoolean::interpret(const unsigned int tick) {
+	if (when->value) {
+		if (*when->value) {
+			currentValue = *value;
+		}
+	}
+	return currentValue;
+}
+
+
+ExpressionValue ValueWhenString::interpret(const unsigned int tick) {
+	if (when->value) {
+		if (*when->value) {
+			currentValue = *value;
+		}
+	}
+	return currentValue;
+}
+
+
 
 
 
@@ -251,12 +297,12 @@ ExpressionValue StringNAN::interpret(const unsigned int tick) {
 
 ExpressionValue Minimum::interpret(const unsigned int tick) {
 	if (value->value) {
-		if (*value->value < *value->value) {
-			minimumValue = *value;
+		if (*value->value < *currentMinimum.value) {
+			currentMinimum = *value;
 		}
 	}
 
-	return minimumValue;
+	return currentMinimum;
 }
 
 
@@ -287,8 +333,8 @@ ExpressionValue MinimumBars::interpret(const unsigned int tick) {
 
 ExpressionValue Maximum::interpret(const unsigned int tick) {
 	if (value->value) {
-		if (*value->value > *value->value) {
-			maximumValue = value;
+		if (*value->value > *maximumValue.value) {
+			maximumValue = *value;
 		}
 	}
 
@@ -410,15 +456,15 @@ ExpressionValue Ceil::interpret(const unsigned int tick) {
 }
 
 
-ExpressionValue FloatMax::interpret(const unsigned int tick) {
+ExpressionValue MaxNumber::interpret(const unsigned int tick) {
 
 	return NullableValueNumber((std::numeric_limits<float>::max)());
 }
 
 
-ExpressionValue FloatMin::interpret(const unsigned int tick) {
+ExpressionValue MinNumber::interpret(const unsigned int tick) {
 
-	return NullableValueNumber((std::numeric_limits<float>::min)());
+	return NullableValueNumber(-(std::numeric_limits<float>::max)());
 }
 
 
@@ -436,7 +482,7 @@ ExpressionValue Count::interpret(const unsigned int tick) {
 }
 
 
-ExpressionValue FloatCast::interpret(const unsigned int tick) {
+ExpressionValue Boolean2FloatCast::interpret(const unsigned int tick) {
 
 	if (value->value) {
 		return NullableValueNumber(*value->value);
@@ -446,7 +492,7 @@ ExpressionValue FloatCast::interpret(const unsigned int tick) {
 }
 
 
-ExpressionValue BooleanCast::interpret(const unsigned int tick) {
+ExpressionValue Float2BooleanCast::interpret(const unsigned int tick) {
 
 	if (value->value) {
 		return NullableValueBoolean(*value->value);
@@ -455,6 +501,24 @@ ExpressionValue BooleanCast::interpret(const unsigned int tick) {
 	return NullableValueBoolean();
 }
 
+
+ExpressionValue Float2StringCast::interpret(const unsigned int tick) {
+
+	if (value->value) {
+		return NullableValueString(std::to_string(*value->value));
+	}
+
+	return NullableValueString();
+}
+
+ExpressionValue Boolean2StringCast::interpret(const unsigned int tick) {
+
+	if (value->value) {
+		return NullableValueString(value->toString());
+	}
+
+	return NullableValueString();
+}
 
 
 ExpressionValue Absolute::interpret(const unsigned int tick) {
