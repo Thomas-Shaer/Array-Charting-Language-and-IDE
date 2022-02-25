@@ -18,11 +18,8 @@ const TypeSymbol* PositionalMethodSymbol::semanticAnaylsis(MethodCallNode* metho
 	*/
 	std::vector<std::shared_ptr<ArgumentSymbol>> _argumentSymbols;
 	for (Expression* expr : methodCallNode->arguments) {
-		std::cout << "start" << std::endl;
-		std::cout << expr->toString() << std::endl;
 		const TypeSymbol* typesymbol = expr->semanticAnalysis(symboltable);
 		_argumentSymbols.push_back(std::make_shared<ArgumentSymbol>(typesymbol, expr));
-		std::cout << "done" << std::endl;
 	}
 
 	// if recieved wrong amount of parameters throw error

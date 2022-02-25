@@ -32,7 +32,6 @@ const TypeSymbol* IdentifierNode::semanticAnalysis(std::shared_ptr<SymbolTable> 
 		semanticExecuted = true;
 		// need to return item in symbol table
 		if (symboltable->isVariableDeclared(name)) {
-			std::cout << "found " << name << std::endl;
 			varSymbol = symboltable->getVariable(name);
 			cachedReturnType = varSymbol->type;
 			return varSymbol->type;

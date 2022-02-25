@@ -62,6 +62,13 @@ BinaryPlusOperator::BinaryPlusOperator(const std::string& _name) : PositionalMet
 
 
 
+BinaryStringConcat::BinaryStringConcat(const std::string& _name) : PositionalMethodSymbol(_name,
+	"Concatenate two strings.",
+	{
+	ParameterSymbol(TypeInstances::GetStringInstance(), "lhs", "The left hand side of the concat operation."),
+	ParameterSymbol(TypeInstances::GetStringInstance(), "rhs", "The rhs hand side of the concat operation.")
+	}, ReturnSymbol(TypeInstances::GetStringInstance(), "Result of the concatenation")) {}
+
 
 BinaryMinusOperator::BinaryMinusOperator(const std::string& _name) : PositionalMethodSymbol(_name,
 	"Minuses two numbers.",
@@ -869,13 +876,31 @@ Correlation::Correlation() : PositionalMethodSymbol("correlation",
 
 
 
-PreviousValue::PreviousValue() : PositionalMethodSymbol("prev",
-	"Gets the previous value. Lookback will return the last nth non-NAN value.",
+PreviousNumberValue::PreviousNumberValue() : PositionalMethodSymbol("prev",
+	"Gets the previous value. Lookback will return the last nth value.",
 	{
 	ParameterSymbol(TypeInstances::GetNumberInstance(), "data", "Series of data to retreive value for (stores it every time its called)."),
 	ParameterSymbol(TypeInstances::GetNumberInstance(), "barsback", "The amount of bars back to retrieve the value")
 
 	}, ReturnSymbol(TypeInstances::GetNumberInstance())) {}
+
+
+PreviousStringValue::PreviousStringValue() : PositionalMethodSymbol("prev",
+	"Gets the previous value. Lookback will return the last nth value.",
+	{
+	ParameterSymbol(TypeInstances::GetStringInstance(), "data", "Series of data to retreive value for (stores it every time its called)."),
+	ParameterSymbol(TypeInstances::GetNumberInstance(), "barsback", "The amount of bars back to retrieve the value")
+
+	}, ReturnSymbol(TypeInstances::GetStringInstance())) {}
+
+
+PreviousBooleanValue::PreviousBooleanValue() : PositionalMethodSymbol("prev",
+	"Gets the previous value. Lookback will return the last nth value.",
+	{
+	ParameterSymbol(TypeInstances::GetBooleanInstance(), "data", "Series of data to retreive value for (stores it every time its called)."),
+	ParameterSymbol(TypeInstances::GetNumberInstance(), "barsback", "The amount of bars back to retrieve the value")
+
+	}, ReturnSymbol(TypeInstances::GetBooleanInstance())) {}
 
 
 

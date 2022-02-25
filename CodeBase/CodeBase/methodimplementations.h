@@ -84,6 +84,20 @@ private:
 	NullableValueNumber* rhsValue;
 };
 
+class BinaryStringConcat : public PositionalMethodSymbol {
+public:
+	BinaryStringConcat(const std::string& _name);
+	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable);
+
+	virtual ExpressionValue interpret(const unsigned int tick);
+	virtual BinaryStringConcat* clone() {
+		return new BinaryStringConcat(name);
+	}
+private:
+	NullableValueString* lhsValue;
+	NullableValueString* rhsValue;
+};
+
 class BinaryMinusOperator : public PositionalMethodSymbol {
 public:
 	BinaryMinusOperator(const std::string& _name);
@@ -808,7 +822,9 @@ public:
 	}
 private:
 	NullableValueNumber* value1;
+	Expression* value1Node;
 	NullableValueNumber* value2;
+	Expression* value2Node;
 };
 
 
@@ -823,7 +839,9 @@ public:
 	}
 private:
 	NullableValueNumber* value1;
+	Expression* value1Node;
 	NullableValueNumber* value2;
+	Expression* value2Node;
 };
 
 
@@ -1092,20 +1110,58 @@ private:
 
 };
 
-class PreviousValue : public PositionalMethodSymbol {
+class PreviousNumberValue : public PositionalMethodSymbol {
 public:
-	PreviousValue();
+	PreviousNumberValue();
 	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable);
 
 	virtual ExpressionValue interpret(const unsigned int tick);
 
-	virtual PreviousValue* clone() {
-		return new PreviousValue();
+	virtual PreviousNumberValue* clone() {
+		return new PreviousNumberValue();
 	}
 private:
 
 	std::vector<NullableValueNumber> values;
 	NullableValueNumber* data;
+	NullableValueNumber* barsback;
+	Expression* barsbackNode;
+};
+
+
+class PreviousStringValue : public PositionalMethodSymbol {
+public:
+	PreviousStringValue();
+	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable);
+
+	virtual ExpressionValue interpret(const unsigned int tick);
+
+	virtual PreviousStringValue* clone() {
+		return new PreviousStringValue();
+	}
+private:
+
+	std::vector<NullableValueString> values;
+	NullableValueString* data;
+	NullableValueNumber* barsback;
+	Expression* barsbackNode;
+};
+
+
+class PreviousBooleanValue : public PositionalMethodSymbol {
+public:
+	PreviousBooleanValue();
+	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable);
+
+	virtual ExpressionValue interpret(const unsigned int tick);
+
+	virtual PreviousBooleanValue* clone() {
+		return new PreviousBooleanValue();
+	}
+private:
+
+	std::vector<NullableValueBoolean> values;
+	NullableValueBoolean* data;
 	NullableValueNumber* barsback;
 	Expression* barsbackNode;
 };

@@ -17,6 +17,17 @@ BOOST_AUTO_TEST_SUITE(METHODIMPLEMENTATIONS)
 // minimum bars : internal buffer needs to be replaced
 // maximum bars : internal buffer needs to be replaced
 // sum bars : internal buffer needs to be replaced
+/// variance : update buffer
+// std : update buffer
+// ma : update buffer
+// falling
+// rising
+// arccos : need to be clamped : https://stackoverflow.com/questions/52138147/why-is-acos-resulting-in-nanind-when-using-the-result-of-a-dot-product
+// arctan : need to be clamped : https://stackoverflow.com/questions/52138147/why-is-acos-resulting-in-nanind-when-using-the-result-of-a-dot-product
+// arcsin : need to be clamped : https://stackoverflow.com/questions/52138147/why-is-acos-resulting-in-nanind-when-using-the-result-of-a-dot-product
+// linreg : internal buffer needs to be replaced
+// corr : internal buffer needs to be replaced
+// medianbars
 
 std::string formatCode(std::string methodName, std::string save_to_variable, std::vector<std::string> params) {
     std::string execute_code = save_to_variable + " = " + methodName + "(";
@@ -152,6 +163,12 @@ BOOST_AUTO_TEST_CASE(method_binop_plus_test)
     BOOST_CHECK(isNaN(getReturn<NullableValueNumber>("nan_f() + 2")));
     BOOST_CHECK(isNaN(getReturn<NullableValueNumber>("1.5 + nan_f()")));
     BOOST_CHECK(isNaN(getReturn<NullableValueNumber>("nan_f() + nan_f()")));
+
+
+    BOOST_CHECK(isEquiv(getReturn<NullableValueString>("\"Hello \" + \"World!\""), NullableValueString("Hello World!")));
+    BOOST_CHECK(isNaN(getReturn<NullableValueString>("nan_s() + \"World!\"")));
+    BOOST_CHECK(isNaN(getReturn<NullableValueString>("\"Hello \" + nan_s()")));
+    BOOST_CHECK(isNaN(getReturn<NullableValueString>("nan_s() + nan_s()")));
 }
 
 BOOST_AUTO_TEST_CASE(method_binop_minus_test)
@@ -532,6 +549,288 @@ BOOST_AUTO_TEST_CASE(method_count_test)
     BOOST_CHECK(isEquiv(safeExpressionCast<NullableValueNumber>(buffer4.at(MAX_TICK_SIZE - 1)), NullableValueNumber(2)));
 }
 
+
+BOOST_AUTO_TEST_CASE(method_float_cast_test)
+{
+    BOOST_CHECK(isEquiv(getReturn<NullableValueNumber>("float", { "true" }), NullableValueNumber(1)));
+    BOOST_CHECK(isEquiv(getReturn<NullableValueNumber>("float", { "false" }), NullableValueNumber(0)));
+    BOOST_CHECK(isNaN(getReturn<NullableValueNumber>("float", { "nan_b()" })));
+
+}
+
+BOOST_AUTO_TEST_CASE(method_boolean_cast_test)
+{
+    BOOST_CHECK(isEquiv(getReturn<NullableValueBoolean>("boolean", { "1" }), NullableValueBoolean(true)));
+    BOOST_CHECK(isEquiv(getReturn<NullableValueBoolean>("boolean", { "0" }), NullableValueBoolean(false)));
+    BOOST_CHECK(isNaN(getReturn<NullableValueBoolean>("boolean", { "nan_f()" })));
+
+}
+
+BOOST_AUTO_TEST_CASE(method_string_cast_test)
+{
+
+    BOOST_CHECK(isEquiv(getReturn<NullableValueString>("string", { "12345" }), NullableValueString(std::to_string((float)12345))));
+    BOOST_CHECK(isNaN(getReturn<NullableValueString>("string", { "nan_f()" })));
+
+
+    BOOST_CHECK(isEquiv(getReturn<NullableValueString>("string", { "true" }), NullableValueString("true")));
+    BOOST_CHECK(isEquiv(getReturn<NullableValueString>("string", { "false" }), NullableValueString("false")));
+    BOOST_CHECK(isNaN(getReturn<NullableValueString>("string", { "nan_b()" })));
+
+}
+
+
+BOOST_AUTO_TEST_CASE(method_absolute_test)
+{
+
+    BOOST_CHECK(isEquiv(getReturn<NullableValueNumber>("abs", { "-1" }), NullableValueNumber(1)));
+    BOOST_CHECK(isEquiv(getReturn<NullableValueNumber>("abs", { "0" }), NullableValueNumber(0)));
+    BOOST_CHECK(isEquiv(getReturn<NullableValueNumber>("abs", { "1" }), NullableValueNumber(1)));
+
+}
+
+BOOST_AUTO_TEST_CASE(method_log_e_test)
+{
+
+    BOOST_CHECK(isEquiv(getReturn<NullableValueNumber>("log", { "1" }), NullableValueNumber(0)));
+    BOOST_CHECK_THROW(execute("log(0)"), LanguageException);
+    BOOST_CHECK_THROW(execute("log(-1)"), LanguageException);
+}
+
+BOOST_AUTO_TEST_CASE(method_log_base_test)
+{
+
+    BOOST_CHECK(isEquiv(getReturn<NullableValueNumber>("log", { "9", "3" }), NullableValueNumber(2)));
+    BOOST_CHECK_THROW(execute("log(0, 3)"), LanguageException);
+    BOOST_CHECK_THROW(execute("log(-1, 3)"), LanguageException);
+    BOOST_CHECK_THROW(execute("log(9, 0)"), LanguageException);
+    BOOST_CHECK_THROW(execute("log(9, -1)"), LanguageException);
+    BOOST_CHECK_THROW(execute("log(0, 0)"), LanguageException);
+    BOOST_CHECK_THROW(execute("log(-1, -1)"), LanguageException);
+}
+
+
+BOOST_AUTO_TEST_CASE(method_sqrt_test)
+{
+
+    BOOST_CHECK(isEquiv(getReturn<NullableValueNumber>("sqrt", { "9" }), NullableValueNumber(3)));
+    BOOST_CHECK(isEquiv(getReturn<NullableValueNumber>("sqrt", { "0" }), NullableValueNumber(0)));
+
+    BOOST_CHECK_THROW(execute("sqrt(-1)"), LanguageException);
+}
+
+
+BOOST_AUTO_TEST_CASE(method_lcm_test)
+{
+
+    BOOST_CHECK(isEquiv(getReturn<NullableValueNumber>("lcm", { "4", "6" }), NullableValueNumber(12)));
+    BOOST_CHECK(isEquiv(getReturn<NullableValueNumber>("lcm", { "-4", "6" }), NullableValueNumber(12)));
+    BOOST_CHECK(isEquiv(getReturn<NullableValueNumber>("lcm", { "4", "-6" }), NullableValueNumber(12)));
+    BOOST_CHECK(isEquiv(getReturn<NullableValueNumber>("lcm", { "-4", "-6" }), NullableValueNumber(12)));
+
+    BOOST_CHECK(isNaN(getReturn<NullableValueNumber>("lcm", { "nan_f()", "6" })));
+    BOOST_CHECK(isNaN(getReturn<NullableValueNumber>("lcm", { "6", "nan_f()" })));
+    BOOST_CHECK(isNaN(getReturn<NullableValueNumber>("lcm", { "nan_f()", "nan_f()" })));
+
+    BOOST_CHECK_THROW(execute("lcm(0, 0)"), LanguageException);
+    BOOST_CHECK_THROW(execute("lcm(0, 6)"), LanguageException);
+    BOOST_CHECK_THROW(execute("lcm(6, 0)"), LanguageException);
+}
+
+
+BOOST_AUTO_TEST_CASE(method_gcd_test)
+{
+
+    BOOST_CHECK(isEquiv(getReturn<NullableValueNumber>("gcd", { "4", "6" }), NullableValueNumber(2)));
+    BOOST_CHECK(isEquiv(getReturn<NullableValueNumber>("gcd", { "-4", "6" }), NullableValueNumber(2)));
+    BOOST_CHECK(isEquiv(getReturn<NullableValueNumber>("gcd", { "4", "-6" }), NullableValueNumber(2)));
+    BOOST_CHECK(isEquiv(getReturn<NullableValueNumber>("gcd", { "-4", "-6" }), NullableValueNumber(2)));
+
+    BOOST_CHECK(isNaN(getReturn<NullableValueNumber>("gcd", { "nan_f()", "6" })));
+    BOOST_CHECK(isNaN(getReturn<NullableValueNumber>("gcd", { "6", "nan_f()" })));
+    BOOST_CHECK(isNaN(getReturn<NullableValueNumber>("gcd", { "nan_f()", "nan_f()" })));
+
+    BOOST_CHECK_THROW(execute("gcd(0, 0)"), LanguageException);
+    BOOST_CHECK_THROW(execute("gcd(0, 6)"), LanguageException);
+    BOOST_CHECK_THROW(execute("gcd(6, 0)"), LanguageException);
+}
+
+
+
+
+BOOST_AUTO_TEST_CASE(method_is_nan_test)
+{
+
+    BOOST_CHECK(isEquiv(getReturn<NullableValueBoolean>("isnan", { "false"}), NullableValueBoolean(false)));
+    BOOST_CHECK(isEquiv(getReturn<NullableValueBoolean>("isnan", { "true"}), NullableValueBoolean(false)));
+    BOOST_CHECK(isEquiv(getReturn<NullableValueBoolean>("isnan", { "nan_b()"}), NullableValueBoolean(true)));
+
+
+    BOOST_CHECK(isEquiv(getReturn<NullableValueBoolean>("isnan", { "1" }), NullableValueBoolean(false)));
+    BOOST_CHECK(isEquiv(getReturn<NullableValueBoolean>("isnan", { "-1" }), NullableValueBoolean(false)));
+    BOOST_CHECK(isEquiv(getReturn<NullableValueBoolean>("isnan", { "nan_f()" }), NullableValueBoolean(true)));
+
+    BOOST_CHECK(isEquiv(getReturn<NullableValueBoolean>("isnan", { "\"Hello World!\"" }), NullableValueBoolean(false)));
+    BOOST_CHECK(isEquiv(getReturn<NullableValueBoolean>("isnan", { "nan_s()" }), NullableValueBoolean(true)));
+}
+
+
+
+BOOST_AUTO_TEST_CASE(method_random_test)
+{
+
+    BOOST_CHECK(isEquiv(getReturn<NullableValueNumber>("random", { "3", "3" }), NullableValueNumber(3)));
+    BOOST_CHECK(isEquiv(getReturn<NullableValueNumber>("random", { "-3", "-3" }), NullableValueNumber(-3)));
+
+    BOOST_CHECK(!isNaN(getReturn<NullableValueNumber>("random", { "3", "6" })));
+    BOOST_CHECK(!isNaN(getReturn<NullableValueNumber>("random", { "6", "3" })));
+
+
+    BOOST_CHECK(isNaN(getReturn<NullableValueNumber>("random", { "nan_f()", "6" })));
+    BOOST_CHECK(isNaN(getReturn<NullableValueNumber>("random", { "3", "nan_f()" })));
+    BOOST_CHECK(isNaN(getReturn<NullableValueNumber>("random", { "nan_f()", "nan_f()" })));
+
+}
+
+BOOST_AUTO_TEST_CASE(method_cosine_test)
+{
+    BOOST_CHECK(isEquiv(getReturn<NullableValueNumber>("cos", {"2" }), NullableValueNumber(std::cos(*NullableValueNumber(2).value))));
+    BOOST_CHECK(isEquiv(getReturn<NullableValueNumber>("cos", {"0" }), NullableValueNumber(std::cos(*NullableValueNumber(0).value))));
+    BOOST_CHECK(isEquiv(getReturn<NullableValueNumber>("cos", {"-2" }), NullableValueNumber(std::cos(*NullableValueNumber(-2).value))));
+    BOOST_CHECK(isNaN(getReturn<NullableValueNumber>("cos", { "nan_f()"})));
+
+}
+
+
+BOOST_AUTO_TEST_CASE(method_tangent_test)
+{
+    BOOST_CHECK(isEquiv(getReturn<NullableValueNumber>("tan", { "2" }), NullableValueNumber(std::tan(*NullableValueNumber(2).value))));
+    BOOST_CHECK(isEquiv(getReturn<NullableValueNumber>("tan", { "0" }), NullableValueNumber(std::tan(*NullableValueNumber(0).value))));
+    BOOST_CHECK(isEquiv(getReturn<NullableValueNumber>("tan", { "-2" }), NullableValueNumber(std::tan(*NullableValueNumber(-2).value))));
+    BOOST_CHECK(isNaN(getReturn<NullableValueNumber>("tan", { "nan_f()" })));
+}
+
+BOOST_AUTO_TEST_CASE(method_sine_test)
+{
+    BOOST_CHECK(isEquiv(getReturn<NullableValueNumber>("sin", { "2" }), NullableValueNumber(std::sin(*NullableValueNumber(2).value))));
+    BOOST_CHECK(isEquiv(getReturn<NullableValueNumber>("sin", { "0" }), NullableValueNumber(std::sin(*NullableValueNumber(0).value))));
+    BOOST_CHECK(isEquiv(getReturn<NullableValueNumber>("sin", { "-2" }), NullableValueNumber(std::sin(*NullableValueNumber(-2).value))));
+    BOOST_CHECK(isNaN(getReturn<NullableValueNumber>("sin", { "nan_f()" })));
+}
+
+
+
+
+
+BOOST_AUTO_TEST_CASE(method_arctangent_test)
+{
+    BOOST_CHECK(isEquiv(getReturn<NullableValueNumber>("atan", { "2" }), NullableValueNumber(std::atan(*NullableValueNumber(2).value))));
+    BOOST_CHECK(isEquiv(getReturn<NullableValueNumber>("atan", { "0" }), NullableValueNumber(std::atan(*NullableValueNumber(0).value))));
+    BOOST_CHECK(isEquiv(getReturn<NullableValueNumber>("atan", { "-2" }), NullableValueNumber(std::atan(*NullableValueNumber(-2).value))));
+    BOOST_CHECK(isNaN(getReturn<NullableValueNumber>("atan", { "nan_f()" })));
+}
+
+
+//BOOST_AUTO_TEST_CASE(method_arccosine_test)
+//{
+//    //std::cout << *NullableValueNumber(std::acos(*NullableValueNumber(2).value)).value << std::endl;
+//    //std::cout << *getReturn<NullableValueNumber>("acos", { "2" }).value << std::endl;
+//    std::cout << std::acos((float)2) << std::endl;
+//    std::cout << "what" << std::endl;
+//    BOOST_CHECK(isEquiv(getReturn<NullableValueNumber>("acos", { "2" }), NullableValueNumber(*NullableValueNumber(2).value)));
+//    BOOST_CHECK(isEquiv(getReturn<NullableValueNumber>("acos", { "0" }), NullableValueNumber(std::acos(*NullableValueNumber(0).value))));
+//    BOOST_CHECK(isEquiv(getReturn<NullableValueNumber>("acos", { "-2" }), NullableValueNumber(std::acos(-2))));
+//    BOOST_CHECK(isNaN(getReturn<NullableValueNumber>("acos", { "nan_f()" })));
+//
+//}
+
+//BOOST_AUTO_TEST_CASE(method_arcsine_test)
+//{
+//    std::cout << getReturn<NullableValueNumber>("asin", { "2" }).toString() << std::endl;
+//    std::cout << std::asin(*NullableValueNumber(2).value) << std::endl;
+//    BOOST_CHECK(isEquiv(getReturn<NullableValueNumber>("asin", { "2" }), NullableValueNumber(std::asin(*NullableValueNumber(2).value))));
+//    BOOST_CHECK(isEquiv(getReturn<NullableValueNumber>("asin", { "0" }), NullableValueNumber(std::asin(*NullableValueNumber(0).value))));
+//    BOOST_CHECK(isEquiv(getReturn<NullableValueNumber>("asin", { "-2" }), NullableValueNumber(std::asin(*NullableValueNumber(-2).value))));
+//
+//    BOOST_CHECK(isNaN(getReturn<NullableValueNumber>("asin", { "nan_f()" })));
+//}
+
+
+BOOST_AUTO_TEST_CASE(method_prev_test)
+{
+    InterpreterContext context1;
+    context1.ticks = MAX_TICK_SIZE;
+    std::vector<ExpressionValue> buffer1 = getReturnVarBuffer("prev", { "tick()", "1" }, context1);
+    BOOST_CHECK(isNaN(safeExpressionCast<NullableValueNumber>(buffer1.at(0))));
+    BOOST_CHECK(isEquiv(safeExpressionCast<NullableValueNumber>(buffer1.at(MAX_TICK_SIZE - 1)), NullableValueNumber(3)));
+
+
+    BOOST_CHECK_THROW(execute("prev(tick(), -10)"), LanguageException);
+
+
+    InterpreterContext context2;
+    context2.ticks = MAX_TICK_SIZE;
+    std::vector<ExpressionValue> buffer2 = getReturnVarBuffer("prev", { "\"Hello World!\"", "1" }, context2);
+    BOOST_CHECK(isNaN(safeExpressionCast<NullableValueString>(buffer2.at(0))));
+    BOOST_CHECK(isEquiv(safeExpressionCast<NullableValueString>(buffer2.at(MAX_TICK_SIZE - 1)), NullableValueString("Hello World!")));
+
+
+    BOOST_CHECK_THROW(execute("prev(\"Hello World!\", -10)"), LanguageException);
+
+
+    InterpreterContext context3;
+    context3.ticks = MAX_TICK_SIZE;
+    std::vector<ExpressionValue> buffer3 = getReturnVarBuffer("prev", { "true", "1" }, context3);
+    BOOST_CHECK(isNaN(safeExpressionCast<NullableValueBoolean>(buffer3.at(0))));
+    BOOST_CHECK(isEquiv(safeExpressionCast<NullableValueBoolean>(buffer3.at(MAX_TICK_SIZE - 1)), NullableValueBoolean(true)));
+
+
+    BOOST_CHECK_THROW(execute("prev(true, -10)"), LanguageException);
+
+}
+
+
+BOOST_AUTO_TEST_CASE(method_median_test)
+{
+
+    // odd number case
+    InterpreterContext context1;
+    context1.ticks = MAX_TICK_SIZE;
+    std::vector<ExpressionValue> buffer1 = getReturnVarBuffer("median", { "tick()"}, context1);
+    BOOST_CHECK(isEquiv(safeExpressionCast<NullableValueNumber>(buffer1.at(MAX_TICK_SIZE - 1)), NullableValueNumber(2)));
+
+    // even number case
+    InterpreterContext context2;
+    context2.ticks = MAX_TICK_SIZE + 1;
+    std::vector<ExpressionValue> buffer2 = getReturnVarBuffer("median", { "tick()" }, context2);
+    BOOST_CHECK(isEquiv(safeExpressionCast<NullableValueNumber>(buffer2.at(MAX_TICK_SIZE)), NullableValueNumber(2.5)));
+
+
+    BOOST_CHECK(isNaN(getReturn<NullableValueNumber>("median", { "nan_f()" })));
+}
+
+BOOST_AUTO_TEST_CASE(method_is_prime_test)
+{
+    BOOST_CHECK(isEquiv(getReturn<NullableValueBoolean>("isprime", { "7" }), NullableValueBoolean(true)));
+    BOOST_CHECK(isEquiv(getReturn<NullableValueBoolean>("isprime", { "3" }), NullableValueBoolean(true)));
+    BOOST_CHECK(isEquiv(getReturn<NullableValueBoolean>("isprime", { "2" }), NullableValueBoolean(false)));
+    BOOST_CHECK(isEquiv(getReturn<NullableValueBoolean>("isprime", { "1" }), NullableValueBoolean(false)));
+    BOOST_CHECK(isEquiv(getReturn<NullableValueBoolean>("isprime", { "0" }), NullableValueBoolean(false)));
+    BOOST_CHECK(isEquiv(getReturn<NullableValueBoolean>("isprime", { "-1" }), NullableValueBoolean(false)));
+    BOOST_CHECK(isNaN(getReturn<NullableValueBoolean>("isprime", { "nan_f()" })));
+}
+
+
+BOOST_AUTO_TEST_CASE(method_is_triangle_test)
+{
+    BOOST_CHECK(isEquiv(getReturn<NullableValueBoolean>("istriangle", { "10" }), NullableValueBoolean(true)));
+    BOOST_CHECK(isEquiv(getReturn<NullableValueBoolean>("istriangle", { "3" }), NullableValueBoolean(true)));
+    BOOST_CHECK(isEquiv(getReturn<NullableValueBoolean>("istriangle", { "2" }), NullableValueBoolean(false)));
+    BOOST_CHECK(isEquiv(getReturn<NullableValueBoolean>("istriangle", { "1" }), NullableValueBoolean(true)));
+    BOOST_CHECK(isEquiv(getReturn<NullableValueBoolean>("istriangle", { "0" }), NullableValueBoolean(false)));
+    BOOST_CHECK(isEquiv(getReturn<NullableValueBoolean>("istriangle", { "-1" }), NullableValueBoolean(false)));
+    BOOST_CHECK(isNaN(getReturn<NullableValueBoolean>("istriangle", { "nan_f()" })));
+}
 
 
 BOOST_AUTO_TEST_SUITE_END()

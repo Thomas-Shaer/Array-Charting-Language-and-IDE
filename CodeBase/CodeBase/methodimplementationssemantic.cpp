@@ -47,6 +47,14 @@ const TypeSymbol* BinaryPlusOperator::semanticAnaylsis(MethodCallNode* methodCal
 
 }
 
+const TypeSymbol* BinaryStringConcat::semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable) {
+	const TypeSymbol* returnType = PositionalMethodSymbol::semanticAnaylsis(methodCallNode, symboltable);
+	lhsValue = boost::get<NullableValueString>(&methodCallNode->expressionToArgList["lhs"]->expressionValue);
+	rhsValue = boost::get<NullableValueString>(&methodCallNode->expressionToArgList["rhs"]->expressionValue);
+	return returnType;
+
+}
+
 
 const TypeSymbol* BinaryMinusOperator::semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable) {
 	const TypeSymbol* returnType = PositionalMethodSymbol::semanticAnaylsis(methodCallNode, symboltable);
@@ -428,6 +436,9 @@ const TypeSymbol* LCM::semanticAnaylsis(MethodCallNode* methodCallNode, std::sha
 	const TypeSymbol* returnType = PositionalMethodSymbol::semanticAnaylsis(methodCallNode, symboltable);
 	value1 = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["value1"]->expressionValue);
 	value2 = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["value2"]->expressionValue);
+	value1Node = methodCallNode->expressionToArgList["value1"]->expression;
+	value2Node = methodCallNode->expressionToArgList["value2"]->expression;
+
 	return returnType;
 }
 
@@ -436,6 +447,8 @@ const TypeSymbol* GCD::semanticAnaylsis(MethodCallNode* methodCallNode, std::sha
 	const TypeSymbol* returnType = PositionalMethodSymbol::semanticAnaylsis(methodCallNode, symboltable);
 	value1 = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["value1"]->expressionValue);
 	value2 = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["value2"]->expressionValue);
+	value1Node = methodCallNode->expressionToArgList["value1"]->expression;
+	value2Node = methodCallNode->expressionToArgList["value2"]->expression;
 	return returnType;
 }
 
@@ -569,7 +582,7 @@ const TypeSymbol* Correlation::semanticAnaylsis(MethodCallNode* methodCallNode, 
 }
 
 
-const TypeSymbol* PreviousValue::semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable) {
+const TypeSymbol* PreviousNumberValue::semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable) {
 	const TypeSymbol* returnType = PositionalMethodSymbol::semanticAnaylsis(methodCallNode, symboltable);
 	data = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["data"]->expressionValue);
 	barsback = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["barsback"]->expressionValue);
@@ -577,6 +590,21 @@ const TypeSymbol* PreviousValue::semanticAnaylsis(MethodCallNode* methodCallNode
 	return returnType;
 }
 
+const TypeSymbol* PreviousStringValue::semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable) {
+	const TypeSymbol* returnType = PositionalMethodSymbol::semanticAnaylsis(methodCallNode, symboltable);
+	data = boost::get<NullableValueString>(&methodCallNode->expressionToArgList["data"]->expressionValue);
+	barsback = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["barsback"]->expressionValue);
+	barsbackNode = methodCallNode->expressionToArgList["barsback"]->expression;
+	return returnType;
+}
+
+const TypeSymbol* PreviousBooleanValue::semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable) {
+	const TypeSymbol* returnType = PositionalMethodSymbol::semanticAnaylsis(methodCallNode, symboltable);
+	data = boost::get<NullableValueBoolean>(&methodCallNode->expressionToArgList["data"]->expressionValue);
+	barsback = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["barsback"]->expressionValue);
+	barsbackNode = methodCallNode->expressionToArgList["barsback"]->expression;
+	return returnType;
+}
 
 
 const TypeSymbol* Median::semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable) {

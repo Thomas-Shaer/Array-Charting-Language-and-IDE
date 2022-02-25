@@ -119,7 +119,14 @@ std::shared_ptr<SymbolTable> SymbolTable::GLOBAL_SYMBOL_TABLE = std::make_shared
 		registerMethod("asin", new SingleMethodBucket(new ArcSine(), METHOD_CAT::MATHEMATICAL)),
 		registerMethod("linreg", new SingleMethodBucket(new LinearRegression(), METHOD_CAT::STATISTICS)),
 		registerMethod("correlation", new SingleMethodBucket(new Correlation(), METHOD_CAT::STATISTICS)),
-		registerMethod("prev", new SingleMethodBucket(new PreviousValue(), METHOD_CAT::MISC)),
+
+			registerMethod("prev", new OverloadedMethodBucket(
+		{(new PreviousNumberValue()),
+		 (new PreviousStringValue()),
+		 (new PreviousBooleanValue())
+		}
+	, METHOD_CAT::MISC)),
+
 		registerMethod("isprime", new SingleMethodBucket(new IsPrime(), METHOD_CAT::MATHEMATICAL)),
 		registerMethod("istriangle", new SingleMethodBucket(new IsTriangle(), METHOD_CAT::MATHEMATICAL)),
 
@@ -148,7 +155,8 @@ std::shared_ptr<SymbolTable> SymbolTable::GLOBAL_SYMBOL_TABLE = std::make_shared
 
 	registerMethod("operator" + token_name(yy::parser::token::TPLUS), new OverloadedMethodBucket(
 		{new UnaryPlusOperator("operator" + token_name(yy::parser::token::TPLUS)),
-		 new BinaryPlusOperator("operator" + token_name(yy::parser::token::TPLUS))
+		 new BinaryPlusOperator("operator" + token_name(yy::parser::token::TPLUS)),
+		 new BinaryStringConcat("operator" + token_name(yy::parser::token::TPLUS))
 		}
 	,METHOD_CAT::OPERATOR)),
 	registerMethod("operator" + token_name(yy::parser::token::TMINUS), new OverloadedMethodBucket(

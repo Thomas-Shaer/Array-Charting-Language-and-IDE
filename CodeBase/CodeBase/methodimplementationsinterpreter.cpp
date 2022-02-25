@@ -51,6 +51,14 @@ ExpressionValue BinaryPlusOperator::interpret(const unsigned int tick) {
 	return NullableValueNumber(*lhsValue->value + *rhsValue->value);
 }
 
+ExpressionValue BinaryStringConcat::interpret(const unsigned int tick) {
+	// if any argument is a NAN return NAN
+	if (!lhsValue->value || !rhsValue->value) {
+		return NullableValueString();
+	}
+	return NullableValueString(*lhsValue->value + *rhsValue->value);
+}
+
 
 ExpressionValue BinaryMinusOperator::interpret(const unsigned int tick) {
 	// if any argument is a NAN return NAN
@@ -582,6 +590,14 @@ ExpressionValue LCM::interpret(const unsigned int tick) {
 
 	if (value1->value && value2->value) {
 
+		if (value1->value == 0) {
+			throw LanguageException("LCM arg cannot be 0 ", value1Node);
+		}
+
+		if (value2->value == 0) {
+			throw LanguageException("LCM arg cannot be 0 ", value2Node);
+		}
+
 		return NullableValueNumber(std::lcm((int)*value1->value, (int)*value2->value));
 	}
 
@@ -593,6 +609,13 @@ ExpressionValue GCD::interpret(const unsigned int tick) {
 
 	if (value1->value && value2->value) {
 
+		if (value1->value == 0) {
+			throw LanguageException("GCD arg cannot be 0 ", value1Node);
+		}
+
+		if (value2->value == 0) {
+			throw LanguageException("GCD arg cannot be 0 ", value2Node);
+		}
 		return NullableValueNumber(std::gcd((int)*value1->value, (int)*value2->value));
 	}
 
@@ -715,7 +738,8 @@ ExpressionValue Random::interpret(const unsigned int tick) {
 
 	std::random_device seeder;
 	std::mt19937 engine(seeder());
-	std::uniform_int_distribution<int> dist((int)*minvalue->value, (int)*maxvalue->value);
+	std::uniform_int_distribution<int> dist((int)*minvalue->value > (int)*maxvalue->value ? (int)*maxvalue->value : (int)*minvalue->value,
+											(int)*minvalue->value < (int)*maxvalue->value ? (int)*maxvalue->value : (int)*minvalue->value);
 	int compGuess = dist(engine);
 
 	return NullableValueNumber(compGuess);
@@ -935,21 +959,20 @@ ExpressionValue Correlation::interpret(const unsigned int tick) {
 
 
 
-ExpressionValue PreviousValue::interpret(const unsigned int tick) {
+ExpressionValue PreviousNumberValue::interpret(const unsigned int tick) {
 
-	if (data->value) {
-		values.push_back(*data);
-	}
+	// always record otherwise we will build up a offset
+	values.push_back(*data->value);
 
 	if (barsback->value) {
 		int lookback = (int)*barsback->value;
-		if (lookback <= 0) {
-			throw LanguageException("Run time error at tick " + std::to_string(tick) + ", previous function must use positive non zero amount.", barsbackNode);
+		if (lookback < 0) {
+			throw LanguageException("Run time error at tick " + std::to_string(tick) + ", previous function must not be negative.", barsbackNode);
 		}
 
 
 		if (values.size() > lookback) {
-			return values[tick - lookback];
+			return values.at(tick - lookback);
 		}
 		return NullableValueNumber();
 
@@ -957,6 +980,53 @@ ExpressionValue PreviousValue::interpret(const unsigned int tick) {
 
 	return NullableValueNumber();
 }
+
+
+ExpressionValue PreviousStringValue::interpret(const unsigned int tick) {
+
+	// always record otherwise we will build up a offset
+	values.push_back(*data->value);
+
+	if (barsback->value) {
+		int lookback = (int)*barsback->value;
+		if (lookback < 0) {
+			throw LanguageException("Run time error at tick " + std::to_string(tick) + ", previous function must not be negative.", barsbackNode);
+		}
+
+
+		if (values.size() > lookback) {
+			return values.at(tick - lookback);
+		}
+		return NullableValueString();
+
+	}
+
+	return NullableValueString();
+}
+
+
+ExpressionValue PreviousBooleanValue::interpret(const unsigned int tick) {
+
+	// always record otherwise we will build up a offset
+	values.push_back(*data->value);
+
+	if (barsback->value) {
+		int lookback = (int)*barsback->value;
+		if (lookback < 0) {
+			throw LanguageException("Run time error at tick " + std::to_string(tick) + ", previous function must not be negative.", barsbackNode);
+		}
+
+
+		if (values.size() > lookback) {
+			return values.at(tick - lookback);
+		}
+		return NullableValueBoolean();
+
+	}
+
+	return NullableValueBoolean();
+}
+
 
 
 // https://stackoverflow.com/questions/15843525/how-do-you-insert-the-value-in-a-sorted-vector
@@ -1031,8 +1101,9 @@ ExpressionValue IsPrime::interpret(const unsigned int tick) {
 
 	//https://www.geeksforgeeks.org/c-program-to-check-prime-number/
 	// Corner case
-	if (n <= 1)
+	if (n <= 2) {
 		return NullableValueBoolean(false);
+	}
 
 	// Check from 2 to n-1
 	for (int i = 2; i < n; i++)
@@ -1054,6 +1125,9 @@ ExpressionValue IsTriangle::interpret(const unsigned int tick) {
 
 	if (n < 0)
 		return NullableValueBoolean(false);
+
+	if (n == 1)
+		return NullableValueBoolean(true);
 
 	for (int i = 0; i < n; i++) {
 		if (i * (i + 1) / 2 == n) {
