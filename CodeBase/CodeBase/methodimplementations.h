@@ -533,7 +533,7 @@ public:
 		return new MaximumBars();
 	}
 private:
-	std::deque<float> buffer;
+	std::vector<float> buffer;
 
 	NullableValueNumber* value;
 	NullableValueNumber* bars_back;
@@ -568,7 +568,7 @@ public:
 		return new SumBars();
 	}
 private:
-	std::deque<float> buffer;
+	std::vector<float> buffer;
 
 
 	NullableValueNumber* value;
@@ -889,7 +889,7 @@ public:
 		return new MA();
 	}
 private:
-	std::deque<float> buffer;
+	std::vector<float> buffer;
 	NullableValueNumber* value;
 	NullableValueNumber* amount;
 	Expression* amountNode;
@@ -964,11 +964,10 @@ public:
 		return new Falling();
 	}
 private:
-	float currentMin = std::numeric_limits<float>::max();
-	int inRow = 0;
+	std::vector<float> buffer;
 	NullableValueNumber* value;
-	NullableValueNumber* amount;
-	Expression* amountNode;
+	NullableValueNumber* bars_back;
+	Expression* barsBackNode;
 };
 
 class Rising : public PositionalMethodSymbol {
@@ -981,11 +980,10 @@ public:
 		return new Rising();
 	}
 private:
-	float currentMax = std::numeric_limits<float>::min();
-	int inRow = 0;
+	std::vector<float> buffer;
 	NullableValueNumber* value;
-	NullableValueNumber* amount;
-	Expression* amountNode;
+	NullableValueNumber* bars_back;
+	Expression* barsBackNode;
 };
 
 
@@ -1043,6 +1041,7 @@ public:
 	}
 private:
 	NullableValueNumber* radians;
+	Expression* arg;
 };
 
 
@@ -1071,6 +1070,7 @@ public:
 	}
 private:
 	NullableValueNumber* radians;
+	Expression* arg;
 };
 
 
@@ -1197,9 +1197,10 @@ public:
 	}
 private:
 
-	std::vector<float> values;
-	NullableValueNumber* data;
-	NullableValueNumber* barsback;
+	std::vector<float> buffer;
+	NullableValueNumber* value;
+	NullableValueNumber* bars_back;
+	Expression* barsBackNode;
 
 };
 

@@ -12,22 +12,7 @@ BOOST_AUTO_TEST_SUITE(METHODIMPLEMENTATIONS)
 #define MAX_TICK_SIZE 5
 
 
-// method plot
-// method mark
-// minimum bars : internal buffer needs to be replaced
-// maximum bars : internal buffer needs to be replaced
-// sum bars : internal buffer needs to be replaced
-/// variance : update buffer
-// std : update buffer
-// ma : update buffer
-// falling
-// rising
-// arccos : need to be clamped : https://stackoverflow.com/questions/52138147/why-is-acos-resulting-in-nanind-when-using-the-result-of-a-dot-product
-// arctan : need to be clamped : https://stackoverflow.com/questions/52138147/why-is-acos-resulting-in-nanind-when-using-the-result-of-a-dot-product
-// arcsin : need to be clamped : https://stackoverflow.com/questions/52138147/why-is-acos-resulting-in-nanind-when-using-the-result-of-a-dot-product
-// linreg : internal buffer needs to be replaced
-// corr : internal buffer needs to be replaced
-// medianbars
+
 
 std::string formatCode(std::string methodName, std::string save_to_variable, std::vector<std::string> params) {
     std::string execute_code = save_to_variable + " = " + methodName + "(";
@@ -731,29 +716,23 @@ BOOST_AUTO_TEST_CASE(method_arctangent_test)
 }
 
 
-//BOOST_AUTO_TEST_CASE(method_arccosine_test)
-//{
-//    //std::cout << *NullableValueNumber(std::acos(*NullableValueNumber(2).value)).value << std::endl;
-//    //std::cout << *getReturn<NullableValueNumber>("acos", { "2" }).value << std::endl;
-//    std::cout << std::acos((float)2) << std::endl;
-//    std::cout << "what" << std::endl;
-//    BOOST_CHECK(isEquiv(getReturn<NullableValueNumber>("acos", { "2" }), NullableValueNumber(*NullableValueNumber(2).value)));
-//    BOOST_CHECK(isEquiv(getReturn<NullableValueNumber>("acos", { "0" }), NullableValueNumber(std::acos(*NullableValueNumber(0).value))));
-//    BOOST_CHECK(isEquiv(getReturn<NullableValueNumber>("acos", { "-2" }), NullableValueNumber(std::acos(-2))));
-//    BOOST_CHECK(isNaN(getReturn<NullableValueNumber>("acos", { "nan_f()" })));
-//
-//}
+BOOST_AUTO_TEST_CASE(method_arccosine_test)
+{
+    BOOST_CHECK_THROW(execute("acos(1.1)"), LanguageException);
+    BOOST_CHECK_THROW(execute("acos(-1.1)"), LanguageException);
+    BOOST_CHECK(isEquiv(getReturn<NullableValueNumber>("acos", { "0" }), NullableValueNumber(std::acos(*NullableValueNumber(0).value))));
+    BOOST_CHECK(isNaN(getReturn<NullableValueNumber>("acos", { "nan_f()" })));
+}
 
-//BOOST_AUTO_TEST_CASE(method_arcsine_test)
-//{
-//    std::cout << getReturn<NullableValueNumber>("asin", { "2" }).toString() << std::endl;
-//    std::cout << std::asin(*NullableValueNumber(2).value) << std::endl;
-//    BOOST_CHECK(isEquiv(getReturn<NullableValueNumber>("asin", { "2" }), NullableValueNumber(std::asin(*NullableValueNumber(2).value))));
-//    BOOST_CHECK(isEquiv(getReturn<NullableValueNumber>("asin", { "0" }), NullableValueNumber(std::asin(*NullableValueNumber(0).value))));
-//    BOOST_CHECK(isEquiv(getReturn<NullableValueNumber>("asin", { "-2" }), NullableValueNumber(std::asin(*NullableValueNumber(-2).value))));
-//
-//    BOOST_CHECK(isNaN(getReturn<NullableValueNumber>("asin", { "nan_f()" })));
-//}
+
+BOOST_AUTO_TEST_CASE(method_arcsin_test)
+{
+    BOOST_CHECK_THROW(execute("asin(1.1)"), LanguageException);
+    BOOST_CHECK_THROW(execute("asin(-1.1)"), LanguageException);
+    BOOST_CHECK(isEquiv(getReturn<NullableValueNumber>("asin", { "0" }), NullableValueNumber(std::asin(*NullableValueNumber(0).value))));
+    BOOST_CHECK(isNaN(getReturn<NullableValueNumber>("asin", { "nan_f()" })));
+}
+
 
 
 BOOST_AUTO_TEST_CASE(method_prev_test)
@@ -832,5 +811,143 @@ BOOST_AUTO_TEST_CASE(method_is_triangle_test)
     BOOST_CHECK(isNaN(getReturn<NullableValueBoolean>("istriangle", { "nan_f()" })));
 }
 
+BOOST_AUTO_TEST_CASE(method_ma_test)
+{
+    BOOST_CHECK(isEquiv(getReturn<NullableValueNumber>("ma", { "0", "1" }), NullableValueNumber(0)));
+    BOOST_CHECK(isNaN(getReturn<NullableValueNumber>("ma", { "nan_f()", "1" })));
+    BOOST_CHECK_THROW(execute("ma(1, -1)"), LanguageException);
+    BOOST_CHECK_THROW(execute("ma(1, 0)"), LanguageException);
+    BOOST_CHECK_THROW(execute("ma(1, nan_f())"), LanguageException);
+
+    InterpreterContext context2;
+    context2.ticks = MAX_TICK_SIZE;
+    std::vector<ExpressionValue> buffer2 = getReturnVarBuffer("ma", { "tick()", "2" }, context2);
+    BOOST_CHECK(isNaN(safeExpressionCast<NullableValueNumber>(buffer2.at(0))));
+    BOOST_CHECK(isEquiv(safeExpressionCast<NullableValueNumber>(buffer2.at(1)), NullableValueNumber(0.5)));
+    BOOST_CHECK(isEquiv(safeExpressionCast<NullableValueNumber>(buffer2.at(MAX_TICK_SIZE - 1)), NullableValueNumber(3.5)));
+
+}
+
+BOOST_AUTO_TEST_CASE(method_max_bars_test)
+{
+    BOOST_CHECK(isEquiv(getReturn<NullableValueNumber>("max", { "0", "1" }), NullableValueNumber(0)));
+    BOOST_CHECK(isNaN(getReturn<NullableValueNumber>("max", { "nan_f()", "1" })));
+    BOOST_CHECK_THROW(execute("max(1, -1)"), LanguageException);
+    BOOST_CHECK_THROW(execute("max(1, 0)"), LanguageException);
+    BOOST_CHECK_THROW(execute("max(1, nan_f())"), LanguageException);
+
+    InterpreterContext context2;
+    context2.ticks = MAX_TICK_SIZE;
+    std::vector<ExpressionValue> buffer2 = getReturnVarBuffer("max", { "tick()", "2" }, context2);
+    BOOST_CHECK(isNaN(safeExpressionCast<NullableValueNumber>(buffer2.at(0))));
+    BOOST_CHECK(isEquiv(safeExpressionCast<NullableValueNumber>(buffer2.at(1)), NullableValueNumber(1)));
+    BOOST_CHECK(isEquiv(safeExpressionCast<NullableValueNumber>(buffer2.at(MAX_TICK_SIZE - 1)), NullableValueNumber(MAX_TICK_SIZE - 1)));
+}
+
+BOOST_AUTO_TEST_CASE(method_min_bars_test)
+{
+    BOOST_CHECK(isEquiv(getReturn<NullableValueNumber>("min", { "0", "1" }), NullableValueNumber(0)));
+    BOOST_CHECK(isNaN(getReturn<NullableValueNumber>("min", { "nan_f()", "1" })));
+    BOOST_CHECK_THROW(execute("min(1, -1)"), LanguageException);
+    BOOST_CHECK_THROW(execute("min(1, 0)"), LanguageException);
+    BOOST_CHECK_THROW(execute("min(1, nan_f())"), LanguageException);
+
+    InterpreterContext context2;
+    context2.ticks = MAX_TICK_SIZE;
+    std::vector<ExpressionValue> buffer2 = getReturnVarBuffer("min", { "tick()", "2" }, context2);
+    BOOST_CHECK(isNaN(safeExpressionCast<NullableValueNumber>(buffer2.at(0))));
+    BOOST_CHECK(isEquiv(safeExpressionCast<NullableValueNumber>(buffer2.at(1)), NullableValueNumber(0)));
+    BOOST_CHECK(isEquiv(safeExpressionCast<NullableValueNumber>(buffer2.at(MAX_TICK_SIZE - 1)), NullableValueNumber(MAX_TICK_SIZE - 2)));
+}
+
+BOOST_AUTO_TEST_CASE(method_sum_bars_test)
+{
+    BOOST_CHECK(isEquiv(getReturn<NullableValueNumber>("sum", { "0", "1" }), NullableValueNumber(0)));
+    BOOST_CHECK(isNaN(getReturn<NullableValueNumber>("sum", { "nan_f()", "1" })));
+    BOOST_CHECK_THROW(execute("sum(1, -1)"), LanguageException);
+    BOOST_CHECK_THROW(execute("sum(1, 0)"), LanguageException);
+    BOOST_CHECK_THROW(execute("sum(1, nan_f())"), LanguageException);
+
+    InterpreterContext context2;
+    context2.ticks = MAX_TICK_SIZE;
+    std::vector<ExpressionValue> buffer2 = getReturnVarBuffer("sum", { "tick()", "2" }, context2);
+    BOOST_CHECK(isNaN(safeExpressionCast<NullableValueNumber>(buffer2.at(0))));
+    BOOST_CHECK(isEquiv(safeExpressionCast<NullableValueNumber>(buffer2.at(1)), NullableValueNumber(1)));
+    BOOST_CHECK(isEquiv(safeExpressionCast<NullableValueNumber>(buffer2.at(MAX_TICK_SIZE - 1)), NullableValueNumber(7)));
+}
+
+
+// falling
+// rising
+
+BOOST_AUTO_TEST_CASE(method_falling_test)
+{
+    BOOST_CHECK(isEquiv(getReturn<NullableValueBoolean>("falling", { "0", "1" }), NullableValueBoolean(true)));
+    BOOST_CHECK(isNaN(getReturn<NullableValueBoolean>("falling", { "nan_f()", "1" })));
+    BOOST_CHECK_THROW(execute("falling(1, -1)"), LanguageException);
+    BOOST_CHECK_THROW(execute("falling(1, 0)"), LanguageException);
+    BOOST_CHECK_THROW(execute("falling(1, nan_f())"), LanguageException);
+
+    InterpreterContext context2;
+    context2.ticks = MAX_TICK_SIZE;
+    std::vector<ExpressionValue> buffer2 = getReturnVarBuffer("falling", { "tick()", "2" }, context2);
+    BOOST_CHECK(isNaN(safeExpressionCast<NullableValueBoolean>(buffer2.at(0))));
+    BOOST_CHECK(isEquiv(safeExpressionCast<NullableValueBoolean>(buffer2.at(1)), NullableValueBoolean(false)));
+    BOOST_CHECK(isEquiv(safeExpressionCast<NullableValueBoolean>(buffer2.at(MAX_TICK_SIZE - 1)), NullableValueBoolean(false)));
+
+    InterpreterContext context3;
+    context3.ticks = MAX_TICK_SIZE;
+    std::vector<ExpressionValue> buffer3 = getReturnVarBuffer("falling", { "-tick()", "2" }, context3);
+    BOOST_CHECK(isNaN(safeExpressionCast<NullableValueBoolean>(buffer3.at(0))));
+    BOOST_CHECK(isEquiv(safeExpressionCast<NullableValueBoolean>(buffer3.at(1)), NullableValueBoolean(true)));
+    BOOST_CHECK(isEquiv(safeExpressionCast<NullableValueBoolean>(buffer3.at(MAX_TICK_SIZE - 1)), NullableValueBoolean(true)));
+}
+
+
+BOOST_AUTO_TEST_CASE(method_rising_test)
+{
+    BOOST_CHECK(isEquiv(getReturn<NullableValueBoolean>("rising", { "0", "1" }), NullableValueBoolean(true)));
+    BOOST_CHECK(isNaN(getReturn<NullableValueBoolean>("rising", { "nan_f()", "1" })));
+    BOOST_CHECK_THROW(execute("rising(1, -1)"), LanguageException);
+    BOOST_CHECK_THROW(execute("rising(1, 0)"), LanguageException);
+    BOOST_CHECK_THROW(execute("rising(1, nan_f())"), LanguageException);
+
+    InterpreterContext context2;
+    context2.ticks = MAX_TICK_SIZE;
+    std::vector<ExpressionValue> buffer2 = getReturnVarBuffer("rising", { "tick()", "2" }, context2);
+    BOOST_CHECK(isNaN(safeExpressionCast<NullableValueBoolean>(buffer2.at(0))));
+    BOOST_CHECK(isEquiv(safeExpressionCast<NullableValueBoolean>(buffer2.at(1)), NullableValueBoolean(true)));
+    BOOST_CHECK(isEquiv(safeExpressionCast<NullableValueBoolean>(buffer2.at(MAX_TICK_SIZE - 1)), NullableValueBoolean(true)));
+
+    InterpreterContext context3;
+    context3.ticks = MAX_TICK_SIZE;
+    std::vector<ExpressionValue> buffer3 = getReturnVarBuffer("rising", { "-tick()", "2" }, context3);
+    BOOST_CHECK(isNaN(safeExpressionCast<NullableValueBoolean>(buffer3.at(0))));
+    BOOST_CHECK(isEquiv(safeExpressionCast<NullableValueBoolean>(buffer3.at(1)), NullableValueBoolean(false)));
+    BOOST_CHECK(isEquiv(safeExpressionCast<NullableValueBoolean>(buffer3.at(MAX_TICK_SIZE - 1)), NullableValueBoolean(false)));
+}
+
+
+BOOST_AUTO_TEST_CASE(method_median_bars_test)
+{
+    BOOST_CHECK(isEquiv(getReturn<NullableValueNumber>("median", { "0", "1" }), NullableValueNumber(0)));
+    BOOST_CHECK(isNaN(getReturn<NullableValueNumber>("median", { "nan_f()", "1" })));
+    BOOST_CHECK_THROW(execute("median(1, -1)"), LanguageException);
+    BOOST_CHECK_THROW(execute("median(1, 0)"), LanguageException);
+    BOOST_CHECK_THROW(execute("median(1, nan_f())"), LanguageException);
+
+    InterpreterContext context2;
+    context2.ticks = MAX_TICK_SIZE;
+    std::vector<ExpressionValue> buffer2 = getReturnVarBuffer("median", { "tick()", "2" }, context2);
+    BOOST_CHECK(isNaN(safeExpressionCast<NullableValueNumber>(buffer2.at(0))));
+    BOOST_CHECK(isEquiv(safeExpressionCast<NullableValueNumber>(buffer2.at(1)), NullableValueNumber(0.5)));
+    BOOST_CHECK(isEquiv(safeExpressionCast<NullableValueNumber>(buffer2.at(MAX_TICK_SIZE - 1)), NullableValueNumber(3.5)));
+}
+
+
+/// variance : update buffer
+// std : update buffer
+// linreg : internal buffer needs to be replaced
+// corr : internal buffer needs to be replaced
 
 BOOST_AUTO_TEST_SUITE_END()

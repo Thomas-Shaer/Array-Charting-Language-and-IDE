@@ -508,8 +508,8 @@ const TypeSymbol* Random::semanticAnaylsis(MethodCallNode* methodCallNode, std::
 const TypeSymbol* Falling::semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable) {
 	const TypeSymbol* returnType = PositionalMethodSymbol::semanticAnaylsis(methodCallNode, symboltable);
 	value = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["value"]->expressionValue);
-	amount = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["amount"]->expressionValue);
-	amountNode = methodCallNode->expressionToArgList["amount"]->expression;
+	bars_back = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["amount"]->expressionValue);
+	barsBackNode = methodCallNode->expressionToArgList["amount"]->expression;
 
 	return returnType;
 }
@@ -518,8 +518,8 @@ const TypeSymbol* Falling::semanticAnaylsis(MethodCallNode* methodCallNode, std:
 const TypeSymbol* Rising::semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable) {
 	const TypeSymbol* returnType = PositionalMethodSymbol::semanticAnaylsis(methodCallNode, symboltable);
 	value = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["value"]->expressionValue);
-	amount = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["amount"]->expressionValue);
-	amountNode = methodCallNode->expressionToArgList["amount"]->expression;
+	bars_back = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["amount"]->expressionValue);
+	barsBackNode = methodCallNode->expressionToArgList["amount"]->expression;
 
 	return returnType;
 }
@@ -546,6 +546,7 @@ const TypeSymbol* Sine::semanticAnaylsis(MethodCallNode* methodCallNode, std::sh
 const TypeSymbol* ArcCosine::semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable) {
 	const TypeSymbol* returnType = PositionalMethodSymbol::semanticAnaylsis(methodCallNode, symboltable);
 	radians = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["radians"]->expressionValue);
+	arg = methodCallNode->expressionToArgList["radians"]->expression;
 	return returnType;
 }
 
@@ -559,6 +560,7 @@ const TypeSymbol* ArcTan::semanticAnaylsis(MethodCallNode* methodCallNode, std::
 const TypeSymbol* ArcSine::semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable) {
 	const TypeSymbol* returnType = PositionalMethodSymbol::semanticAnaylsis(methodCallNode, symboltable);
 	radians = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["radians"]->expressionValue);
+	arg = methodCallNode->expressionToArgList["radians"]->expression;
 	return returnType;
 }
 
@@ -616,8 +618,9 @@ const TypeSymbol* Median::semanticAnaylsis(MethodCallNode* methodCallNode, std::
 
 const TypeSymbol* MedianBars::semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable) {
 	const TypeSymbol* returnType = PositionalMethodSymbol::semanticAnaylsis(methodCallNode, symboltable);
-	data = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["data"]->expressionValue);
-	barsback = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["barsback"]->expressionValue);
+	value = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["data"]->expressionValue);
+	bars_back = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["barsback"]->expressionValue);
+	barsBackNode = methodCallNode->expressionToArgList["barsback"]->expression;
 	return returnType;
 }
 
