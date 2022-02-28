@@ -856,10 +856,10 @@ public:
 		return new Variance();
 	}
 private:
-	std::deque<float> buffer;
+	std::vector<float> buffer;
 	NullableValueNumber* value;
-	NullableValueNumber* amount;
-	Expression* amountNode;
+	NullableValueNumber* bars_back;
+	Expression* barsBackNode;
 };
 
 class STD : public PositionalMethodSymbol {
@@ -872,10 +872,10 @@ public:
 		return new STD();
 	}
 private:
-	std::deque<float> buffer;
+	std::vector<float> buffer;
 	NullableValueNumber* value;
-	NullableValueNumber* amount;
-	Expression* amountNode;
+	NullableValueNumber* bars_back;
+	Expression* barsBackNode;
 };
 
 
@@ -1074,21 +1074,21 @@ private:
 };
 
 
-class LinearRegression : public PositionalMethodSymbol {
+class LinearRegressionAtTick : public PositionalMethodSymbol {
 public:
-	LinearRegression();
+	LinearRegressionAtTick();
 	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable);
 
 	virtual ExpressionValue interpret(const unsigned int tick);
-	virtual LinearRegression* clone() {
-		return new LinearRegression();
+	virtual LinearRegressionAtTick* clone() {
+		return new LinearRegressionAtTick();
 	}
 private:
-	std::deque<float> bufferX;
-	std::deque<float> bufferY;
-	NullableValueNumber* data;
-	NullableValueNumber* bars;
-	Expression* barsNode;
+	std::vector<float> buffer;
+	NullableValueNumber* value;
+	NullableValueNumber* bars_back;
+	NullableValueNumber* xvalue;
+	Expression* barsBackNode;
 };
 
 class Correlation : public PositionalMethodSymbol {
@@ -1101,12 +1101,12 @@ public:
 		return new Correlation();
 	}
 private:
-	std::deque<float> values1;
-	std::deque<float> values2;
+	std::vector<float> buffer1;
+	std::vector<float> buffer2;
 	NullableValueNumber* data1;
 	NullableValueNumber* data2;
-	NullableValueNumber* length;
-	Expression* lengthNode;
+	NullableValueNumber* bars_back;
+	Expression* barsBackNode;
 
 };
 

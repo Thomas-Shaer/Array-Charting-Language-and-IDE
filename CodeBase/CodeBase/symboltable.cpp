@@ -117,8 +117,8 @@ std::shared_ptr<SymbolTable> SymbolTable::GLOBAL_SYMBOL_TABLE = std::make_shared
 	registerMethod("acos", new SingleMethodBucket(new ArcCosine(), METHOD_CAT::MATHEMATICAL)),
 		registerMethod("atan", new SingleMethodBucket(new ArcTan(), METHOD_CAT::MATHEMATICAL)),
 		registerMethod("asin", new SingleMethodBucket(new ArcSine(), METHOD_CAT::MATHEMATICAL)),
-		registerMethod("linreg", new SingleMethodBucket(new LinearRegression(), METHOD_CAT::STATISTICS)),
-		registerMethod("correlation", new SingleMethodBucket(new Correlation(), METHOD_CAT::STATISTICS)),
+		registerMethod("linreg", new SingleMethodBucket(new LinearRegressionAtTick(), METHOD_CAT::STATISTICS)),
+		registerMethod("corr", new SingleMethodBucket(new Correlation(), METHOD_CAT::STATISTICS)),
 
 			registerMethod("prev", new OverloadedMethodBucket(
 		{(new PreviousNumberValue()),

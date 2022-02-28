@@ -455,8 +455,8 @@ const TypeSymbol* GCD::semanticAnaylsis(MethodCallNode* methodCallNode, std::sha
 const TypeSymbol* Variance::semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable) {
 	const TypeSymbol* returnType = PositionalMethodSymbol::semanticAnaylsis(methodCallNode, symboltable);
 	value = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["value"]->expressionValue);
-	amount = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["amount"]->expressionValue);
-	amountNode = methodCallNode->expressionToArgList["amount"]->expression;
+	bars_back = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["amount"]->expressionValue);
+	barsBackNode = methodCallNode->expressionToArgList["amount"]->expression;
 
 	return returnType;
 }
@@ -465,9 +465,8 @@ const TypeSymbol* Variance::semanticAnaylsis(MethodCallNode* methodCallNode, std
 const TypeSymbol* STD::semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable) {
 	const TypeSymbol* returnType = PositionalMethodSymbol::semanticAnaylsis(methodCallNode, symboltable);
 	value = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["value"]->expressionValue);
-	amount = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["amount"]->expressionValue);
-	amountNode = methodCallNode->expressionToArgList["amount"]->expression;
-
+	bars_back = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["amount"]->expressionValue);
+	barsBackNode = methodCallNode->expressionToArgList["amount"]->expression;
 	return returnType;
 }
 
@@ -565,11 +564,12 @@ const TypeSymbol* ArcSine::semanticAnaylsis(MethodCallNode* methodCallNode, std:
 }
 
 
-const TypeSymbol* LinearRegression::semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable) {
+const TypeSymbol* LinearRegressionAtTick::semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable) {
 	const TypeSymbol* returnType = PositionalMethodSymbol::semanticAnaylsis(methodCallNode, symboltable);
-	data = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["data"]->expressionValue);
-	bars = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["bars"]->expressionValue);
-	barsNode = methodCallNode->expressionToArgList["bars"]->expression;
+	value = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["data"]->expressionValue);
+	bars_back = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["bars"]->expressionValue);
+	xvalue = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["x"]->expressionValue);
+	barsBackNode = methodCallNode->expressionToArgList["bars"]->expression;
 
 	return returnType;
 }
@@ -578,8 +578,8 @@ const TypeSymbol* Correlation::semanticAnaylsis(MethodCallNode* methodCallNode, 
 	const TypeSymbol* returnType = PositionalMethodSymbol::semanticAnaylsis(methodCallNode, symboltable);
 	data1 = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["data1"]->expressionValue);
 	data2 = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["data2"]->expressionValue);
-	length = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["length"]->expressionValue);
-	lengthNode = methodCallNode->expressionToArgList["length"]->expression;
+	bars_back = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["length"]->expressionValue);
+	barsBackNode = methodCallNode->expressionToArgList["length"]->expression;
 	return returnType;
 }
 

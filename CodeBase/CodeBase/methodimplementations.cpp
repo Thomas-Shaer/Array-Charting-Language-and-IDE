@@ -851,12 +851,13 @@ ArcSine::ArcSine() : PositionalMethodSymbol("asin",
 	}, ReturnSymbol(TypeInstances::GetNumberInstance(), "The arc sine of the parameter input.")) {}
 
 
-LinearRegression::LinearRegression() : PositionalMethodSymbol("linreg",
+LinearRegressionAtTick::LinearRegressionAtTick() : PositionalMethodSymbol("linreg",
 	"Returns the rolling linear regression of last n bars.",
 
 	{
 		ParameterSymbol(TypeInstances::GetNumberInstance(), "data", "The data we are using in the prediction"),
 		ParameterSymbol(TypeInstances::GetNumberInstance(), "bars", "The amount of bars to perform the calculation on"),
+		ParameterSymbol(TypeInstances::GetNumberInstance(), "x", "The x value you would like to predict"),
 	}, ReturnSymbol(TypeInstances::GetNumberInstance(), "The y level of the linear regression")) {}
 
 

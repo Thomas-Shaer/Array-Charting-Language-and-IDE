@@ -639,32 +639,39 @@ ExpressionValue GCD::interpret(const unsigned int tick) {
 
 
 ExpressionValue Variance::interpret(const unsigned int tick) {
-	if (amount->value) {
-		int lookback = (int)*amount->value;
-		if (lookback <= 0) {
-			throw LanguageException("Run time error at tick " + std::to_string(tick) + ", variance function must use positive non zero amount.", amountNode);
-		}
 
-		if (value->value) {
-			buffer.push_back(*value->value);
 
-			if (buffer.size() < lookback) {
-				return NullableValueNumber();
-			}
-
-			float sum = std::accumulate(buffer.begin(), buffer.end(), 0);
-			float mean = sum / buffer.size();
-
-			float variance = 0;
-			for (int i = buffer.size() - 1; i >= 0; i--) {
-				variance += std::pow(buffer[i] - mean, 2);
-			}
-			variance = variance / buffer.size();
-			buffer.pop_front();
-			return NullableValueNumber(variance);
-		}
+	int lookback = (int)*bars_back->value;
+	if (lookback <= 1) {
+		throw LanguageException("Run time error at tick " + std::to_string(tick) + ", sum function bars back must be > 1", barsBackNode);
 	}
 
+	buffer.push_back(value->value ? *value->value : std::numeric_limits<double>::quiet_NaN());
+
+
+	if (buffer.size() >= lookback) {
+		float sum = 0;
+
+		for (int i = buffer.size() - lookback; i < buffer.size(); i++) {
+
+			if (std::isnan(buffer[i])) {
+				return NullableValueNumber();
+			}
+			sum += buffer[i];
+		}
+
+		float mean = sum / lookback;
+		float variance = 0;
+
+		for (int i = buffer.size() - lookback; i < buffer.size(); i++) {
+
+			variance += (buffer[i] - mean) * (buffer[i] - mean);
+		}
+		variance = variance / (lookback - 1);
+
+
+		return NullableValueNumber(variance);
+	}
 	return NullableValueNumber();
 }
 
@@ -672,33 +679,37 @@ ExpressionValue Variance::interpret(const unsigned int tick) {
 
 ExpressionValue STD::interpret(const unsigned int tick) {
 
-
-	if (amount->value) {
-		int lookback = (int)*amount->value;
-		if (lookback <= 0) {
-			throw LanguageException("Run time error at tick " + std::to_string(tick) + ", variance function must use positive non zero amount.", amountNode);
-		}
-
-		if (value->value) {
-			buffer.push_back(*value->value);
-
-			if (buffer.size() < lookback) {
-				return NullableValueNumber();
-			}
-
-			float sum = std::accumulate(buffer.begin(), buffer.end(), 0);
-			float mean = sum / buffer.size();
-
-			float variance = 0;
-			for (int i = buffer.size() - 1; i >= 0; i--) {
-				variance += std::pow(buffer[i] - mean, 2);
-			}
-			variance = variance / buffer.size();
-			buffer.pop_front();
-			return NullableValueNumber(std::sqrt(variance));
-		}
+	int lookback = (int)*bars_back->value;
+	if (lookback <= 1) {
+		throw LanguageException("Run time error at tick " + std::to_string(tick) + ", std function bars back must be > 1", barsBackNode);
 	}
 
+	buffer.push_back(value->value ? *value->value : std::numeric_limits<double>::quiet_NaN());
+
+
+	if (buffer.size() >= lookback) {
+		float sum = 0;
+
+		for (int i = buffer.size() - lookback; i < buffer.size(); i++) {
+
+			if (std::isnan(buffer[i])) {
+				return NullableValueNumber();
+			}
+			sum += buffer[i];
+		}
+
+		float mean = sum / lookback;
+		float variance = 0;
+
+		for (int i = buffer.size() - lookback; i < buffer.size(); i++) {
+
+			variance += (buffer[i] - mean) * (buffer[i] - mean);
+		}
+		variance = variance / (lookback - 1);
+
+
+		return NullableValueNumber(std::sqrt(variance));
+	}
 	return NullableValueNumber();
 }
 
@@ -912,43 +923,49 @@ ExpressionValue ArcSine::interpret(const unsigned int tick) {
 /*
 WARNING. If look back changes value this will return the wrong value!
 */
-ExpressionValue LinearRegression::interpret(const unsigned int tick) {
-	if (bars->value) {
-		int lookback = (int)*bars->value;
-		if (lookback <= 0) {
-			throw LanguageException("Run time error at tick " + std::to_string(tick) + ", linear regression function must use positive non zero amount.", barsNode);
-		}
+ExpressionValue LinearRegressionAtTick::interpret(const unsigned int tick) {
 
-
-		if (data->value) {
-			bufferX.push_back(tick);
-			bufferY.push_back(*data->value);
-
-			if (bufferX.size() < lookback) {
-				return NullableValueNumber();
-			}
-		https://towardsdatascience.com/linear-regression-using-least-squares-a4c3456e8570
-
-			float meanX = std::accumulate(bufferX.begin(), bufferX.end(), 0) / bufferX.size();
-			float meanY = std::accumulate(bufferY.begin(), bufferY.end(), 0) / bufferY.size();
-
-			float num = 0;
-			float den = 0;
-			for (int i = 0; i < bufferX.size(); i++) {
-
-				num += (bufferX.at(i) - meanX) * (bufferY.at(i) - meanY);
-				den += std::pow(bufferX.at(i) - meanX, 2);
-			}
-			float m = num / den;
-			float c = meanY - m * meanX;
-
-			bufferX.pop_front();
-			bufferY.pop_front();
-			return NullableValueNumber((m * tick) + c);
-		}
-
+	int lookback = (int)*bars_back->value;
+	if (lookback <= 1) {
+		throw LanguageException("Run time error at tick " + std::to_string(tick) + ", linreg function must be > 1.", barsBackNode);
 	}
 
+	buffer.push_back(value->value ? *value->value : std::numeric_limits<double>::quiet_NaN());
+
+	if (!xvalue->value) {
+		return NullableValueNumber();
+	}
+
+	if (buffer.size() >= lookback) {
+		float sumX = 0;
+		float sumY = 0;
+
+		for (int i = buffer.size() - lookback; i < buffer.size(); i++) {
+
+			if (std::isnan(buffer[i])) {
+				return NullableValueNumber();
+			}
+			sumX += i;
+			sumY += buffer[i];
+		}
+
+		float meanX = sumX / lookback;
+		float meanY = sumY / lookback;
+
+		float num = 0;
+		float den = 0;
+
+		for (int i = buffer.size() - lookback; i < buffer.size(); i++) {
+
+			num += (i - meanX) * (buffer[i] - meanY);
+			den += std::pow(i - meanX, 2);
+		}
+
+		float m = num / den;
+		float c = meanY - m * meanX;
+
+		return NullableValueNumber((m * *xvalue->value) + c);
+	}
 	return NullableValueNumber();
 }
 
@@ -958,52 +975,52 @@ ExpressionValue LinearRegression::interpret(const unsigned int tick) {
 WARNING. If look back changes value this will return the wrong value!
 */
 ExpressionValue Correlation::interpret(const unsigned int tick) {
-	if (length->value) {
-		float lookback = (int)*length->value;
-		if (lookback <= 0) {
-			throw LanguageException("Run time error at tick " + std::to_string(tick) + ", linear regression function must use positive non zero amount.", lengthNode);
-		}
 
-
-		if (data1->value && data2->value) {
-			values1.push_back(*data1->value);
-			values2.push_back(*data2->value);
-
-			if (values1.size() < lookback) {
-				return NullableValueNumber();
-			}
-			//https://tutorialspoint.dev/algorithm/mathematical-algorithms/program-find-correlation-coefficient
-
-			int sum_X = 0, sum_Y = 0, sum_XY = 0;
-			int squareSum_X = 0, squareSum_Y = 0;
-
-			for (int i = 0; i < lookback; i++)
-			{
-				// sum of elements of array X. 
-				sum_X = sum_X + values1[i];
-
-				// sum of elements of array Y. 
-				sum_Y = sum_Y + values2[i];
-
-				// sum of X[i] * Y[i]. 
-				sum_XY = sum_XY + values1[i] * values2[i];
-
-				// sum of square of array elements. 
-				squareSum_X = squareSum_X + values1[i] * values1[i];
-				squareSum_Y = squareSum_Y + values2[i] * values2[i];
-			}
-
-			// use formula for calculating correlation coefficient. 
-			float corr = (float)((lookback * sum_XY) - (sum_X * sum_Y))
-				/ sqrt((lookback * squareSum_X - sum_X * sum_X)
-					* (lookback * squareSum_Y - sum_Y * sum_Y));
-			values1.pop_front();
-			values2.pop_front();
-			return NullableValueNumber(corr);
-		}
-
+	int lookback = (int)*bars_back->value;
+	if (lookback <= 1) {
+		throw LanguageException("Run time error at tick " + std::to_string(tick) + ", linreg function must be > 1.", barsBackNode);
 	}
 
+	buffer1.push_back(data1->value ? *data1->value : std::numeric_limits<double>::quiet_NaN());
+	buffer2.push_back(data2->value ? *data2->value : std::numeric_limits<double>::quiet_NaN());
+
+
+	if (buffer1.size() >= lookback) {
+		//https://tutorialspoint.dev/algorithm/mathematical-algorithms/program-find-correlation-coefficient
+
+		int sum_X = 0, sum_Y = 0, sum_XY = 0;
+		int squareSum_X = 0, squareSum_Y = 0;
+
+		for (int i = buffer1.size() - lookback; i < buffer1.size(); i++)
+		{
+
+			if (std::isnan(buffer1[i])) {
+				return NullableValueNumber();
+			}
+			if (std::isnan(buffer2[i])) {
+				return NullableValueNumber();
+			}
+
+			// sum of elements of array X. 
+			sum_X = sum_X + buffer1[i];
+
+			// sum of elements of array Y. 
+			sum_Y = sum_Y + buffer2[i];
+
+			// sum of X[i] * Y[i]. 
+			sum_XY = sum_XY + buffer1[i] * buffer2[i];
+
+			// sum of square of array elements. 
+			squareSum_X = squareSum_X + buffer1[i] * buffer1[i];
+			squareSum_Y = squareSum_Y + buffer2[i] * buffer2[i];
+		}
+
+		// use formula for calculating correlation coefficient. 
+		float corr = (float)((lookback * sum_XY) - (sum_X * sum_Y))
+			/ sqrt((lookback * squareSum_X - sum_X * sum_X)
+				* (lookback * squareSum_Y - sum_Y * sum_Y));
+		return NullableValueNumber(corr);
+	}
 	return NullableValueNumber();
 }
 

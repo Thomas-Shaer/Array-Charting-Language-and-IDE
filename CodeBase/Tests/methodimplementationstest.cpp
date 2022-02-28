@@ -877,9 +877,6 @@ BOOST_AUTO_TEST_CASE(method_sum_bars_test)
 }
 
 
-// falling
-// rising
-
 BOOST_AUTO_TEST_CASE(method_falling_test)
 {
     BOOST_CHECK(isEquiv(getReturn<NullableValueBoolean>("falling", { "0", "1" }), NullableValueBoolean(true)));
@@ -945,9 +942,77 @@ BOOST_AUTO_TEST_CASE(method_median_bars_test)
 }
 
 
-/// variance : update buffer
-// std : update buffer
-// linreg : internal buffer needs to be replaced
-// corr : internal buffer needs to be replaced
+BOOST_AUTO_TEST_CASE(method_variance_test)
+{
+    BOOST_CHECK_THROW(execute("variance(0, 1, tick())"), LanguageException);
+
+
+    BOOST_CHECK(isNaN(getReturn<NullableValueNumber>("variance", { "nan_f()", "2" })));
+    BOOST_CHECK_THROW(execute("variance(1, -1)"), LanguageException);
+    BOOST_CHECK_THROW(execute("variance(1, 0)"), LanguageException);
+    BOOST_CHECK_THROW(execute("variance(1, nan_f())"), LanguageException);
+
+    InterpreterContext context2;
+    context2.ticks = MAX_TICK_SIZE;
+    std::vector<ExpressionValue> buffer2 = getReturnVarBuffer("variance", { "tick()", "2" }, context2);
+    BOOST_CHECK(isNaN(safeExpressionCast<NullableValueNumber>(buffer2.at(0))));
+    BOOST_CHECK(isEquiv(safeExpressionCast<NullableValueNumber>(buffer2.at(1)), NullableValueNumber(0.5)));
+    BOOST_CHECK(isEquiv(safeExpressionCast<NullableValueNumber>(buffer2.at(MAX_TICK_SIZE - 1)), NullableValueNumber(0.5)));
+}
+
+
+BOOST_AUTO_TEST_CASE(method_std_test)
+{
+    BOOST_CHECK_THROW(execute("std(0, 1, tick())"), LanguageException);
+
+
+    BOOST_CHECK(isNaN(getReturn<NullableValueNumber>("std", { "nan_f()", "2" })));
+    BOOST_CHECK_THROW(execute("std(1, -1)"), LanguageException);
+    BOOST_CHECK_THROW(execute("std(1, 0)"), LanguageException);
+    BOOST_CHECK_THROW(execute("std(1, nan_f())"), LanguageException);
+
+    InterpreterContext context2;
+    context2.ticks = MAX_TICK_SIZE;
+    std::vector<ExpressionValue> buffer2 = getReturnVarBuffer("std", { "tick()", "2" }, context2);
+    BOOST_CHECK(isNaN(safeExpressionCast<NullableValueNumber>(buffer2.at(0))));
+    BOOST_CHECK(isEquiv(safeExpressionCast<NullableValueNumber>(buffer2.at(1)), NullableValueNumber(std::sqrt(0.5))));
+    BOOST_CHECK(isEquiv(safeExpressionCast<NullableValueNumber>(buffer2.at(MAX_TICK_SIZE - 1)), NullableValueNumber(std::sqrt(0.5))));
+}
+
+
+BOOST_AUTO_TEST_CASE(method_linreg_test)
+{
+    BOOST_CHECK_THROW(execute("linreg(0, 1, tick())"), LanguageException);
+    BOOST_CHECK(isNaN(getReturn<NullableValueNumber>("linreg", { "nan_f()", "2", "tick()" })));
+    BOOST_CHECK(isNaN(getReturn<NullableValueNumber>("linreg", { "0", "2", "nan_f()" })));
+    BOOST_CHECK(isNaN(getReturn<NullableValueNumber>("linreg", { "nan_f()", "2", "nan_f()" })));
+    BOOST_CHECK_THROW(execute("linreg(1, -1, tick())"), LanguageException);
+    BOOST_CHECK_THROW(execute("linreg(1, 0), tick()"), LanguageException);
+    BOOST_CHECK_THROW(execute("linreg(1, nan_f(), tick())"), LanguageException);
+
+    InterpreterContext context2;
+    context2.ticks = MAX_TICK_SIZE;
+    std::vector<ExpressionValue> buffer2 = getReturnVarBuffer("linreg", { "tick()", "2", "tick()" }, context2);
+    BOOST_CHECK(isNaN(safeExpressionCast<NullableValueNumber>(buffer2.at(0))));
+    BOOST_CHECK(isEquiv(safeExpressionCast<NullableValueNumber>(buffer2.at(1)), NullableValueNumber(1)));
+    BOOST_CHECK(isEquiv(safeExpressionCast<NullableValueNumber>(buffer2.at(MAX_TICK_SIZE - 1)), NullableValueNumber(4)));
+}
+
+
+BOOST_AUTO_TEST_CASE(method_corr_test)
+{
+    BOOST_CHECK_THROW(execute("corr(tick(), tick(), 1)"), LanguageException);
+    BOOST_CHECK(isNaN(getReturn<NullableValueNumber>("corr", { "nan_f()", "tick()", "2" })));
+    BOOST_CHECK(isNaN(getReturn<NullableValueNumber>("corr", { "tick()", "nan_f()", "2" })));
+    BOOST_CHECK(isNaN(getReturn<NullableValueNumber>("corr", { "nan_f()", "nan_f()", "2" })));
+
+
+    InterpreterContext context2;
+    context2.ticks = MAX_TICK_SIZE;
+    std::vector<ExpressionValue> buffer2 = getReturnVarBuffer("corr", { "tick()", "tick()", "2" }, context2);
+    BOOST_CHECK(isNaN(safeExpressionCast<NullableValueNumber>(buffer2.at(0))));
+    BOOST_CHECK(isEquiv(safeExpressionCast<NullableValueNumber>(buffer2.at(1)), NullableValueNumber(1)));
+    BOOST_CHECK(isEquiv(safeExpressionCast<NullableValueNumber>(buffer2.at(MAX_TICK_SIZE - 1)), NullableValueNumber(1)));
+}
 
 BOOST_AUTO_TEST_SUITE_END()
