@@ -179,6 +179,16 @@ void DataManagerWindow::ShowWindow() {
                 parseMessage = "";
                 InputSeries::LoadInputData(importPolicySelection, filePath, fileName, std::string(defaultTrue), std::string(defaultFalse), std::string(defaultNAN));
                 showImportPopup = false;
+
+                nlohmann::json newSave;
+                newSave["path"] = name;
+                newSave["name"] = fileName;
+                newSave["policy"] = InputSeries::ImportPolicyToString(importPolicySelection);
+                newSave["trueImportString"] = defaultTrue;
+                newSave["falseImportString"] = defaultFalse;
+                newSave["NANImportString"] = defaultNAN;
+                Settings::settingsFile["loadedInData"].push_back(newSave);
+
                 ImGui::CloseCurrentPopup();
             }
             catch (DataParseException e) {

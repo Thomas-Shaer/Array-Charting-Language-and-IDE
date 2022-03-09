@@ -278,7 +278,6 @@
     <ClCompile Include="returnsymbol.cpp" />
     <ClCompile Include="screenshot.cpp" />
     <ClCompile Include="semanticanalysis.cpp" />
-    <ClCompile Include="settingswindow.cpp" />
     <ClCompile Include="sourcelocation.cpp" />
     <ClCompile Include="nullablevaluestring.cpp" />
     <ClCompile Include="symboltable.cpp" />
@@ -327,7 +326,6 @@
     <ClInclude Include="resource.h" />
     <ClInclude Include="returnsymbol.h" />
     <ClInclude Include="screenshot.h" />
-    <ClInclude Include="settingswindow.h" />
     <ClInclude Include="sourcelocation.h" />
     <ClInclude Include="stb_image_write.h" />
     <ClInclude Include="nullablevaluestring.h" />

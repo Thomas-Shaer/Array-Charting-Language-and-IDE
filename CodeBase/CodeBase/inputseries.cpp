@@ -197,14 +197,14 @@ void InputSeries::LoadInputData(const ImportPolicy importPolicy, std::string nam
     /*
     Saves data
     */
-    nlohmann::json newSave;
-    newSave["path"] = name;
-    newSave["name"] = filename;
-    newSave["policy"] = InputSeries::ImportPolicyToString(importPolicy);
-    newSave["trueImportString"] = TrueString;
-    newSave["falseImportString"] = FalseString;
-    newSave["NANImportString"] = NANString;
-    Settings::settingsFile["loadedInData"].push_back(newSave);
+    //nlohmann::json newSave;
+    //newSave["path"] = name;
+    //newSave["name"] = filename;
+    //newSave["policy"] = InputSeries::ImportPolicyToString(importPolicy);
+    //newSave["trueImportString"] = TrueString;
+    //newSave["falseImportString"] = FalseString;
+    //newSave["NANImportString"] = NANString;
+    //Settings::settingsFile["loadedInData"].push_back(newSave);
 }
 
 

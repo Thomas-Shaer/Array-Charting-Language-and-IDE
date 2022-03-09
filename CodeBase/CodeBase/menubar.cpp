@@ -31,13 +31,24 @@ void Test::ShowMenuBar(GLFWwindow* glfwwindow) {
 
                 for (Window* window : Window::windows) {
                     if (window->windowTab) {
-                    std::string lol = "";
                         ImGui::MenuItem(window->name.c_str(), NULL, &window->show);
                     }
                 }
                 
                 
 
+                ImGui::EndMenu();
+            }
+
+
+            if (ImGui::BeginMenu("Settings")) {
+                if (ImGui::BeginMenu("Size")) {
+                    static float textScale = Settings::settingsFile["zoom"].get<float>();
+                    if (ImGui::SliderFloat("Text scale", &textScale, 1, 3)) {
+                        Settings::settingsFile["zoom"] = textScale;
+                    }
+                    ImGui::EndMenu();
+                }
                 ImGui::EndMenu();
             }
 

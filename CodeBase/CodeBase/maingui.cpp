@@ -11,7 +11,6 @@
 #include "documentationwindow.h"
 //
 #include "datamanagerwindow.h"
-#include "settingswindow.h"
 //#include "jsonsettings.h"
 //#include "imfilebrowser.h"
 //#include "inputseries.h"
@@ -130,9 +129,6 @@ int start()
     documentationWindow.windowTab = true;
     documentationWindow.saveOpenStatus = true;
 
-    SettingsWindow settingsWindow;
-    settingsWindow.windowTab = true;
-    settingsWindow.saveOpenStatus = true;
 
     DataManagerWindow datamanagerWindow;
     datamanagerWindow.windowTab = true;
