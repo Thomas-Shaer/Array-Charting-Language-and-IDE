@@ -29,9 +29,6 @@ void DocumentationWindow::ShowWindow() {
             ImGui::EndChild();
             ImGui::EndTabItem();
         }
-        if (ImGui::BeginTabItem("Help")) {
-            ImGui::EndTabItem();
-        }
         ImGui::EndTabBar();
     }
 
