@@ -3,6 +3,7 @@
 #include <string>
 #include <regex>
 #include <cmath>
+#include <iostream>
 
 #include "TextEditor.h"
 
@@ -324,7 +325,6 @@ TextEditor::Coordinates TextEditor::ScreenPosToCoordinates(const ImVec2& aPositi
 {
 	ImVec2 origin = ImGui::GetCursorScreenPos();
 	ImVec2 local(aPosition.x - origin.x, aPosition.y - origin.y);
-
 	int lineNo = std::max(0, (int)floor(local.y / mCharAdvance.y));
 
 	int columnCoord = 0;
@@ -1092,10 +1092,15 @@ void TextEditor::Render()
 
 			++lineNo;
 		}
+		ImVec2 origin = ImGui::GetCursorScreenPos();
 
 		// Draw a tooltip on known identifiers/preprocessor symbols
-		if (ImGui::IsMousePosValid())
+		// EXTRA fix such that highlighting doesn't occur if outside of top left bounds of text editor.
+		if (ImGui::IsMousePosValid() && ImGui::GetMousePos().x >= origin.x && ImGui::GetMousePos().y >= origin.y)
 		{
+
+			
+
 			auto id = GetWordAt(ScreenPosToCoordinates(ImGui::GetMousePos()));
 			if (!id.empty())
 			{
