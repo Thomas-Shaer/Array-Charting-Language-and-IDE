@@ -180,13 +180,19 @@ int start()
 
         int windowWidth, windowHeight;
         glfwGetWindowSize(window, &windowWidth, &windowHeight);
-        Settings::settingsFile["windowwidth"] = windowWidth;
-        Settings::settingsFile["windowheight"] = windowHeight;
 
-        int windowX, windowY;
-        glfwGetWindowPos(window, &windowX, &windowY);
-        Settings::settingsFile["windowX"] = windowX;
-        Settings::settingsFile["windowY"] = windowY;
+        // if window width or height are not 0 window is not minimised therefore save its settings
+        if (windowWidth != 0 || windowHeight != 0) {
+            Settings::settingsFile["windowwidth"] = windowWidth;
+            Settings::settingsFile["windowheight"] = windowHeight;
+
+            int windowX, windowY;
+            glfwGetWindowPos(window, &windowX, &windowY);
+            Settings::settingsFile["windowX"] = windowX;
+            Settings::settingsFile["windowY"] = windowY;
+        }
+
+
 
         int display_w, display_h;
         glfwGetFramebufferSize(window, &display_w, &display_h);
