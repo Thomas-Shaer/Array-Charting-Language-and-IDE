@@ -25,6 +25,9 @@
     <Filter Include="Source Files\Methods">
       <UniqueIdentifier>{55c3bd80-5644-4e00-9ef7-51170b03a7f1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Data">
+      <UniqueIdentifier>{4e02f64b-4b7f-4b8e-b3d7-6d76066984c8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sourcelocationtest.cpp">
@@ -141,9 +144,6 @@
     <ClCompile Include="..\CodeBase\semanticanalysis.cpp">
       <Filter>Source Files\Included</Filter>
     </ClCompile>
-    <ClCompile Include="..\CodeBase\settingswindow.cpp">
-      <Filter>Source Files\Included</Filter>
-    </ClCompile>
     <ClCompile Include="..\CodeBase\sourcelocation.cpp">
       <Filter>Source Files\Included</Filter>
     </ClCompile>
@@ -206,6 +206,9 @@
     </ClCompile>
     <ClCompile Include="methodimplementationstest.cpp">
       <Filter>Source Files\Methods</Filter>
+    </ClCompile>
+    <ClCompile Include="inputseriestest.cpp">
+      <Filter>Source Files\Data</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -332,9 +335,6 @@
     <ClInclude Include="..\CodeBase\screenshot.h">
       <Filter>Source Files\Included</Filter>
     </ClInclude>
-    <ClInclude Include="..\CodeBase\settingswindow.h">
-      <Filter>Source Files\Included</Filter>
-    </ClInclude>
     <ClInclude Include="..\CodeBase\sourcelocation.h">
       <Filter>Source Files\Included</Filter>
     </ClInclude>
@@ -358,6 +358,9 @@
     </ClInclude>
     <ClInclude Include="..\CodeBase\window.h">
       <Filter>Source Files\Included</Filter>
+    </ClInclude>
+    <ClInclude Include="valuetesthelper.h">
+      <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

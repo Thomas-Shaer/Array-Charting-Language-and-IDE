@@ -1,5 +1,6 @@
 #define BOOST_TEST_DYN_LINK
 #include <boost/test/unit_test.hpp>
+#include "valuetesthelper.h"
 //#include <string>
 #include "CodeBase/interpretercontext.h"
 #include "CodeBase/symboltable.h"
@@ -86,23 +87,6 @@ T getReturn(std::string expression) {
     return returnValue;
 }
 
-template<typename T>
-bool isNaN(const T& val) {
-    return (bool)!val.value;
-}
-
-
-template<typename T>
-bool isEquiv(const T& val, const T& test) {
-    return *val.value == *test.value;
-}
-
-template<typename T>
-T safeExpressionCast(const ExpressionValue val) {
-    T value;
-    BOOST_CHECK_NO_THROW((value = boost::get<T>(val)));
-    return value;
-}
 
 
 BOOST_AUTO_TEST_CASE(method_average_test)

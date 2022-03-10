@@ -85,7 +85,6 @@ public:
 	std::string variableName;
 
 
-private:
     /*
 	Returns a ExpressionValue vector and TypeSymbol given a vector of strings.
 	Will throw a DataParseException if the parsed strings are incompatible

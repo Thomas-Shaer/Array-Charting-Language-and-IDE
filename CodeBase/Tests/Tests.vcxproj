@@ -282,7 +282,6 @@
     <ClCompile Include="..\CodeBase\returnsymbol.cpp" />
     <ClCompile Include="..\CodeBase\screenshot.cpp" />
     <ClCompile Include="..\CodeBase\semanticanalysis.cpp" />
-    <ClCompile Include="..\CodeBase\settingswindow.cpp" />
     <ClCompile Include="..\CodeBase\sourcelocation.cpp" />
     <ClCompile Include="..\CodeBase\symboltable.cpp" />
     <ClCompile Include="..\CodeBase\TextEditor.cpp" />
@@ -292,6 +291,7 @@
     <ClCompile Include="..\CodeBase\window.cpp" />
     <ClCompile Include="argumentsymboltest.cpp" />
     <ClCompile Include="expressionvaluetest.cpp" />
+    <ClCompile Include="inputseriestest.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="methodbuckettest.cpp" />
     <ClCompile Include="methodimplementationstest.cpp" />
@@ -348,7 +348,6 @@
     <ClInclude Include="..\CodeBase\resource.h" />
     <ClInclude Include="..\CodeBase\returnsymbol.h" />
     <ClInclude Include="..\CodeBase\screenshot.h" />
-    <ClInclude Include="..\CodeBase\settingswindow.h" />
     <ClInclude Include="..\CodeBase\sourcelocation.h" />
     <ClInclude Include="..\CodeBase\stb_image_write.h" />
     <ClInclude Include="..\CodeBase\symboltable.h" />
@@ -357,6 +356,7 @@
     <ClInclude Include="..\CodeBase\typesymbol.h" />
     <ClInclude Include="..\CodeBase\varsymbol.h" />
     <ClInclude Include="..\CodeBase\window.h" />
+    <ClInclude Include="valuetesthelper.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
