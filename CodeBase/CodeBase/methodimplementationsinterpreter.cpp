@@ -988,8 +988,8 @@ ExpressionValue Correlation::interpret(const unsigned int tick) {
 	if (buffer1.size() >= lookback) {
 		//https://tutorialspoint.dev/algorithm/mathematical-algorithms/program-find-correlation-coefficient
 
-		int sum_X = 0, sum_Y = 0, sum_XY = 0;
-		int squareSum_X = 0, squareSum_Y = 0;
+		float sum_X = 0, sum_Y = 0, sum_XY = 0;
+		float squareSum_X = 0, squareSum_Y = 0;
 
 		for (int i = buffer1.size() - lookback; i < buffer1.size(); i++)
 		{
@@ -1015,10 +1015,7 @@ ExpressionValue Correlation::interpret(const unsigned int tick) {
 			squareSum_Y = squareSum_Y + buffer2[i] * buffer2[i];
 		}
 
-		// use formula for calculating correlation coefficient. 
-		float corr = (float)((lookback * sum_XY) - (sum_X * sum_Y))
-			/ sqrt((lookback * squareSum_X - sum_X * sum_X)
-				* (lookback * squareSum_Y - sum_Y * sum_Y));
+		float corr = ((float)lookback * sum_XY - sum_X * sum_Y) / sqrt((lookback * squareSum_X - sum_X * sum_X) * (lookback * squareSum_Y - sum_Y * sum_Y));
 		return NullableValueNumber(corr);
 	}
 	return NullableValueNumber();
