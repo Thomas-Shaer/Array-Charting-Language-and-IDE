@@ -276,10 +276,11 @@ void TextEditorWindow::ShowWindow() {
         TextEditorWindow::textEditor.SetText("");
         Settings::settingsFile["currentCodeFile"] = "";
     }
-
     if (ImGui::Button("Execute")) {
         executeCode(TextEditorWindow::textEditor.GetText());
     }
+    ImGui::SameLine();
+    ImGui::InputScalar("Ticks", ImGuiDataType_U32, &InterpreterContext::ticks);
 
     TextEditorWindow::textEditor.Render("TextEditor");
 
