@@ -95,41 +95,44 @@ void TextEditorWindow::loadFile(const std::string& filePath) {
     DataManagerWindow::deleteAllVariables();
     nlohmann::json saveJSON;
     std::ifstream inputjson(filePath);
-    inputjson >> saveJSON;
-    /*
-    For every variable in the save file, 
-    parse it's relevant json and load the file
-    */
-    for (nlohmann::json variable : saveJSON["variables"].get<std::vector<nlohmann::json>>()) {
-        std::string variableName = variable["variableName"];
-        std::string fileName = variable["fileName"];
-        std::string dataName = variable["dataName"];
-        std::string filepath = variable["path"];
+    if (inputjson) {
+        inputjson >> saveJSON;
+        /*
+        For every variable in the save file,
+        parse it's relevant json and load the file
+        */
+        for (nlohmann::json variable : saveJSON["variables"].get<std::vector<nlohmann::json>>()) {
+            std::string variableName = variable["variableName"];
+            std::string fileName = variable["fileName"];
+            std::string dataName = variable["dataName"];
+            std::string filepath = variable["path"];
 
-        std::string trueImport = variable["trueImportString"];
-        std::string falseImport = variable["falseImportString"];
-        std::string NANImport = variable["NANImportString"];
-        ImportPolicy importPolicy = InputSeries::StringToImportPolicy(variable["policy"]);
+            std::string trueImport = variable["trueImportString"];
+            std::string falseImport = variable["falseImportString"];
+            std::string NANImport = variable["NANImportString"];
+            ImportPolicy importPolicy = InputSeries::StringToImportPolicy(variable["policy"]);
 
-       
-        InputSeries::LoadInputData(importPolicy, filepath, fileName, trueImport, falseImport, NANImport);
 
-        // mark it as a variable
-        for (std::shared_ptr<InputSeries> data : DataManagerWindow::LOADED_IN_DATA) {
-            if (data->name == dataName) {
-                try {
-                    data->createNewVariable(variableName);
-                }
-                catch (DataParseException e) {
+            InputSeries::LoadInputData(importPolicy, filepath, fileName, trueImport, falseImport, NANImport);
+
+            // mark it as a variable
+            for (std::shared_ptr<InputSeries> data : DataManagerWindow::LOADED_IN_DATA) {
+                if (data->name == dataName) {
+                    try {
+                        data->createNewVariable(variableName);
+                    }
+                    catch (DataParseException e) {
+                    }
                 }
             }
+
+
         }
 
-   
+        // set the text editor to the code
+        TextEditorWindow::textEditor.SetText(saveJSON["code"]);
     }
-
-    // set the text editor to the code
-    TextEditorWindow::textEditor.SetText(saveJSON["code"]);
+    
 }
 
 
