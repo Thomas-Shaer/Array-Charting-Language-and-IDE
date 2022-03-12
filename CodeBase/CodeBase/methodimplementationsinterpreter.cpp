@@ -230,7 +230,7 @@ ExpressionValue Plot::interpret(const unsigned int tick) {
 
 	// if null return a null value else extract the correct value
 	float pushBackValue = value->value ? *value->value : std::numeric_limits<double>::quiet_NaN();
-	plotdata->data[tick] = pushBackValue;
+	plotdata->fdata[tick] = pushBackValue;
 
 	return NullableValueBoolean(true);
 }
@@ -244,14 +244,44 @@ ExpressionValue Mark::interpret(const unsigned int tick) {
 		if (*when->value) {
 
 			float pushBackValue = value->value ? *value->value : std::numeric_limits<double>::quiet_NaN();
-			plotdata->data[tick] = (pushBackValue);
+			plotdata->fdata[tick] = (pushBackValue);
 		}
 		else {
-			plotdata->data[tick] = (std::numeric_limits<double>::quiet_NaN());
+			plotdata->fdata[tick] = (std::numeric_limits<double>::quiet_NaN());
 		}
 	}
 	else {
-		plotdata->data[tick] = (std::numeric_limits<double>::quiet_NaN());
+		plotdata->fdata[tick] = (std::numeric_limits<double>::quiet_NaN());
+	}
+	return NullableValueBoolean(true);
+}
+
+
+ExpressionValue Text::interpret(const unsigned int tick) {
+	//if not null
+	if (when->value) {
+
+		// if positive
+		if (*when->value) {
+
+			float yValue = ylevel->value ? *ylevel->value : std::numeric_limits<double>::quiet_NaN();
+			plotdata->fdata[tick] = (yValue);
+			std::string stringValue = value->value ? *value->value : "";
+			plotdata->sdata[tick] = (stringValue);
+
+			float verticalFlag = vertical->value ? *vertical->value : false;
+			plotdata->vstringdata[tick] = verticalFlag;
+		}
+		else {
+			plotdata->fdata[tick] = (std::numeric_limits<double>::quiet_NaN());
+			plotdata->sdata[tick] = "";
+			plotdata->vstringdata[tick] = false;
+		}
+	}
+	else {
+		plotdata->fdata[tick] = (std::numeric_limits<double>::quiet_NaN());
+		plotdata->sdata[tick] = "";
+		plotdata->vstringdata[tick] = false;
 	}
 	return NullableValueBoolean(true);
 }

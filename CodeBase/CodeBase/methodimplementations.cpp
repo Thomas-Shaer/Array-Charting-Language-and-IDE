@@ -325,6 +325,22 @@ Mark::Mark() : KeywordMethodSymbol("mark",
 
 
 
+Text::Text() : KeywordMethodSymbol("text",
+	"Conditionally draws text on the chart when a condition is true.",
+
+	{
+	ParameterSymbol(TypeInstances::GetBooleanInstance(), "when", "Mark the current tick or not"),
+	ParameterSymbol(TypeInstances::GetStringInstance(), "value", "The value to mark if marking this tick"),
+	ParameterSymbol(TypeInstances::GetNumberInstance(), "ylevel", "The ylevel to plot the text at"),
+	},
+	{
+	OptionalParameterSymbol(TypeInstances::GetBooleanInstance(), NullableValueBoolean(false), "vertical", "Should text be vertical."),
+	OptionalParameterSymbol(TypeInstances::GetStringConstantInstance(), NullableValueString(""), "name", "The name of the plot"),
+	OptionalParameterSymbol(TypeInstances::GetStringConstantInstance(), NullableValueString(DEFAULT_CHART_WINDOW_ID), "chart_id", "The id of the chart to plot too.")
+	},
+	ReturnSymbol(TypeInstances::GetVoidInstance())) {}
+
+
 
 
 

@@ -44,6 +44,7 @@ std::shared_ptr<SymbolTable> SymbolTable::GLOBAL_SYMBOL_TABLE = std::make_shared
 	registerMethod("plot", new SingleMethodBucket(new Plot(), METHOD_CAT::OUTPUT)),
 	registerMethod("tick", new SingleMethodBucket(new GetTick(), METHOD_CAT::MISC)),
 	registerMethod("mark", new SingleMethodBucket(new Mark(), METHOD_CAT::OUTPUT)),
+	registerMethod("text", new SingleMethodBucket(new Text(), METHOD_CAT::OUTPUT)),
 
 	registerMethod("nan_f", new SingleMethodBucket(new FloatNAN(), METHOD_CAT::MATHEMATICAL)),
 	registerMethod("nan_b", new SingleMethodBucket(new BooleanNAN(), METHOD_CAT::MATHEMATICAL)),

@@ -238,6 +238,28 @@ const TypeSymbol* Mark::semanticAnaylsis(MethodCallNode* methodCallNode, std::sh
 	return returnType;
 }
 
+const TypeSymbol* Text::semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable) {
+	const TypeSymbol* returnType = KeywordMethodSymbol::semanticAnaylsis(methodCallNode, symboltable);
+	when = boost::get<NullableValueBoolean>(&methodCallNode->expressionToArgList["when"]->expressionValue);
+	value = boost::get<NullableValueString>(&methodCallNode->expressionToArgList["value"]->expressionValue);
+	ylevel = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["ylevel"]->expressionValue);
+	lineName = boost::get<NullableValueString>(&methodCallNode->expressionToArgList["name"]->expressionValue);
+	chartId = boost::get<NullableValueString>(&methodCallNode->expressionToArgList["chart_id"]->expressionValue);
+	vertical = boost::get<NullableValueBoolean>(&methodCallNode->expressionToArgList["vertical"]->expressionValue);
+
+
+	if (!InterpreterContext::isIntellisense) {
+		std::shared_ptr<ChartPlot> newData = std::make_shared<ChartPlot>(*lineName->value, InterpreterContext::ticks);
+
+		ChartWindow::getOrCreateChartWindow(*chartId->value)->CHART_MARK_DATA.push_back(newData);
+		std::shared_ptr<ChartPlot> first = ChartWindow::getOrCreateChartWindow(*chartId->value)->CHART_MARK_DATA.back(); //returns reference, not iterator, to the first object in the vector so you had only to write the data type in the generic of your vector, i.e. myObject, and not all the iterator stuff and the vector again and :: of course
+		plotdata = first;
+		first->stringMark = true;
+	}
+
+	return returnType;
+}
+
 
 
 const TypeSymbol* ValueWhenNumber::semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable) {

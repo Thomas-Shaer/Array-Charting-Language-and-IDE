@@ -391,6 +391,26 @@ private:
 };
 
 
+class Text : public KeywordMethodSymbol {
+public:
+	Text();
+	virtual ExpressionValue interpret(const unsigned int tick);
+	virtual const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable);
+	virtual Text* clone() {
+		return new Text();
+	}
+private:
+	std::shared_ptr<ChartPlot> plotdata;
+
+	NullableValueBoolean* when;
+	NullableValueString* value;
+	NullableValueNumber* ylevel;
+	NullableValueBoolean* vertical;
+	NullableValueString* lineName;
+	NullableValueString* chartId;
+};
+
+
 class FloatNAN : public PositionalMethodSymbol {
 public:
 	FloatNAN();

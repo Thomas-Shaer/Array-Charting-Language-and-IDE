@@ -190,16 +190,30 @@ void ChartWindow::ShowWindow() {
         for (auto line : CHART_LINE_DATA) {
             std::string name = showChartTitle ? line->plotName : "";
             ImPlot::PushStyleColor(ImPlotCol_Line, ImPlot::GetColormapColor(i));
-            ImPlot::PlotLine(name.c_str(), line->data.data(), line->data.size());
+            ImPlot::PlotLine(name.c_str(), line->fdata.data(), line->fdata.size());
+            /*for (int i = 0; i < line->data.size(); i++) {
+                ImPlot::PlotText("test", i, line->data[i]);
+            }*/
             ImPlot::PopStyleColor();
             i++;
         }
         // display mark plot data
         for (auto line : CHART_MARK_DATA) {
-            std::string name = showChartTitle ? line->plotName : "";
-            ImPlot::PushStyleColor(ImPlotCol_Line, ImPlot::GetColormapColor(i));
-            ImPlot::PlotScatter(name.c_str(), line->data.data(), line->data.size());
-            ImPlot::PopStyleColor();
+            if (!line->stringMark) {
+
+                std::string name = showChartTitle ? line->plotName : "";
+                ImPlot::PushStyleColor(ImPlotCol_Line, ImPlot::GetColormapColor(i));
+                ImPlot::PlotScatter(name.c_str(), line->fdata.data(), line->fdata.size());
+                ImPlot::PopStyleColor();
+            }
+            else {
+                ImPlot::PushStyleColor(ImPlotCol_InlayText, ImPlot::GetColormapColor(i));
+                for (int i = 0; i < line->sdata.size(); i++) {
+                    ImPlot::PlotText(line->sdata[i].c_str(), i, line->fdata[i], line->vstringdata[i]);
+                }
+                ImPlot::PopStyleColor();
+            }
+            
             i++;
         }
 
