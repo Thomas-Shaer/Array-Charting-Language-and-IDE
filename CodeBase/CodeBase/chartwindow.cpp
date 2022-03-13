@@ -185,40 +185,42 @@ void ChartWindow::ShowWindow() {
         chartAxisHeight = ImGui::GetItemRectSize().y;
 
         // display line plot data
-        int i = 0;
+        int colorMapIndex = 0;
         for (auto line : CHART_LINE_DATA) {
             std::string name = showChartTitle ? line->plotName : "";
-            ImPlot::PushStyleColor(ImPlotCol_Line, ImPlot::GetColormapColor(i));
+            ImPlot::SetNextFillStyle(ImPlot::GetColormapColor(colorMapIndex));
             ImPlot::PlotLine(name.c_str(), line->fdata.data(), line->fdata.size());
-            /*for (int i = 0; i < line->data.size(); i++) {
-                ImPlot::PlotText("test", i, line->data[i]);
-            }*/
-            ImPlot::PopStyleColor();
-            i++;
+            colorMapIndex++;
         }
-        ImPlot::PopColormap();
-        ImPlot::PushColormap(ImPlotColormap_Pastel);
-        i = 0;
+
 
         // display mark plot data
         for (auto line : CHART_MARK_DATA) {
             if (!line->stringMark) {
 
                 std::string name = showChartTitle ? line->plotName : "";
-                ImPlot::PushStyleColor(ImPlotCol_Line, ImPlot::GetColormapColor(i));
+                
+                ImPlot::SetNextFillStyle(ImPlot::GetColormapColor(colorMapIndex));
                 ImPlot::PlotScatter(name.c_str(), line->fdata.data(), line->fdata.size());
-                ImPlot::PopStyleColor();
             }
-            else {
-                ImPlot::PushStyleColor(ImPlotCol_InlayText, ImPlot::GetColormapColor(i));
+            
+            colorMapIndex++;
+        }
+
+        // display text ( we want it to go on top)
+        for (auto line : CHART_MARK_DATA) {
+            if (line->stringMark) {
+                ImPlot::PushStyleColor(ImPlotCol_InlayText, ImPlot::GetColormapColor(colorMapIndex));
                 for (int i = 0; i < line->sdata.size(); i++) {
                     ImPlot::PlotText(line->sdata[i].c_str(), i, line->fdata[i], line->vstringdata[i]);
                 }
                 ImPlot::PopStyleColor();
             }
-            
-            i++;
+
+            colorMapIndex++;
         }
+
+
         ImPlot::PopColormap();
 
 
