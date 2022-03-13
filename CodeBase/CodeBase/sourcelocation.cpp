@@ -40,7 +40,7 @@ namespace yy {
 			}
 			else if (lineno == begin.line) {
 				output += line + "\n";
-				output += std::string(begin.column, ' ') + std::string(line.length() - begin.column, '^') + "\n";
+				output += std::string(begin.column, ' ') + std::string(line.length() - begin.column < 0 ? 0 : line.length() - begin.column, '^') + "\n";
 			}
 			else if (lineno == end.line) {
 				return output + line + "\n" + std::string(end.column, '^');

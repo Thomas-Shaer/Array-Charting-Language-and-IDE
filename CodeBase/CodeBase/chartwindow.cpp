@@ -184,7 +184,6 @@ void ChartWindow::ShowWindow() {
         chartAxisWidth = ImGui::GetItemRectSize().x;
         chartAxisHeight = ImGui::GetItemRectSize().y;
 
-
         // display line plot data
         int i = 0;
         for (auto line : CHART_LINE_DATA) {
@@ -197,6 +196,10 @@ void ChartWindow::ShowWindow() {
             ImPlot::PopStyleColor();
             i++;
         }
+        ImPlot::PopColormap();
+        ImPlot::PushColormap(ImPlotColormap_Pastel);
+        i = 0;
+
         // display mark plot data
         for (auto line : CHART_MARK_DATA) {
             if (!line->stringMark) {
@@ -216,13 +219,12 @@ void ChartWindow::ShowWindow() {
             
             i++;
         }
+        ImPlot::PopColormap();
 
 
         ImPlot::EndPlot();
-        ImPlot::PopColormap();
 
     }
-    ImPlot::PopStyleColor(1);
 
 
 
