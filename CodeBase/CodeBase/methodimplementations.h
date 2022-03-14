@@ -519,7 +519,7 @@ public:
 		return new MinimumBars();
 	}
 private:
-	std::deque<float> buffer;
+	std::vector<float> buffer;
 	NullableValueNumber* value;
 	NullableValueNumber* bars_back;
 	Expression* barsBackNode;
@@ -1142,7 +1142,7 @@ public:
 	}
 private:
 
-	std::vector<NullableValueNumber> values;
+	std::vector<NullableValueNumber> buffer;
 	NullableValueNumber* data;
 	NullableValueNumber* barsback;
 	Expression* barsbackNode;
@@ -1161,7 +1161,7 @@ public:
 	}
 private:
 
-	std::vector<NullableValueString> values;
+	std::vector<NullableValueString> buffer;
 	NullableValueString* data;
 	NullableValueNumber* barsback;
 	Expression* barsbackNode;
@@ -1180,7 +1180,7 @@ public:
 	}
 private:
 
-	std::vector<NullableValueBoolean> values;
+	std::vector<NullableValueBoolean> buffer;
 	NullableValueBoolean* data;
 	NullableValueNumber* barsback;
 	Expression* barsbackNode;

@@ -344,33 +344,43 @@ ExpressionValue Minimum::interpret(const unsigned int tick) {
 
 
 ExpressionValue MinimumBars::interpret(const unsigned int tick) {
-	int lookback = (int)*bars_back->value;
+
+	buffer[tick] = (value->value ? *value->value : std::numeric_limits<double>::quiet_NaN());
+
+
+	int lookback;
+
+	if (!bars_back->value) {
+		return NullableValueNumber();
+	}
+	lookback = (int)*bars_back->value;
+
 	if (lookback <= 0) {
-		throw LanguageException("Run time error at tick " + std::to_string(tick) + ", moving average function must use positive non zero amount.", barsBackNode);
+		throw LanguageException("Run time error at tick " + std::to_string(tick) + ", minimum bars function must use positive non zero lookback.", barsBackNode);
 	}
 
-	buffer.push_back(value->value ? *value->value : std::numeric_limits<double>::quiet_NaN());
+	if (lookback - 1 > tick) {
+		return NullableValueNumber();
+	}
 
 
-	if (buffer.size() >= lookback) {
-		float min = std::numeric_limits<double>::quiet_NaN();
+	float min = std::numeric_limits<double>::quiet_NaN();
 
-		for (int i = buffer.size() - lookback; i < buffer.size(); i++) {
+	for (int i = tick + 1 - lookback; i < tick + 1; i++) {
 
-			if (std::isnan(min)) {
-				min = buffer[i];
-			}
-
-			if (buffer[i] < min) {
-				min = buffer[i];
-			}
-		}
 		if (std::isnan(min)) {
-			return NullableValueNumber();
+			min = buffer[i];
 		}
-		return NullableValueNumber(min);
+
+		if (buffer[i] < min) {
+			min = buffer[i];
+		}
 	}
-	return NullableValueNumber();
+	if (std::isnan(min)) {
+		return NullableValueNumber();
+	}
+	return NullableValueNumber(min);
+
 }
 
 
@@ -387,19 +397,32 @@ ExpressionValue Maximum::interpret(const unsigned int tick) {
 
 ExpressionValue MaximumBars::interpret(const unsigned int tick) {
 
-	int lookback = (int)*bars_back->value;
+
+	buffer[tick] = (value->value ? *value->value : std::numeric_limits<double>::quiet_NaN());
+
+
+	int lookback;
+
+	if (!bars_back->value) {
+		return NullableValueNumber();
+	}
+	lookback = (int)*bars_back->value;
+
 	if (lookback <= 0) {
-		throw LanguageException("Run time error at tick " + std::to_string(tick) + ", moving average function must use positive non zero amount.", barsBackNode);
+		throw LanguageException("Run time error at tick " + std::to_string(tick) + ", max bars function must use positive non zero lookback.", barsBackNode);
 	}
 
-	buffer.push_back(value->value ? *value->value : std::numeric_limits<double>::quiet_NaN());
+	if (lookback - 1 > tick) {
+		return NullableValueNumber();
+	}
 
 
-	if (buffer.size() >= lookback) {
+
+	//if (buffer.size() >= lookback) {
 		float max = std::numeric_limits<double>::quiet_NaN();
 
-		for (int i = buffer.size() - lookback; i < buffer.size(); i++) {
-			
+		for (int i = tick + 1 - lookback; i < tick + 1; i++) {
+
 			if (std::isnan(max)) {
 				max = buffer[i];
 			}
@@ -412,8 +435,8 @@ ExpressionValue MaximumBars::interpret(const unsigned int tick) {
 			return NullableValueNumber();
 		}
 		return NullableValueNumber(max);
-	}
-	return NullableValueNumber();
+	//}
+	//return NullableValueNumber();
 }
 
 
@@ -429,28 +452,38 @@ ExpressionValue Sum::interpret(const unsigned int tick) {
 
 ExpressionValue SumBars::interpret(const unsigned int tick) {
 
-	int lookback = (int)*bars_back->value;
+
+	buffer[tick] = (value->value ? *value->value : std::numeric_limits<double>::quiet_NaN());
+
+
+	int lookback;
+
+	if (!bars_back->value) {
+		return NullableValueNumber();
+	}
+	lookback = (int)*bars_back->value;
+
 	if (lookback <= 0) {
 		throw LanguageException("Run time error at tick " + std::to_string(tick) + ", sum function must use positive non zero amount.", barsBackNode);
 	}
 
-	buffer.push_back(value->value ? *value->value : std::numeric_limits<double>::quiet_NaN());
-
-
-	if (buffer.size() >= lookback) {
-		float sum = 0;
-
-		for (int i = buffer.size() - lookback; i < buffer.size(); i++) {
-
-			if (std::isnan(buffer[i])) {
-				return NullableValueNumber();
-			}
-			sum += buffer[i];
-		}
-		
-		return NullableValueNumber(sum);
+	if (lookback - 1 > tick) {
+		return NullableValueNumber();
 	}
-	return NullableValueNumber();
+
+
+	float sum = 0;
+
+	for (int i = tick + 1 - lookback; i < tick + 1; i++) {
+
+		if (std::isnan(buffer[i])) {
+			return NullableValueNumber();
+		}
+		sum += buffer[i];
+	}
+		
+	return NullableValueNumber(sum);
+
 }
 
 
@@ -671,103 +704,132 @@ ExpressionValue GCD::interpret(const unsigned int tick) {
 ExpressionValue Variance::interpret(const unsigned int tick) {
 
 
-	int lookback = (int)*bars_back->value;
+
+	buffer[tick] = (value->value ? *value->value : std::numeric_limits<double>::quiet_NaN());
+
+
+	int lookback;
+
+	if (!bars_back->value) {
+		return NullableValueNumber();
+	}
+	lookback = (int)*bars_back->value;
+
 	if (lookback <= 1) {
 		throw LanguageException("Run time error at tick " + std::to_string(tick) + ", sum function bars back must be > 1", barsBackNode);
 	}
 
-	buffer.push_back(value->value ? *value->value : std::numeric_limits<double>::quiet_NaN());
-
-
-	if (buffer.size() >= lookback) {
-		float sum = 0;
-
-		for (int i = buffer.size() - lookback; i < buffer.size(); i++) {
-
-			if (std::isnan(buffer[i])) {
-				return NullableValueNumber();
-			}
-			sum += buffer[i];
-		}
-
-		float mean = sum / lookback;
-		float variance = 0;
-
-		for (int i = buffer.size() - lookback; i < buffer.size(); i++) {
-
-			variance += (buffer[i] - mean) * (buffer[i] - mean);
-		}
-		variance = variance / (lookback - 1);
-
-
-		return NullableValueNumber(variance);
+	if (lookback - 1 > tick) {
+		return NullableValueNumber();
 	}
-	return NullableValueNumber();
+
+
+	float sum = 0;
+
+	for (int i = tick + 1 - lookback; i < tick + 1; i++) {
+
+		if (std::isnan(buffer[i])) {
+			return NullableValueNumber();
+		}
+		sum += buffer[i];
+	}
+
+	float mean = sum / lookback;
+	float variance = 0;
+
+	for (int i = tick + 1 - lookback; i < tick + 1; i++) {
+
+		variance += (buffer[i] - mean) * (buffer[i] - mean);
+	}
+	variance = variance / (lookback - 1);
+
+
+	return NullableValueNumber(variance);
+
 }
 
 
 
 ExpressionValue STD::interpret(const unsigned int tick) {
 
-	int lookback = (int)*bars_back->value;
+
+	buffer[tick] = (value->value ? *value->value : std::numeric_limits<double>::quiet_NaN());
+
+
+	int lookback;
+
+	if (!bars_back->value) {
+		return NullableValueNumber();
+	}
+	lookback = (int)*bars_back->value;
+
 	if (lookback <= 1) {
-		throw LanguageException("Run time error at tick " + std::to_string(tick) + ", std function bars back must be > 1", barsBackNode);
+		throw LanguageException("Run time error at tick " + std::to_string(tick) + ",  std function bars back must be > 1", barsBackNode);
 	}
 
-	buffer.push_back(value->value ? *value->value : std::numeric_limits<double>::quiet_NaN());
-
-
-	if (buffer.size() >= lookback) {
-		float sum = 0;
-
-		for (int i = buffer.size() - lookback; i < buffer.size(); i++) {
-
-			if (std::isnan(buffer[i])) {
-				return NullableValueNumber();
-			}
-			sum += buffer[i];
-		}
-
-		float mean = sum / lookback;
-		float variance = 0;
-
-		for (int i = buffer.size() - lookback; i < buffer.size(); i++) {
-
-			variance += (buffer[i] - mean) * (buffer[i] - mean);
-		}
-		variance = variance / (lookback - 1);
-
-
-		return NullableValueNumber(std::sqrt(variance));
+	if (lookback - 1 > tick) {
+		return NullableValueNumber();
 	}
-	return NullableValueNumber();
+
+
+	float sum = 0;
+
+	for (int i = tick + 1 - lookback; i < tick + 1; i++) {
+		if (std::isnan(buffer[i])) {
+			return NullableValueNumber();
+		}
+		sum += buffer[i];
+	}
+
+	float mean = sum / lookback;
+	float variance = 0;
+
+	for (int i = tick + 1 - lookback; i < tick + 1; i++) {
+		variance += (buffer[i] - mean) * (buffer[i] - mean);
+	}
+	variance = variance / (lookback - 1);
+
+
+	return NullableValueNumber(std::sqrt(variance));
+
 }
 
 
 ExpressionValue MA::interpret(const unsigned int tick) {
 
 
-	int lookback = (int)*amount->value;
+
+	buffer[tick] = (value->value ? *value->value : std::numeric_limits<double>::quiet_NaN());
+
+	int lookback;
+
+	if (!amount->value) {
+		return NullableValueNumber();
+	}
+	lookback = (int)*amount->value;
+
 	if (lookback <= 0) {
 		throw LanguageException("Run time error at tick " + std::to_string(tick) + ", moving average function must use positive non zero amount.", amountNode);
 	}
 
-	buffer.push_back(value->value ? *value->value : std::numeric_limits<double>::quiet_NaN());
+	if (lookback - 1 > tick) {
+		return NullableValueNumber();
+	}
+
+
 
 	
-	if (buffer.size() >= lookback) {
-		float sum = 0;
+	float sum = 0;
 
-		for (int i = buffer.size() - lookback; i < buffer.size(); i++) {
-			if (std::isnan(buffer[i])) {
-				return NullableValueNumber();
-			}
-			sum += buffer[i];
+	for (int i = tick + 1 - lookback; i < tick + 1; i++) {
+		if (std::isnan(buffer[i])) {
+			return NullableValueNumber();
 		}
-		float mean = sum / lookback;
-		return NullableValueNumber(mean);
+		sum += buffer[i];
 	}
-	return NullableValueNumber();
+	float mean = sum / lookback;
+	return NullableValueNumber(mean);
+
 }
 
 ExpressionValue IsNANF::interpret(const unsigned int tick) {
@@ -803,86 +865,103 @@ ExpressionValue Random::interpret(const unsigned int tick) {
 
 ExpressionValue Falling::interpret(const unsigned int tick) {
 
-	int lookback = (int)*bars_back->value;
+
+	buffer[tick] = (value->value ? *value->value : std::numeric_limits<double>::quiet_NaN());
+
+	int lookback;
+
+	if (!bars_back->value) {
+		return NullableValueBoolean();
+	}
+	lookback = (int)*bars_back->value;
+
 	if (lookback <= 0) {
-		throw LanguageException("Run time error at tick " + std::to_string(tick) + ", sum function must use positive non zero amount.", barsBackNode);
+		throw LanguageException("Run time error at tick " + std::to_string(tick) + ", falling function must use positive non zero amount.", barsBackNode);
 	}
 
-	buffer.push_back(value->value ? *value->value : std::numeric_limits<double>::quiet_NaN());
+	if (lookback - 1 > tick) {
+		return NullableValueBoolean();
+	}
 
 
-	if (buffer.size() >= lookback) {
-		float lastvalue = std::numeric_limits<double>::quiet_NaN();
+	float lastvalue = std::numeric_limits<double>::quiet_NaN();
 
-		for (int i = buffer.size() - lookback; i < buffer.size(); i++) {
+	for (int i = tick + 1 - lookback; i < tick + 1; i++) {
 
-			if (std::isnan(buffer[i])) {
-				return NullableValueBoolean();
-			}
-
-			if (std::isnan(lastvalue)) {
-				lastvalue = buffer[i];
-			}
-			else {
-				if (buffer[i] > lastvalue) {
-					return NullableValueBoolean(false);
-				}
-				else {
-					lastvalue = buffer[i];
-				}
-			}
-		}
-
-		if (std::isnan(lastvalue)) {
+		if (std::isnan(buffer[i])) {
 			return NullableValueBoolean();
 		}
 
-		return NullableValueBoolean(true);
+		if (std::isnan(lastvalue)) {
+			lastvalue = buffer[i];
+		}
+		else {
+			if (buffer[i] > lastvalue) {
+				return NullableValueBoolean(false);
+			}
+			else {
+				lastvalue = buffer[i];
+			}
+		}
 	}
 
-	return NullableValueBoolean();
+	if (std::isnan(lastvalue)) {
+		return NullableValueBoolean();
+	}
+
+	return NullableValueBoolean(true);
+
 }
 
 
 ExpressionValue Rising::interpret(const unsigned int tick) {
-	int lookback = (int)*bars_back->value;
+
+	buffer[tick] = (value->value ? *value->value : std::numeric_limits<double>::quiet_NaN());
+
+
+	int lookback;
+
+	if (!bars_back->value) {
+		return NullableValueBoolean();
+	}
+	lookback = (int)*bars_back->value;
+
 	if (lookback <= 0) {
-		throw LanguageException("Run time error at tick " + std::to_string(tick) + ", sum function must use positive non zero amount.", barsBackNode);
+		throw LanguageException("Run time error at tick " + std::to_string(tick) + ", rising function must use positive non zero lookback.", barsBackNode);
 	}
 
-	buffer.push_back(value->value ? *value->value : std::numeric_limits<double>::quiet_NaN());
+	if (lookback - 1 > tick) {
+		return NullableValueBoolean();
+	}
 
 
-	if (buffer.size() >= lookback) {
-		float lastvalue = std::numeric_limits<double>::quiet_NaN();
+	float lastvalue = std::numeric_limits<double>::quiet_NaN();
 
-		for (int i = buffer.size() - lookback; i < buffer.size(); i++) {
+	for (int i = tick + 1 - lookback; i < tick + 1; i++) {
 
-			if (std::isnan(buffer[i])) {
-				return NullableValueBoolean();
-			}
-
-			if (std::isnan(lastvalue)) {
-				lastvalue = buffer[i];
-			}
-			else {
-				if (buffer[i] < lastvalue) {
-					return NullableValueBoolean(false);
-				}
-				else {
-					lastvalue = buffer[i];
-				}
-			}
-		}
-
-		if (std::isnan(lastvalue)) {
+		if (std::isnan(buffer[i])) {
 			return NullableValueBoolean();
 		}
 
-		return NullableValueBoolean(true);
+		if (std::isnan(lastvalue)) {
+			lastvalue = buffer[i];
+		}
+		else {
+			if (buffer[i] < lastvalue) {
+				return NullableValueBoolean(false);
+			}
+			else {
+				lastvalue = buffer[i];
+			}
+		}
 	}
 
-	return NullableValueBoolean();
+	if (std::isnan(lastvalue)) {
+		return NullableValueBoolean();
+	}
+
+	return NullableValueBoolean(true);
+
 }
 
 
@@ -955,48 +1034,58 @@ WARNING. If look back changes value this will return the wrong value!
 */
 ExpressionValue LinearRegressionAtTick::interpret(const unsigned int tick) {
 
-	int lookback = (int)*bars_back->value;
+
+	buffer[tick] = (value->value ? *value->value : std::numeric_limits<double>::quiet_NaN());
+
+	int lookback;
+
+	if (!bars_back->value) {
+		return NullableValueNumber();
+	}
+	lookback = (int)*bars_back->value;
+
 	if (lookback <= 1) {
-		throw LanguageException("Run time error at tick " + std::to_string(tick) + ", linreg function must be > 1.", barsBackNode);
+		throw LanguageException("Run time error at tick " + std::to_string(tick) + ", linreg function lookback must be > 1.", barsBackNode);
 	}
 
-	buffer.push_back(value->value ? *value->value : std::numeric_limits<double>::quiet_NaN());
+	if (lookback - 1 > tick) {
+		return NullableValueNumber();
+	}
+
 
 	if (!xvalue->value) {
 		return NullableValueNumber();
 	}
 
-	if (buffer.size() >= lookback) {
-		float sumX = 0;
-		float sumY = 0;
+	float sumX = 0;
+	float sumY = 0;
 
-		for (int i = buffer.size() - lookback; i < buffer.size(); i++) {
+	for (int i = tick + 1 - lookback; i < tick + 1; i++) {
 
-			if (std::isnan(buffer[i])) {
-				return NullableValueNumber();
-			}
-			sumX += i;
-			sumY += buffer[i];
+		if (std::isnan(buffer[i])) {
+			return NullableValueNumber();
 		}
-
-		float meanX = sumX / lookback;
-		float meanY = sumY / lookback;
-
-		float num = 0;
-		float den = 0;
-
-		for (int i = buffer.size() - lookback; i < buffer.size(); i++) {
-
-			num += (i - meanX) * (buffer[i] - meanY);
-			den += std::pow(i - meanX, 2);
-		}
-
-		float m = num / den;
-		float c = meanY - m * meanX;
-
-		return NullableValueNumber((m * *xvalue->value) + c);
+		sumX += i;
+		sumY += buffer[i];
 	}
-	return NullableValueNumber();
+
+	float meanX = sumX / lookback;
+	float meanY = sumY / lookback;
+
+	float num = 0;
+	float den = 0;
+
+	for (int i = tick + 1 - lookback; i < tick + 1; i++) {
+
+		num += (i - meanX) * (buffer[i] - meanY);
+		den += std::pow(i - meanX, 2);
+	}
+
+	float m = num / den;
+	float c = meanY - m * meanX;
+
+	return NullableValueNumber((m * *xvalue->value) + c);
+
 }
 
 
@@ -1006,119 +1095,151 @@ WARNING. If look back changes value this will return the wrong value!
 */
 ExpressionValue Correlation::interpret(const unsigned int tick) {
 
-	int lookback = (int)*bars_back->value;
+	
+
+	buffer1[tick] = (data1->value ? *data1->value : std::numeric_limits<double>::quiet_NaN());
+	buffer2[tick] = (data2->value ? *data2->value : std::numeric_limits<double>::quiet_NaN());
+
+
+	int lookback;
+
+	if (!bars_back->value) {
+		return NullableValueNumber();
+	}
+	lookback = (int)*bars_back->value;
+
 	if (lookback <= 1) {
-		throw LanguageException("Run time error at tick " + std::to_string(tick) + ", linreg function must be > 1.", barsBackNode);
+		throw LanguageException("Run time error at tick " + std::to_string(tick) + ", correlation function must be > 1.", barsBackNode);
 	}
 
-	buffer1.push_back(data1->value ? *data1->value : std::numeric_limits<double>::quiet_NaN());
-	buffer2.push_back(data2->value ? *data2->value : std::numeric_limits<double>::quiet_NaN());
+	//https://tutorialspoint.dev/algorithm/mathematical-algorithms/program-find-correlation-coefficient
+
+	float sum_X = 0, sum_Y = 0, sum_XY = 0;
+	float squareSum_X = 0, squareSum_Y = 0;
+
+	if (lookback - 1 > tick) {
+		return NullableValueNumber();
+	}
 
 
-	if (buffer1.size() >= lookback) {
-		//https://tutorialspoint.dev/algorithm/mathematical-algorithms/program-find-correlation-coefficient
+	for (int i = tick + 1 - lookback; i < tick+1; i++)
+	{
 
-		float sum_X = 0, sum_Y = 0, sum_XY = 0;
-		float squareSum_X = 0, squareSum_Y = 0;
-
-		for (int i = buffer1.size() - lookback; i < buffer1.size(); i++)
-		{
-
-			if (std::isnan(buffer1[i])) {
-				return NullableValueNumber();
-			}
-			if (std::isnan(buffer2[i])) {
-				return NullableValueNumber();
-			}
-
-			// sum of elements of array X. 
-			sum_X = sum_X + buffer1[i];
-
-			// sum of elements of array Y. 
-			sum_Y = sum_Y + buffer2[i];
-
-			// sum of X[i] * Y[i]. 
-			sum_XY = sum_XY + buffer1[i] * buffer2[i];
-
-			// sum of square of array elements. 
-			squareSum_X = squareSum_X + buffer1[i] * buffer1[i];
-			squareSum_Y = squareSum_Y + buffer2[i] * buffer2[i];
+		if (std::isnan(buffer1[i])) {
+			return NullableValueNumber();
+		}
+		if (std::isnan(buffer2[i])) {
+			return NullableValueNumber();
 		}
 
-		float corr = ((float)lookback * sum_XY - sum_X * sum_Y) / sqrt((lookback * squareSum_X - sum_X * sum_X) * (lookback * squareSum_Y - sum_Y * sum_Y));
-		return NullableValueNumber(corr);
+		// sum of elements of array X. 
+		sum_X = sum_X + buffer1[i];
+
+		// sum of elements of array Y. 
+		sum_Y = sum_Y + buffer2[i];
+
+		// sum of X[i] * Y[i]. 
+		sum_XY = sum_XY + buffer1[i] * buffer2[i];
+
+		// sum of square of array elements. 
+		squareSum_X = squareSum_X + buffer1[i] * buffer1[i];
+		squareSum_Y = squareSum_Y + buffer2[i] * buffer2[i];
 	}
-	return NullableValueNumber();
+
+	float corr = ((float)lookback * sum_XY - sum_X * sum_Y) / sqrt((lookback * squareSum_X - sum_X * sum_X) * (lookback * squareSum_Y - sum_Y * sum_Y));
+	return NullableValueNumber(corr);
+
 }
 
 
 
 ExpressionValue PreviousNumberValue::interpret(const unsigned int tick) {
 
-	// always record otherwise we will build up a offset
-	values.push_back(*data->value);
+	buffer[tick].value = data->value;
+	
+	int lookback;
 
-	if (barsback->value) {
-		int lookback = (int)*barsback->value;
-		if (lookback < 0) {
-			throw LanguageException("Run time error at tick " + std::to_string(tick) + ", previous function must not be negative.", barsbackNode);
-		}
+	if (!barsback->value) {
 
-
-		if (values.size() > lookback) {
-			return values.at(tick - lookback);
-		}
 		return NullableValueNumber();
+	}
+	lookback = (int)*barsback->value;
 
+	if (lookback < 0) {
+		throw LanguageException("Run time error at tick " + std::to_string(tick) + ", previous function must not be negative.", barsbackNode);
 	}
 
-	return NullableValueNumber();
+
+	if (lookback - 1 > tick) {
+		return NullableValueNumber();
+	}
+
+
+	if ((int)tick - lookback < 0) {
+		return NullableValueNumber();
+	}
+
+	return buffer.at((int)tick - lookback);
+
 }
 
 
 ExpressionValue PreviousStringValue::interpret(const unsigned int tick) {
 
-	// always record otherwise we will build up a offset
-	values.push_back(*data->value);
+	buffer[tick].value = data->value;
 
-	if (barsback->value) {
-		int lookback = (int)*barsback->value;
-		if (lookback < 0) {
-			throw LanguageException("Run time error at tick " + std::to_string(tick) + ", previous function must not be negative.", barsbackNode);
-		}
+	int lookback;
 
-
-		if (values.size() > lookback) {
-			return values.at(tick - lookback);
-		}
+	if (!barsback->value) {
 		return NullableValueString();
+	}
+	lookback = (int)*barsback->value;
 
+	if (lookback < 0) {
+		throw LanguageException("Run time error at tick " + std::to_string(tick) + ", previous function must not be negative.", barsbackNode);
 	}
 
-	return NullableValueString();
+
+	if (lookback - 1 > tick) {
+		return NullableValueString();
+	}
+
+
+	if ((int)tick - lookback < 0) {
+		return NullableValueString();
+	}
+
+	return buffer.at((int)tick - lookback);
 }
 
 
 ExpressionValue PreviousBooleanValue::interpret(const unsigned int tick) {
 
-	// always record otherwise we will build up a offset
-	values.push_back(*data->value);
+	buffer[tick].value = data->value;
 
-	if (barsback->value) {
-		int lookback = (int)*barsback->value;
-		if (lookback < 0) {
-			throw LanguageException("Run time error at tick " + std::to_string(tick) + ", previous function must not be negative.", barsbackNode);
-		}
+	int lookback;
 
+	if (!barsback->value) {
 
-		if (values.size() > lookback) {
-			return values.at(tick - lookback);
-		}
 		return NullableValueBoolean();
+	}
+	lookback = (int)*barsback->value;
 
+	if (lookback < 0) {
+		throw LanguageException("Run time error at tick " + std::to_string(tick) + ", previous function must not be negative.", barsbackNode);
 	}
 
-	return NullableValueBoolean();
+
+	if (lookback - 1 > tick) {
+		return NullableValueBoolean();
+	}
+
+
+	if ((int)tick - lookback < 0) {
+		return NullableValueBoolean();
+	}
+
+	return buffer.at((int)tick - lookback);
 }
 
 
@@ -1157,17 +1278,29 @@ ExpressionValue Median::interpret(const unsigned int tick) {
 ExpressionValue MedianBars::interpret(const unsigned int tick) {
 
 
-	int lookback = (int)*bars_back->value;
+
+	buffer[tick] = (value->value ? *value->value : std::numeric_limits<double>::quiet_NaN());
+
+	int lookback;
+
+	if (!bars_back->value) {
+		return NullableValueNumber();
+	}
+	lookback = (int)*bars_back->value;
+
 	if (lookback <= 0) {
-		throw LanguageException("Run time error at tick " + std::to_string(tick) + ", sum function must use positive non zero amount.", barsBackNode);
+		throw LanguageException("Run time error at tick " + std::to_string(tick) + ", median bars function lookback must use positive non zero.", barsBackNode);
 	}
 
-	buffer.push_back(value->value ? *value->value : std::numeric_limits<double>::quiet_NaN());
+	if (lookback - 1 > tick) {
+		return NullableValueNumber();
+	}
 
 
-	if (buffer.size() >= lookback) {
+
+	//if (buffer.size() >= lookback) {
 		std::vector<float> new_vec;
-		for (int i = buffer.size() - lookback; i < buffer.size(); i++) {
+		for (int i = tick + 1 - lookback; i < tick + 1; i++) {
 
 			if (std::isnan(buffer[i])) {
 				return NullableValueNumber();
@@ -1182,9 +1315,9 @@ ExpressionValue MedianBars::interpret(const unsigned int tick) {
 		}
 
 		return NullableValueNumber(new_vec[new_vec.size() / 2]);
-	}
+	//}
 
-	return NullableValueNumber();
+	//return NullableValueNumber();
 }
 
 

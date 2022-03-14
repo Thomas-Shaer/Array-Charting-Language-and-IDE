@@ -313,6 +313,10 @@ const TypeSymbol* MinimumBars::semanticAnaylsis(MethodCallNode* methodCallNode, 
 	value = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["value"]->expressionValue);
 	bars_back = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["bars_back"]->expressionValue);
 	barsBackNode = methodCallNode->expressionToArgList["bars_back"]->expression;
+	
+	buffer = std::vector<float>(InterpreterContext::ticks);
+	std::fill(buffer.begin(), buffer.end(), std::numeric_limits<float>::quiet_NaN());
+
 	return returnType;
 }
 
@@ -329,6 +333,10 @@ const TypeSymbol* MaximumBars::semanticAnaylsis(MethodCallNode* methodCallNode, 
 	bars_back = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["bars_back"]->expressionValue);
 	barsBackNode = methodCallNode->expressionToArgList["bars_back"]->expression;
 
+	buffer = std::vector<float>(InterpreterContext::ticks);
+	std::fill(buffer.begin(), buffer.end(), std::numeric_limits<float>::quiet_NaN());
+
+
 	return returnType;
 }
 
@@ -343,6 +351,10 @@ const TypeSymbol* SumBars::semanticAnaylsis(MethodCallNode* methodCallNode, std:
 	value = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["value"]->expressionValue);
 	bars_back = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["bars_back"]->expressionValue);
 	barsBackNode = methodCallNode->expressionToArgList["bars_back"]->expression;
+
+
+	buffer = std::vector<float>(InterpreterContext::ticks);
+	std::fill(buffer.begin(), buffer.end(), std::numeric_limits<float>::quiet_NaN());
 
 	return returnType;
 }
@@ -480,6 +492,9 @@ const TypeSymbol* Variance::semanticAnaylsis(MethodCallNode* methodCallNode, std
 	bars_back = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["amount"]->expressionValue);
 	barsBackNode = methodCallNode->expressionToArgList["amount"]->expression;
 
+	buffer = std::vector<float>(InterpreterContext::ticks);
+	std::fill(buffer.begin(), buffer.end(), std::numeric_limits<float>::quiet_NaN());
+
 	return returnType;
 }
 
@@ -489,6 +504,10 @@ const TypeSymbol* STD::semanticAnaylsis(MethodCallNode* methodCallNode, std::sha
 	value = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["value"]->expressionValue);
 	bars_back = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["amount"]->expressionValue);
 	barsBackNode = methodCallNode->expressionToArgList["amount"]->expression;
+
+	buffer = std::vector<float>(InterpreterContext::ticks);
+	std::fill(buffer.begin(), buffer.end(), std::numeric_limits<float>::quiet_NaN());
+
 	return returnType;
 }
 
@@ -497,6 +516,9 @@ const TypeSymbol* MA::semanticAnaylsis(MethodCallNode* methodCallNode, std::shar
 	value = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["value"]->expressionValue);
 	amount = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["amount"]->expressionValue);
 	amountNode = methodCallNode->expressionToArgList["amount"]->expression;
+
+	buffer = std::vector<float>(InterpreterContext::ticks);
+	std::fill(buffer.begin(), buffer.end(), std::numeric_limits<float>::quiet_NaN());
 
 	return returnType;
 }
@@ -532,6 +554,9 @@ const TypeSymbol* Falling::semanticAnaylsis(MethodCallNode* methodCallNode, std:
 	bars_back = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["amount"]->expressionValue);
 	barsBackNode = methodCallNode->expressionToArgList["amount"]->expression;
 
+	buffer = std::vector<float>(InterpreterContext::ticks);
+	std::fill(buffer.begin(), buffer.end(), std::numeric_limits<float>::quiet_NaN());
+
 	return returnType;
 }
 
@@ -541,6 +566,9 @@ const TypeSymbol* Rising::semanticAnaylsis(MethodCallNode* methodCallNode, std::
 	value = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["value"]->expressionValue);
 	bars_back = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["amount"]->expressionValue);
 	barsBackNode = methodCallNode->expressionToArgList["amount"]->expression;
+
+	buffer = std::vector<float>(InterpreterContext::ticks);
+	std::fill(buffer.begin(), buffer.end(), std::numeric_limits<float>::quiet_NaN());
 
 	return returnType;
 }
@@ -593,6 +621,9 @@ const TypeSymbol* LinearRegressionAtTick::semanticAnaylsis(MethodCallNode* metho
 	xvalue = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["x"]->expressionValue);
 	barsBackNode = methodCallNode->expressionToArgList["bars"]->expression;
 
+	buffer = std::vector<float>(InterpreterContext::ticks);
+	std::fill(buffer.begin(), buffer.end(), std::numeric_limits<float>::quiet_NaN());
+
 	return returnType;
 }
 
@@ -602,6 +633,13 @@ const TypeSymbol* Correlation::semanticAnaylsis(MethodCallNode* methodCallNode, 
 	data2 = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["data2"]->expressionValue);
 	bars_back = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["length"]->expressionValue);
 	barsBackNode = methodCallNode->expressionToArgList["length"]->expression;
+
+	buffer1 = std::vector<float>(InterpreterContext::ticks);
+	std::fill(buffer1.begin(), buffer1.end(), std::numeric_limits<float>::quiet_NaN());
+
+	buffer2 = std::vector<float>(InterpreterContext::ticks);
+	std::fill(buffer2.begin(), buffer2.end(), std::numeric_limits<float>::quiet_NaN());
+
 	return returnType;
 }
 
@@ -611,6 +649,10 @@ const TypeSymbol* PreviousNumberValue::semanticAnaylsis(MethodCallNode* methodCa
 	data = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["data"]->expressionValue);
 	barsback = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["barsback"]->expressionValue);
 	barsbackNode = methodCallNode->expressionToArgList["barsback"]->expression;
+
+	buffer = std::vector<NullableValueNumber>(InterpreterContext::ticks);
+	std::fill(buffer.begin(), buffer.end(), NullableValueNumber());
+
 	return returnType;
 }
 
@@ -619,6 +661,11 @@ const TypeSymbol* PreviousStringValue::semanticAnaylsis(MethodCallNode* methodCa
 	data = boost::get<NullableValueString>(&methodCallNode->expressionToArgList["data"]->expressionValue);
 	barsback = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["barsback"]->expressionValue);
 	barsbackNode = methodCallNode->expressionToArgList["barsback"]->expression;
+
+
+	buffer = std::vector<NullableValueString>(InterpreterContext::ticks);
+	std::fill(buffer.begin(), buffer.end(), NullableValueString());
+
 	return returnType;
 }
 
@@ -627,6 +674,10 @@ const TypeSymbol* PreviousBooleanValue::semanticAnaylsis(MethodCallNode* methodC
 	data = boost::get<NullableValueBoolean>(&methodCallNode->expressionToArgList["data"]->expressionValue);
 	barsback = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["barsback"]->expressionValue);
 	barsbackNode = methodCallNode->expressionToArgList["barsback"]->expression;
+
+	buffer = std::vector<NullableValueBoolean>(InterpreterContext::ticks);
+	std::fill(buffer.begin(), buffer.end(), NullableValueBoolean());
+
 	return returnType;
 }
 
@@ -643,6 +694,10 @@ const TypeSymbol* MedianBars::semanticAnaylsis(MethodCallNode* methodCallNode, s
 	value = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["data"]->expressionValue);
 	bars_back = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["barsback"]->expressionValue);
 	barsBackNode = methodCallNode->expressionToArgList["barsback"]->expression;
+
+	buffer = std::vector<float>(InterpreterContext::ticks);
+	std::fill(buffer.begin(), buffer.end(), std::numeric_limits<float>::quiet_NaN());
+
 	return returnType;
 }
 

@@ -19,6 +19,8 @@ bool InterpreterContext::isIntellisense = false;
 void InterpreterContext::intellisense(const std::string& code) {
 	yy::SourceLocation* sl = new yy::SourceLocation();
 	InterpreterContext::isIntellisense = true;
+	int saveTicks = InterpreterContext::ticks;
+	InterpreterContext::ticks = 0;
 	try {
 		/*
 		Performs lexing + parsing operations
@@ -55,6 +57,7 @@ void InterpreterContext::intellisense(const std::string& code) {
 	catch (LanguageException langexception) {
 		langExcept = langexception;
 	}
+	InterpreterContext::ticks = saveTicks;
 	InterpreterContext::isIntellisense = false;
 	delete sl;
 }

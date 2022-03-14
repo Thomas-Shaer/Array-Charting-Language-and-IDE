@@ -726,7 +726,7 @@ BOOST_AUTO_TEST_CASE(method_prev_test)
     std::vector<ExpressionValue> buffer1 = getReturnVarBuffer("prev", { "tick()", "1" }, context1);
     BOOST_CHECK(isNaN(safeExpressionCast<NullableValueNumber>(buffer1.at(0))));
     BOOST_CHECK(isEquiv(safeExpressionCast<NullableValueNumber>(buffer1.at(MAX_TICK_SIZE - 1)), NullableValueNumber(3)));
-
+    BOOST_CHECK(isNaN(getReturn<NullableValueNumber>("prev", { "tick()", "nan_f()"})));
 
     BOOST_CHECK_THROW(execute("prev(tick(), -10)"), LanguageException);
 
@@ -734,9 +734,11 @@ BOOST_AUTO_TEST_CASE(method_prev_test)
     InterpreterContext context2;
     context2.ticks = MAX_TICK_SIZE;
     std::vector<ExpressionValue> buffer2 = getReturnVarBuffer("prev", { "\"Hello World!\"", "1" }, context2);
+
     BOOST_CHECK(isNaN(safeExpressionCast<NullableValueString>(buffer2.at(0))));
     BOOST_CHECK(isEquiv(safeExpressionCast<NullableValueString>(buffer2.at(MAX_TICK_SIZE - 1)), NullableValueString("Hello World!")));
 
+    BOOST_CHECK(isNaN(getReturn<NullableValueString>("prev", { "\"Hello World!\"", "nan_f()" })));
 
     BOOST_CHECK_THROW(execute("prev(\"Hello World!\", -10)"), LanguageException);
 
@@ -746,6 +748,7 @@ BOOST_AUTO_TEST_CASE(method_prev_test)
     std::vector<ExpressionValue> buffer3 = getReturnVarBuffer("prev", { "true", "1" }, context3);
     BOOST_CHECK(isNaN(safeExpressionCast<NullableValueBoolean>(buffer3.at(0))));
     BOOST_CHECK(isEquiv(safeExpressionCast<NullableValueBoolean>(buffer3.at(MAX_TICK_SIZE - 1)), NullableValueBoolean(true)));
+    BOOST_CHECK(isNaN(getReturn<NullableValueBoolean>("prev", { "true", "nan_f()" })));
 
 
     BOOST_CHECK_THROW(execute("prev(true, -10)"), LanguageException);
@@ -799,9 +802,9 @@ BOOST_AUTO_TEST_CASE(method_ma_test)
 {
     BOOST_CHECK(isEquiv(getReturn<NullableValueNumber>("ma", { "0", "1" }), NullableValueNumber(0)));
     BOOST_CHECK(isNaN(getReturn<NullableValueNumber>("ma", { "nan_f()", "1" })));
+    BOOST_CHECK(isNaN(getReturn<NullableValueNumber>("ma", { "1", "nan_f()" })));
     BOOST_CHECK_THROW(execute("ma(1, -1)"), LanguageException);
     BOOST_CHECK_THROW(execute("ma(1, 0)"), LanguageException);
-    BOOST_CHECK_THROW(execute("ma(1, nan_f())"), LanguageException);
 
     InterpreterContext context2;
     context2.ticks = MAX_TICK_SIZE;
@@ -816,9 +819,9 @@ BOOST_AUTO_TEST_CASE(method_max_bars_test)
 {
     BOOST_CHECK(isEquiv(getReturn<NullableValueNumber>("max", { "0", "1" }), NullableValueNumber(0)));
     BOOST_CHECK(isNaN(getReturn<NullableValueNumber>("max", { "nan_f()", "1" })));
+    BOOST_CHECK(isNaN(getReturn<NullableValueNumber>("max", { "1", "nan_f()" })));
     BOOST_CHECK_THROW(execute("max(1, -1)"), LanguageException);
     BOOST_CHECK_THROW(execute("max(1, 0)"), LanguageException);
-    BOOST_CHECK_THROW(execute("max(1, nan_f())"), LanguageException);
 
     InterpreterContext context2;
     context2.ticks = MAX_TICK_SIZE;
@@ -832,9 +835,9 @@ BOOST_AUTO_TEST_CASE(method_min_bars_test)
 {
     BOOST_CHECK(isEquiv(getReturn<NullableValueNumber>("min", { "0", "1" }), NullableValueNumber(0)));
     BOOST_CHECK(isNaN(getReturn<NullableValueNumber>("min", { "nan_f()", "1" })));
+    BOOST_CHECK(isNaN(getReturn<NullableValueNumber>("min", { "1", "nan_f()" })));
     BOOST_CHECK_THROW(execute("min(1, -1)"), LanguageException);
     BOOST_CHECK_THROW(execute("min(1, 0)"), LanguageException);
-    BOOST_CHECK_THROW(execute("min(1, nan_f())"), LanguageException);
 
     InterpreterContext context2;
     context2.ticks = MAX_TICK_SIZE;
@@ -848,9 +851,9 @@ BOOST_AUTO_TEST_CASE(method_sum_bars_test)
 {
     BOOST_CHECK(isEquiv(getReturn<NullableValueNumber>("sum", { "0", "1" }), NullableValueNumber(0)));
     BOOST_CHECK(isNaN(getReturn<NullableValueNumber>("sum", { "nan_f()", "1" })));
+    BOOST_CHECK(isNaN(getReturn<NullableValueNumber>("sum", { "1", "nan_f()" })));
     BOOST_CHECK_THROW(execute("sum(1, -1)"), LanguageException);
     BOOST_CHECK_THROW(execute("sum(1, 0)"), LanguageException);
-    BOOST_CHECK_THROW(execute("sum(1, nan_f())"), LanguageException);
 
     InterpreterContext context2;
     context2.ticks = MAX_TICK_SIZE;
@@ -867,7 +870,7 @@ BOOST_AUTO_TEST_CASE(method_falling_test)
     BOOST_CHECK(isNaN(getReturn<NullableValueBoolean>("falling", { "nan_f()", "1" })));
     BOOST_CHECK_THROW(execute("falling(1, -1)"), LanguageException);
     BOOST_CHECK_THROW(execute("falling(1, 0)"), LanguageException);
-    BOOST_CHECK_THROW(execute("falling(1, nan_f())"), LanguageException);
+    BOOST_CHECK(isNaN(getReturn<NullableValueBoolean>("falling", { "1", "nan_f()" })));
 
     InterpreterContext context2;
     context2.ticks = MAX_TICK_SIZE;
@@ -889,9 +892,9 @@ BOOST_AUTO_TEST_CASE(method_rising_test)
 {
     BOOST_CHECK(isEquiv(getReturn<NullableValueBoolean>("rising", { "0", "1" }), NullableValueBoolean(true)));
     BOOST_CHECK(isNaN(getReturn<NullableValueBoolean>("rising", { "nan_f()", "1" })));
+    BOOST_CHECK(isNaN(getReturn<NullableValueBoolean>("rising", { "1", "nan_f()" })));
     BOOST_CHECK_THROW(execute("rising(1, -1)"), LanguageException);
     BOOST_CHECK_THROW(execute("rising(1, 0)"), LanguageException);
-    BOOST_CHECK_THROW(execute("rising(1, nan_f())"), LanguageException);
 
     InterpreterContext context2;
     context2.ticks = MAX_TICK_SIZE;
@@ -913,9 +916,9 @@ BOOST_AUTO_TEST_CASE(method_median_bars_test)
 {
     BOOST_CHECK(isEquiv(getReturn<NullableValueNumber>("median", { "0", "1" }), NullableValueNumber(0)));
     BOOST_CHECK(isNaN(getReturn<NullableValueNumber>("median", { "nan_f()", "1" })));
+    BOOST_CHECK(isNaN(getReturn<NullableValueNumber>("median", { "1", "nan_f()" })));
     BOOST_CHECK_THROW(execute("median(1, -1)"), LanguageException);
     BOOST_CHECK_THROW(execute("median(1, 0)"), LanguageException);
-    BOOST_CHECK_THROW(execute("median(1, nan_f())"), LanguageException);
 
     InterpreterContext context2;
     context2.ticks = MAX_TICK_SIZE;
@@ -932,9 +935,9 @@ BOOST_AUTO_TEST_CASE(method_variance_test)
 
 
     BOOST_CHECK(isNaN(getReturn<NullableValueNumber>("variance", { "nan_f()", "2" })));
+    BOOST_CHECK(isNaN(getReturn<NullableValueNumber>("variance", { "1", "nan_f()" })));
     BOOST_CHECK_THROW(execute("variance(1, -1)"), LanguageException);
     BOOST_CHECK_THROW(execute("variance(1, 0)"), LanguageException);
-    BOOST_CHECK_THROW(execute("variance(1, nan_f())"), LanguageException);
 
     InterpreterContext context2;
     context2.ticks = MAX_TICK_SIZE;
@@ -951,9 +954,9 @@ BOOST_AUTO_TEST_CASE(method_std_test)
 
 
     BOOST_CHECK(isNaN(getReturn<NullableValueNumber>("std", { "nan_f()", "2" })));
+    BOOST_CHECK(isNaN(getReturn<NullableValueNumber>("std", { "1", "nan_f()" })));
     BOOST_CHECK_THROW(execute("std(1, -1)"), LanguageException);
     BOOST_CHECK_THROW(execute("std(1, 0)"), LanguageException);
-    BOOST_CHECK_THROW(execute("std(1, nan_f())"), LanguageException);
 
     InterpreterContext context2;
     context2.ticks = MAX_TICK_SIZE;
@@ -970,14 +973,15 @@ BOOST_AUTO_TEST_CASE(method_linreg_test)
     BOOST_CHECK(isNaN(getReturn<NullableValueNumber>("linreg", { "nan_f()", "2", "tick()" })));
     BOOST_CHECK(isNaN(getReturn<NullableValueNumber>("linreg", { "0", "2", "nan_f()" })));
     BOOST_CHECK(isNaN(getReturn<NullableValueNumber>("linreg", { "nan_f()", "2", "nan_f()" })));
+    BOOST_CHECK(isNaN(getReturn<NullableValueNumber>("linreg", { "1", "nan_f()", "tick()" })));
     BOOST_CHECK_THROW(execute("linreg(1, -1, tick())"), LanguageException);
     BOOST_CHECK_THROW(execute("linreg(1, 0), tick()"), LanguageException);
-    BOOST_CHECK_THROW(execute("linreg(1, nan_f(), tick())"), LanguageException);
 
     InterpreterContext context2;
     context2.ticks = MAX_TICK_SIZE;
     std::vector<ExpressionValue> buffer2 = getReturnVarBuffer("linreg", { "tick()", "2", "tick()" }, context2);
     BOOST_CHECK(isNaN(safeExpressionCast<NullableValueNumber>(buffer2.at(0))));
+    std::cout << safeExpressionCast<NullableValueNumber>(buffer2.at(1)).toString() << std::endl;
     BOOST_CHECK(isEquiv(safeExpressionCast<NullableValueNumber>(buffer2.at(1)), NullableValueNumber(1)));
     BOOST_CHECK(isEquiv(safeExpressionCast<NullableValueNumber>(buffer2.at(MAX_TICK_SIZE - 1)), NullableValueNumber(4)));
 }
@@ -989,12 +993,14 @@ BOOST_AUTO_TEST_CASE(method_corr_test)
     BOOST_CHECK(isNaN(getReturn<NullableValueNumber>("corr", { "nan_f()", "tick()", "2" })));
     BOOST_CHECK(isNaN(getReturn<NullableValueNumber>("corr", { "tick()", "nan_f()", "2" })));
     BOOST_CHECK(isNaN(getReturn<NullableValueNumber>("corr", { "nan_f()", "nan_f()", "2" })));
+    BOOST_CHECK(isNaN(getReturn<NullableValueNumber>("corr", { "nan_f()", "nan_f()", "nan_f()" })));
 
 
     InterpreterContext context2;
     context2.ticks = MAX_TICK_SIZE;
     std::vector<ExpressionValue> buffer2 = getReturnVarBuffer("corr", { "tick()", "tick()", "2" }, context2);
     BOOST_CHECK(isNaN(safeExpressionCast<NullableValueNumber>(buffer2.at(0))));
+    std::cout << safeExpressionCast<NullableValueNumber>(buffer2.at(1)).toString() << std::endl;
     BOOST_CHECK(isEquiv(safeExpressionCast<NullableValueNumber>(buffer2.at(1)), NullableValueNumber(1)));
     BOOST_CHECK(isEquiv(safeExpressionCast<NullableValueNumber>(buffer2.at(MAX_TICK_SIZE - 1)), NullableValueNumber(1)));
 }
