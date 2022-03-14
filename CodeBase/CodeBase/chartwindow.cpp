@@ -151,13 +151,7 @@ void ChartWindow::ShowWindow() {
     int chartAxisX = 0, chartAxisY = 0, chartAxisWidth = 0, chartAxisHeight = 0;
 
 
-    // display warning about 16-bit indices
-    static bool showWarning = sizeof(ImDrawIdx) * 8 == 16 && (ImGui::GetIO().BackendFlags & ImGuiBackendFlags_RendererHasVtxOffset) == false;
-    if (showWarning) {
-        ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1, 1, 0, 1));
-        ImGui::TextWrapped("WARNING: ImDrawIdx is 16-bit and ImGuiBackendFlags_RendererHasVtxOffset is false. Expect visual glitches and artifacts! See README for more information.");
-        ImGui::PopStyleColor();
-    }
+
     ImGui::Spacing();
 
 
@@ -188,11 +182,14 @@ void ChartWindow::ShowWindow() {
 
         // display line plot data
         int colorMapIndex = 0;
+        ImPlot::SetNextFillStyle(IMPLOT_AUTO_COL);
+
         for (auto line : CHART_LINE_DATA) {
             std::string name = showChartTitle ? line->plotName : "";
-            ImPlot::SetNextFillStyle(ImPlot::GetColormapColor(colorMapIndex));
-            ImPlot::PlotLine(name.c_str(), line->fdata.data(), line->fdata.size());
+            std::string id = name + "###" + std::to_string(colorMapIndex);
+            ImPlot::PlotLine(id.c_str(), line->fdata.data(), line->fdata.size());
             colorMapIndex++;
+
         }
 
 
@@ -201,12 +198,12 @@ void ChartWindow::ShowWindow() {
             if (!line->stringMark) {
 
                 std::string name = showChartTitle ? line->plotName : "";
-                
-                ImPlot::SetNextFillStyle(ImPlot::GetColormapColor(colorMapIndex));
-                ImPlot::PlotScatter(name.c_str(), line->fdata.data(), line->fdata.size());
+                std::string id = name + "###" + std::to_string(colorMapIndex);
+                ImPlot::PlotScatter(id.c_str(), line->fdata.data(), line->fdata.size());
+                colorMapIndex++;
+
             }
             
-            colorMapIndex++;
         }
 
         // display text ( we want it to go on top)
@@ -217,9 +214,9 @@ void ChartWindow::ShowWindow() {
                     ImPlot::PlotText(line->sdata[i].c_str(), i, line->fdata[i], line->vstringdata[i]);
                 }
                 ImPlot::PopStyleColor();
+                colorMapIndex++;
             }
 
-            colorMapIndex++;
         }
 
 
