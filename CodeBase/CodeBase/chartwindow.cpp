@@ -129,6 +129,8 @@ void ChartWindow::ShowWindow() {
 
         if (ImGui::BeginMenu("Settings")) {
             if (ImGui::MenuItem("Anti-Aliasing", NULL, antiAliasing)) {
+                antiAliasing = !antiAliasing;
+
                 Settings::settingsFile["chartAntiAliasing"] = antiAliasing;
             }
             ImGui::EndMenu();
