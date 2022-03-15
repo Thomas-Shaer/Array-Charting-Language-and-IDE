@@ -37,7 +37,10 @@ void ChartWindow::clearAllCharts() {
 
 void ChartWindow::updateAllCharts() {
     for (auto& window : ChartWindow::allChartWindows) {
-        window.second->show = true;
+        // only open if we are plotting to it.
+        if (window.second->CHART_LINE_DATA.size() != 0 || window.second->CHART_MARK_DATA.size() != 0) {
+            window.second->show = true;
+        }
         window.second->UpdateChart();
     }
 }

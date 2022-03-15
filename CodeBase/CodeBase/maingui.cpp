@@ -58,7 +58,7 @@ int start()
 #endif
 
     // Create window with graphics context
-    GLFWwindow* window = glfwCreateWindow(Settings::settingsFile["windowwidth"].get<float>(), Settings::settingsFile["windowheight"].get<float>(), "Dear ImGui GLFW+OpenGL3 example", NULL, NULL);
+    GLFWwindow* window = glfwCreateWindow(Settings::settingsFile["windowwidth"].get<float>(), Settings::settingsFile["windowheight"].get<float>(), "Chart Building Software - Thomas Shaer Comp Sci. Disseration", NULL, NULL);
 
     if (window == NULL)
         return 1;
