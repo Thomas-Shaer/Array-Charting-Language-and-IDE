@@ -78,11 +78,13 @@ public:
 	*/
 	void setArraySize(const unsigned int size);
 
-	bool exportVariable = false;
 	std::string exportName;
 
+	bool exportVariable = false;
+	
 	// internal array
 	std::vector<ExpressionValue> buffer;
+
 
 
 private:

@@ -705,7 +705,10 @@ void TextEditor::HandleKeyboardInputs()
 		ImGui::IsKeyPressed(ImGui::GetKeyIndex(ImGuiKey_Enter)) ||
 		ImGui::IsKeyPressed(ImGui::GetKeyIndex(ImGuiKey_Tab)) ||
 		ImGui::IsKeyPressed(ImGui::GetKeyIndex(ImGuiKey_Backspace))) {
-		AnyKeyPressed();
+
+		if (ImGui::IsWindowFocused()) {
+			AnyKeyPressed();
+		}
 	}
 
 	if (ImGui::IsWindowFocused())

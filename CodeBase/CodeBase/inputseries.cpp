@@ -201,6 +201,7 @@ void InputSeries::renameVariable(const std::string& cvariableName) {
     std::shared_ptr<VarSymbol> oldSymbol = SymbolTable::GLOBAL_SYMBOL_TABLE->variableTable[variableName];
     SymbolTable::GLOBAL_SYMBOL_TABLE->variableTable.erase(SymbolTable::GLOBAL_SYMBOL_TABLE->variableTable.find(variableName));
     variableName = cvariableName;
+
     std::shared_ptr<VarSymbol> varSymbol = VarSymbol::createVarSymbol(variableName, TypeInstances::GetNumberInstance(), oldSymbol->getArrayValues());
     SymbolTable::GLOBAL_SYMBOL_TABLE->declareVariable(varSymbol);
     OutputWindow::UpdateVariablesTab();
