@@ -89,7 +89,7 @@ std::shared_ptr<SymbolTable> SymbolTable::GLOBAL_SYMBOL_TABLE = std::make_shared
 	registerMethod("count", new SingleMethodBucket(new Count(), METHOD_CAT::LOGIC)),
 
 
-	registerMethod("float", new SingleMethodBucket(new Boolean2FloatCast(), METHOD_CAT::MISC)),
+	registerMethod("number", new SingleMethodBucket(new Boolean2NumberCast(), METHOD_CAT::MISC)),
 	
 		
 		

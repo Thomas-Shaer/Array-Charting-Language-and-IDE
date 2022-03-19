@@ -521,9 +521,9 @@ BOOST_AUTO_TEST_CASE(method_count_test)
 
 BOOST_AUTO_TEST_CASE(method_float_cast_test)
 {
-    BOOST_CHECK(isEquiv(getReturn<NullableValueNumber>("float", { "true" }), NullableValueNumber(1)));
-    BOOST_CHECK(isEquiv(getReturn<NullableValueNumber>("float", { "false" }), NullableValueNumber(0)));
-    BOOST_CHECK(isNaN(getReturn<NullableValueNumber>("float", { "nan_b()" })));
+    BOOST_CHECK(isEquiv(getReturn<NullableValueNumber>("number", { "true" }), NullableValueNumber(1)));
+    BOOST_CHECK(isEquiv(getReturn<NullableValueNumber>("number", { "false" }), NullableValueNumber(0)));
+    BOOST_CHECK(isNaN(getReturn<NullableValueNumber>("number", { "nan_b()" })));
 
 }
 

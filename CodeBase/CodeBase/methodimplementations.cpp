@@ -226,7 +226,7 @@ BinaryBooleanEqualOperator::BinaryBooleanEqualOperator(const std::string& _name)
 
 
 BinaryFloatEqualOperator::BinaryFloatEqualOperator(const std::string& _name) : PositionalMethodSymbol(_name,
-	"Performs equal operator on two floats.",
+	"Performs equal operator on two numbers.",
 	{
 	ParameterSymbol(TypeInstances::GetNumberInstance(), "lhs", "The left hand side of the equal operation."),
 	ParameterSymbol(TypeInstances::GetNumberInstance(), "rhs", "The rhs hand side of the equal operation.")
@@ -259,7 +259,7 @@ BinaryBooleanNotEqualOperator::BinaryBooleanNotEqualOperator(const std::string& 
 
 BinaryFloatNotEqualOperator::BinaryFloatNotEqualOperator(const std::string& _name) : PositionalMethodSymbol(_name,
 
-	"Performs not equal operator on two floats.",
+	"Performs not equal operator on two numbers.",
 
 	{
 
@@ -381,7 +381,7 @@ ValueWhenBoolean::ValueWhenBoolean() : PositionalMethodSymbol("valuewhen",
 
 
 FloatNAN::FloatNAN() : PositionalMethodSymbol("nan_f",
-	"Get a float NAN.",
+	"Get a number NAN.",
 
 	{ }, ReturnSymbol(TypeInstances::GetNumberInstance(), "NAN value")) {}
 
@@ -567,19 +567,19 @@ Ceil::Ceil() : PositionalMethodSymbol("ceil",
 
 
 MaxNumber::MaxNumber() : PositionalMethodSymbol("maxnumber",
-	"The max float value",
+	"The max number value",
 
 	{
-	}, ReturnSymbol(TypeInstances::GetNumberInstance(), "The largest possible float value")) {}
+	}, ReturnSymbol(TypeInstances::GetNumberInstance(), "The largest possible number value")) {}
 
 
 
 
 MinNumber::MinNumber() : PositionalMethodSymbol("minnumber",
-	"The minimum float value",
+	"The minimum number value",
 
 	{
-	}, ReturnSymbol(TypeInstances::GetNumberInstance(), "The smallest possible float value")) {}
+	}, ReturnSymbol(TypeInstances::GetNumberInstance(), "The smallest possible number value")) {}
 
 
 
@@ -595,12 +595,12 @@ Count::Count() : PositionalMethodSymbol("count",
 
 
 
-Boolean2FloatCast::Boolean2FloatCast() : PositionalMethodSymbol("float",
-	"Casts value to a float.",
+Boolean2NumberCast::Boolean2NumberCast() : PositionalMethodSymbol("number",
+	"Casts value to a number.",
 
 	{
 		ParameterSymbol(TypeInstances::GetBooleanInstance(), "value", "The value to convert")
-	}, ReturnSymbol(TypeInstances::GetNumberInstance(), "The value as a float.")) {}
+	}, ReturnSymbol(TypeInstances::GetNumberInstance(), "The value as a number.")) {}
 
 
 
@@ -745,7 +745,7 @@ MA::MA() : PositionalMethodSymbol("ma",
 
 
 IsNANF::IsNANF() : PositionalMethodSymbol("isnan",
-	"Returns true if float value is NAN",
+	"Returns true if number value is NAN",
 
 	{
 		ParameterSymbol(TypeInstances::GetNumberInstance(), "value", "The value to test"),

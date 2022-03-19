@@ -16,15 +16,15 @@ TypeInstances::TypeInstances() {
 }
 
 TypeSymbol* TypeInstances::GetNumberInstance() {
-	static TypeSymbol* floattemp = new TypeSymbol("number");
-	floattemp->nanValue = NullableValueNumber();
-	return floattemp;
+	static TypeSymbol* numbertemp = new TypeSymbol("number");
+	numbertemp->nanValue = NullableValueNumber();
+	return numbertemp;
 }
 
 TypeSymbol* TypeInstances::GetNumberConstantInstance() {
-	static TypeSymbol* floatconsttemp = new TypeSymbol("number_constant");
-	floatconsttemp->nanValue = NullableValueNumber();
-	return floatconsttemp;
+	static TypeSymbol* numberconsttemp = new TypeSymbol("number_constant");
+	numberconsttemp->nanValue = NullableValueNumber();
+	return numberconsttemp;
 }
 
 TypeSymbol* TypeInstances::GetBooleanInstance() {

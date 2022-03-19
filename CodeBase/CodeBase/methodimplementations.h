@@ -715,14 +715,14 @@ private:
 };
 
 
-class Boolean2FloatCast : public PositionalMethodSymbol {
+class Boolean2NumberCast : public PositionalMethodSymbol {
 public:
-	Boolean2FloatCast();
+	Boolean2NumberCast();
 	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable);
 
 	virtual ExpressionValue interpret(const unsigned int tick);
-	virtual Boolean2FloatCast* clone() {
-		return new Boolean2FloatCast();
+	virtual Boolean2NumberCast* clone() {
+		return new Boolean2NumberCast();
 	}
 private:
 	NullableValueBoolean* value;

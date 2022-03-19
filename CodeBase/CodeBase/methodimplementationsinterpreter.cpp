@@ -567,7 +567,7 @@ ExpressionValue Count::interpret(const unsigned int tick) {
 }
 
 
-ExpressionValue Boolean2FloatCast::interpret(const unsigned int tick) {
+ExpressionValue Boolean2NumberCast::interpret(const unsigned int tick) {
 
 	if (value->value) {
 		return NullableValueNumber(*value->value);

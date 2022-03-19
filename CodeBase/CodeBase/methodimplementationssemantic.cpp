@@ -408,7 +408,7 @@ const TypeSymbol* Count::semanticAnaylsis(MethodCallNode* methodCallNode, std::s
 	return returnType;
 }
 
-const TypeSymbol* Boolean2FloatCast::semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable) {
+const TypeSymbol* Boolean2NumberCast::semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable) {
 	const TypeSymbol* returnType = PositionalMethodSymbol::semanticAnaylsis(methodCallNode, symboltable);
 	value = boost::get<NullableValueBoolean>(&methodCallNode->expressionToArgList["value"]->expressionValue);
 	return returnType;
