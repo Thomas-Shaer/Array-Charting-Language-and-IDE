@@ -411,36 +411,36 @@ private:
 };
 
 
-class FloatNAN : public PositionalMethodSymbol {
+class NumberNull : public PositionalMethodSymbol {
 public:
-	FloatNAN();
+	NumberNull();
 	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable);
 
 	virtual ExpressionValue interpret(const unsigned int tick);
-	virtual FloatNAN* clone() {
-		return new FloatNAN();
+	virtual NumberNull* clone() {
+		return new NumberNull();
 	}
 };
 
-class BooleanNAN : public PositionalMethodSymbol {
+class BooleanNull : public PositionalMethodSymbol {
 public:
-	BooleanNAN();
+	BooleanNull();
 	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable);
 
 	virtual ExpressionValue interpret(const unsigned int tick);
-	virtual BooleanNAN* clone() {
-		return new BooleanNAN();
+	virtual BooleanNull* clone() {
+		return new BooleanNull();
 	}
 };
 
-class StringNAN : public PositionalMethodSymbol {
+class StringNull : public PositionalMethodSymbol {
 public:
-	StringNAN();
+	StringNull();
 	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable);
 
 	virtual ExpressionValue interpret(const unsigned int tick);
-	virtual StringNAN* clone() {
-		return new StringNAN();
+	virtual StringNull* clone() {
+		return new StringNull();
 	}
 };
 
@@ -916,14 +916,14 @@ private:
 };
 
 
-class IsNANF : public PositionalMethodSymbol {
+class IsNullN : public PositionalMethodSymbol {
 public:
-	IsNANF();
+	IsNullN();
 	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable);
 
 	virtual ExpressionValue interpret(const unsigned int tick);
-	virtual IsNANF* clone() {
-		return new IsNANF();
+	virtual IsNullN* clone() {
+		return new IsNullN();
 	}
 private:
 	NullableValueNumber* value;
@@ -931,27 +931,27 @@ private:
 
 
 
-class IsNANB : public PositionalMethodSymbol {
+class IsNullB : public PositionalMethodSymbol {
 public:
-	IsNANB();
+	IsNullB();
 	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable);
 
 	virtual ExpressionValue interpret(const unsigned int tick);
-	virtual IsNANB* clone() {
-		return new IsNANB();
+	virtual IsNullB* clone() {
+		return new IsNullB();
 	}
 private:
 	NullableValueBoolean* value;
 };
 
-class IsNANS : public PositionalMethodSymbol {
+class IsNullS : public PositionalMethodSymbol {
 public:
-	IsNANS();
+	IsNullS();
 	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable);
 
 	virtual ExpressionValue interpret(const unsigned int tick);
-	virtual IsNANS* clone() {
-		return new IsNANS();
+	virtual IsNullS* clone() {
+		return new IsNullS();
 	}
 private:
 	NullableValueString* value;

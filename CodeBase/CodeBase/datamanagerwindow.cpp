@@ -26,7 +26,7 @@ DataManagerWindow::DataManagerWindow() : Window("Data Manager Window") {
     fb.SetPwd(std::filesystem::path(Settings::settingsFile["lastDataImportDirectory"].get<std::string>()));
 
     for (nlohmann::json path : Settings::settingsFile["loadedInData"].get<std::vector<nlohmann::json>>()) {
-        InputSeries::LoadInputData(InputSeries::StringToImportPolicy(path["policy"]), path["path"], path["name"], path["trueImportString"], path["falseImportString"], path["NANImportString"]);
+        InputSeries::LoadInputData(InputSeries::StringToImportPolicy(path["policy"]), path["path"], path["name"], path["trueImportString"], path["falseImportString"], path["nullImportString"]);
     }
 
     // (optional) set browser properties
@@ -81,7 +81,7 @@ void DataManagerWindow::ShowWindow() {
     static bool showImportPopup = false;
     static char defaultTrue[40];
     static char defaultFalse[40];
-    static char defaultNAN[40];
+    static char defaultNull[40];
     static std::string variableNameMessage = "";
 
     if (ImGui::BeginMenuBar()) {
@@ -119,7 +119,7 @@ void DataManagerWindow::ShowWindow() {
 
         strncpy_s(defaultTrue, Settings::settingsFile["defaultTrueImportLiteral"].get<std::string>().c_str(), sizeof(defaultTrue));
         strncpy_s(defaultFalse, Settings::settingsFile["defaultFalseImportLiteral"].get<std::string>().c_str(), sizeof(defaultFalse));
-        strncpy_s(defaultNAN, Settings::settingsFile["defaultNANImportLiteral"].get<std::string>().c_str(), sizeof(defaultNAN));
+        strncpy_s(defaultNull, Settings::settingsFile["defaultNullImportLiteral"].get<std::string>().c_str(), sizeof(defaultNull));
 
     }
 
@@ -153,15 +153,15 @@ void DataManagerWindow::ShowWindow() {
         ImGui::Text("False text (40 char)");
         ImGui::InputText("##falsetext", defaultFalse, sizeof(defaultFalse));
 
-        ImGui::Text("NAN text (40 char)");
-        ImGui::InputText("##nantext", defaultNAN, sizeof(defaultNAN));
+        ImGui::Text("Null text (40 char)");
+        ImGui::InputText("##nulltext", defaultNull, sizeof(defaultNull));
 
         /*
         Save values
         */
         Settings::settingsFile["defaultTrueImportLiteral"] = std::string(defaultTrue);
         Settings::settingsFile["defaultFalseImportLiteral"] = std::string(defaultFalse);
-        Settings::settingsFile["defaultNANImportLiteral"] = std::string(defaultNAN);
+        Settings::settingsFile["defaultNullImportLiteral"] = std::string(defaultNull);
 
 
         if (ImGui::Button("Select File")) {
@@ -177,7 +177,7 @@ void DataManagerWindow::ShowWindow() {
 
             try {
                 parseMessage = "";
-                InputSeries::LoadInputData(importPolicySelection, filePath, fileName, std::string(defaultTrue), std::string(defaultFalse), std::string(defaultNAN));
+                InputSeries::LoadInputData(importPolicySelection, filePath, fileName, std::string(defaultTrue), std::string(defaultFalse), std::string(defaultNull));
                 showImportPopup = false;
 
                 nlohmann::json newSave;
@@ -186,7 +186,7 @@ void DataManagerWindow::ShowWindow() {
                 newSave["policy"] = InputSeries::ImportPolicyToString(importPolicySelection);
                 newSave["trueImportString"] = defaultTrue;
                 newSave["falseImportString"] = defaultFalse;
-                newSave["NANImportString"] = defaultNAN;
+                newSave["nullImportString"] = defaultNull;
                 Settings::settingsFile["loadedInData"].push_back(newSave);
 
                 ImGui::CloseCurrentPopup();

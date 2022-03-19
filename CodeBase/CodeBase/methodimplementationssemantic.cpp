@@ -287,16 +287,16 @@ const TypeSymbol* ValueWhenString::semanticAnaylsis(MethodCallNode* methodCallNo
 
 
 
-const TypeSymbol* FloatNAN::semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable) {
+const TypeSymbol* NumberNull::semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable) {
 	return PositionalMethodSymbol::semanticAnaylsis(methodCallNode, symboltable);
 }
 
 
-const TypeSymbol* BooleanNAN::semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable) {
+const TypeSymbol* BooleanNull::semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable) {
 	return PositionalMethodSymbol::semanticAnaylsis(methodCallNode, symboltable);
 }
 
-const TypeSymbol* StringNAN::semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable) {
+const TypeSymbol* StringNull::semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable) {
 	return PositionalMethodSymbol::semanticAnaylsis(methodCallNode, symboltable);
 }
 
@@ -523,19 +523,19 @@ const TypeSymbol* MA::semanticAnaylsis(MethodCallNode* methodCallNode, std::shar
 	return returnType;
 }
 
-const TypeSymbol* IsNANF::semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable) {
+const TypeSymbol* IsNullN::semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable) {
 	const TypeSymbol* returnType = PositionalMethodSymbol::semanticAnaylsis(methodCallNode, symboltable);
 	value = boost::get<NullableValueNumber>(&methodCallNode->expressionToArgList["value"]->expressionValue);
 	return returnType;
 }
 
-const TypeSymbol* IsNANB::semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable) {
+const TypeSymbol* IsNullB::semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable) {
 	const TypeSymbol* returnType = PositionalMethodSymbol::semanticAnaylsis(methodCallNode, symboltable);
 	value = boost::get<NullableValueBoolean>(&methodCallNode->expressionToArgList["value"]->expressionValue);
 	return returnType;
 }
 
-const TypeSymbol* IsNANS::semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable) {
+const TypeSymbol* IsNullS::semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable) {
 	const TypeSymbol* returnType = PositionalMethodSymbol::semanticAnaylsis(methodCallNode, symboltable);
 	value = boost::get<NullableValueString>(&methodCallNode->expressionToArgList["value"]->expressionValue);
 	return returnType;

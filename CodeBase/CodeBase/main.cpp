@@ -19,10 +19,10 @@ void newJSON() {
     Settings::settingsFile["lastCodeOpenDirectory"] = "";
     Settings::settingsFile["defaultTrueImportLiteral"] = "TRUE";
     Settings::settingsFile["defaultFalseImportLiteral"] = "FALSE";
-    Settings::settingsFile["defaultNANImportLiteral"] = "NAN";
+    Settings::settingsFile["defaultNullImportLiteral"] = "NULL";
     Settings::settingsFile["defaultTrueExportLiteral"] = "TRUE";
     Settings::settingsFile["defaultFalseExportLiteral"] = "FALSE";
-    Settings::settingsFile["defaultNANExportLiteral"] = "NAN";
+    Settings::settingsFile["defaultNullExportLiteral"] = "NULL";
     Settings::settingsFile["lastScreenshotExportDirectory"] = "";
     Settings::settingsFile["chartAntiAliasing"] = true;
     Settings::settingsFile["intellisense"] = true;

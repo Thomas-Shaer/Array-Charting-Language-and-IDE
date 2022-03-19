@@ -18,7 +18,7 @@ public:
 		return true;
 	}
 
-	ExpressionValue nanValue;
+	ExpressionValue nullValue;
 };
 
 /*

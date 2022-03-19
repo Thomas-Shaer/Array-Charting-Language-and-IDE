@@ -46,9 +46,9 @@ std::shared_ptr<SymbolTable> SymbolTable::GLOBAL_SYMBOL_TABLE = std::make_shared
 	registerMethod("mark", new SingleMethodBucket(new Mark(), METHOD_CAT::OUTPUT)),
 	registerMethod("text", new SingleMethodBucket(new Text(), METHOD_CAT::OUTPUT)),
 
-	registerMethod("nan_f", new SingleMethodBucket(new FloatNAN(), METHOD_CAT::MATHEMATICAL)),
-	registerMethod("nan_b", new SingleMethodBucket(new BooleanNAN(), METHOD_CAT::MATHEMATICAL)),
-	registerMethod("nan_s", new SingleMethodBucket(new StringNAN(), METHOD_CAT::MATHEMATICAL)),
+	registerMethod("null_n", new SingleMethodBucket(new NumberNull(), METHOD_CAT::MATHEMATICAL)),
+	registerMethod("null_b", new SingleMethodBucket(new BooleanNull(), METHOD_CAT::MATHEMATICAL)),
+	registerMethod("null_s", new SingleMethodBucket(new StringNull(), METHOD_CAT::MATHEMATICAL)),
 
 	registerMethod("valuewhen", new OverloadedMethodBucket(
 		{(new ValueWhenBoolean()),
@@ -145,10 +145,10 @@ std::shared_ptr<SymbolTable> SymbolTable::GLOBAL_SYMBOL_TABLE = std::make_shared
 		}
 	,METHOD_CAT::MATHEMATICAL)),
 
-	registerMethod("isnan", new OverloadedMethodBucket(
-		{(new IsNANF()),
-		(new IsNANB()),
-		(new IsNANS())
+	registerMethod("isnull", new OverloadedMethodBucket(
+		{(new IsNullN()),
+		(new IsNullB()),
+		(new IsNullS())
 		}
 	,METHOD_CAT::LOGIC)),
 

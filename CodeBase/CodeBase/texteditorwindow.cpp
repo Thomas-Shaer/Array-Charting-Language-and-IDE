@@ -79,7 +79,7 @@ void TextEditorWindow::saveFile(const std::string& filePath) {
             variableJSON["policy"] = InputSeries::ImportPolicyToString(data->importPolicy);
             variableJSON["trueImportString"] = data->trueLiteral;
             variableJSON["falseImportString"] = data->falseLiteral;
-            variableJSON["NANImportString"] = data->nanLiteral;
+            variableJSON["nullImportString"] = data->nullLiteral;
             saveJSON["variables"].push_back(variableJSON);
         }
     }
@@ -109,11 +109,11 @@ void TextEditorWindow::loadFile(const std::string& filePath) {
 
             std::string trueImport = variable["trueImportString"];
             std::string falseImport = variable["falseImportString"];
-            std::string NANImport = variable["NANImportString"];
+            std::string nullImport = variable["nullImportString"];
             ImportPolicy importPolicy = InputSeries::StringToImportPolicy(variable["policy"]);
 
 
-            InputSeries::LoadInputData(importPolicy, filepath, fileName, trueImport, falseImport, NANImport);
+            InputSeries::LoadInputData(importPolicy, filepath, fileName, trueImport, falseImport, nullImport);
 
             // mark it as a variable
             for (std::shared_ptr<InputSeries> data : DataManagerWindow::LOADED_IN_DATA) {

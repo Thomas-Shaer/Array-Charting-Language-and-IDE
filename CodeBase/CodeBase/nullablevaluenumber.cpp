@@ -9,7 +9,7 @@ std::string NullableValueNumber::toString() const {
 
 std::string NullableValueNumber::toFileString() const {
 	if (!value) {
-		return Settings::settingsFile["defaultNANExportLiteral"].get<std::string>();;
+		return Settings::settingsFile["defaultNullExportLiteral"].get<std::string>();;
 	}
 	return std::to_string(*value);
 }

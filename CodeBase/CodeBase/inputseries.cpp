@@ -16,29 +16,29 @@
 
 //https://stackoverflow.com/questions/4654636/how-to-determine-if-a-string-is-a-number-with-c
 
-std::pair<std::vector<ExpressionValue>, TypeSymbol*> InputSeries::parse(std::vector<std::string> rawValues, const std::string& TrueString, const std::string& FalseString, const std::string& NANString) {
+std::pair<std::vector<ExpressionValue>, TypeSymbol*> InputSeries::parse(std::vector<std::string> rawValues, const std::string& TrueString, const std::string& FalseString, const std::string& NullString) {
     // type of series
     TypeSymbol* seriesType = nullptr;
     // list because we can add to back and front
     std::list<ExpressionValue> values;
     // the null type (float or boolean) to be determined
-    ExpressionValue nanType;
-    // count of NaNs found before seriesType is determined
-    unsigned int leadingNaNs = 0;
+    ExpressionValue nullValue;
+    // count of Nulls found before seriesType is determined
+    unsigned int leadingNulls = 0;
 
 
     for (const std::string& cell : rawValues) {
         TypeSymbol* celltype = nullptr;
         /*
-        Record NaN type.
-        If type not determined yet, just increase count of leading NaNs.
+        Record Null value.
+        If type not determined yet, just increase count of leading Nulls.
         */
-        if (cell == NANString) {
+        if (cell == NullString) {
             if (!seriesType) {
-                leadingNaNs++;
+                leadingNulls++;
                 continue;
             }
-            values.push_back(nanType);
+            values.push_back(nullValue);
         }
         /*
         Record boolean.
@@ -66,7 +66,7 @@ std::pair<std::vector<ExpressionValue>, TypeSymbol*> InputSeries::parse(std::vec
             */
             if (!seriesType) {
                 seriesType = celltype;
-                nanType = seriesType == TypeInstances::GetBooleanInstance() ? ExpressionValue(NullableValueBoolean()) : ExpressionValue(NullableValueNumber());
+                nullValue = seriesType == TypeInstances::GetBooleanInstance() ? ExpressionValue(NullableValueBoolean()) : ExpressionValue(NullableValueNumber());
             }
             /*
             If the current cells type is not the same as the first seen type, throw a error.
@@ -86,16 +86,16 @@ std::pair<std::vector<ExpressionValue>, TypeSymbol*> InputSeries::parse(std::vec
     }
 
     /*
-    Type not determined meaning it only contains NaN values.
+    Type not determined meaning it only contains Null values.
     */
     if (!seriesType) {
         throw DataParseException("Type could not be determined from series.");
     }
     /*
-    Add leading NaNs now that we know the type.
+    Add leading Nulls now that we know the type.
     */
-    for (int i = 0; i < leadingNaNs; i++) {
-        values.push_front(nanType);
+    for (int i = 0; i < leadingNulls; i++) {
+        values.push_front(nullValue);
     }
 
     return { std::vector<ExpressionValue>(values.begin(), values.end()), seriesType };
@@ -110,7 +110,7 @@ ImportPolicy InputSeries::StringToImportPolicy(const std::string& name) {
     return name == "column-wise" ? ImportPolicy::COLUMN_WISE : ImportPolicy::ROW_WISE;
 }
 
-void InputSeries::LoadInputData(const ImportPolicy importPolicy, std::string name, std::string filename, const std::string& TrueString, const std::string& FalseString, const std::string& NANString) {
+void InputSeries::LoadInputData(const ImportPolicy importPolicy, std::string name, std::string filename, const std::string& TrueString, const std::string& FalseString, const std::string& NullString) {
     
 
     /*
@@ -142,8 +142,8 @@ void InputSeries::LoadInputData(const ImportPolicy importPolicy, std::string nam
                 row_data.push_back(substr);
             }
            
-            std::pair<std::vector<ExpressionValue>, TypeSymbol*> parsedResults = parse(row_data, TrueString, FalseString, NANString);
-            std::shared_ptr<InputSeries> newdata = std::make_shared<InputSeries>(firstWord, filename, name, TrueString, FalseString, NANString, parsedResults.first, parsedResults.second, ImportPolicy::ROW_WISE);
+            std::pair<std::vector<ExpressionValue>, TypeSymbol*> parsedResults = parse(row_data, TrueString, FalseString, NullString);
+            std::shared_ptr<InputSeries> newdata = std::make_shared<InputSeries>(firstWord, filename, name, TrueString, FalseString, NullString, parsedResults.first, parsedResults.second, ImportPolicy::ROW_WISE);
 
 
             series.push_back(newdata);
@@ -184,8 +184,8 @@ void InputSeries::LoadInputData(const ImportPolicy importPolicy, std::string nam
         }
         // loop through all series and register them
         for (const auto& it : columnData) {
-            std::pair<std::vector<ExpressionValue>, TypeSymbol*> parsedResults = parse(it.second, TrueString, FalseString, NANString);
-            std::shared_ptr<InputSeries> newdata = std::make_shared<InputSeries>(it.first, filename, name, TrueString, FalseString, NANString, parsedResults.first, parsedResults.second, ImportPolicy::COLUMN_WISE);
+            std::pair<std::vector<ExpressionValue>, TypeSymbol*> parsedResults = parse(it.second, TrueString, FalseString, NullString);
+            std::shared_ptr<InputSeries> newdata = std::make_shared<InputSeries>(it.first, filename, name, TrueString, FalseString, NullString, parsedResults.first, parsedResults.second, ImportPolicy::COLUMN_WISE);
             series.push_back(newdata);
         }
 

@@ -380,25 +380,25 @@ ValueWhenBoolean::ValueWhenBoolean() : PositionalMethodSymbol("valuewhen",
 
 
 
-FloatNAN::FloatNAN() : PositionalMethodSymbol("nan_f",
-	"Get a number NAN.",
+NumberNull::NumberNull() : PositionalMethodSymbol("null_n",
+	"Get a number null.",
 
-	{ }, ReturnSymbol(TypeInstances::GetNumberInstance(), "NAN value")) {}
-
-
-
-
-BooleanNAN::BooleanNAN() : PositionalMethodSymbol("nan_b",
-	"Get a boolean NAN.",
-	{ }, ReturnSymbol(TypeInstances::GetBooleanInstance(), "NAN value")) {}
+	{ }, ReturnSymbol(TypeInstances::GetNumberInstance(), "Null value")) {}
 
 
 
 
+BooleanNull::BooleanNull() : PositionalMethodSymbol("null_b",
+	"Get a boolean null.",
+	{ }, ReturnSymbol(TypeInstances::GetBooleanInstance(), "Null value")) {}
 
-StringNAN::StringNAN() : PositionalMethodSymbol("nan_s",
-	"Get a string NAN.",
-	{ }, ReturnSymbol(TypeInstances::GetStringInstance(), "NullableValueString value")) {}
+
+
+
+
+StringNull::StringNull() : PositionalMethodSymbol("null_s",
+	"Get a string null.",
+	{ }, ReturnSymbol(TypeInstances::GetStringInstance(), "Null value")) {}
 
 
 
@@ -744,36 +744,36 @@ MA::MA() : PositionalMethodSymbol("ma",
 
 
 
-IsNANF::IsNANF() : PositionalMethodSymbol("isnan",
-	"Returns true if number value is NAN",
+IsNullN::IsNullN() : PositionalMethodSymbol("isnull",
+	"Returns true if number value is null",
 
 	{
 		ParameterSymbol(TypeInstances::GetNumberInstance(), "value", "The value to test"),
-	}, ReturnSymbol(TypeInstances::GetBooleanInstance(), "Whether the value is NAN or not")) {}
+	}, ReturnSymbol(TypeInstances::GetBooleanInstance(), "Whether the value is null or not")) {}
 
 
 
 
 
 
-IsNANB::IsNANB() : PositionalMethodSymbol("isnan",
-	"Returns true if boolean value is NAN",
+IsNullB::IsNullB() : PositionalMethodSymbol("isnull",
+	"Returns true if boolean value is null",
 
 	{
 		ParameterSymbol(TypeInstances::GetBooleanInstance(), "value", "The value to test"),
-	}, ReturnSymbol(TypeInstances::GetBooleanInstance(), "Whether the value is NAN or not")) {}
+	}, ReturnSymbol(TypeInstances::GetBooleanInstance(), "Whether the value is null or not")) {}
 
 
 
 
 
 
-IsNANS::IsNANS() : PositionalMethodSymbol("isnan",
-	"Returns true if string value is NAN",
+IsNullS::IsNullS() : PositionalMethodSymbol("isnull",
+	"Returns true if string value is null",
 
 	{
 		ParameterSymbol(TypeInstances::GetStringInstance(), "value", "The value to test"),
-	}, ReturnSymbol(TypeInstances::GetStringInstance(), "Whether the value is NAN or not")) {}
+	}, ReturnSymbol(TypeInstances::GetStringInstance(), "Whether the value is null or not")) {}
 
 
 
@@ -814,7 +814,7 @@ Rising::Rising() : PositionalMethodSymbol("rising",
 
 
 Cosine::Cosine() : PositionalMethodSymbol("cos",
-	"Returns the cosine of x radians. If NAN supplied, will return NAN.",
+	"Returns the cosine of x radians. If null supplied, will return null.",
 
 	{
 		ParameterSymbol(TypeInstances::GetNumberInstance(), "radians", "The amount of radians"),
@@ -823,7 +823,7 @@ Cosine::Cosine() : PositionalMethodSymbol("cos",
 
 
 Tangent::Tangent() : PositionalMethodSymbol("tan",
-	"Returns the tangent of x radians. If NAN supplied, will return NAN.",
+	"Returns the tangent of x radians. If null supplied, will return null.",
 
 	{
 		ParameterSymbol(TypeInstances::GetNumberInstance(), "radians", "The amount of radians"),
@@ -832,7 +832,7 @@ Tangent::Tangent() : PositionalMethodSymbol("tan",
 
 
 Sine::Sine() : PositionalMethodSymbol("sin",
-	"Returns the sine of x radians. If NAN supplied, will return NAN.",
+	"Returns the sine of x radians. If null supplied, will return null.",
 
 	{
 		ParameterSymbol(TypeInstances::GetNumberInstance(), "radians", "The amount of radians"),
@@ -842,7 +842,7 @@ Sine::Sine() : PositionalMethodSymbol("sin",
 
 
 ArcCosine::ArcCosine() : PositionalMethodSymbol("acos",
-	"Returns the arc cosine of x radians. If NAN supplied, will return NAN.",
+	"Returns the arc cosine of x radians. If null supplied, will return null.",
 
 	{
 		ParameterSymbol(TypeInstances::GetNumberInstance(), "radians", "The amount of radians"),
@@ -851,7 +851,7 @@ ArcCosine::ArcCosine() : PositionalMethodSymbol("acos",
 
 
 ArcTan::ArcTan() : PositionalMethodSymbol("atan",
-	"Returns the arc tangent of x radians. If NAN supplied, will return NAN.",
+	"Returns the arc tangent of x radians. If null supplied, will return null.",
 
 	{
 		ParameterSymbol(TypeInstances::GetNumberInstance(), "radians", "The amount of radians"),
@@ -860,7 +860,7 @@ ArcTan::ArcTan() : PositionalMethodSymbol("atan",
 
 
 ArcSine::ArcSine() : PositionalMethodSymbol("asin",
-	"Returns the arc sine of x radians. If NAN supplied, will return NAN.",
+	"Returns the arc sine of x radians. If null supplied, will return null.",
 
 	{
 		ParameterSymbol(TypeInstances::GetNumberInstance(), "radians", "The amount of radians"),
@@ -925,7 +925,7 @@ PreviousBooleanValue::PreviousBooleanValue() : PositionalMethodSymbol("prev",
 
 
 Median::Median() : PositionalMethodSymbol("median",
-	"Returns the median value. Ignores NAN values.",
+	"Returns the median value. Ignores null values.",
 	{
 	ParameterSymbol(TypeInstances::GetNumberInstance(), "data", "Data to perform median on."),
 
@@ -936,7 +936,7 @@ Median::Median() : PositionalMethodSymbol("median",
 
 
 MedianBars::MedianBars() : PositionalMethodSymbol("median",
-	"Returns the rolling median value. Ignores NAN values.",
+	"Returns the rolling median value. Ignores null values.",
 	{
 	ParameterSymbol(TypeInstances::GetNumberInstance(), "data", "Data to perform median on."),
 	ParameterSymbol(TypeInstances::GetNumberInstance(), "barsback", "Range of bars to consider for median"),
@@ -950,7 +950,7 @@ MedianBars::MedianBars() : PositionalMethodSymbol("median",
 
 
 IsPrime::IsPrime() : PositionalMethodSymbol("isprime",
-	"Returns true or false if it is a prime number. Will be converted to a integer. Ignores NAN values.",
+	"Returns true or false if it is a prime number. Will be converted to a integer. Ignores null values.",
 	{
 	ParameterSymbol(TypeInstances::GetNumberInstance(), "data", "Data to check if prime."),
 
@@ -963,7 +963,7 @@ IsPrime::IsPrime() : PositionalMethodSymbol("isprime",
 
 
 IsTriangle::IsTriangle() : PositionalMethodSymbol("istriangle",
-	"Returns true or false if it is a triangle number. Will be converted to a integer. Ignores NAN values.",
+	"Returns true or false if it is a triangle number. Will be converted to a integer. Ignores null values.",
 	{
 	ParameterSymbol(TypeInstances::GetNumberInstance(), "data", "Data to check if triangle."),
 

@@ -4,7 +4,7 @@
 
 
 template<typename T>
-bool isNaN(const T& val) {
+bool isNull(const T& val) {
     return (bool)!val.value;
 }
 

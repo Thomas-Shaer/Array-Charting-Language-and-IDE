@@ -11,7 +11,7 @@ std::string NullableValueBoolean::toString() const {
 
 std::string NullableValueBoolean::toFileString() const {
 	if (!value) {
-		return Settings::settingsFile["defaultNANExportLiteral"].get<std::string>();
+		return Settings::settingsFile["defaultNullExportLiteral"].get<std::string>();
 	}
 	return *this->value ? Settings::settingsFile["defaultTrueExportLiteral"].get<std::string>() : Settings::settingsFile["defaultFalseExportLiteral"].get<std::string>();
 }

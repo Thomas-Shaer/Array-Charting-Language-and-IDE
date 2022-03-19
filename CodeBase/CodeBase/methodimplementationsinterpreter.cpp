@@ -319,16 +319,16 @@ ExpressionValue ValueWhenString::interpret(const unsigned int tick) {
 
 
 
-ExpressionValue FloatNAN::interpret(const unsigned int tick) {
+ExpressionValue NumberNull::interpret(const unsigned int tick) {
 	return NullableValueNumber();
 }
 
-ExpressionValue BooleanNAN::interpret(const unsigned int tick) {
+ExpressionValue BooleanNull::interpret(const unsigned int tick) {
 	return NullableValueBoolean();
 }
 
 
-ExpressionValue StringNAN::interpret(const unsigned int tick) {
+ExpressionValue StringNull::interpret(const unsigned int tick) {
 	return NullableValueString();
 }
 
@@ -832,16 +832,16 @@ ExpressionValue MA::interpret(const unsigned int tick) {
 
 }
 
-ExpressionValue IsNANF::interpret(const unsigned int tick) {
+ExpressionValue IsNullN::interpret(const unsigned int tick) {
 	return NullableValueBoolean((bool)!value->value);
 }
 
-ExpressionValue IsNANB::interpret(const unsigned int tick) {
+ExpressionValue IsNullB::interpret(const unsigned int tick) {
 	return NullableValueBoolean((bool)!value->value);
 }
 
 
-ExpressionValue IsNANS::interpret(const unsigned int tick) {
+ExpressionValue IsNullS::interpret(const unsigned int tick) {
 	return NullableValueBoolean((bool)!value->value);
 }
 

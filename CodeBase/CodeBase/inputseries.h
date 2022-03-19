@@ -29,15 +29,15 @@ public:
 
 
 	InputSeries(const std::string& _name, const std::string& _fileName, const std::string& _path, 
-			  const std::string& _trueLiteral, const std::string& _falseLiteral, const std::string& _nanLiteral,
+			  const std::string& _trueLiteral, const std::string& _falseLiteral, const std::string& _nullLiteral,
 			  std::vector<ExpressionValue> _data, TypeSymbol* _type, ImportPolicy _importPolicy) 
-		: name(_name), fileName(_fileName), path(_path), trueLiteral(_trueLiteral), falseLiteral(_falseLiteral), nanLiteral(_nanLiteral),
+		: name(_name), fileName(_fileName), path(_path), trueLiteral(_trueLiteral), falseLiteral(_falseLiteral), nullLiteral(_nullLiteral),
 		  data(_data), type(_type), importPolicy(_importPolicy) {}
 
 	/*
 	Creates InputSeries vector from fileName
 	*/
-	static void LoadInputData(const ImportPolicy importPolicy, std::string name, std::string filename, const std::string& TrueString, const std::string& FalseString, const std::string& NANString);
+	static void LoadInputData(const ImportPolicy importPolicy, std::string name, std::string filename, const std::string& TrueString, const std::string& FalseString, const std::string& NullString);
 
 
 	/*
@@ -68,7 +68,7 @@ public:
 	// how a false literal should be parsed for this data when reading from CSV
 	std::string falseLiteral;
 	// how a null literal should be parsed for this data when reading from CSV
-	std::string nanLiteral;
+	std::string nullLiteral;
 
 	// temporary storage of series data
 	std::vector<ExpressionValue> data;
@@ -89,5 +89,5 @@ public:
 	Returns a ExpressionValue vector and TypeSymbol given a vector of strings.
 	Will throw a DataParseException if the parsed strings are incompatible
 	*/
-	static std::pair<std::vector<ExpressionValue>, TypeSymbol*> parse(std::vector<std::string> rawValues, const std::string& TrueString, const std::string& FalseString, const std::string& NANString);
+	static std::pair<std::vector<ExpressionValue>, TypeSymbol*> parse(std::vector<std::string> rawValues, const std::string& TrueString, const std::string& FalseString, const std::string& NullString);
 };

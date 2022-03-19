@@ -73,7 +73,7 @@ void VarSymbol::setValue(const unsigned int i, ExpressionValue _value) {
 void VarSymbol::setArraySize(const unsigned int size) {
 
 	/*
-	Add NaNs to match largest series
+	Add Nulls to match largest series
 	*/
 	if (buffer.size() < size) {
 		for (int i = buffer.size(); i < size; i ++) {

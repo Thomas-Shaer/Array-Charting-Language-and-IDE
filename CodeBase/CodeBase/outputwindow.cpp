@@ -134,7 +134,7 @@ void OutputWindow::ShowWindow() {
             static ExportPolicy exportPolicySelection = COLUMN_WISE;
             static char defaultTrue[40];
             static char defaultFalse[40];
-            static char defaultNAN[40];
+            static char defaultNull[40];
 
             if (outputVariables.empty()) {
                 ImGui::BeginDisabled();
@@ -151,7 +151,7 @@ void OutputWindow::ShowWindow() {
                 ImGui::OpenPopup("Export Data");
                 strncpy_s(defaultTrue, Settings::settingsFile["defaultTrueExportLiteral"].get<std::string>().c_str(), sizeof(defaultTrue));
                 strncpy_s(defaultFalse, Settings::settingsFile["defaultFalseExportLiteral"].get<std::string>().c_str(), sizeof(defaultFalse));
-                strncpy_s(defaultNAN, Settings::settingsFile["defaultNANExportLiteral"].get<std::string>().c_str(), sizeof(defaultNAN));
+                strncpy_s(defaultNull, Settings::settingsFile["defaultNullExportLiteral"].get<std::string>().c_str(), sizeof(defaultNull));
             }
 
             if (ImGui::BeginPopupModal("Export Data"))
@@ -181,15 +181,15 @@ void OutputWindow::ShowWindow() {
                 ImGui::Text("False text (40 char)");
                 ImGui::InputText("##falsetext", defaultFalse, sizeof(defaultFalse));
 
-                ImGui::Text("NaN text (40 char)");
-                ImGui::InputText("##nantext", defaultNAN, sizeof(defaultNAN));
+                ImGui::Text("Null text (40 char)");
+                ImGui::InputText("##nantext", defaultNull, sizeof(defaultNull));
 
                 /*
                 Save values
                 */
                 Settings::settingsFile["defaultTrueExportLiteral"] = std::string(defaultTrue);
                 Settings::settingsFile["defaultFalseExportLiteral"] = std::string(defaultFalse);
-                Settings::settingsFile["defaultNANExportLiteral"] = std::string(defaultNAN);
+                Settings::settingsFile["defaultNullExportLiteral"] = std::string(defaultNull);
 
                 
                 ImGui::NewLine();
