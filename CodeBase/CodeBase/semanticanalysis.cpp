@@ -172,6 +172,7 @@ const TypeSymbol* TernaryNode::semanticAnalysis(std::shared_ptr<SymbolTable> sym
 		}
 
 		cachedReturnType = lhsType;
+		nullValue = lhsType->nullValue;
 
 		return cachedReturnType;
 	}

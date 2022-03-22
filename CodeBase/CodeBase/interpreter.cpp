@@ -83,4 +83,5 @@ ExpressionValue TernaryNode::interpret(const unsigned int tick) const {
 	if (conditionResult) {
 		return *conditionResult ? expression1->interpret(tick) : expression2->interpret(tick);
 	}
+	return nullValue;
 }

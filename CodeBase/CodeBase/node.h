@@ -536,4 +536,7 @@ private:
 	// expression that is computed + returned if condition false
 	Expression* expression2;
 
+	// the null value to return if the condition is null (decided in semantic phase)
+	ExpressionValue nullValue;
+
 };
