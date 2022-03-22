@@ -96,6 +96,11 @@ void AssignNode::semanticAnalysis(std::shared_ptr<SymbolTable> symboltable) {
 	// need to store value in symbol table at lhs name
 }
 
+
+void AssignOnceNode::semanticAnalysis(std::shared_ptr<SymbolTable> symboltable) {
+	AssignNode::semanticAnalysis(symboltable);
+}
+
 const TypeSymbol* MethodCallNode::semanticAnalysis(std::shared_ptr<SymbolTable> symboltable) {
 	if (!semanticExecuted) {
 		semanticExecuted = true;

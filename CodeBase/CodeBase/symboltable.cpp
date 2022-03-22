@@ -23,6 +23,7 @@ class MethodCallNode;
 class ExpressionStatementNode;
 class IfStatementNode;
 class TernaryNode;
+class AssignOnceNode;
 
 #include "bison.tab.h"
 

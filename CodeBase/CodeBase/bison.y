@@ -30,7 +30,7 @@
     class IfStatementNode;
     class StringNode;
     class TernaryNode;
-
+    class AssignOnceNode;
 	#include "node.h"
 
 %}
@@ -50,7 +50,7 @@
 
 
 %token <std::string> TNUMBER TIDENTIFIER TFLOAT TSTRING
-%token <int> TPLUS "+" TMINUS "-" TMUL "*" TDIV "/" TASSIGN "=" TPOW "^" TMOD "%"
+%token <int> TPLUS "+" TMINUS "-" TMUL "*" TDIV "/" TASSIGN "=" TASSIGNONCE ":=" TPOW "^" TMOD "%"
 %token <int> TLESS "<" TLESSEQUAL "<=" TGREATER ">" TGREATEREQUAL ">=" TAND "&&" TOR "||" TNOT "!" TNOTEQUAL "!=" TEQUAL "=="
 %token <int> TOPENBRACKET "(" TCLOSEBRACKET ")" TCOMMA ","
 %token <int> TTRUE "TRUE" TFALSE "FALSE"
@@ -64,6 +64,7 @@
 %type <IfStatementNode*> ifstmt
 %type <NumberNode*> numeric
 %type <BooleanNode*> boolean
+%type <AssignOnceNode*> assignonce
 %type <BlockNode*> block;
 %type <AssignNode*> assign;
 %type <IdentifierNode*> identifier;
@@ -100,6 +101,7 @@ stmts : stmt { $$ = new BlockNode(yy::SourceLocation()); $$->statementNodes.push
       ;
 
 stmt : assign {$$ = $1;}
+     | assignonce {$$ = $1;}
      | exprstmt {$$ = $1;}
      | ifstmt {$$ = $1;}
      ;
@@ -118,6 +120,9 @@ identifier : TIDENTIFIER {$$ = new IdentifierNode($1, @1);}
 
 
 assign : TIDENTIFIER TASSIGN expr {$$ = new AssignNode($1, $3, @1 + $3->sourceLocation);}
+       ;
+
+assignonce : TIDENTIFIER TASSIGNONCE expr {$$ = new AssignOnceNode($1, $3, @1 + $3->sourceLocation);}
        ;
 
 expr : numeric { $$ = $1; }

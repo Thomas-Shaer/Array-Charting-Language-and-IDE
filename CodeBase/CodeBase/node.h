@@ -58,7 +58,7 @@ public:
 	Performs runtime actions. Returns a value computed from expression.
 	Takes a tick relating to current index of array data.
 	*/
-	virtual ExpressionValue interpret(const unsigned int tick) const = 0;
+	virtual ExpressionValue interpret(const unsigned int tick) = 0;
 
 
 	const TypeSymbol* cachedReturnType;
@@ -84,7 +84,7 @@ public:
 	Performs runtime actions.
 	Takes a tick relating to current index of array data.
 	*/
-	virtual void interpret(const unsigned int tick) const = 0;
+	virtual void interpret(const unsigned int tick) = 0;
 };
 
 /*
@@ -119,7 +119,7 @@ public:
 	Performs runtime actions.
 	Takes a tick relating to current index of array data.
 	*/
-	virtual void interpret(const unsigned int tick) const;
+	virtual void interpret(const unsigned int tick);
 
 private:
 	// the expression this node is wrapping
@@ -157,7 +157,7 @@ public:
 	Performs runtime actions.
 	Takes a tick relating to current index of array data.
 	*/
-	virtual void interpret(const unsigned int tick) const;
+	virtual void interpret(const unsigned int tick);
 
 
 	// the statements belonging to this block
@@ -195,7 +195,7 @@ public:
 	Performs runtime actions. Returns a value computed from expression.
 	Takes a tick relating to current index of array data.
 	*/
-	virtual ExpressionValue interpret(const unsigned int tick) const;
+	virtual ExpressionValue interpret(const unsigned int tick);
 
 	// the number this node represents
 	const float number;
@@ -232,7 +232,7 @@ public:
 	Performs runtime actions. Returns a value computed from expression.
 	Takes a tick relating to current index of array data.
 	*/
-	virtual ExpressionValue interpret(const unsigned int tick) const;
+	virtual ExpressionValue interpret(const unsigned int tick);
 
 private:
 	// the bool value this node represents
@@ -267,7 +267,7 @@ public:
 	Performs runtime actions. Returns a value computed from expression.
 	Takes a tick relating to current index of array data.
 	*/
-	virtual ExpressionValue interpret(const unsigned int tick) const;
+	virtual ExpressionValue interpret(const unsigned int tick);
 
 
 	// the string this node represents
@@ -301,7 +301,7 @@ public:
 	Performs runtime actions. Returns a value computed from expression.
 	Takes a tick relating to current index of array data.
 	*/
-	virtual ExpressionValue interpret(const unsigned int tick) const;
+	virtual ExpressionValue interpret(const unsigned int tick);
 
 private:
 	/*
@@ -345,7 +345,7 @@ public:
 	Performs runtime actions. Returns a value computed from expression.
 	Takes a tick relating to current index of array data.
 	*/
-	virtual ExpressionValue interpret(const unsigned int tick) const;
+	virtual ExpressionValue interpret(const unsigned int tick);
 
 	// name of this parameter
 	const std::string name;
@@ -385,9 +385,9 @@ public:
 	Performs runtime actions.
 	Takes a tick relating to current index of array data.
 	*/
-	virtual void interpret(const unsigned int tick) const;
+	virtual void interpret(const unsigned int tick);
 
-private:
+protected:
 	/*
 	Pointer to VarSymbol this assign maps to.
 	(Value is stored within it)
@@ -402,6 +402,42 @@ private:
 
 	// rhs expression of assign operator
 	Expression* rhs;
+};
+
+
+/*
+"Assign once" node.
+Used for when you want to assign a value once to a variable.
+Used for assign statements, e.g. x := 2 + 3
+*/
+class AssignOnceNode : public AssignNode {
+public:
+
+	AssignOnceNode(std::string _name, Expression* _rhs, yy::SourceLocation csourceLocation) : AssignNode(_name, _rhs, csourceLocation) {}
+
+	/*
+	Representation of this node as a string
+	*/
+	virtual std::string toString() const;
+
+
+	/*
+	Semantic Analyzer visitor abstract method.
+	Performs type checking.
+	Takes a symbol table of current scope as parameter.
+	*/
+	virtual void semanticAnalysis(std::shared_ptr<SymbolTable> symboltable);
+
+	/*
+	Interpet visitor abstract method.
+	Performs runtime actions.
+	Takes a tick relating to current index of array data.
+	*/
+	virtual void interpret(const unsigned int tick);
+
+private:
+	bool executed = false;
+
 };
 
 
@@ -434,7 +470,7 @@ public:
 	Performs runtime actions. Returns a value computed from expression.
 	Takes a tick relating to current index of array data.
 	*/
-	virtual ExpressionValue interpret(const unsigned int tick) const;
+	virtual ExpressionValue interpret(const unsigned int tick);
 
 	std::map<std::string, std::shared_ptr<ArgumentSymbol>> expressionToArgList;
 
@@ -485,7 +521,7 @@ public:
 	Performs runtime actions.
 	Takes a tick relating to current index of array data.
 	*/
-	virtual void interpret(const unsigned int tick) const;
+	virtual void interpret(const unsigned int tick);
 
 private:
 	// condition expression of the if statement
@@ -526,7 +562,7 @@ public:
 	Performs runtime actions. Returns a value computed from expression.
 	Takes a tick relating to current index of array data.
 	*/
-	virtual ExpressionValue interpret(const unsigned int tick) const;
+	virtual ExpressionValue interpret(const unsigned int tick);
 
 private:
 	// condition of ternary expression

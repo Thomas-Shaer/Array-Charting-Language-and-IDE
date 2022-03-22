@@ -21,6 +21,7 @@
     class ExpressionStatementNode;
     class IfStatementNode;
     class TernaryNode;
+    class AssignOnceNode;
 
 
 
@@ -106,6 +107,7 @@
 
 
 "="                     value->emplace<int>(yy::parser::token::TASSIGN); return yy::parser::token::TASSIGN;
+":="                    value->emplace<int>(yy::parser::token::TASSIGNONCE); return yy::parser::token::TASSIGNONCE;
 .                       return yytext[0];
 %%
 

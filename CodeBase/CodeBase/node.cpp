@@ -93,6 +93,10 @@ AssignNode::~AssignNode() {
 }
 
 
+std::string AssignOnceNode::toString() const {
+	return name + " := " + rhs->toString();
+}
+
 
 std::string MethodCallNode::toString() const {
 	std::string output = name + "(";

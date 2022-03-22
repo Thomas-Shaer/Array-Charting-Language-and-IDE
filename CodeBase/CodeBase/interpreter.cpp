@@ -3,44 +3,51 @@
 #include "methodsymbol.h"
 #include "argumentsymbol.h"
 
-void BlockNode::interpret(const unsigned int tick) const {
+void BlockNode::interpret(const unsigned int tick) {
 	for (Statement* statement : statementNodes) {
 		statement->interpret(tick);
 	}
 }
 
 
-void ExpressionStatementNode::interpret(const unsigned int tick) const {
+void ExpressionStatementNode::interpret(const unsigned int tick) {
 	expressionNode->interpret(tick);
 }
 
-ExpressionValue NumberNode::interpret(const unsigned int tick) const {
+ExpressionValue NumberNode::interpret(const unsigned int tick) {
 	return (ExpressionValue)NullableValueNumber(number);
 }
 
-ExpressionValue BooleanNode::interpret(const unsigned int tick) const {
+ExpressionValue BooleanNode::interpret(const unsigned int tick) {
 	return (ExpressionValue)NullableValueBoolean(value);
 }
 
 
-ExpressionValue StringNode::interpret(const unsigned int tick) const {
+ExpressionValue StringNode::interpret(const unsigned int tick) {
 	return (ExpressionValue)NullableValueString(value);
 }
 
 
-ExpressionValue IdentifierNode::interpret(const unsigned int tick) const {
+ExpressionValue IdentifierNode::interpret(const unsigned int tick) {
 	return varSymbol->getValue(tick);
 }
 
 
 
-void AssignNode::interpret(const unsigned int tick) const {
+void AssignNode::interpret(const unsigned int tick) {
 	ExpressionValue value = rhs->interpret(tick);
 	varSymbol->setValue(tick, value);
 	// need to store value in symbol table at lhs name
 }
 
-ExpressionValue MethodCallNode::interpret(const unsigned int tick) const {
+void AssignOnceNode::interpret(const unsigned int tick) {
+	if (!executed) {
+		AssignNode::interpret(tick);
+		executed = true;
+	}
+}
+
+ExpressionValue MethodCallNode::interpret(const unsigned int tick) {
 
 
 	for (auto item : expressionToArgList) {
@@ -60,13 +67,13 @@ ExpressionValue MethodCallNode::interpret(const unsigned int tick) const {
 }
 
 
-ExpressionValue KeywordNode::interpret(const unsigned int tick) const {
+ExpressionValue KeywordNode::interpret(const unsigned int tick) {
 	return rhs->interpret(tick);
 }
 
 
 
-void IfStatementNode::interpret(const unsigned int tick) const {
+void IfStatementNode::interpret(const unsigned int tick) {
 	// if condition true execute block code.
 	std::optional<bool> conditionResult = boost::get<NullableValueBoolean>(condition->interpret(tick)).value;
 	if (conditionResult) {
@@ -77,7 +84,7 @@ void IfStatementNode::interpret(const unsigned int tick) const {
 }
 
 
-ExpressionValue TernaryNode::interpret(const unsigned int tick) const {
+ExpressionValue TernaryNode::interpret(const unsigned int tick) {
 	// if condition true execute block code.
 	std::optional<bool> conditionResult = boost::get<NullableValueBoolean>(condition->interpret(tick)).value;
 	if (conditionResult) {
