@@ -48,11 +48,11 @@ public:
 	
 	
 	/*
-	Runs "intellisense" execution of source code which
+	Runs "error highlighting" execution of source code which
 	only involves executing the parser + semantic analyzer
 	such that compile time errors can be read. 
 	*/
-	void intellisense(const std::string& code);
+	void errorHighlighting(const std::string& code);
 
 	/*
 	Flag for when interpeter is running as intellisense.

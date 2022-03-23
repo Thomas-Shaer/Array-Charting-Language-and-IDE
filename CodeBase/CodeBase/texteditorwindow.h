@@ -35,7 +35,7 @@ public:
 	/*
 	Executes intellisense
 	*/
-	void executeIntellisense(const std::string& code);
+	void executeErrorHighlighting(const std::string& code);
 
 	/*
 	* Window that allows user to enter and execute code
@@ -53,7 +53,7 @@ public:
 
 
 	// signal for intellisense triggered by text editor
-	static bool intellisenseSignal;
+	static bool codemodifysignal;
 	static std::string PLACEHOLDER_CODE; //Placeholder code for code input box
 
 private:

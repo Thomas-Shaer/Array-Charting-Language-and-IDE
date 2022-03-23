@@ -25,7 +25,7 @@ void newJSON() {
     Settings::settingsFile["defaultNullExportLiteral"] = "NULL";
     Settings::settingsFile["lastScreenshotExportDirectory"] = "";
     Settings::settingsFile["chartAntiAliasing"] = true;
-    Settings::settingsFile["intellisense"] = true;
+    Settings::settingsFile["errorhighlighting"] = true;
     Settings::saveSettings();
 }
 

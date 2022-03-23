@@ -20,7 +20,7 @@
 
 
 std::string TextEditorWindow::PLACEHOLDER_CODE = "plot(tick(), 0)\nmark(tick() > 5 && tick() < 20, tick(), 0)";
-bool TextEditorWindow::intellisenseSignal = false;
+bool TextEditorWindow::codemodifysignal = false;
 
 
 
@@ -180,13 +180,13 @@ void TextEditorWindow::executeCode(const std::string& code) {
 
 
 
-void TextEditorWindow::executeIntellisense(const std::string& code) {
+void TextEditorWindow::executeErrorHighlighting(const std::string& code) {
 
     // create interpreter context object
     InterpreterContext context;
 
-    // run code in intellisense mode
-    context.intellisense(code);
+    // run code in errorhighlighting mode
+    context.errorHighlighting(code);
 
     /*
     Collect and display output
@@ -218,7 +218,7 @@ Helper function thats executed whenever a key is pressed
 while in the text editor widget
 */
 void TextEditor::AnyKeyPressed() {
-    TextEditorWindow::intellisenseSignal = true;
+    TextEditorWindow::codemodifysignal = true;
 }
 
 
@@ -233,7 +233,7 @@ void TextEditorWindow::ShowWindow() {
 
     std::string currentCodeFile = Settings::settingsFile["currentCodeFile"].get<std::string>();
 
-    static bool intellisense = Settings::settingsFile["intellisense"].get<bool>();
+    static bool errorHighlighting = Settings::settingsFile["errorhighlighting"].get<bool>();
 
     bool openNewFile = false;
     bool openLoadFile = false;
@@ -252,9 +252,9 @@ void TextEditorWindow::ShowWindow() {
             ImGui::EndMenu();
         }
         if (ImGui::BeginMenu("Options")) {
-            if(ImGui::MenuItem("Intellisense", NULL, &intellisense)) {
+            if(ImGui::MenuItem("Error Highlighting", NULL, &errorHighlighting)) {
                 textEditor.SetErrorMarkers({});
-                Settings::settingsFile["intellisense"] = intellisense;
+                Settings::settingsFile["errorhighlighting"] = errorHighlighting;
             }
             ImGui::EndMenu();
         }
@@ -262,10 +262,10 @@ void TextEditorWindow::ShowWindow() {
     }
 
 
-    if (intellisense) {
-        if (intellisenseSignal) {
-            executeIntellisense(TextEditorWindow::textEditor.GetText());
-            intellisenseSignal = false;
+    if (errorHighlighting) {
+        if (codemodifysignal) {
+            executeErrorHighlighting(TextEditorWindow::textEditor.GetText());
+            codemodifysignal = false;
         }
     }
 

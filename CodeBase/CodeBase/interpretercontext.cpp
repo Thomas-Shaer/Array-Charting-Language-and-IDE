@@ -16,7 +16,7 @@ unsigned int InterpreterContext::ticks = 30;
 bool InterpreterContext::isIntellisense = false;
 
 
-void InterpreterContext::intellisense(const std::string& code) {
+void InterpreterContext::errorHighlighting(const std::string& code) {
 	yy::SourceLocation* sl = new yy::SourceLocation();
 	InterpreterContext::isIntellisense = true;
 	int saveTicks = InterpreterContext::ticks;
