@@ -73,6 +73,9 @@
 " "                     { }
 [\n]                    { }
 [\t]                    { }
+"and"                    value->emplace<int>(yy::parser::token::TAND); return yy::parser::token::TAND;
+"or"                    value->emplace<int>(yy::parser::token::TOR); return yy::parser::token::TOR;
+"not"                    value->emplace<int>(yy::parser::token::TNOT); return yy::parser::token::TNOT;
 "if"                    value->emplace<int>(yy::parser::token::TIF); return yy::parser::token::TIF;
 "true"                  value->emplace<int>(yy::parser::token::TTRUE); return yy::parser::token::TTRUE;
 "false"                 value->emplace<int>(yy::parser::token::TFALSE); return yy::parser::token::TFALSE;
