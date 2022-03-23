@@ -5,6 +5,8 @@
  
 
 %{
+
+    #include <map>
     class Expression;
     class Statement;
     class BooleanNode;
@@ -79,12 +81,22 @@
 [a-zA-Z_][a-zA-Z0-9_]*  value->emplace<std::string>(yytext); return yy::parser::token::TIDENTIFIER;
 [0-9]+                  value->emplace<std::string>(yytext); return yy::parser::token::TNUMBER;
 [0-9]+\.[0-9]*          value->emplace<std::string>(yytext); return yy::parser::token::TFLOAT;
+
+"+="                     value->emplace<int>(yy::parser::token::TPLUSASSIGN); return yy::parser::token::TPLUSASSIGN;
+"-="                     value->emplace<int>(yy::parser::token::TMINUSASSIGN); return yy::parser::token::TMINUSASSIGN;
+"*="                     value->emplace<int>(yy::parser::token::TMULASSIGN); return yy::parser::token::TMULASSIGN;
+"/="                     value->emplace<int>(yy::parser::token::TDIVASSIGN); return yy::parser::token::TDIVASSIGN;
+"^="                     value->emplace<int>(yy::parser::token::TPOWASSIGN); return yy::parser::token::TPOWASSIGN;
+"%="                     value->emplace<int>(yy::parser::token::TMODASSIGN); return yy::parser::token::TMODASSIGN;
+
 "+"                     value->emplace<int>(yy::parser::token::TPLUS); return yy::parser::token::TPLUS;
 "-"                     value->emplace<int>(yy::parser::token::TMINUS); return yy::parser::token::TMINUS;
 "^"                    value->emplace<int>(yy::parser::token::TPOW); return yy::parser::token::TPOW;
 "%"                    value->emplace<int>(yy::parser::token::TMOD); return yy::parser::token::TMOD;
 "*"                     value->emplace<int>(yy::parser::token::TMUL); return yy::parser::token::TMUL;
 "/"                     value->emplace<int>(yy::parser::token::TDIV); return yy::parser::token::TDIV;
+
+
 "<"                     value->emplace<int>(yy::parser::token::TLESS); return yy::parser::token::TLESS;
 "<="                    value->emplace<int>(yy::parser::token::TLESSEQUAL); return yy::parser::token::TLESSEQUAL;
 ">"                     value->emplace<int>(yy::parser::token::TGREATER); return yy::parser::token::TGREATER;

@@ -303,6 +303,10 @@ public:
 	*/
 	virtual ExpressionValue interpret(const unsigned int tick) const;
 
+
+	// name of variable
+	const std::string name;
+
 private:
 	/*
 	Pointer to VarSymbol this identifier maps to.
@@ -312,8 +316,6 @@ private:
 	Set in the semantic phase.
 	*/
 	std::shared_ptr<VarSymbol> varSymbol;
-	// name of variable
-	const std::string name;
 };
 
 

@@ -12,7 +12,6 @@
 
 
 %{
-
     #include <string>
     #include <vector>
     class NumberNode;
@@ -32,7 +31,6 @@
     class TernaryNode;
 
 	#include "node.h"
-
 %}
 
 %code requires {
@@ -45,6 +43,15 @@
         int yylex(yy::parser::semantic_type* value, yy::parser::location_type* location,  yyscan_t yyscanner)
 	YY_DECL;
     std::string token_name(int t);
+    static std::map<const int, const int> assign_op_converter({
+	 {yy::parser::token::TPLUSASSIGN, yy::parser::token::TPLUS},
+	 {yy::parser::token::TMINUSASSIGN, yy::parser::token::TMINUS},
+	 {yy::parser::token::TMULASSIGN, yy::parser::token::TMUL},
+	 {yy::parser::token::TDIVASSIGN, yy::parser::token::TDIV},
+	 {yy::parser::token::TPOWASSIGN, yy::parser::token::TPOW},
+	 {yy::parser::token::TMODASSIGN, yy::parser::token::TMOD}
+	
+	});
  
 }
 
@@ -52,6 +59,7 @@
 %token <std::string> TNUMBER TIDENTIFIER TFLOAT TSTRING
 %token <int> TPLUS "+" TMINUS "-" TMUL "*" TDIV "/" TASSIGN "=" TPOW "^" TMOD "%"
 %token <int> TLESS "<" TLESSEQUAL "<=" TGREATER ">" TGREATEREQUAL ">=" TAND "&&" TOR "||" TNOT "!" TNOTEQUAL "!=" TEQUAL "=="
+%token <int> TPLUSASSIGN "+=" TMINUSASSIGN "-=" TMULASSIGN "*=" TDIVASSIGN "/=" TMODASSIGN "%=" TPOWASSIGN "^="
 %token <int> TOPENBRACKET "(" TCLOSEBRACKET ")" TCOMMA ","
 %token <int> TTRUE "TRUE" TFALSE "FALSE"
 %token <int> TIF "if" TOPENBLOCK "{" TCLOSEBLOCK "}"
@@ -74,7 +82,7 @@
 %type <StringNode*> string;
 %type <std::vector<Expression*>> call_params
 %type <std::vector<Expression*>> call_params_keywords
-
+%type <int> assignoptokens
 
 %left TQUESTIONMARK
 %left TOR
@@ -116,8 +124,16 @@ ifstmt : TIF TOPENBRACKET expr TCLOSEBRACKET TOPENBLOCK stmts TCLOSEBLOCK {
 identifier : TIDENTIFIER {$$ = new IdentifierNode($1, @1);}
            ;
 
+assignoptokens : TPLUSASSIGN | TMINUSASSIGN | TMULASSIGN | TDIVASSIGN | TMODASSIGN | TPOWASSIGN
+			   ;
 
 assign : TIDENTIFIER TASSIGN expr {$$ = new AssignNode($1, $3, @1 + $3->sourceLocation);}
+       | TIDENTIFIER assignoptokens expr {$$ = new AssignNode($1, 
+												new MethodCallNode("operator" + token_name(assign_op_converter.at($2)),
+													{ new IdentifierNode($1, @1), $3},
+													@1 + $3->sourceLocation),
+										@1 + $3->sourceLocation);
+									  }
        ;
 
 expr : numeric { $$ = $1; }
