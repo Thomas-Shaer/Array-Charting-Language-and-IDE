@@ -9,18 +9,29 @@
 class Expression;
 class ChartPlot;
 
-// method named "avg" takes two float parameters and returns a float
+// declare built-in method average
 class  MethodAverage : public PositionalMethodSymbol {
 public:
 
+	// method constructor
 	MethodAverage();
+
+	// semantic analysis
+	// performs type checking of arguments and returns a type
 	const TypeSymbol* semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable);
+	
+	// interpretation (abstract method)
+	// executes method logic and returns a value
 	ExpressionValue interpret(const unsigned int tick);
+
+	// clone method (abstract method)
+	// returns pointer copy of this method
 	virtual MethodAverage* clone() {
 		return new MethodAverage();
 	}
 
 private:
+	// pointers to where the runtime argument values will be stored to avoid runtime lookups
 	NullableValueNumber* value1;
 	NullableValueNumber* value2;
 };

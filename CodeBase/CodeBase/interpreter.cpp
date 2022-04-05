@@ -43,7 +43,7 @@ void AssignNode::interpret(const unsigned int tick) const {
 ExpressionValue MethodCallNode::interpret(const unsigned int tick) const {
 
 
-	for (auto item : expressionToArgList) {
+	for (auto item : argNameToArgumentSymbol) {
 		std::shared_ptr<ArgumentSymbol> arg = item.second;
 		Expression* expr = arg->expression;
 		/*

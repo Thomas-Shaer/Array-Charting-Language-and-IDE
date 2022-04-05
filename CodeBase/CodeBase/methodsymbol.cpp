@@ -10,7 +10,7 @@
 
 const TypeSymbol* PositionalMethodSymbol::semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable) {
 	// clear the method nodes argument symbol list
-	methodCallNode->expressionToArgList.clear();
+	methodCallNode->argNameToArgumentSymbol.clear();
 
 
 	/*
@@ -31,7 +31,7 @@ const TypeSymbol* PositionalMethodSymbol::semanticAnaylsis(MethodCallNode* metho
 	for (int i = 0; i < parameterSymbols.size(); i++) {
 		const TypeSymbol* expected = parameterSymbols[i].typesymbol;
 		const TypeSymbol* received = _argumentSymbols[i]->type;
-		methodCallNode->expressionToArgList[parameterSymbols[i].name] = _argumentSymbols[i];
+		methodCallNode->argNameToArgumentSymbol[parameterSymbols[i].name] = _argumentSymbols[i];
 
 
 		if (TypeInstances::matchType(expected, received)) {
@@ -77,7 +77,7 @@ KeywordMethodSymbol::KeywordMethodSymbol(const std::string& _name, const std::st
 
 const TypeSymbol* KeywordMethodSymbol::semanticAnaylsis(MethodCallNode* methodCallNode, std::shared_ptr<SymbolTable> symboltable) {
 	// clear the method nodes argument symbol list
-	methodCallNode->expressionToArgList.clear();
+	methodCallNode->argNameToArgumentSymbol.clear();
 
 	/*
 	Create argument symbols from the method args
@@ -140,7 +140,7 @@ const TypeSymbol* KeywordMethodSymbol::semanticAnaylsis(MethodCallNode* methodCa
 
 		}
 		std::shared_ptr<ArgumentSymbol> received = positionalSymbols[i];
-		methodCallNode->expressionToArgList[expectedName] = received;
+		methodCallNode->argNameToArgumentSymbol[expectedName] = received;
 
 
 
@@ -167,7 +167,7 @@ const TypeSymbol* KeywordMethodSymbol::semanticAnaylsis(MethodCallNode* methodCa
 		optionalParamsMap.erase(name);
 
 
-		methodCallNode->expressionToArgList[expected.name] = received;
+		methodCallNode->argNameToArgumentSymbol[expected.name] = received;
 
 		if (TypeInstances::matchType(expected.typesymbol, received->type)) {
 			continue;
@@ -184,7 +184,7 @@ const TypeSymbol* KeywordMethodSymbol::semanticAnaylsis(MethodCallNode* methodCa
 		std::shared_ptr<ArgumentSymbol> defaultArgument = std::make_shared<ArgumentSymbol>(item.second.typesymbol, nullptr);
 		// give argument symbol default parameter value
 		defaultArgument->expressionValue = item.second.defaultValue;
-		methodCallNode->expressionToArgList[item.first] = defaultArgument;
+		methodCallNode->argNameToArgumentSymbol[item.first] = defaultArgument;
 	}
 
 	return returnType.typesymbol;

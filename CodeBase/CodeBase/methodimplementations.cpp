@@ -7,13 +7,18 @@
 #include "node.h"
 
 
+// constructor of method average is where we specify the "signature" of the method
+// i.e. method name, types of parameters and return type
 MethodAverage::MethodAverage() : PositionalMethodSymbol("avg",
+	// method description (for auto-generated documentation)
 	"Returns the average of two numbers.",
 	{
-
-		ParameterSymbol(TypeInstances::GetNumberInstance(), "value1", "Argument 1 for average."),
-ParameterSymbol(TypeInstances::GetNumberInstance(), "value2", "Argument 2 for average.")
-	}, ReturnSymbol(TypeInstances::GetNumberInstance(), "The average")) {}
+	// parameter symbols, takes a type, a identifier and a description (for auto-generated documentation)
+	ParameterSymbol(TypeInstances::GetNumberInstance(), "value1", "Argument 1 for average."),
+	ParameterSymbol(TypeInstances::GetNumberInstance(), "value2", "Argument 2 for average.")
+	},
+	// return symbol, takes a type and a description (for auto-generated documentation)
+	ReturnSymbol(TypeInstances::GetNumberInstance(), "The average value")) {}
 
 
 
@@ -773,7 +778,7 @@ IsNullS::IsNullS() : PositionalMethodSymbol("isnull",
 
 	{
 		ParameterSymbol(TypeInstances::GetStringInstance(), "value", "The value to test"),
-	}, ReturnSymbol(TypeInstances::GetStringInstance(), "Whether the value is null or not")) {}
+	}, ReturnSymbol(TypeInstances::GetBooleanInstance(), "Whether the value is null or not")) {}
 
 
 

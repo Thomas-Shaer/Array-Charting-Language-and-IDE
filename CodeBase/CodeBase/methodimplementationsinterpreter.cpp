@@ -9,10 +9,11 @@
 
 ExpressionValue MethodAverage::interpret(const unsigned int tick) {
 
-	// if any argument is a NAN return NAN
+	// if any argument is a null, return null
 	if (!value1->value || !value2->value) {
 		return NullableValueNumber();
 	}
+	// return new number value
 	return NullableValueNumber((*value1->value + *value2->value) / 2);
 }
 

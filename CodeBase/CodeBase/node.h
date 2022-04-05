@@ -438,7 +438,7 @@ public:
 	*/
 	virtual ExpressionValue interpret(const unsigned int tick) const;
 
-	std::map<std::string, std::shared_ptr<ArgumentSymbol>> expressionToArgList;
+	std::map<std::string, std::shared_ptr<ArgumentSymbol>> argNameToArgumentSymbol;
 
 
 	const std::vector<Expression*> arguments;
