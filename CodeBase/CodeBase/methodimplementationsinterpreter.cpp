@@ -97,7 +97,11 @@ ExpressionValue BinaryPowOperator::interpret(const unsigned int tick) {
 	if (*rhsValue->value == 0) {
 		throw LanguageException("Attempt to raise by power 0", rhsNode);
 	}
-	return NullableValueNumber(std::powf(*lhsValue->value, *rhsValue->value));
+	int sign = 1;
+	if (*lhsValue->value < 0) {
+		sign = -1;
+	}
+	return NullableValueNumber(std::powf(*lhsValue->value, *rhsValue->value) * sign);
 }
 
 
@@ -701,7 +705,7 @@ ExpressionValue GCD::interpret(const unsigned int tick) {
 }
 
 
-
+// https://stackoverflow.com/questions/33268513/calculating-standard-deviation-variance-in-c
 ExpressionValue Variance::interpret(const unsigned int tick) {
 
 
@@ -751,6 +755,7 @@ ExpressionValue Variance::interpret(const unsigned int tick) {
 
 
 
+// https://stackoverflow.com/questions/33268513/calculating-standard-deviation-variance-in-c
 ExpressionValue STD::interpret(const unsigned int tick) {
 
 
@@ -816,8 +821,6 @@ ExpressionValue MA::interpret(const unsigned int tick) {
 	if (lookback - 1 > tick) {
 		return NullableValueNumber();
 	}
-
-
 
 	
 	float sum = 0;
@@ -1030,9 +1033,7 @@ ExpressionValue ArcSine::interpret(const unsigned int tick) {
 
 
 
-/*
-WARNING. If look back changes value this will return the wrong value!
-*/
+
 ExpressionValue LinearRegressionAtTick::interpret(const unsigned int tick) {
 
 
@@ -1090,10 +1091,8 @@ ExpressionValue LinearRegressionAtTick::interpret(const unsigned int tick) {
 }
 
 
+// https://tutorialspoint.dev/algorithm/mathematical-algorithms/program-find-correlation-coefficient
 
-/*
-WARNING. If look back changes value this will return the wrong value!
-*/
 ExpressionValue Correlation::interpret(const unsigned int tick) {
 
 	
@@ -1113,7 +1112,6 @@ ExpressionValue Correlation::interpret(const unsigned int tick) {
 		throw LanguageException("Run time error at tick " + std::to_string(tick) + ", correlation function must be > 1.", barsBackNode);
 	}
 
-	//https://tutorialspoint.dev/algorithm/mathematical-algorithms/program-find-correlation-coefficient
 
 	float sum_X = 0, sum_Y = 0, sum_XY = 0;
 	float squareSum_X = 0, squareSum_Y = 0;
@@ -1323,6 +1321,7 @@ ExpressionValue MedianBars::interpret(const unsigned int tick) {
 
 
 
+// https://www.geeksforgeeks.org/c-program-to-check-prime-number/
 
 ExpressionValue IsPrime::interpret(const unsigned int tick) {
 
@@ -1332,7 +1331,6 @@ ExpressionValue IsPrime::interpret(const unsigned int tick) {
 
 	int n = *data->value;
 
-	//https://www.geeksforgeeks.org/c-program-to-check-prime-number/
 	// Corner case
 	if (n <= 2) {
 		return NullableValueBoolean(false);
@@ -1346,6 +1344,8 @@ ExpressionValue IsPrime::interpret(const unsigned int tick) {
 	return NullableValueBoolean(true);
 }
 
+// https://stackoverflow.com/questions/2913215/fastest-method-to-define-whether-a-number-is-a-triangular-number
+
 ExpressionValue IsTriangle::interpret(const unsigned int tick) {
 
 	if (!data->value) {
@@ -1354,7 +1354,6 @@ ExpressionValue IsTriangle::interpret(const unsigned int tick) {
 
 	int n = *data->value;
 
-	//https://stackoverflow.com/questions/2913215/fastest-method-to-define-whether-a-number-is-a-triangular-number
 
 	if (n < 0)
 		return NullableValueBoolean(false);

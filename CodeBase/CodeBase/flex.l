@@ -23,6 +23,8 @@
     class ExpressionStatementNode;
     class IfStatementNode;
     class TernaryNode;
+// https://www.cs.virginia.edu/~cr4bd/flex-manual/Start-Conditions.htm
+// https://stackoverflow.com/questions/2039795/regular-expression-for-a-string-literal-in-flex-lex
 
 
 
@@ -51,9 +53,8 @@
 
 %}
 
- 
-
 %x SINGLE_LINE_COMMENT
+
 %x SINGLE_STRING
 
 %%

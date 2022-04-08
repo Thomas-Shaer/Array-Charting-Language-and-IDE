@@ -14,7 +14,7 @@
 
 
 
-//https://stackoverflow.com/questions/4654636/how-to-determine-if-a-string-is-a-number-with-c
+// https://stackoverflow.com/questions/4654636/how-to-determine-if-a-string-is-a-number-with-c
 
 std::pair<std::vector<ExpressionValue>, TypeSymbol*> InputSeries::parse(std::vector<std::string> rawValues, const std::string& TrueString, const std::string& FalseString, const std::string& NullString) {
     // type of series

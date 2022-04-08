@@ -493,6 +493,8 @@ static const flex_int16_t yy_chk[139] =
     class ExpressionStatementNode;
     class IfStatementNode;
     class TernaryNode;
+// https://www.cs.virginia.edu/~cr4bd/flex-manual/Start-Conditions.htm
+// https://stackoverflow.com/questions/2039795/regular-expression-for-a-string-literal-in-flex-lex
 
 
 
@@ -519,9 +521,9 @@ static const flex_int16_t yy_chk[139] =
         } \
     }
 
-#line 522 "flex.flex.cpp"
-
 #line 524 "flex.flex.cpp"
+
+#line 526 "flex.flex.cpp"
 
 #define INITIAL 0
 #define SINGLE_LINE_COMMENT 1
@@ -778,9 +780,9 @@ YY_DECL
 		}
 
 	{
-#line 59 "flex.l"
+#line 60 "flex.l"
 
-#line 783 "flex.flex.cpp"
+#line 785 "flex.flex.cpp"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -839,276 +841,276 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 60 "flex.l"
+#line 61 "flex.l"
 BEGIN(SINGLE_STRING);
 	YY_BREAK
 
 case 2:
 /* rule 2 can match eol */
 YY_RULE_SETUP
-#line 62 "flex.l"
+#line 63 "flex.l"
 {}
 	YY_BREAK
 case YY_STATE_EOF(SINGLE_STRING):
-#line 63 "flex.l"
+#line 64 "flex.l"
 {return yytext[0];}
 	YY_BREAK
 case 3:
 /* rule 3 can match eol */
 YY_RULE_SETUP
-#line 64 "flex.l"
+#line 65 "flex.l"
 {value->emplace<std::string>(yytext); return yy::parser::token::TSTRING;}
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 65 "flex.l"
+#line 66 "flex.l"
 BEGIN(INITIAL);
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 66 "flex.l"
+#line 67 "flex.l"
 ;
 	YY_BREAK
 
 case 6:
 YY_RULE_SETUP
-#line 69 "flex.l"
+#line 70 "flex.l"
 { BEGIN(SINGLE_LINE_COMMENT); }
 	YY_BREAK
 case 7:
 /* rule 7 can match eol */
 YY_RULE_SETUP
-#line 70 "flex.l"
+#line 71 "flex.l"
 { BEGIN(INITIAL); }
 	YY_BREAK
 case 8:
 /* rule 8 can match eol */
 YY_RULE_SETUP
-#line 71 "flex.l"
+#line 72 "flex.l"
 { }
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 72 "flex.l"
+#line 73 "flex.l"
 { }
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 73 "flex.l"
+#line 74 "flex.l"
 { }
 	YY_BREAK
 case 11:
 /* rule 11 can match eol */
 YY_RULE_SETUP
-#line 74 "flex.l"
+#line 75 "flex.l"
 { }
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 75 "flex.l"
+#line 76 "flex.l"
 { }
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 76 "flex.l"
+#line 77 "flex.l"
 value->emplace<int>(yy::parser::token::TAND); return yy::parser::token::TAND;
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 77 "flex.l"
+#line 78 "flex.l"
 value->emplace<int>(yy::parser::token::TOR); return yy::parser::token::TOR;
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 78 "flex.l"
+#line 79 "flex.l"
 value->emplace<int>(yy::parser::token::TNOT); return yy::parser::token::TNOT;
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 79 "flex.l"
+#line 80 "flex.l"
 value->emplace<int>(yy::parser::token::TIF); return yy::parser::token::TIF;
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 80 "flex.l"
+#line 81 "flex.l"
 value->emplace<int>(yy::parser::token::TTRUE); return yy::parser::token::TTRUE;
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 81 "flex.l"
+#line 82 "flex.l"
 value->emplace<int>(yy::parser::token::TFALSE); return yy::parser::token::TFALSE;
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 82 "flex.l"
+#line 83 "flex.l"
 value->emplace<int>(yy::parser::token::TOPENBLOCK); return yy::parser::token::TOPENBLOCK;
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 83 "flex.l"
+#line 84 "flex.l"
 value->emplace<int>(yy::parser::token::TCLOSEBLOCK); return yy::parser::token::TCLOSEBLOCK;
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 84 "flex.l"
+#line 85 "flex.l"
 value->emplace<std::string>(yytext); return yy::parser::token::TIDENTIFIER;
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 85 "flex.l"
+#line 86 "flex.l"
 value->emplace<std::string>(yytext); return yy::parser::token::TNUMBER;
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 86 "flex.l"
+#line 87 "flex.l"
 value->emplace<std::string>(yytext); return yy::parser::token::TFLOAT;
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 88 "flex.l"
+#line 89 "flex.l"
 value->emplace<int>(yy::parser::token::TPLUSASSIGN); return yy::parser::token::TPLUSASSIGN;
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 89 "flex.l"
+#line 90 "flex.l"
 value->emplace<int>(yy::parser::token::TMINUSASSIGN); return yy::parser::token::TMINUSASSIGN;
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 90 "flex.l"
+#line 91 "flex.l"
 value->emplace<int>(yy::parser::token::TMULASSIGN); return yy::parser::token::TMULASSIGN;
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 91 "flex.l"
+#line 92 "flex.l"
 value->emplace<int>(yy::parser::token::TDIVASSIGN); return yy::parser::token::TDIVASSIGN;
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 92 "flex.l"
+#line 93 "flex.l"
 value->emplace<int>(yy::parser::token::TPOWASSIGN); return yy::parser::token::TPOWASSIGN;
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 93 "flex.l"
+#line 94 "flex.l"
 value->emplace<int>(yy::parser::token::TMODASSIGN); return yy::parser::token::TMODASSIGN;
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 95 "flex.l"
+#line 96 "flex.l"
 value->emplace<int>(yy::parser::token::TPLUS); return yy::parser::token::TPLUS;
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 96 "flex.l"
+#line 97 "flex.l"
 value->emplace<int>(yy::parser::token::TMINUS); return yy::parser::token::TMINUS;
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 97 "flex.l"
+#line 98 "flex.l"
 value->emplace<int>(yy::parser::token::TPOW); return yy::parser::token::TPOW;
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 98 "flex.l"
+#line 99 "flex.l"
 value->emplace<int>(yy::parser::token::TMOD); return yy::parser::token::TMOD;
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 99 "flex.l"
+#line 100 "flex.l"
 value->emplace<int>(yy::parser::token::TMUL); return yy::parser::token::TMUL;
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 100 "flex.l"
+#line 101 "flex.l"
 value->emplace<int>(yy::parser::token::TDIV); return yy::parser::token::TDIV;
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 103 "flex.l"
+#line 104 "flex.l"
 value->emplace<int>(yy::parser::token::TLESS); return yy::parser::token::TLESS;
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 104 "flex.l"
+#line 105 "flex.l"
 value->emplace<int>(yy::parser::token::TLESSEQUAL); return yy::parser::token::TLESSEQUAL;
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 105 "flex.l"
+#line 106 "flex.l"
 value->emplace<int>(yy::parser::token::TGREATER); return yy::parser::token::TGREATER;
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 106 "flex.l"
+#line 107 "flex.l"
 value->emplace<int>(yy::parser::token::TGREATEREQUAL); return yy::parser::token::TGREATEREQUAL;
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
-#line 107 "flex.l"
+#line 108 "flex.l"
 value->emplace<int>(yy::parser::token::TAND); return yy::parser::token::TAND;
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
-#line 108 "flex.l"
+#line 109 "flex.l"
 value->emplace<int>(yy::parser::token::TOR); return yy::parser::token::TOR;
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
-#line 109 "flex.l"
+#line 110 "flex.l"
 value->emplace<int>(yy::parser::token::TNOTEQUAL); return yy::parser::token::TNOTEQUAL;
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
-#line 110 "flex.l"
+#line 111 "flex.l"
 value->emplace<int>(yy::parser::token::TEQUAL); return yy::parser::token::TEQUAL;
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
-#line 112 "flex.l"
+#line 113 "flex.l"
 value->emplace<int>(yy::parser::token::TNOT); return yy::parser::token::TNOT;
 	YY_BREAK
 case 45:
 YY_RULE_SETUP
-#line 113 "flex.l"
+#line 114 "flex.l"
 value->emplace<int>(yy::parser::token::TOPENBRACKET); return yy::parser::token::TOPENBRACKET;
 	YY_BREAK
 case 46:
 YY_RULE_SETUP
-#line 114 "flex.l"
+#line 115 "flex.l"
 value->emplace<int>(yy::parser::token::TCLOSEBRACKET); return yy::parser::token::TCLOSEBRACKET;
 	YY_BREAK
 case 47:
 YY_RULE_SETUP
-#line 115 "flex.l"
+#line 116 "flex.l"
 value->emplace<int>(yy::parser::token::TCOMMA); return yy::parser::token::TCOMMA;
 	YY_BREAK
 case 48:
 YY_RULE_SETUP
-#line 117 "flex.l"
+#line 118 "flex.l"
 value->emplace<int>(yy::parser::token::TQUESTIONMARK); return yy::parser::token::TQUESTIONMARK;
 	YY_BREAK
 case 49:
 YY_RULE_SETUP
-#line 118 "flex.l"
+#line 119 "flex.l"
 value->emplace<int>(yy::parser::token::TCOLON); return yy::parser::token::TCOLON;
 	YY_BREAK
 case 50:
 YY_RULE_SETUP
-#line 123 "flex.l"
+#line 124 "flex.l"
 value->emplace<int>(yy::parser::token::TASSIGN); return yy::parser::token::TASSIGN;
 	YY_BREAK
 case 51:
 YY_RULE_SETUP
-#line 124 "flex.l"
+#line 125 "flex.l"
 return yytext[0];
 	YY_BREAK
 case 52:
 YY_RULE_SETUP
-#line 125 "flex.l"
+#line 126 "flex.l"
 YY_FATAL_ERROR( "flex scanner jammed" );
 	YY_BREAK
-#line 1111 "flex.flex.cpp"
+#line 1113 "flex.flex.cpp"
 case YY_STATE_EOF(INITIAL):
 case YY_STATE_EOF(SINGLE_LINE_COMMENT):
 	yyterminate();
@@ -2240,7 +2242,7 @@ void yyfree (void * ptr , yyscan_t yyscanner)
 
 #define YYTABLES_NAME "yytables"
 
-#line 125 "flex.l"
+#line 126 "flex.l"
 
 
 
