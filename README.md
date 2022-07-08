@@ -186,7 +186,7 @@ I have written an extensive standard library of methods containing 63 built-in m
 
 #### Output Window
 
-![](Screenshots/annotateddocumentationwindow.png)
+![](Screenshots/annotatedprogramoutputwindow.png)
 
 1.  Text output tab – displays any error messages after running the script.
 2.  Code reconstruction tab – displays how the code is parsed and interpreted in AST form.
