@@ -1,5 +1,6 @@
 
 
+
 # Array Programming Language & IDE for Charting Data
 
 ![](Screenshots/multiide.png)
@@ -46,8 +47,33 @@ The software is setup to run on 32bit machines therefore any Windows 10/11 OS sh
  - Windows SDK version: 10.0
  - Platform Toolset: Visual Studio 2019 (v142)
  - C++ Language Standard: Previous from the Latest C++ Working Draft (/std:c++latest)
+
+
+## Features
+
+### Error Highlighting Feature
+
+![](Screenshots/errorexample.png)
+
+We provide error highlighting by performing static error checking on code as it is being written. This is achieved by executing only the parsing and semantic type-checking phases of the language. Using this feature, we can identify and warn users of some errors before they execute the code.
+
+### Multiple Charts
+
+![](Screenshots/multiplechartsclean.png)
+
+The IDE can support multiple charts, meaning that the user can plot multiple charts from the same script. This can be incredibly useful for analysing different plots with substantial axis size differences, or just for spreading out the data to avoid a single chart becoming too complicated. This is also a non-functional requirement.
+
+### Importing/Exporting of data
  
- 
+![](Screenshots/exportdata.png)
+
+For the tool to act as an effective replacement for Excel’s charting features, it is essential that it can import and export data. This is also a functional requirement of the software. We use the Comma Separated Value (CSV) file format40 to support reading and writing data, which is a supported file format of Excel. We read and write in series of data which can either be done column-wise or rowwise. Each series maps back to a unique variable.
+
+Inputting data into the language is done via parsing a CSV file, parsing each series of data found in it. The logic for parsing is slightly involved because it requires the data to follow several rules or else the program won’t be able to figure out what type of variable it should be. It also requires the parser to determine a type for the series of data. 
+
+Once a series is successfully parsed, a VarSymbol object is created and loaded with the series data. This VarSymbol is loaded onto the global symbol table so that it is accessible to the language part of it. Exporting data is more straightforward as any data stored within a variable is guaranteed to be correct. We can convert the value of any of these types into a string representation that can be written to CSV.
+
+
 ## IDE Breakdown (full version in Setup.pdf)
 
 #### Overview
