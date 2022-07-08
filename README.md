@@ -2,6 +2,7 @@
 
 
 
+
 # Array Programming Language & IDE for Charting Data
 
 ![](Screenshots/multiide.png)
@@ -214,3 +215,13 @@ I have written an extensive standard library of methods containing 63 built-in m
 4.  Chart key – name to colour mapping for each plotted series – name of key is specified by optional “name” parameter of plot() and mark() functions (default is empty).
 5.  Chart title – title of the chart – specified by optional “chart_id” parameter of plot(), mark() and text() functions (default is “main”).
 6.  Contents of chart – interactable chart explorer.
+
+# Libraries/dependencies
+
+ - [Flex](https://github.com/westes/flex)/[GNU Bison](https://www.gnu.org/software/bison/) | Lexer and Parser Generator
+ - [Dear ImGUI](https://github.com/ocornut/imgui) | GUI Library
+	 - [ImPlot](https://github.com/epezent/implot) | Dear ImGUI Charts Extension
+	 - [TextEditor](https://github.com/BalazsJako/ImGuiColorTextEdit) | Dear ImGUI Code Editor Extension
+	 - [FileBrowser](https://github.com/AirGuanZ/imgui-filebrowser) | Dear ImGUI Filebrowser Extension
+ - [Boost](https://www.boost.org/)
+ - [Nlohmann-JSON](https://github.com/nlohmann/json)
