@@ -73,7 +73,7 @@ The software is setup to run on 32bit machines therefore any Windows 10/11 OS sh
 
 #### Documentation Window
 
-![](Screenshots/multiplecharts.png)
+![](Screenshots/annotateddocumentationwindow.png)
 
 1.  Method category tabs – groups all methods via tabs, currently there is operators, mathematical, logic, output, statistics and miscellaneous.
 2.  Signature of method – shows signature of method, including return type, name and parameter types.
