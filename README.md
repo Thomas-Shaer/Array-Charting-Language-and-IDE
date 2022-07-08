@@ -1,64 +1,38 @@
-# Array Programming Language for Charting Data
+# Array Programming Language & IDE for Charting Data
 
-*Thomas Shaer- 1905941*
+This project aims to create an all-in-one software for programmatically creating charts via a custom-built programming language, designed specifically to provide an alternative to Excels chart building features. The programming language is an array language, a paradigm where computations apply to entire arrays at once, often in parallel, which is necessary for charting since chart data is in the form of data series that can be interpreted as an array. 
 
-#### Project Idea
-My idea for my project is to build a simple array programming language that is designed for charting data. A chart will exist within the tool, and the user can write code to display certain plots on the chart. The language and chart will both be integrated into a single tool for convenience. Additionally, the user can input array data into the tool via excel files, csv etc., which can be charted with the language. The applications for such a tool would be mainly research and education.
+The software is delivered in the form of an IDE (Integrated Development Environment), which allows the user to write and test code. Although the software utilises a programming language, one of the primary aims of the project is to keep the language as beginner-friendly as possible such that it is accessible to non-technical users. Additionally, since the project is aiming to act as a replacement for Excels chart building features, another important aspect is compatibility with Excel. To act as an effective replacement, it is essential that the user can import and export data to and from Excel.
 
+## Install (full version in Setup.pdf)
 
-![](images/prototype.PNG)
+### Executable
+I’ve also packaged a binary (.exe) version of the software in this zip called “Executable”. If you want to run the software without compiling it, you can simply extract this folder from the zip, and execute “Thomas_Shaer_Dissertation.exe”. You can also run the tests by executing “Tests.exe”. I also give a sample code file called "tradingdemo.al" in the Example Code directory. This is the same example seen in the main report under “backtesting case study”. I have also included the EURUSD.csv data that is required for this script in the Example Data directory.
 
+### Setup
+#### Requirements
 
-
-
-#### Milestones
-
-I have created three major milestones for my project. The first milestone is getting all the basic features of the program working, which includes a working language, integrated chart and a GUI. These are the essential components of the project, without them, the user would not be able to create and view the mathematical models that the project is supposed to do. Since some of these major components are built on top of each other, for example it would not be possible to display a chart without a basic GUI, the “sub-milestones” are ordered in such a way to reflect this dependency hierarchy - for example build a basic GUI first, then integrate a chart. Additionally, I have opted to build what I predict to be the most time-consuming yet essential components first, such that if I have time issues towards the end of the project, I will be reassured in knowing that the most essential ones have already been delivered.  
-
-The first major milestone will likely take the largest amount of time to complete as it promises to deliver the basic functionality of the application. Thus, once that has been completed, the rest of the time spent working on the project will be related to adding polish/new features to the program. This time is split up into two further milestones. The first of which, milestone 2 is related to enhancing the user experience with “quality of life” improvements. These improvements will be non-essential but if implemented would greatly enhance the software. The order of these sub milestones won’t matter as much since they are independent of each other. Milestone 3 can be seen as the polish stage. Like milestone 2, these features are non-essential but would make the software seem more professional. I do not expect to achieve all the features detailed in milestone 2 and 3 but I would like to achieve as many of them as possible.    
-
+ - Visual Studio 2019 v.16.8.4
+ - Microsoft .NET framework v.4.8.04161
+ - Windows 10/11
 
 
+The software is setup to run on 32bit machines therefore any Windows 10/11 OS should support it. The project may work with slightly different versions of Visual Studio and .NET framework but above is what it was created with.
 
-**Milestone 1**✔️
+#### Steps (main software)
 
-**Finish a working prototype with all basic components implemented.** 
+ 1. Double click the “CodeBase.sln” file.
+ 2. This will open the project in Visual Studio 2019. Locate and open the “Solution Explorer” tab if not already present. You should see two projects: CodeBase and Tests.
+ 3. The CodeBase project contains the actual code for the software, while the Tests project contains the code for testing the software.
+ 4. It is recommended that you first run the CodeBase project as Tests is dependent on it.
+ 5. The GUI should open automatically. Note, if the windows look funny, they can be resized and opened from the main tool bar.
 
+#### Steps (tests)
+1. To run the tests, you should open the “Test Explorer” window.
+2. By default, no tests might be detected. Press the green button on the top left of the text explorer window, which will find and run all the tests automatically. The Tests code will be recompiled the first time you run it (seen in the output window), so it might take a few minutes to run.
 
-***Planned time of completion: between week 10 to 13*** ✔️ *week 11*
-1. **Basic version of the language with following features implemented**✔️
-	- **Float/Boolean/null type**✔️
-	- **Built In Methods**✔️
-	- **Arithmetic/Comparison**✔️
-	- **Ability to output data that can be rendered by a chart**✔️
-2. **Get basic GUI framework going for interaction with the program**✔️
-	- **Basic integration of language into the GUI**✔️
-3. **Basic chart working that can display output information from the language**✔️
-4. **Basic input and labelling for user submitted data so that it can be used and referenced in the language**✔️
+#### Additional Compiler Information
 
-
-
-
-**Milestone 2** ✔️
-
-**Add extra features that make the software more convenient for the user to use. These items are not required but enhance the product greatly.** 
-
-***Planned time of completion: between week 13-18*** *(Christmas holiday)*
-
-- **Interface for saving/loading code to and from the user’s file system** ✔️
-- **Ability for user to export chart data from the program** ✔️
--  **<del>More language features such as if statements or user defined functions (moved from milestone 3)</del> Control flow features if statements and ternary conditions**✔️
-- **Additional built in functions supporting a common basic mathematical operations such as regressions, stochastics etc.** ✔️
-- **If required, more sophisticated methods of loading in data from CSVs, e.g. tables of data<del>, different file types etc.</del>** ✔️
-
-
-**Milestone 3**
-
-Add features that add to a sense of “polish” for the software. These features will range in difficulty and its likely that I will not be able to implement all of them. However implementing them would significantly enhance the program.
-
-*Planned time of completion: between week 18-22*
-
-- **Intellisense/autocomplete for writing code** ✔️
-- **Ability to spawn and plot on multiple different charts** ✔️
-- **Ability to save a chart to disk as a PNG or JPEG** ✔️
-- Testing the application for system compatibility on different OS's (moved from milestone 2)
+ - Windows SDK version: 10.0
+ - Platform Toolset: Visual Studio 2019 (v142)
+ - C++ Language Standard: Previous from the Latest C++ Working Draft (/std:c++latest)
