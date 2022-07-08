@@ -52,7 +52,7 @@ The software is setup to run on 32bit machines therefore any Windows 10/11 OS sh
 
 #### Overview
 
-![](Screenshots/multiplecharts.png)
+![](Screenshots/annotatedfullpic.png)
 
 1. Chart window – displays chart content, dynamically created depending on what the script plots to.
 2. Code editor window – where the user inputs/manage their code files.
@@ -63,7 +63,7 @@ The software is setup to run on 32bit machines therefore any Windows 10/11 OS sh
 
 #### Code Editor Window
 
-![](Screenshots/multiplecharts.png)
+![](Screenshots/annotatedtexteditor.png)
 
 1.  Text input – this is where the user writes the code.
 2.  Number of ticks input – the user can select how many times they want the code to execute for (i.e., the size of internal arrays), by default this will revert to the maximum size of the largest inputted variable.
@@ -84,7 +84,7 @@ The software is setup to run on 32bit machines therefore any Windows 10/11 OS sh
 
 #### Output Window
 
-![](Screenshots/multiplecharts.png)
+![](Screenshots/annotateddocumentationwindow.png)
 
 1.  Text output tab – displays any error messages after running the script.
 2.  Code reconstruction tab – displays how the code is parsed and interpreted in AST form.
@@ -95,7 +95,7 @@ The software is setup to run on 32bit machines therefore any Windows 10/11 OS sh
 
 #### Data Manager Window
 
-![](Screenshots/multiplecharts.png)
+![](Screenshots/annotateddatamanagerwindow.png)
 
 1.  File menu – allows users to import/remove all data files.
 2.  Remove file – allows the user to select a data file to remove. Will remove all associated series/variables with the file.
@@ -105,7 +105,7 @@ The software is setup to run on 32bit machines therefore any Windows 10/11 OS sh
 
 #### Chart Window
 
-![](Screenshots/multiplecharts.png)
+![](Screenshots/annotatedchartwindow.png)
 
 1.  File menu – contains settings for exporting chart as a PNG to disk.
 2.  Chart menu – contains chart control settings, such as clearing the chart, rescaling axis, and ability to disable the key.
