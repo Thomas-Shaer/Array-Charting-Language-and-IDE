@@ -1,6 +1,6 @@
 # Array Programming Language & IDE for Charting Data
 
-![](Screenshots/multiide.PNG)
+![](Screenshots/multiide.png)
 
 This project aims to create an all-in-one software for programmatically creating charts via a custom-built programming language, designed specifically to provide an alternative to Excels chart building features. The programming language is an array language, a paradigm where computations apply to entire arrays at once, often in parallel, which is necessary for charting since chart data is in the form of data series that can be interpreted as an array. 
 
