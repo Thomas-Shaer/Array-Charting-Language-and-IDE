@@ -1,6 +1,7 @@
 
 
 
+
 # Array Programming Language & IDE for Charting Data
 
 ![](Screenshots/multiide.png)
@@ -49,7 +50,7 @@ The software is setup to run on 32bit machines therefore any Windows 10/11 OS sh
  - C++ Language Standard: Previous from the Latest C++ Working Draft (/std:c++latest)
 
 
-## Features
+## IDE Features
 
 ### Error Highlighting Feature
 
@@ -73,6 +74,33 @@ Inputting data into the language is done via parsing a CSV file, parsing each se
 
 Once a series is successfully parsed, a VarSymbol object is created and loaded with the series data. This VarSymbol is loaded onto the global symbol table so that it is accessible to the language part of it. Exporting data is more straightforward as any data stored within a variable is guaranteed to be correct. We can convert the value of any of these types into a string representation that can be written to CSV.
 
+## Language Features (full version can be found in appendix of Final Report.pdf)
+
+### Types
+
+The language is implemented as a statically typed language utilising type inference to assign types to variables. This means that once a variable is assigned a type, it cannot change. The type of the variable is inferred from the first expression that is assigned to it.
+
+There are three main types of the language.
+
+ 1.  **Number** type. This type’s value is implemented in C++ as a float. We call it a number as opposed to a float to make it more understandable for non-technical persons. The number type is used to represent all numbers within the software.
+ 2.  **String** type. This type’s value is implemented in C++ as a std::string . The string type allows for text input into the program.
+ 3.  **Boolean** type. This type’s value is implemented in C++ as a bool. It is the truthy type of expressions.
+
+In addition to these main types, there is support for constant types for string and number. Constant types are used to provide a semantic guarantee that the runtime value of a type will never change
+
+### Supported Statements/Expressions
+
+ - Assign/Declare
+ - If statement
+ - Method Call
+ - Ternary Statement
+ - Comment
+ - Operators: Addition / Subtraction / Multiplication / Division / Modulus / Exponent / Logical Not / Less Than / Less Than or Equal / Greater Than / Greater Than or Equal / Equal / Not Equal / Logical And / Logical Or
+ - Assign Operators: Addition / Subtraction / Multiplication / Division / Modulus / Exponent 
+
+### Built-in methods
+
+I have written an extensive standard library of methods containing 63 built-in methods. This library contains some essential methods such as output methods, but also many additional methods ranging from logical, mathematical, type casting and statistical methods. These methods and their descriptions can be found in the documentation window of the IDE. Additionally a full breakdown and description of every method can be found in the Report appendix.
 
 ## IDE Breakdown (full version in Setup.pdf)
 
