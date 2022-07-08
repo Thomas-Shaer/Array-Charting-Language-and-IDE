@@ -10,6 +10,9 @@ The software is delivered in the form of an IDE (Integrated Development Environm
 
 **A full summary, breakdown, language and IDE documentation and instructions can be found in *Final Report.pdf* as well as the original project proposal in *"Initial Proposal.pdf"*. Setup instructions can also be found in Setup.pdf** 
 
+![](Screenshots/multiplecharts.png)
+
+
 ## Install (full version in Setup.pdf)
 
 ### Executable
