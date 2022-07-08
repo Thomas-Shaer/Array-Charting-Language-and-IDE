@@ -1,0 +1,7 @@
+﻿  Vcpkg is unable to link because we cannot decide between Release and Debug libraries. Please define the property VcpkgConfiguration to be 'Release' or 'Debug' (currently 'Testing').
+  argumentsymbol.cpp
+  bison.tab.cpp
+  chartplot.cpp
+  chartwindow.cpp
+  datamanagerwindow.cpp
+  documentationwindow.cpp

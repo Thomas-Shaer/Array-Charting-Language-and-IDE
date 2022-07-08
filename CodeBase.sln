@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30907.101
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CodeBase", "CodeBase\CodeBase.vcxproj", "{3DD77070-6967-4DCE-95CD-39FAFA142258}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Tests", "Tests\Tests.vcxproj", "{CDABDD5E-9D60-440B-8506-95EFBAFB71CE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3DD77070-6967-4DCE-95CD-39FAFA142258}.Release|x86.ActiveCfg = Release|Win32
+		{3DD77070-6967-4DCE-95CD-39FAFA142258}.Release|x86.Build.0 = Release|Win32
+		{CDABDD5E-9D60-440B-8506-95EFBAFB71CE}.Release|x86.ActiveCfg = Release|Win32
+		{CDABDD5E-9D60-440B-8506-95EFBAFB71CE}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {FF526992-33B4-4EA4-8969-D60B51C6B828}
+	EndGlobalSection
+EndGlobal

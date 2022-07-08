@@ -1,0 +1,366 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Source Files\Included">
+      <UniqueIdentifier>{e1e26670-6ed2-49af-98ad-29823c215c6f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Values">
+      <UniqueIdentifier>{41582acb-e62d-42cf-a2ba-f915c773bbca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Symbols">
+      <UniqueIdentifier>{7ea4f480-f33c-4352-b1d4-e24c12068573}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Methods">
+      <UniqueIdentifier>{55c3bd80-5644-4e00-9ef7-51170b03a7f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Data">
+      <UniqueIdentifier>{4e02f64b-4b7f-4b8e-b3d7-6d76066984c8}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="sourcelocationtest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\CodeBase\argumentsymbol.cpp">
+      <Filter>Source Files\Included</Filter>
+    </ClCompile>
+    <ClCompile Include="..\CodeBase\bison.tab.cpp">
+      <Filter>Source Files\Included</Filter>
+    </ClCompile>
+    <ClCompile Include="..\CodeBase\chartplot.cpp">
+      <Filter>Source Files\Included</Filter>
+    </ClCompile>
+    <ClCompile Include="..\CodeBase\chartwindow.cpp">
+      <Filter>Source Files\Included</Filter>
+    </ClCompile>
+    <ClCompile Include="..\CodeBase\datamanagerwindow.cpp">
+      <Filter>Source Files\Included</Filter>
+    </ClCompile>
+    <ClCompile Include="..\CodeBase\documentationwindow.cpp">
+      <Filter>Source Files\Included</Filter>
+    </ClCompile>
+    <ClCompile Include="..\CodeBase\flex.flex.cpp">
+      <Filter>Source Files\Included</Filter>
+    </ClCompile>
+    <ClCompile Include="..\CodeBase\imgui.cpp">
+      <Filter>Source Files\Included</Filter>
+    </ClCompile>
+    <ClCompile Include="..\CodeBase\imgui_demo.cpp">
+      <Filter>Source Files\Included</Filter>
+    </ClCompile>
+    <ClCompile Include="..\CodeBase\imgui_draw.cpp">
+      <Filter>Source Files\Included</Filter>
+    </ClCompile>
+    <ClCompile Include="..\CodeBase\imgui_impl_glfw.cpp">
+      <Filter>Source Files\Included</Filter>
+    </ClCompile>
+    <ClCompile Include="..\CodeBase\imgui_impl_opengl3.cpp">
+      <Filter>Source Files\Included</Filter>
+    </ClCompile>
+    <ClCompile Include="..\CodeBase\imgui_tables.cpp">
+      <Filter>Source Files\Included</Filter>
+    </ClCompile>
+    <ClCompile Include="..\CodeBase\imgui_widgets.cpp">
+      <Filter>Source Files\Included</Filter>
+    </ClCompile>
+    <ClCompile Include="..\CodeBase\implot.cpp">
+      <Filter>Source Files\Included</Filter>
+    </ClCompile>
+    <ClCompile Include="..\CodeBase\implot_items.cpp">
+      <Filter>Source Files\Included</Filter>
+    </ClCompile>
+    <ClCompile Include="..\CodeBase\inputseries.cpp">
+      <Filter>Source Files\Included</Filter>
+    </ClCompile>
+    <ClCompile Include="..\CodeBase\interpreter.cpp">
+      <Filter>Source Files\Included</Filter>
+    </ClCompile>
+    <ClCompile Include="..\CodeBase\interpretercontext.cpp">
+      <Filter>Source Files\Included</Filter>
+    </ClCompile>
+    <ClCompile Include="..\CodeBase\jsonsettings.cpp">
+      <Filter>Source Files\Included</Filter>
+    </ClCompile>
+    <ClCompile Include="..\CodeBase\languageexception.cpp">
+      <Filter>Source Files\Included</Filter>
+    </ClCompile>
+    <ClCompile Include="..\CodeBase\maingui.cpp">
+      <Filter>Source Files\Included</Filter>
+    </ClCompile>
+    <ClCompile Include="..\CodeBase\menubar.cpp">
+      <Filter>Source Files\Included</Filter>
+    </ClCompile>
+    <ClCompile Include="..\CodeBase\methodbucket.cpp">
+      <Filter>Source Files\Included</Filter>
+    </ClCompile>
+    <ClCompile Include="..\CodeBase\methodimplementations.cpp">
+      <Filter>Source Files\Included</Filter>
+    </ClCompile>
+    <ClCompile Include="..\CodeBase\methodimplementationsinterpreter.cpp">
+      <Filter>Source Files\Included</Filter>
+    </ClCompile>
+    <ClCompile Include="..\CodeBase\methodimplementationssemantic.cpp">
+      <Filter>Source Files\Included</Filter>
+    </ClCompile>
+    <ClCompile Include="..\CodeBase\methodsymbol.cpp">
+      <Filter>Source Files\Included</Filter>
+    </ClCompile>
+    <ClCompile Include="..\CodeBase\node.cpp">
+      <Filter>Source Files\Included</Filter>
+    </ClCompile>
+    <ClCompile Include="..\CodeBase\nullablevalueboolean.cpp">
+      <Filter>Source Files\Included</Filter>
+    </ClCompile>
+    <ClCompile Include="..\CodeBase\nullablevaluenumber.cpp">
+      <Filter>Source Files\Included</Filter>
+    </ClCompile>
+    <ClCompile Include="..\CodeBase\nullablevaluestring.cpp">
+      <Filter>Source Files\Included</Filter>
+    </ClCompile>
+    <ClCompile Include="..\CodeBase\outputwindow.cpp">
+      <Filter>Source Files\Included</Filter>
+    </ClCompile>
+    <ClCompile Include="..\CodeBase\parametersymbol.cpp">
+      <Filter>Source Files\Included</Filter>
+    </ClCompile>
+    <ClCompile Include="..\CodeBase\returnsymbol.cpp">
+      <Filter>Source Files\Included</Filter>
+    </ClCompile>
+    <ClCompile Include="..\CodeBase\screenshot.cpp">
+      <Filter>Source Files\Included</Filter>
+    </ClCompile>
+    <ClCompile Include="..\CodeBase\semanticanalysis.cpp">
+      <Filter>Source Files\Included</Filter>
+    </ClCompile>
+    <ClCompile Include="..\CodeBase\sourcelocation.cpp">
+      <Filter>Source Files\Included</Filter>
+    </ClCompile>
+    <ClCompile Include="..\CodeBase\symboltable.cpp">
+      <Filter>Source Files\Included</Filter>
+    </ClCompile>
+    <ClCompile Include="..\CodeBase\TextEditor.cpp">
+      <Filter>Source Files\Included</Filter>
+    </ClCompile>
+    <ClCompile Include="..\CodeBase\texteditorwindow.cpp">
+      <Filter>Source Files\Included</Filter>
+    </ClCompile>
+    <ClCompile Include="..\CodeBase\typesymbol.cpp">
+      <Filter>Source Files\Included</Filter>
+    </ClCompile>
+    <ClCompile Include="..\CodeBase\varsymbol.cpp">
+      <Filter>Source Files\Included</Filter>
+    </ClCompile>
+    <ClCompile Include="..\CodeBase\window.cpp">
+      <Filter>Source Files\Included</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="nullablevaluestringtest.cpp">
+      <Filter>Source Files\Values</Filter>
+    </ClCompile>
+    <ClCompile Include="nullablevaluenumbertest.cpp">
+      <Filter>Source Files\Values</Filter>
+    </ClCompile>
+    <ClCompile Include="nullablevaluebooleantest.cpp">
+      <Filter>Source Files\Values</Filter>
+    </ClCompile>
+    <ClCompile Include="expressionvaluetest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="typesymboltest.cpp">
+      <Filter>Source Files\Symbols</Filter>
+    </ClCompile>
+    <ClCompile Include="argumentsymboltest.cpp">
+      <Filter>Source Files\Symbols</Filter>
+    </ClCompile>
+    <ClCompile Include="returnsymboltest.cpp">
+      <Filter>Source Files\Symbols</Filter>
+    </ClCompile>
+    <ClCompile Include="parametersymboltest.cpp">
+      <Filter>Source Files\Symbols</Filter>
+    </ClCompile>
+    <ClCompile Include="varsymboltest.cpp">
+      <Filter>Source Files\Symbols</Filter>
+    </ClCompile>
+    <ClCompile Include="symboltabletest.cpp">
+      <Filter>Source Files\Symbols</Filter>
+    </ClCompile>
+    <ClCompile Include="methodsymboltest.cpp">
+      <Filter>Source Files\Symbols</Filter>
+    </ClCompile>
+    <ClCompile Include="methodbuckettest.cpp">
+      <Filter>Source Files\Symbols</Filter>
+    </ClCompile>
+    <ClCompile Include="methodimplementationstest.cpp">
+      <Filter>Source Files\Methods</Filter>
+    </ClCompile>
+    <ClCompile Include="inputseriestest.cpp">
+      <Filter>Source Files\Data</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\CodeBase\argumentsymbol.h">
+      <Filter>Source Files\Included</Filter>
+    </ClInclude>
+    <ClInclude Include="..\CodeBase\bison.tab.h">
+      <Filter>Source Files\Included</Filter>
+    </ClInclude>
+    <ClInclude Include="..\CodeBase\chartplot.h">
+      <Filter>Source Files\Included</Filter>
+    </ClInclude>
+    <ClInclude Include="..\CodeBase\chartwindow.h">
+      <Filter>Source Files\Included</Filter>
+    </ClInclude>
+    <ClInclude Include="..\CodeBase\datamanagerwindow.h">
+      <Filter>Source Files\Included</Filter>
+    </ClInclude>
+    <ClInclude Include="..\CodeBase\dataparseexception.h">
+      <Filter>Source Files\Included</Filter>
+    </ClInclude>
+    <ClInclude Include="..\CodeBase\documentationwindow.h">
+      <Filter>Source Files\Included</Filter>
+    </ClInclude>
+    <ClInclude Include="..\CodeBase\flex.flex.h">
+      <Filter>Source Files\Included</Filter>
+    </ClInclude>
+    <ClInclude Include="..\CodeBase\global.h">
+      <Filter>Source Files\Included</Filter>
+    </ClInclude>
+    <ClInclude Include="..\CodeBase\imconfig.h">
+      <Filter>Source Files\Included</Filter>
+    </ClInclude>
+    <ClInclude Include="..\CodeBase\imfilebrowser.h">
+      <Filter>Source Files\Included</Filter>
+    </ClInclude>
+    <ClInclude Include="..\CodeBase\imgui.h">
+      <Filter>Source Files\Included</Filter>
+    </ClInclude>
+    <ClInclude Include="..\CodeBase\imgui_impl_glfw.h">
+      <Filter>Source Files\Included</Filter>
+    </ClInclude>
+    <ClInclude Include="..\CodeBase\imgui_impl_opengl3.h">
+      <Filter>Source Files\Included</Filter>
+    </ClInclude>
+    <ClInclude Include="..\CodeBase\imgui_impl_opengl3_loader.h">
+      <Filter>Source Files\Included</Filter>
+    </ClInclude>
+    <ClInclude Include="..\CodeBase\imgui_internal.h">
+      <Filter>Source Files\Included</Filter>
+    </ClInclude>
+    <ClInclude Include="..\CodeBase\implot.h">
+      <Filter>Source Files\Included</Filter>
+    </ClInclude>
+    <ClInclude Include="..\CodeBase\implot_internal.h">
+      <Filter>Source Files\Included</Filter>
+    </ClInclude>
+    <ClInclude Include="..\CodeBase\imstb_rectpack.h">
+      <Filter>Source Files\Included</Filter>
+    </ClInclude>
+    <ClInclude Include="..\CodeBase\imstb_textedit.h">
+      <Filter>Source Files\Included</Filter>
+    </ClInclude>
+    <ClInclude Include="..\CodeBase\imstb_truetype.h">
+      <Filter>Source Files\Included</Filter>
+    </ClInclude>
+    <ClInclude Include="..\CodeBase\inputseries.h">
+      <Filter>Source Files\Included</Filter>
+    </ClInclude>
+    <ClInclude Include="..\CodeBase\interpretercontext.h">
+      <Filter>Source Files\Included</Filter>
+    </ClInclude>
+    <ClInclude Include="..\CodeBase\interpreteroutput.h">
+      <Filter>Source Files\Included</Filter>
+    </ClInclude>
+    <ClInclude Include="..\CodeBase\jsonsettings.h">
+      <Filter>Source Files\Included</Filter>
+    </ClInclude>
+    <ClInclude Include="..\CodeBase\languageexception.h">
+      <Filter>Source Files\Included</Filter>
+    </ClInclude>
+    <ClInclude Include="..\CodeBase\maingui.h">
+      <Filter>Source Files\Included</Filter>
+    </ClInclude>
+    <ClInclude Include="..\CodeBase\menubar.h">
+      <Filter>Source Files\Included</Filter>
+    </ClInclude>
+    <ClInclude Include="..\CodeBase\methodbucket.h">
+      <Filter>Source Files\Included</Filter>
+    </ClInclude>
+    <ClInclude Include="..\CodeBase\methodimplementations.h">
+      <Filter>Source Files\Included</Filter>
+    </ClInclude>
+    <ClInclude Include="..\CodeBase\methodsymbol.h">
+      <Filter>Source Files\Included</Filter>
+    </ClInclude>
+    <ClInclude Include="..\CodeBase\node.h">
+      <Filter>Source Files\Included</Filter>
+    </ClInclude>
+    <ClInclude Include="..\CodeBase\nullablevalue.h">
+      <Filter>Source Files\Included</Filter>
+    </ClInclude>
+    <ClInclude Include="..\CodeBase\nullablevalueboolean.h">
+      <Filter>Source Files\Included</Filter>
+    </ClInclude>
+    <ClInclude Include="..\CodeBase\nullablevaluenumber.h">
+      <Filter>Source Files\Included</Filter>
+    </ClInclude>
+    <ClInclude Include="..\CodeBase\nullablevaluestring.h">
+      <Filter>Source Files\Included</Filter>
+    </ClInclude>
+    <ClInclude Include="..\CodeBase\outputwindow.h">
+      <Filter>Source Files\Included</Filter>
+    </ClInclude>
+    <ClInclude Include="..\CodeBase\parametersymbol.h">
+      <Filter>Source Files\Included</Filter>
+    </ClInclude>
+    <ClInclude Include="..\CodeBase\resource.h">
+      <Filter>Source Files\Included</Filter>
+    </ClInclude>
+    <ClInclude Include="..\CodeBase\returnsymbol.h">
+      <Filter>Source Files\Included</Filter>
+    </ClInclude>
+    <ClInclude Include="..\CodeBase\screenshot.h">
+      <Filter>Source Files\Included</Filter>
+    </ClInclude>
+    <ClInclude Include="..\CodeBase\sourcelocation.h">
+      <Filter>Source Files\Included</Filter>
+    </ClInclude>
+    <ClInclude Include="..\CodeBase\stb_image_write.h">
+      <Filter>Source Files\Included</Filter>
+    </ClInclude>
+    <ClInclude Include="..\CodeBase\symboltable.h">
+      <Filter>Source Files\Included</Filter>
+    </ClInclude>
+    <ClInclude Include="..\CodeBase\TextEditor.h">
+      <Filter>Source Files\Included</Filter>
+    </ClInclude>
+    <ClInclude Include="..\CodeBase\texteditorwindow.h">
+      <Filter>Source Files\Included</Filter>
+    </ClInclude>
+    <ClInclude Include="..\CodeBase\typesymbol.h">
+      <Filter>Source Files\Included</Filter>
+    </ClInclude>
+    <ClInclude Include="..\CodeBase\varsymbol.h">
+      <Filter>Source Files\Included</Filter>
+    </ClInclude>
+    <ClInclude Include="..\CodeBase\window.h">
+      <Filter>Source Files\Included</Filter>
+    </ClInclude>
+    <ClInclude Include="valuetesthelper.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

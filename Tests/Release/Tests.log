@@ -1,0 +1,327 @@
+﻿  argumentsymbol.cpp
+  bison.tab.cpp
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\Tests\bison.y(173,76): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\Tests\bison.y(174,75): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\Tests\bison.tab.h(1015,1): warning C4065: switch statement contains 'default' but no 'case' labels
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\Tests\bison.tab.h(1006): message : while compiling class template member function 'void yy::parser::basic_symbol<yy::parser::by_kind>::clear(void)'
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\Tests\bison.tab.cpp(1755): message : see reference to function template instantiation 'void yy::parser::basic_symbol<yy::parser::by_kind>::clear(void)' being compiled
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\Tests\bison.tab.h(1198): message : see reference to class template instantiation 'yy::parser::basic_symbol<yy::parser::by_kind>' being compiled
+  chartplot.cpp
+  chartwindow.cpp
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\CodeBase\screenshot.h(15,1): warning C4005: '_CRT_SECURE_NO_WARNINGS': macro redefinition
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\CodeBase\chartwindow.cpp : message : see previous definition of '_CRT_SECURE_NO_WARNINGS'
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\CodeBase\chartwindow.cpp(169,70): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\CodeBase\chartwindow.cpp(174,38): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\CodeBase\chartwindow.cpp(175,38): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\CodeBase\chartwindow.cpp(176,43): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\CodeBase\chartwindow.cpp(177,44): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\CodeBase\chartwindow.cpp(181,45): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\CodeBase\chartwindow.cpp(182,45): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\CodeBase\chartwindow.cpp(183,50): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\CodeBase\chartwindow.cpp(184,51): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\CodeBase\chartwindow.cpp(216,35): warning C4018: '<': signed/unsigned mismatch
+  datamanagerwindow.cpp
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\CodeBase\datamanagerwindow.cpp(267,23): warning C4018: '<': signed/unsigned mismatch
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\CodeBase\datamanagerwindow.cpp(324,38): warning C4244: 'argument': conversion from 'int' to '_Ty', possible loss of data
+          with
+          [
+              _Ty=float
+          ]
+  documentationwindow.cpp
+  flex.flex.cpp
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29333\include\stdint.h(49,1): warning C4005: 'INT8_MIN': macro redefinition
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\Tests\flex.flex.cpp(59): message : see previous definition of 'INT8_MIN'
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29333\include\stdint.h(50,1): warning C4005: 'INT16_MIN': macro redefinition
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\Tests\flex.flex.cpp(62): message : see previous definition of 'INT16_MIN'
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29333\include\stdint.h(51,1): warning C4005: 'INT32_MIN': macro redefinition
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\Tests\flex.flex.cpp(65): message : see previous definition of 'INT32_MIN'
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29333\include\stdint.h(53,1): warning C4005: 'INT8_MAX': macro redefinition
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\Tests\flex.flex.cpp(68): message : see previous definition of 'INT8_MAX'
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29333\include\stdint.h(54,1): warning C4005: 'INT16_MAX': macro redefinition
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\Tests\flex.flex.cpp(71): message : see previous definition of 'INT16_MAX'
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29333\include\stdint.h(55,1): warning C4005: 'INT32_MAX': macro redefinition
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\Tests\flex.flex.cpp(74): message : see previous definition of 'INT32_MAX'
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29333\include\stdint.h(57,1): warning C4005: 'UINT8_MAX': macro redefinition
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\Tests\flex.flex.cpp(77): message : see previous definition of 'UINT8_MAX'
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29333\include\stdint.h(58,1): warning C4005: 'UINT16_MAX': macro redefinition
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\Tests\flex.flex.cpp(80): message : see previous definition of 'UINT16_MAX'
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29333\include\stdint.h(59,1): warning C4005: 'UINT32_MAX': macro redefinition
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\Tests\flex.flex.cpp(83): message : see previous definition of 'UINT32_MAX'
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\Tests\bison.tab.h(1015,1): warning C4065: switch statement contains 'default' but no 'case' labels
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\Tests\bison.tab.h(1006): message : while compiling class template member function 'void yy::parser::basic_symbol<yy::parser::by_kind>::clear(void)'
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\Tests\bison.tab.h(1001): message : see reference to function template instantiation 'void yy::parser::basic_symbol<yy::parser::by_kind>::clear(void)' being compiled
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\Tests\bison.tab.h(1198): message : see reference to class template instantiation 'yy::parser::basic_symbol<yy::parser::by_kind>' being compiled
+  imgui.cpp
+  imgui_demo.cpp
+  imgui_draw.cpp
+  imgui_impl_glfw.cpp
+  imgui_impl_opengl3.cpp
+  imgui_tables.cpp
+  imgui_widgets.cpp
+  implot.cpp
+  implot_items.cpp
+  inputseries.cpp
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\CodeBase\inputseries.cpp(53,56): warning C4129: '.': unrecognized character escape sequence
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\CodeBase\inputseries.cpp(97,23): warning C4018: '<': signed/unsigned mismatch
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\CodeBase\inputseries.cpp(170,31): warning C4018: '<': signed/unsigned mismatch
+  interpreter.cpp
+  interpretercontext.cpp
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\CodeBase\interpretercontext.cpp(121,21): warning C4018: '<': signed/unsigned mismatch
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\CodeBase\interpretercontext.cpp(189,21): warning C4018: '<': signed/unsigned mismatch
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\Tests\bison.tab.h(1015,1): warning C4065: switch statement contains 'default' but no 'case' labels
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\Tests\bison.tab.h(1006): message : while compiling class template member function 'void yy::parser::basic_symbol<yy::parser::by_kind>::clear(void)'
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\Tests\bison.tab.h(1001): message : see reference to function template instantiation 'void yy::parser::basic_symbol<yy::parser::by_kind>::clear(void)' being compiled
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\Tests\bison.tab.h(1198): message : see reference to class template instantiation 'yy::parser::basic_symbol<yy::parser::by_kind>' being compiled
+  jsonsettings.cpp
+  Compiling...
+  languageexception.cpp
+  maingui.cpp
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\CodeBase\maingui.cpp(61,144): warning C4244: 'argument': conversion from 'ValueType' to 'int', possible loss of data
+          with
+          [
+              ValueType=float
+          ]
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\CodeBase\maingui.cpp(61,91): warning C4244: 'argument': conversion from 'ValueType' to 'int', possible loss of data
+          with
+          [
+              ValueType=float
+          ]
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\CodeBase\maingui.cpp(67,122): warning C4244: 'argument': conversion from 'ValueType' to 'int', possible loss of data
+          with
+          [
+              ValueType=float
+          ]
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\CodeBase\maingui.cpp(67,74): warning C4244: 'argument': conversion from 'ValueType' to 'int', possible loss of data
+          with
+          [
+              ValueType=float
+          ]
+  menubar.cpp
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\shared\minwindef.h(130,1): warning C4005: 'APIENTRY': macro redefinition
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\Tests\include\GLFW\glfw3.h(123): message : see previous definition of 'APIENTRY'
+  methodbucket.cpp
+  methodimplementations.cpp
+  methodimplementationsinterpreter.cpp
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\CodeBase\methodimplementationsinterpreter.cpp(229,29): warning C4244: 'argument': conversion from 'const unsigned int' to 'float', possible loss of data
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\CodeBase\methodimplementationsinterpreter.cpp(237,22): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\CodeBase\methodimplementationsinterpreter.cpp(251,24): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\CodeBase\methodimplementationsinterpreter.cpp(255,67): warning C4244: '=': conversion from 'double' to '_Ty', possible loss of data
+          with
+          [
+              _Ty=float
+          ]
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\CodeBase\methodimplementationsinterpreter.cpp(259,66): warning C4244: '=': conversion from 'double' to '_Ty', possible loss of data
+          with
+          [
+              _Ty=float
+          ]
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\CodeBase\methodimplementationsinterpreter.cpp(272,17): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\CodeBase\methodimplementationsinterpreter.cpp(281,67): warning C4244: '=': conversion from 'double' to '_Ty', possible loss of data
+          with
+          [
+              _Ty=float
+          ]
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\CodeBase\methodimplementationsinterpreter.cpp(287,66): warning C4244: '=': conversion from 'double' to '_Ty', possible loss of data
+          with
+          [
+              _Ty=float
+          ]
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\CodeBase\methodimplementationsinterpreter.cpp(353,23): warning C4244: '=': conversion from 'double' to '_Ty', possible loss of data
+          with
+          [
+              _Ty=float
+          ]
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\CodeBase\methodimplementationsinterpreter.cpp(367,19): warning C4018: '>': signed/unsigned mismatch
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\CodeBase\methodimplementationsinterpreter.cpp(372,12): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\CodeBase\methodimplementationsinterpreter.cpp(374,38): warning C4018: '<': signed/unsigned mismatch
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\CodeBase\methodimplementationsinterpreter.cpp(406,23): warning C4244: '=': conversion from 'double' to '_Ty', possible loss of data
+          with
+          [
+              _Ty=float
+          ]
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\CodeBase\methodimplementationsinterpreter.cpp(420,19): warning C4018: '>': signed/unsigned mismatch
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\CodeBase\methodimplementationsinterpreter.cpp(427,13): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\CodeBase\methodimplementationsinterpreter.cpp(429,39): warning C4018: '<': signed/unsigned mismatch
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\CodeBase\methodimplementationsinterpreter.cpp(461,23): warning C4244: '=': conversion from 'double' to '_Ty', possible loss of data
+          with
+          [
+              _Ty=float
+          ]
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\CodeBase\methodimplementationsinterpreter.cpp(475,19): warning C4018: '>': signed/unsigned mismatch
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\CodeBase\methodimplementationsinterpreter.cpp(482,38): warning C4018: '<': signed/unsigned mismatch
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\CodeBase\methodimplementationsinterpreter.cpp(512,1): warning C4305: 'argument': truncation from 'const double' to 'float'
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\CodeBase\methodimplementationsinterpreter.cpp(571,29): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\CodeBase\methodimplementationsinterpreter.cpp(683,38): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\CodeBase\methodimplementationsinterpreter.cpp(701,38): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\CodeBase\methodimplementationsinterpreter.cpp(713,23): warning C4244: '=': conversion from 'double' to '_Ty', possible loss of data
+          with
+          [
+              _Ty=float
+          ]
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\CodeBase\methodimplementationsinterpreter.cpp(727,19): warning C4018: '>': signed/unsigned mismatch
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\CodeBase\methodimplementationsinterpreter.cpp(734,38): warning C4018: '<': signed/unsigned mismatch
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\CodeBase\methodimplementationsinterpreter.cpp(745,38): warning C4018: '<': signed/unsigned mismatch
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\CodeBase\methodimplementationsinterpreter.cpp(762,23): warning C4244: '=': conversion from 'double' to '_Ty', possible loss of data
+          with
+          [
+              _Ty=float
+          ]
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\CodeBase\methodimplementationsinterpreter.cpp(776,19): warning C4018: '>': signed/unsigned mismatch
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\CodeBase\methodimplementationsinterpreter.cpp(783,38): warning C4018: '<': signed/unsigned mismatch
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\CodeBase\methodimplementationsinterpreter.cpp(793,38): warning C4018: '<': signed/unsigned mismatch
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\CodeBase\methodimplementationsinterpreter.cpp(808,23): warning C4244: '=': conversion from 'double' to '_Ty', possible loss of data
+          with
+          [
+              _Ty=float
+          ]
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\CodeBase\methodimplementationsinterpreter.cpp(821,19): warning C4018: '>': signed/unsigned mismatch
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\CodeBase\methodimplementationsinterpreter.cpp(828,38): warning C4018: '<': signed/unsigned mismatch
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\CodeBase\methodimplementationsinterpreter.cpp(867,29): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\CodeBase\methodimplementationsinterpreter.cpp(873,23): warning C4244: '=': conversion from 'double' to '_Ty', possible loss of data
+          with
+          [
+              _Ty=float
+          ]
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\CodeBase\methodimplementationsinterpreter.cpp(886,19): warning C4018: '>': signed/unsigned mismatch
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\CodeBase\methodimplementationsinterpreter.cpp(891,18): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\CodeBase\methodimplementationsinterpreter.cpp(893,38): warning C4018: '<': signed/unsigned mismatch
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\CodeBase\methodimplementationsinterpreter.cpp(923,23): warning C4244: '=': conversion from 'double' to '_Ty', possible loss of data
+          with
+          [
+              _Ty=float
+          ]
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\CodeBase\methodimplementationsinterpreter.cpp(937,19): warning C4018: '>': signed/unsigned mismatch
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\CodeBase\methodimplementationsinterpreter.cpp(942,18): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\CodeBase\methodimplementationsinterpreter.cpp(944,38): warning C4018: '<': signed/unsigned mismatch
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\CodeBase\methodimplementationsinterpreter.cpp(1040,23): warning C4244: '=': conversion from 'double' to '_Ty', possible loss of data
+          with
+          [
+              _Ty=float
+          ]
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\CodeBase\methodimplementationsinterpreter.cpp(1053,19): warning C4018: '>': signed/unsigned mismatch
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\CodeBase\methodimplementationsinterpreter.cpp(1065,38): warning C4018: '<': signed/unsigned mismatch
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\CodeBase\methodimplementationsinterpreter.cpp(1080,38): warning C4018: '<': signed/unsigned mismatch
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\CodeBase\methodimplementationsinterpreter.cpp(1083,32): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\CodeBase\methodimplementationsinterpreter.cpp(1100,24): warning C4244: '=': conversion from 'double' to '_Ty', possible loss of data
+          with
+          [
+              _Ty=float
+          ]
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\CodeBase\methodimplementationsinterpreter.cpp(1101,24): warning C4244: '=': conversion from 'double' to '_Ty', possible loss of data
+          with
+          [
+              _Ty=float
+          ]
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\CodeBase\methodimplementationsinterpreter.cpp(1119,19): warning C4018: '>': signed/unsigned mismatch
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\CodeBase\methodimplementationsinterpreter.cpp(1124,38): warning C4018: '<': signed/unsigned mismatch
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\CodeBase\methodimplementationsinterpreter.cpp(1172,19): warning C4018: '>': signed/unsigned mismatch
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\CodeBase\methodimplementationsinterpreter.cpp(1202,19): warning C4018: '>': signed/unsigned mismatch
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\CodeBase\methodimplementationsinterpreter.cpp(1232,19): warning C4018: '>': signed/unsigned mismatch
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\CodeBase\methodimplementationsinterpreter.cpp(1281,23): warning C4244: '=': conversion from 'double' to '_Ty', possible loss of data
+          with
+          [
+              _Ty=float
+          ]
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\CodeBase\methodimplementationsinterpreter.cpp(1294,19): warning C4018: '>': signed/unsigned mismatch
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\CodeBase\methodimplementationsinterpreter.cpp(1302,39): warning C4018: '<': signed/unsigned mismatch
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\CodeBase\methodimplementationsinterpreter.cpp(1332,8): warning C4244: 'initializing': conversion from '_Ty' to 'int', possible loss of data
+          with
+          [
+              _Ty=float
+          ]
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\CodeBase\methodimplementationsinterpreter.cpp(1355,8): warning C4244: 'initializing': conversion from '_Ty' to 'int', possible loss of data
+          with
+          [
+              _Ty=float
+          ]
+  methodimplementationssemantic.cpp
+  methodsymbol.cpp
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\CodeBase\methodsymbol.cpp(31,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\CodeBase\methodsymbol.cpp(125,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\CodeBase\methodsymbol.cpp(129,9): warning C4018: '>': signed/unsigned mismatch
+  node.cpp
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\CodeBase\node.cpp(112,21): warning C4150: deletion of pointer to incomplete type 'MethodSymbol'; no destructor called
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\CodeBase\node.h(10): message : see declaration of 'MethodSymbol'
+  nullablevalueboolean.cpp
+  nullablevaluenumber.cpp
+  nullablevaluestring.cpp
+  outputwindow.cpp
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\CodeBase\outputwindow.cpp(43,23): warning C4018: '<': signed/unsigned mismatch
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\CodeBase\outputwindow.cpp(53,23): warning C4018: '<': signed/unsigned mismatch
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\CodeBase\outputwindow.cpp(54,27): warning C4018: '<': signed/unsigned mismatch
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\CodeBase\outputwindow.cpp(74,27): warning C4018: '<': signed/unsigned mismatch
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\CodeBase\outputwindow.cpp(238,26): warning C4018: '>=': signed/unsigned mismatch
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\CodeBase\outputwindow.cpp(243,31): warning C4018: '<': signed/unsigned mismatch
+  parametersymbol.cpp
+  returnsymbol.cpp
+  screenshot.cpp
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\CodeBase\screenshot.h(15,1): warning C4005: '_CRT_SECURE_NO_WARNINGS': macro redefinition
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\CodeBase\screenshot.cpp : message : see previous definition of '_CRT_SECURE_NO_WARNINGS'
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\CodeBase\screenshot.cpp(95,56): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+  semanticanalysis.cpp
+  sourcelocation.cpp
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\CodeBase\sourcelocation.cpp(53,20): warning C4018: '>': signed/unsigned mismatch
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\CodeBase\sourcelocation.cpp(53,43): warning C4018: '<': signed/unsigned mismatch
+  symboltable.cpp
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\Tests\bison.tab.h(1015,1): warning C4065: switch statement contains 'default' but no 'case' labels
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\Tests\bison.tab.h(1006): message : while compiling class template member function 'void yy::parser::basic_symbol<yy::parser::by_kind>::clear(void)'
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\Tests\bison.tab.h(1001): message : see reference to function template instantiation 'void yy::parser::basic_symbol<yy::parser::by_kind>::clear(void)' being compiled
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\Tests\bison.tab.h(1198): message : see reference to class template instantiation 'yy::parser::basic_symbol<yy::parser::by_kind>' being compiled
+  TextEditor.cpp
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\CodeBase\TextEditor.cpp(87,28): warning C4018: '<': signed/unsigned mismatch
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\CodeBase\TextEditor.cpp(461,16): warning C4018: '>=': signed/unsigned mismatch
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\CodeBase\TextEditor.cpp(494,25): warning C4018: '>=': signed/unsigned mismatch
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\CodeBase\TextEditor.cpp(499,11): warning C4018: '<': signed/unsigned mismatch
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\CodeBase\TextEditor.cpp(512,12): warning C4018: '>=': signed/unsigned mismatch
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\CodeBase\TextEditor.cpp(531,12): warning C4018: '>=': signed/unsigned mismatch
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\CodeBase\TextEditor.cpp(542,12): warning C4018: '>=': signed/unsigned mismatch
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\CodeBase\TextEditor.cpp(1032,22): warning C4018: '<': signed/unsigned mismatch
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\CodeBase\TextEditor.cpp(1649,37): warning C4018: '>=': signed/unsigned mismatch
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\CodeBase\TextEditor.cpp(1658,14): warning C4018: '>=': signed/unsigned mismatch
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\CodeBase\TextEditor.cpp(1660,37): warning C4018: '<': signed/unsigned mismatch
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\CodeBase\TextEditor.cpp(1898,18): warning C4018: '<': signed/unsigned mismatch
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\CodeBase\TextEditor.cpp(2288,22): warning C4018: '<': signed/unsigned mismatch
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\CodeBase\TextEditor.cpp(2312,40): warning C4018: '<': signed/unsigned mismatch
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\CodeBase\TextEditor.cpp(2366,49): warning C4018: '<': signed/unsigned mismatch
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\CodeBase\TextEditor.cpp(2419,46): warning C4018: '<': signed/unsigned mismatch
+  Compiling...
+  texteditorwindow.cpp
+  typesymbol.cpp
+  varsymbol.cpp
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\CodeBase\varsymbol.cpp(79,33): warning C4018: '<': signed/unsigned mismatch
+  window.cpp
+  argumentsymboltest.cpp
+  expressionvaluetest.cpp
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\Tests\expressionvaluetest.cpp(12,55): warning C4305: 'argument': truncation from 'double' to 'float'
+  inputseriestest.cpp
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\Tests\inputseriestest.cpp(51,5): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\Tests\inputseriestest.cpp(57,5): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\Tests\inputseriestest.cpp(64,5): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\Tests\inputseriestest.cpp(65,5): warning C4305: 'argument': truncation from 'double' to 'float'
+  main.cpp
+  methodbuckettest.cpp
+  methodimplementationstest.cpp
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\Tests\methodimplementationstest.cpp(20,23): warning C4018: '<': signed/unsigned mismatch
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\Tests\methodimplementationstest.cpp(449,5): warning C4305: 'argument': truncation from 'const double' to 'float'
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\Tests\methodimplementationstest.cpp(965,5): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\Tests\methodimplementationstest.cpp(966,5): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+  methodsymboltest.cpp
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\Tests\methodsymboltest.cpp(70,53): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\Tests\methodsymboltest.cpp(80,52): warning C4305: 'argument': truncation from 'double' to 'float'
+  nullablevaluebooleantest.cpp
+  nullablevaluenumbertest.cpp
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\Tests\nullablevaluenumbertest.cpp(12,38): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\Tests\nullablevaluenumbertest.cpp(20,38): warning C4305: 'argument': truncation from 'double' to 'float'
+  nullablevaluestringtest.cpp
+  parametersymboltest.cpp
+  returnsymboltest.cpp
+  sourcelocationtest.cpp
+  symboltabletest.cpp
+  typesymboltest.cpp
+  varsymboltest.cpp
+  Generating code
+  8789 of 8845 functions (99.4%) were compiled, the rest were copied from previous compilation.
+    282 functions were new in current compilation
+    2 functions had inline decision re-evaluated but remain unchanged
+  Finished generating code
+  Tests.vcxproj -> C:\Users\shaer\Desktop\Uni Work\Year 3\Project\Readme\Release\Tests.exe
