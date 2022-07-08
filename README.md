@@ -1,4 +1,5 @@
 
+
 # Array Programming Language & IDE for Charting Data
 
 ![](Screenshots/multiide.png)
@@ -45,3 +46,70 @@ The software is setup to run on 32bit machines therefore any Windows 10/11 OS sh
  - Windows SDK version: 10.0
  - Platform Toolset: Visual Studio 2019 (v142)
  - C++ Language Standard: Previous from the Latest C++ Working Draft (/std:c++latest)
+ 
+ 
+## IDE Breakdown (full version in Setup.pdf)
+
+#### Overview
+
+![](Screenshots/multiplecharts.png)
+
+1. Chart window – displays chart content, dynamically created depending on what the script plots to.
+2. Code editor window – where the user inputs/manage their code files.
+3. Program output window – output from the script is displayed here, including error messages, code reconstruction and user defined variables.
+4. Documentation window – details of all registered built-in methods by category, are automatically display here.
+5. Data manager window – where data is imported into the program and turned into language variables.
+6. Main window toolbar – windows can be opened/closed from here and the global text size can be adjusted
+
+#### Code Editor Window
+
+![](Screenshots/multiplecharts.png)
+
+1.  Text input – this is where the user writes the code.
+2.  Number of ticks input – the user can select how many times they want the code to execute for (i.e., the size of internal arrays), by default this will revert to the maximum size of the largest inputted variable.
+3.  Execute button – runs the code.
+4.  Options menu – allows the user to toggle code highlighting.
+5.  File menu – allows the user to create/load/save code files to/from disk.
+
+#### Documentation Window
+
+![](Screenshots/multiplecharts.png)
+
+1.  Method category tabs – groups all methods via tabs, currently there is operators, mathematical, logic, output, statistics and miscellaneous.
+2.  Signature of method – shows signature of method, including return type, name and parameter types.
+3.  Method description – displays description of method.
+4.  Method parameters – displays type and description of parameters.
+5. Method return type – displays type and description of the return type.
+
+
+#### Output Window
+
+![](Screenshots/multiplecharts.png)
+
+1.  Text output tab – displays any error messages after running the script.
+2.  Code reconstruction tab – displays how the code is parsed and interpreted in AST form.
+3.   Variables tab – displays information about all variables in script including export settings.
+4.  Export data – takes user to export dialog after selecting some variables to export.
+5.  Variables – lists all variables in program.
+6.  Variable information – shows information about selected variable.
+
+#### Data Manager Window
+
+![](Screenshots/multiplecharts.png)
+
+1.  File menu – allows users to import/remove all data files.
+2.  Remove file – allows the user to select a data file to remove. Will remove all associated series/variables with the file.
+3.  Series list – displays list of all parsed series from imported data files.
+4.  Series information – displays information about selected series.
+5.  Variable creation settings – allows the user to convert the series into a variable, including other management settings.
+
+#### Chart Window
+
+![](Screenshots/multiplecharts.png)
+
+1.  File menu – contains settings for exporting chart as a PNG to disk.
+2.  Chart menu – contains chart control settings, such as clearing the chart, rescaling axis, and ability to disable the key.
+3.  Settings menu – contains setting for toggling chart anti-aliasing.
+4.  Chart key – name to colour mapping for each plotted series – name of key is specified by optional “name” parameter of plot() and mark() functions (default is empty).
+5.  Chart title – title of the chart – specified by optional “chart_id” parameter of plot(), mark() and text() functions (default is “main”).
+6.  Contents of chart – interactable chart explorer.
