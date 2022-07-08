@@ -16,6 +16,53 @@ The software is delivered in the form of an IDE (Integrated Development Environm
 ![](Screenshots/multiplecharts.png)
 
 
+
+# Examples
+
+### 1. Backtesting an Algorithmic Trading Strategy
+
+![](Screenshots/tradingdemo.png)
+
+The above chart was built using the software. It is a simulation of a very simple trading strategy, which generates buy/sell signals at moving average crossover events based on historical EURUSD 1-day bar close price data. This is also known as backtesting within the trading industry, where one attempts to predict the future performance of a trading strategy based on past simulated performance. 
+
+Since the trading strategy is based purely on an algorithm that makes use of simple maths and statistics, we can comfortably model the entire strategy programmatically within the confines of our language. The charts give a visual clue as to how well the trading strategy will perform, but we can also extract the buy/sell prices back into Excel which will let the user do in-depth calculations to determine profit. Code:
+
+    plot(eurusd, "EURUSD Close")
+    
+    moving_avg_10 = ma(eurusd, 10) 
+    moving_avg_20 = ma(eurusd, 20)
+     
+    plot(moving_avg_10, "10 MA") 
+    plot(moving_avg_20, "20 MA") 
+    
+    buy_event = prev(moving_avg_10, 1) > prev(moving_avg_20, 1) and moving_avg_10 <= moving_avg_20 sell_event = prev(moving_avg_10, 1) < prev(moving_avg_20, 1) and moving_avg_10 >= moving_avg_20 
+    mark(buy_event, eurusd, "Buy Signal") 
+    mark(sell_event, eurusd, "Sell Signal") 
+    text(buy_event, "BUY @ " + string(eurusd), eurusd + 0.001) 
+    text(sell_event, "SELL @" + string(eurusd), eurusd + 0.001) 
+    
+    // EXPORT BELOW 
+    EXPORT_BUYS = buy_event ? "BUY" : null_s() EXPORT_BUY_PRICE = buy_event ? eurusd : null_n() 
+    EXPORT_SELLS = sell_event ? "SELL" : null_s() EXPORT_SELL_PRICE = sell_event ? eurusd : null_n()
+
+### 2. Predicting if it will flood next year
+
+![](Screenshots/Floodwarning.png)
+
+The above is an attempt to predict whether the next year will flood due to high rainfall. The data used is a numeric series of East England annual rainfall between 1867-and 202144 . A flood can be identified as a significant increase in rainfall in comparison to the previous year. What this model attempts to do, is output a warning signal to suggest whether it will food due to high rainfall. A signal is generated when the highest rainfall value of the last 3 years, drops below the 10-year moving average, and the text “Warning” is drawn on the chart where this occurs. The chart gives a strong visual clue as to how well the strategy performs and we can perform additional analysis on the data within Excel if we would like to do so.
+
+    plot(east_of_england_rainfall, name = "East-England Annual Rainfall", chart_id = "Flood Warning Model") 
+    
+    moving_average_10 = ma(east_of_england_rainfall, 10) 
+    
+    plot(moving_average_10, name = "MA 10", chart_id = "Flood Warning Model") max_last_3 = max(east_of_england_rainfall, 3) 
+    plot(max_last_3, name = "MAX 3", chart_id = "Flood Warning Model") 
+    
+    warning_signal = max_last_3 < moving_average_10 
+    
+    text(warning_signal, "Warning", east_of_england_rainfall, chart_id = "Flood Warning Model")
+    mark(warning_signal, east_of_england_rainfall, name = "Flood signal", chart_id = "Flood Warning Model")
+
 ## Install (full version in Setup.pdf)
 
 ### Executable
