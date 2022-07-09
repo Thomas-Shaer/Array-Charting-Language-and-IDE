@@ -109,13 +109,13 @@ We provide error highlighting by performing static error checking on code as it 
 
 ![](Screenshots/multiplechartsclean.png)
 
-The IDE can support multiple charts, meaning that the user can plot multiple charts from the same script. This can be incredibly useful for analysing different plots with substantial axis size differences, or just for spreading out the data to avoid a single chart becoming too complicated. This is also a non-functional requirement.
+The IDE can support multiple charts, meaning that the user can plot multiple charts from the same script. This can be incredibly useful for analysing different plots with substantial axis size differences, or just for spreading out the data to avoid a single chart becoming too complicated.
 
 ### Importing/Exporting of data
  
 ![](Screenshots/exportdata.png)
 
-For the tool to act as an effective replacement for Excel’s charting features, it is essential that it can import and export data. This is also a functional requirement of the software. We use the Comma Separated Value (CSV) file format40 to support reading and writing data, which is a supported file format of Excel. We read and write in series of data which can either be done column-wise or rowwise. Each series maps back to a unique variable.
+For the tool to act as an effective replacement for Excel’s charting features, it is essential that it can import and export data. We use the Comma Separated Value (CSV) file format to support reading and writing data, which is a supported file format of Excel. We read and write in series of data which can either be done column-wise or row-wise. Each series maps back to a unique variable.
 
 Inputting data into the language is done via parsing a CSV file, parsing each series of data found in it. The logic for parsing is slightly involved because it requires the data to follow several rules or else the program won’t be able to figure out what type of variable it should be. It also requires the parser to determine a type for the series of data. 
 
@@ -137,6 +137,8 @@ In addition to these main types, there is support for constant types for string 
 
 ### Supported Statements/Expressions
 
+![](Screenshots/operatormethods.png)
+
  - Assign/Declare
  - If statement
  - Method Call
@@ -146,6 +148,8 @@ In addition to these main types, there is support for constant types for string 
  - Assign Operators: Addition / Subtraction / Multiplication / Division / Modulus / Exponent 
 
 ### Built-in methods
+
+![](Screenshots/methods.png)
 
 I have written an extensive standard library of methods containing 63 built-in methods. This library contains some essential methods such as output methods, but also many additional methods ranging from logical, mathematical, type casting and statistical methods. These methods and their descriptions can be found in the documentation window of the IDE. Additionally a full breakdown and description of every method can be found in the Report appendix.
 
