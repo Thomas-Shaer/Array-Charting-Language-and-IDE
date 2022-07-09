@@ -43,8 +43,10 @@ Since the trading strategy is based purely on an algorithm that makes use of sim
     text(sell_event, "SELL @" + string(eurusd), eurusd + 0.001) 
     
     // EXPORT BELOW 
-    EXPORT_BUYS = buy_event ? "BUY" : null_s() EXPORT_BUY_PRICE = buy_event ? eurusd : null_n() 
-    EXPORT_SELLS = sell_event ? "SELL" : null_s() EXPORT_SELL_PRICE = sell_event ? eurusd : null_n()
+    EXPORT_BUYS = buy_event ? "BUY" : null_s() 
+    EXPORT_BUY_PRICE = buy_event ? eurusd : null_n() 
+    EXPORT_SELLS = sell_event ? "SELL" : null_s() 
+    EXPORT_SELL_PRICE = sell_event ? eurusd : null_n()
 
 ### 2. Predicting if it will flood next year
 
