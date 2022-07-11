@@ -3,7 +3,7 @@
 
 
 
-# Array Programming Language & IDE for Charting Data
+# Beginner Friendly Charting & IDE for Charting Data
 
 ![](Screenshots/multiide.png)
 
