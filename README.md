@@ -133,7 +133,10 @@ There are three main types of the language.
  2.  **String** type. This type’s value is implemented in C++ as a std::string . The string type allows for text input into the program.
  3.  **Boolean** type. This type’s value is implemented in C++ as a bool. It is the truthy type of expressions.
 
-In addition to these main types, there is support for constant types for string and number. Constant types are used to provide a semantic guarantee that the runtime value of a type will never change
+All types have a **null** value. This is because it is common to have gaps in data, and since it’s necessary to maintain the same size arrays for parallel computations, it is convenient to fill these gaps with a placeholder value allowing them to be treated differently for various computations. Null values can be explicitly created/checked for via the null_**TYPE**() / is_null() built-in methods.
+
+In addition to these main types, there is support for constant types for **String** and **Number**. Constant types are used to provide a semantic guarantee that the runtime value of a type will never change.
+
 
 ### Supported Statements/Expressions
 
