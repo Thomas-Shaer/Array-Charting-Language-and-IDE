@@ -3,7 +3,7 @@
 
 
 
-# Beginner Friendly Charting Language With IDE
+# Beginner Friendly Array Charting Language With IDE
 
 ![](Screenshots/multiide.png)
 
