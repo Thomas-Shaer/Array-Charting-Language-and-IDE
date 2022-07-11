@@ -3,7 +3,7 @@
 
 
 
-# Beginner Friendly Charting & IDE for Charting Data
+# Beginner Friendly Charting Language With IDE
 
 ![](Screenshots/multiide.png)
 
