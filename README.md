@@ -121,6 +121,12 @@ Inputting data into the language is done via parsing a CSV file, parsing each se
 
 Once a series is successfully parsed, a VarSymbol object is created and loaded with the series data. This VarSymbol is loaded onto the global symbol table so that it is accessible to the language part of it. Exporting data is more straightforward as any data stored within a variable is guaranteed to be correct. We can convert the value of any of these types into a string representation that can be written to CSV.
 
+### Method Information on Hover
+
+![](Screenshots/hovereffect.png)
+
+Method information is also displayed when hovering over a matched method identifier.
+
 ## Language Features (full version can be found in appendix of Final Report.pdf)
 
 ### Types
