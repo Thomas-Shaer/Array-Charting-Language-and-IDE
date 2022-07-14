@@ -152,7 +152,7 @@ In addition to these main types, there is support for constant types for **Strin
 
 ### Built-in methods
 
-![](Screenshots/methods.png)
+![](Screenshots/doc2.PNG)
 
 I have written an extensive standard library of methods containing 63 built-in methods. This library contains some essential methods such as output methods, but also many additional methods ranging from logical, mathematical, type casting and statistical methods. These methods and their descriptions can be found in the documentation window of the IDE. Additionally a full breakdown and description of every method can be found in the Report appendix.
 
