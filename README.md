@@ -35,6 +35,7 @@ Since the trading strategy is based purely on an algorithm that makes use of sim
     
     buy_event = prev(moving_avg_10, 1) > prev(moving_avg_20, 1) and moving_avg_10 <= moving_avg_20 
     sell_event = prev(moving_avg_10, 1) < prev(moving_avg_20, 1) and moving_avg_10 >= moving_avg_20 
+    
     mark(buy_event, eurusd, "Buy Signal") 
     mark(sell_event, eurusd, "Sell Signal") 
     text(buy_event, "BUY @ " + string(eurusd), eurusd + 0.001) 
