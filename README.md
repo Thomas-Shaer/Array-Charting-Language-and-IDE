@@ -53,7 +53,9 @@ The above is an attempt to predict whether the next year will flood due to high 
     moving_average_10 = ma(east_of_england_rainfall, 10) 
     
     plot(moving_average_10, name = "MA 10", chart_id = "Flood Warning Model") 
+    
     max_last_3 = max(east_of_england_rainfall, 3) 
+    
     plot(max_last_3, name = "MAX 3", chart_id = "Flood Warning Model") 
     
     warning_signal = max_last_3 < moving_average_10 
